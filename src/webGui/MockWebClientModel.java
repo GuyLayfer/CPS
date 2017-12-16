@@ -30,7 +30,7 @@ public class MockWebClientModel extends AbstractClient {
 		notifyListeners((String)arg0);
 	}
 
-	public void sendMessageToServer(CostumerOrder order) {
+	public void sendMessageToServer(WebCustomerRequest order) {
 		try {
 			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
@@ -41,9 +41,9 @@ public class MockWebClientModel extends AbstractClient {
 		}
 	}
 	
-	public CostumerOrder CreateOrder(){
+	public WebCustomerRequest CreateOrder(){
 //		Add parameters as needed or change implementation.
-		return new CostumerOrder();
+		return new WebCustomerRequest();
 	}
 
 	private void quit() {
