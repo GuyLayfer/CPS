@@ -8,7 +8,7 @@ public class WebCustomerRequest {
 // Optional:
 	// used in most of the orders
 	public String customerID;
-	public String liscencePlate;
+	public String licensePlate;
 	public String email;
 	public String parkingLotID;
 	
