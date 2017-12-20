@@ -9,14 +9,27 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+import db.DBConnection.sqlTypeKind;
+
 
 public class DBAPI {
 
 	public int [][] lots_dimensions;
 
+	enum orderType {ONE_TIME(0), ORDER(1), SUBSCRIPTION(2), SUBSCRIPTION_FULL(3);
+		
+		int id;
+		orderType(int p) {
+		      id = p;
+		   }
+		   int showId() {
+		      return id;
+		   } 
+	
+	};
 
 	public static boolean carEnteredParkingUpdate(int carId, int entranceId, Date predictionArrive,
-												Date prediction_leave, /*DBConnection.orderType*/ int kind/*hazmana, mizamen etc*/) throws SQLException {
+												Date prediction_leave, /*DBConnection.orderType*/int kind/*hazmana, mizamen etc*/) throws SQLException {
 		
 		Queue<Object> q = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
@@ -43,7 +56,7 @@ public class DBAPI {
 	
 	public static boolean newOrder(int entranceId, int carId, Date predictionArrive, Date predictionLeave, ArrayList<Map<String, Object>> resultList)
 			throws SQLException {
-		return carEnteredParkingUpdate(carId, entranceId, predictionArrive, predictionLeave, 1/*DBConnection.orderType.ORDER*/);
+		return carEnteredParkingUpdate(carId, entranceId, predictionArrive, predictionLeave, orderType.ORDER.showId());
 	}
 
 	public static boolean trackOrderStatus(int entranceId, ArrayList<Map<String, Object>> resultList) {
@@ -83,7 +96,8 @@ public class DBAPI {
 		
 		//EXAMPLE of usage
 		try {
-			carEnteredParkingUpdate(5, 2, dt_arrive, dt_leave, 1/*DBConnection.orderType.ORDER*//*hazmana*/);	
+			System.out.println("!!!!!" + orderType.ORDER.showId());
+			carEnteredParkingUpdate(51, 2, dt_arrive, dt_leave, orderType.ORDER.showId()/*hazmana*/);	
 		}
 		catch (SQLException e) {
 			System.out.println("ERRORR");

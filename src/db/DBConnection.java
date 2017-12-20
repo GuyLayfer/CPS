@@ -22,8 +22,13 @@ public class DBConnection {
 
 
 
-	enum sqlTypeKind {INT, VARCHAR, FLOAT, TIMESTAMP, DATE};
-	enum orderType {ONE_TIME, ORDER, SUBSCRIPTION, SUBSCRIPTION_FULL};
+	public enum sqlTypeKind {INT, VARCHAR, FLOAT, TIMESTAMP, DATE;
+	
+
+	
+	
+	};
+
 	enum parkingMap {FREE, PARKED, RESERVED, BROKEN, MAINTENENCE};
 
 
@@ -37,7 +42,8 @@ public class DBConnection {
 			System.out.println(curType);
 			switch(curType) {
 			case INT:
-				ps.setInt(i, (int) curParam);
+				System.out.println();
+				ps.setInt(i,  ((Integer) curParam).intValue());
 				break;
 			case FLOAT:
 				ps.setFloat(i, (Float) curParam);
