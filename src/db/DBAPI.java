@@ -1,4 +1,5 @@
 package db;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +16,7 @@ public class DBAPI {
 
 
 	public static boolean carEnteredParkingUpdate(int carId, int entranceId, Date predictionArrive,
-												Date prediction_leave, DBConnection.orderType kind/*hazmana, mizamen etc*/) {
+												Date prediction_leave, /*DBConnection.orderType*/ int kind/*hazmana, mizamen etc*/) throws SQLException {
 		
 		Queue<Object> q = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
@@ -40,8 +41,9 @@ public class DBAPI {
 	}
 	
 	
-	public static boolean newOrder(int entranceId, int carId, Date predictionArrive, Date predictionLeave, ArrayList<Map<String, Object>> resultList) {
-		return carEnteredParkingUpdate(carId, entranceId, predictionArrive, predictionLeave, DBConnection.orderType.ORDER);
+	public static boolean newOrder(int entranceId, int carId, Date predictionArrive, Date predictionLeave, ArrayList<Map<String, Object>> resultList)
+			throws SQLException {
+		return carEnteredParkingUpdate(carId, entranceId, predictionArrive, predictionLeave, 1/*DBConnection.orderType.ORDER*/);
 	}
 
 	public static boolean trackOrderStatus(int entranceId, ArrayList<Map<String, Object>> resultList) {
@@ -79,9 +81,15 @@ public class DBAPI {
 //		updateSql("current_cars_in_parking", create_table_current_cars_in_parking, null, null);
 		
 		
+		//EXAMPLE of usage
+		try {
+			carEnteredParkingUpdate(5, 2, dt_arrive, dt_leave, 1/*DBConnection.orderType.ORDER*//*hazmana*/);	
+		}
+		catch (SQLException e) {
+			System.out.println("ERRORR");
+			e.printStackTrace();
+		}
 		
-		
-		carEnteredParkingUpdate(5, 2, dt_arrive, dt_leave, DBConnection.orderType.ORDER/*hazmana*/);
 		
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 //		selectSql("current_cars_in_parking", select_all, null, null, resultList);

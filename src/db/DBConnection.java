@@ -81,7 +81,8 @@ public class DBConnection {
 
 
 	public static void selectSql(String stmtString,
-			Queue<Object> params, Queue<sqlTypeKind> types, ArrayList<Map<String, Object>> resultList) {
+			Queue<Object> params, Queue<sqlTypeKind> types, ArrayList<Map<String, Object>> resultList) throws SQLException 
+	{
 
 		try 
 		{
@@ -91,7 +92,8 @@ public class DBConnection {
 		try 
 		{
 			Connection conn =
-					DriverManager.getConnection("jdbc:mysql://localhost/test","student","1");
+					DriverManager.getConnection("jdbc:mysql://softengproject.cspvcqknb3vj.eu-central-1.rds.amazonaws.com/short_tailed_bat_schema",
+							"short_tailed_bat","9(QxN\"&c7.52(jTS");
 			System.out.println("SQL connection succeed");
 			Statement stmt;
 			try {
@@ -127,13 +129,15 @@ public class DBConnection {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
+			throw ex;
 		}
 	}
 
 
 
 
-	public static void updateSql(String stmtString, Queue<Object> params, Queue<sqlTypeKind> types) {
+	public static void updateSql(String stmtString, Queue<Object> params, Queue<sqlTypeKind> types) throws SQLException 
+	{
 		try 
 		{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -141,7 +145,8 @@ public class DBConnection {
 		try 
 		{
 			Connection conn =
-					DriverManager.getConnection("jdbc:mysql://localhost/test","student","1");
+					DriverManager.getConnection("jdbc:mysql://softengproject.cspvcqknb3vj.eu-central-1.rds.amazonaws.com/short_tailed_bat_schema",
+							"short_tailed_bat","9(QxN\"&c7.52(jTS");
 			System.out.println("SQL connection succeed");
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString);
@@ -149,7 +154,7 @@ public class DBConnection {
 				preparePSParams(stmtString, ps, params, types);
 
 
-				ps.execute();
+				ps.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -160,6 +165,7 @@ public class DBConnection {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
+			throw ex;
 		}	
 	}
 
