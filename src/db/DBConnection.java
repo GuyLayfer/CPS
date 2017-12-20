@@ -59,7 +59,7 @@ public class DBConnection {
 				Timestamp ts = new Timestamp(((Date)curParam).getTime());
 
 
-				String date = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss").format(ts);
+				String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(ts);
 
 				//			    System.out.println(date);
 
