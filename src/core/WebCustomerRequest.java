@@ -10,20 +10,20 @@ public class WebCustomerRequest {
 	public String customerID;
 	public String licensePlate;
 	public String email;
-	public String parkingLotID;
+	public int parkingLotID;
 	
 	// used in orderOneTimeParking
-	public String arrivalTime;
-	public String estimatedDepartureTime;
+	public long arrivalTime;				// milliseconds
+	public long estimatedDepartureTime;		// milliseconds
 	
 	// used in subscription orders
-	public String startingDate;
+	public long startingDate;				// milliseconds
 	// used in orderRoutineMonthlySubscription
-	public String routineDepartureTime;
+	public long routineDepartureTime;		// milliseconds
 	// used in cancelOrder and in TrackOrderStatus
-	public String orderID;
+	public int orderID;
 	// used in subscriptionRenewal
-	public String subscriptionID;
+	public int subscriptionID;
 	
 // Add more parameters if required
 }
