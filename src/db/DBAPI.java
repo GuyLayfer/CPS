@@ -9,72 +9,106 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+import db.DBConnection.sqlTypeKind;
 
+//TODO: change orderType representation in DB from int to ENUM.
 public class DBAPI {
 
-	public int [][] lots_dimensions;
+//	public int [][] lots_dimensions; // not needed for now.
 
-
-	public static boolean carEnteredParkingUpdate(int carId, int entranceId, Date predictionArrive,
-												Date prediction_leave, /*DBConnection.orderType*/ int kind/*hazmana, mizamen etc*/) throws SQLException {
+	enum orderType {ONE_TIME(0), ORDER(1), SUBSCRIPTION(2), SUBSCRIPTION_FULL(3);
 		
+		int id;
+		orderType(int p) {
+		      id = p;
+		   }
+		   int getId() {
+		      return id;
+		   } 
+	
+	};
+
+	public static void carEnteredParkingUpdate(int carId, int accountId, int entranceId, int lotId, Date predictionArrive,
+												Date predictionLeave, Date timeArrive, Date timeLeave,/*DBConnection.orderType*/int kind/*order, occasional entrance, etc*/) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all param types to paramTypes. in order of the SQL query
+		paramsValues.add(carId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		paramsValues.add(accountId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		paramsValues.add(entranceId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		paramsValues.add(lotId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		paramsValues.add(predictionArrive);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		paramsValues.add(predictionLeave);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		paramsValues.add(timeArrive);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		paramsValues.add(timeLeave);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		paramsValues.add(kind);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		DBConnection.updateSql(DBQueries.insert_car_planed_being_in_parking, paramsValues, paramTypes);
+	}
+	
+	
+	public static void newOrder(int entranceId, int accountId, int carId, int lotId, Date predictionArrive, Date predictionLeave, Date timeArrive, Date timeLeave)
+			throws SQLException {
+		carEnteredParkingUpdate(carId, accountId, entranceId, lotId, predictionArrive, predictionLeave, timeArrive, timeLeave, orderType.ORDER.getId());
+	}
+
+	public static void trackOrderStatus(int entranceId, ArrayList<Map<String, Object>> resultList)
+		throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
+		paramsValues.add(entranceId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		DBConnection.selectSql(DBQueries.track_order, paramsValues, paramTypes, resultList);
+	}
+	
+	public static void getAccountDetails(int accountId, ArrayList<Map<String, Object>> resultList)
+			throws SQLException {
+			Queue<Object> q = new LinkedList<Object>(); // push all params to q. in order of SQL
+			Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
+			q.add(accountId);
+			paramTypes.add(DBConnection.sqlTypeKind.INT);
+			DBConnection.selectSql(DBQueries.get_account_details, q, paramTypes, resultList);
+		}
+	
+	
+	public static void createNewAccount(int accountId, String email, int carId, boolean hasSubscription)
+			throws SQLException {
+		double balance = 0;
 		Queue<Object> q = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
+		q.add(accountId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		q.add(email);
+		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
 		q.add(carId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		q.add(entranceId);
+		q.add(balance);
+		paramTypes.add(DBConnection.sqlTypeKind.DOUBLE);
+		q.add((hasSubscription ? 1 : 0));
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		q.add(predictionArrive);
-		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
-		q.add(prediction_leave);
-		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
-		q.add(kind);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		try {
-			DBConnection.updateSql(DBQueries.insert_car_entered, q, paramTypes);
-			return true;
-		}
-		catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return false;
-		}
-	}
-	
-	
-	public static boolean newOrder(int entranceId, int carId, Date predictionArrive, Date predictionLeave, ArrayList<Map<String, Object>> resultList)
-			throws SQLException {
-		return carEnteredParkingUpdate(carId, entranceId, predictionArrive, predictionLeave, 1/*DBConnection.orderType.ORDER*/);
-	}
-
-	public static boolean trackOrderStatus(int entranceId, ArrayList<Map<String, Object>> resultList) {
-		Queue<Object> q = new LinkedList<Object>(); // push all params to q. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
-		q.add(entranceId);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		try {
-			DBConnection.selectSql(DBQueries.track_order, q, paramTypes, resultList);
-			return true;
-		}
-		catch (Exception e) {
-			System.out.println(e.getStackTrace());
-			return false;
-		}
+		DBConnection.updateSql(DBQueries.create_new_account, q, paramTypes);
 	}
 
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		
-		Date dt_arrive =  new Date(System.currentTimeMillis());
+		Date dateArrive =  new Date(System.currentTimeMillis());
 		Calendar calendarLeft = new GregorianCalendar();
 //		set(int year, int month, int date, int hourOfDay, int minute)
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		
 		
-		Date dt_leave = calendarLeft.getTime();
-		System.out.println(dt_leave);
+		Date dateLeave = calendarLeft.getTime();
+		System.out.println(dateLeave);
 		
 		
 //		public static void updateSql(String stmtString, Queue<Object> params, Queue<sqlTypeKind> types) {
@@ -83,7 +117,10 @@ public class DBAPI {
 		
 		//EXAMPLE of usage
 		try {
-			carEnteredParkingUpdate(5, 2, dt_arrive, dt_leave, 1/*DBConnection.orderType.ORDER*//*hazmana*/);	
+			System.out.println("!!!!!" + orderType.ORDER.getId());
+			Date timeArrive = new Date(0);
+			Date timeLeave = new Date(0);
+			carEnteredParkingUpdate(51/*carId*/,4/*accountId*/, 2/*entranceId*/, 1/*lotId*/, dateArrive, dateLeave, timeArrive, timeLeave, orderType.ORDER.getId()/*order*/);	
 		}
 		catch (SQLException e) {
 			System.out.println("ERRORR");
@@ -94,7 +131,13 @@ public class DBAPI {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 //		selectSql("current_cars_in_parking", select_all, null, null, resultList);
 
-		trackOrderStatus(2, resultList);
+		try {
+			trackOrderStatus(2, resultList);
+			createNewAccount(123, "asdas@jsdflkj.com", 123456, false);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		int countRows = 0;
 		

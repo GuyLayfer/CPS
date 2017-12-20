@@ -22,8 +22,10 @@ public class DBConnection {
 
 
 
-	enum sqlTypeKind {INT, VARCHAR, FLOAT, TIMESTAMP, DATE};
-	enum orderType {ONE_TIME, ORDER, SUBSCRIPTION, SUBSCRIPTION_FULL};
+	public enum sqlTypeKind {INT, VARCHAR, FLOAT, TIMESTAMP, DATE, DOUBLE;
+	
+	};
+
 	enum parkingMap {FREE, PARKED, RESERVED, BROKEN, MAINTENENCE};
 
 
@@ -37,7 +39,11 @@ public class DBConnection {
 			System.out.println(curType);
 			switch(curType) {
 			case INT:
-				ps.setInt(i, (int) curParam);
+				System.out.println();
+				ps.setInt(i,  ((Integer) curParam).intValue());
+				break;
+			case DOUBLE:
+				ps.setDouble(i, ((Double)curParam));
 				break;
 			case FLOAT:
 				ps.setFloat(i, (Float) curParam);
@@ -50,10 +56,10 @@ public class DBConnection {
 				//			    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
 				java.util.Date CreatedDate = new Date();
-				Timestamp ts = new Timestamp(CreatedDate.getTime());
+				Timestamp ts = new Timestamp(((Date)curParam).getTime());
 
 
-				String date = new SimpleDateFormat("YYYY-MM-dd hh:mm:ss").format(ts);
+				String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(ts);
 
 				//			    System.out.println(date);
 
