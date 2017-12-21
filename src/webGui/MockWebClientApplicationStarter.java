@@ -14,7 +14,8 @@ public class MockWebClientApplicationStarter extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 
-		URL uri = getClass().getResource("MockWebClientView.fxml");
+		URL uri = getClass().getResource("views/MockWebClientView.fxml");
+		System.out.println(uri);
 		AnchorPane pane = FXMLLoader.load(uri);
 		Scene scene = new Scene(pane);
 

@@ -8,16 +8,30 @@ import com.google.gson.Gson;
 
 import core.*;
 import ocsf.client.AbstractClient;
+import webGui.util.ServerMessageHandler;
 
-public class MockWebClientModel extends AbstractClient {	
+public class MockWebClientConnectionManager extends AbstractClient {
+	private static MockWebClientConnectionManager instance;
 	final private static int DEFAULT_PORT = 5555;
 	final private static String DEFAULT_HOST = "localhost";
 	final private Gson gson = new Gson();
 	private List<ServerMessageHandler> listeners = new ArrayList<ServerMessageHandler>();
 	
-	public MockWebClientModel() throws IOException {
+	private MockWebClientConnectionManager() throws IOException {
 		super(DEFAULT_HOST, DEFAULT_PORT);
 		openConnection();
+	}
+	
+	public static MockWebClientConnectionManager getInstance(){
+		if(instance == null){
+			try {
+				return new MockWebClientConnectionManager();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return instance;
 	}
 	
 //	Observer pattern
@@ -34,9 +48,7 @@ public class MockWebClientModel extends AbstractClient {
 		try {
 			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
-			for (ServerMessageHandler listener : listeners){
-				listener.handleServerMessage("Could not send message to server.  Terminating client.");
-			}
+			notifyListeners("Could not send message to server.  Terminating client.");
 			quit();
 		}
 	}
