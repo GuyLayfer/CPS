@@ -1,6 +1,3 @@
-/**
- * Sample Skeleton for 'MockorderRoutineMonthlySubscriptionView.fxml' Controller Class
- */
 
 package webGui.controllers;
 
@@ -9,14 +6,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import webGui.models.MockOrderRoutineMonthlySubscriptionModel;
+import webGui.models.OrderRoutineMonthlySubscriptionModel;
 import webGui.util.ServerMessageHandler;
 
-public class MockOrderRoutineMonthlySubscriptionController implements ServerMessageHandler{
-	private MockOrderRoutineMonthlySubscriptionModel model;
+public class OrderRoutineMonthlySubscriptionController implements ServerMessageHandler{
+	private OrderRoutineMonthlySubscriptionModel model;
 	
-	public MockOrderRoutineMonthlySubscriptionController() {
-		model = new MockOrderRoutineMonthlySubscriptionModel(this);
+	public OrderRoutineMonthlySubscriptionController() {
+		model = new OrderRoutineMonthlySubscriptionModel(this);
 	}
 
     @FXML // fx:id="EmailLBL"
@@ -66,14 +63,13 @@ public class MockOrderRoutineMonthlySubscriptionController implements ServerMess
 
     @FXML
     void CreateSubscription(ActionEvent event) {
-    	model.SendOrderRoutineMonthlySubscriptionRequestToServer(customerIDTF.getText(), liscencePlateTF.getText(), 
-    			emailTF.getText(), parkingLotIDTF.getText(), startingDateTF.getText(), routineDepartureTimeTF.getText());
+    	model.SendOrderRoutineMonthlySubscriptionRequestToServer(Integer.parseInt(customerIDTF.getText()), Integer.parseInt(liscencePlateTF.getText()), 
+    			emailTF.getText(), Integer.parseInt(parkingLotIDTF.getText()), Long.parseLong(startingDateTF.getText()), Long.parseLong(routineDepartureTimeTF.getText()));
 
     }
     
     @Override
 	public void handleServerMessage(String msg) {
-		// Print the message from the server to the UI example:
     	msgTF.setText(msg);
 	}
 

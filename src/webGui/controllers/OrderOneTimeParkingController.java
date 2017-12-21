@@ -1,6 +1,3 @@
-/**
- * Sample Skeleton for 'MockOrderOneTimeParkingView.fxml' Controller Class
- */
 
 package webGui.controllers;
 
@@ -9,14 +6,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import webGui.models.MockOrderOneTimeParkingModel;
+import webGui.models.OrderOneTimeParkingModel;
 import webGui.util.ServerMessageHandler;
 
-public class MockOrderOneTimeParkingController implements ServerMessageHandler{
-	private MockOrderOneTimeParkingModel model;
+public class OrderOneTimeParkingController implements ServerMessageHandler{
+	private OrderOneTimeParkingModel model;
 	
-	public MockOrderOneTimeParkingController() {
-		model = new MockOrderOneTimeParkingModel(this);
+	public OrderOneTimeParkingController() {
+		model = new OrderOneTimeParkingModel(this);
 	}
 
     @FXML // fx:id="EmailLBL"
@@ -66,13 +63,12 @@ public class MockOrderOneTimeParkingController implements ServerMessageHandler{
 
     @FXML
     void OrderOneTimeParking(ActionEvent event) {
-    	model.SendOrderOrderOneTimeParkingRequestToServer(customerIDTF.getText(), liscencePlateTF.getText(), emailTF.getText(), parkingLotIDTF.getText(), arrivalTimeTF.getText(), 
-				 estimatedDepartureTimeTF.getText());
+    	model.SendOrderOneTimeParkingRequestToServer(Integer.parseInt(customerIDTF.getText()), Integer.parseInt(liscencePlateTF.getText()), emailTF.getText(), Integer.parseInt(parkingLotIDTF.getText()), Long.parseLong(arrivalTimeTF.getText()), 
+				 Long.parseLong(estimatedDepartureTimeTF.getText()));
     }
     
     @Override
 	public void handleServerMessage(String msg) {
-		// Print the message from the server to the UI example: 
     	msgTF.setText(msg);
 	}
 

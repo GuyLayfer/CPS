@@ -5,15 +5,15 @@ import webGui.MockWebClientConnectionManager;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.ServerMessageHandler;
 
-public class MockCancelOrderModel {
+public class CancelOrderModel {
 	private MockWebClientConnectionManager connectionManager;
 	
-	public MockCancelOrderModel(ServerMessageHandler controller) {
+	public CancelOrderModel(ServerMessageHandler controller) {
 		connectionManager = MockWebClientConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(controller);
 	}
 	
-	public void SendCancelRequestToServer(String orderId){
+	public void SendCancelRequestToServer(int orderId){
 		WebCustomerRequest request = CustomerRequestFactory.CreateCancelRequest(orderId);
 		connectionManager.sendMessageToServer(request);
 	}

@@ -1,6 +1,3 @@
-/**
- * Sample Skeleton for 'MockTrackOrderStatusView.fxml' Controller Class
- */
 
 package webGui.controllers;
 
@@ -9,14 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import webGui.models.MockTrackOrderStatusModel;
+import webGui.models.TrackOrderStatusModel;
 import webGui.util.ServerMessageHandler;
 
-public class MockTrackOrderStatusController implements ServerMessageHandler{
-	private MockTrackOrderStatusModel model;
+public class TrackOrderStatusController implements ServerMessageHandler{
+	private TrackOrderStatusModel model;
 	
-	public MockTrackOrderStatusController() {
-		model = new MockTrackOrderStatusModel(this);
+	public TrackOrderStatusController() {
+		model = new TrackOrderStatusModel(this);
 	}
 
     @FXML // fx:id="trackOrderStatusBTN"
@@ -27,13 +24,12 @@ public class MockTrackOrderStatusController implements ServerMessageHandler{
 
     @FXML
     void TrackOrderStatus(ActionEvent event) {
-    	model.SendTrackOrderStatusRequestToServer(orderIDTF.getText());
+    	model.SendTrackOrderStatusRequestToServer(Integer.parseInt(orderIDTF.getText()));
 
     }
     
     @Override
 	public void handleServerMessage(String msg) {
-		// Print the message from the server to the UI example: 
     	orderIDTF.setText(msg);
 	}
 

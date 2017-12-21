@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.MockOrderRoutineMonthlySubscriptionController">
+<AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.OrderRoutineMonthlySubscriptionController">
    <children>
       <Label fx:id="RotMonSubLBL" alignment="CENTER" layoutX="117.0" layoutY="20.0" prefHeight="33.0" prefWidth="167.0" text="Routine Monthly Subscription" />
       <Label layoutX="9.0" layoutY="68.0" prefHeight="25.0" prefWidth="108.0" />

@@ -1,22 +1,18 @@
 
-/**
- * Sample Skeleton for 'MockCancelOrderView.fxml' Controller Class
- */
-
 package webGui.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import webGui.models.MockCancelOrderModel;
+import webGui.models.CancelOrderModel;
 import webGui.util.ServerMessageHandler;
 
-public class MockCancelOrderController implements ServerMessageHandler{
-	private MockCancelOrderModel model;
+public class CancelOrderController implements ServerMessageHandler{
+	private CancelOrderModel model;
 	
-	public MockCancelOrderController() {
-		model = new MockCancelOrderModel(this);
+	public CancelOrderController() {
+		model = new CancelOrderModel(this);
 	}
 
     @FXML // fx:id="CancelOrderBTN"
@@ -32,12 +28,11 @@ public class MockCancelOrderController implements ServerMessageHandler{
 
     @FXML
     void cancelOrder(ActionEvent event) {
-		model.SendCancelRequestToServer(orderIDTF.getText());
+		model.SendCancelRequestToServer(Integer.parseInt(orderIDTF.getText()));
     }
     
     @Override
 	public void handleServerMessage(String msg) {
-		// Print the message from the server to the UI example: 
     	orderIDTF.setText(msg);
 	}
 }

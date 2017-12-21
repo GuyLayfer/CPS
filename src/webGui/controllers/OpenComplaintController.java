@@ -1,6 +1,3 @@
-/**
- * Sample Skeleton for 'MockOpenComplaintView.fxml' Controller Class
- */
 
 package webGui.controllers;
 
@@ -8,14 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import webGui.models.MockOpenComplaintModel;
+import webGui.models.OpenComplaintModel;
 import webGui.util.ServerMessageHandler;
 
-public class MockOpenComplaintController implements ServerMessageHandler{
-	private MockOpenComplaintModel model;
+public class OpenComplaintController implements ServerMessageHandler{
+	private OpenComplaintModel model;
 	
-	public MockOpenComplaintController() {
-		model = new MockOpenComplaintModel(this);
+	public OpenComplaintController() {
+		model = new OpenComplaintModel(this);
 	}
 
     @FXML // fx:id="openComplaintTF"
@@ -33,7 +30,6 @@ public class MockOpenComplaintController implements ServerMessageHandler{
     
     @Override
    	public void handleServerMessage(String msg) {
-   		// Print the message from the server to the UI example: 
     	openComplaintTF.setText(msg);
    	}
 

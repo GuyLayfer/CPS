@@ -5,16 +5,16 @@ import webGui.MockWebClientConnectionManager;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.ServerMessageHandler;
 
-public class MockOrderOneTimeParkingModel {
+public class OrderOneTimeParkingModel {
 	private MockWebClientConnectionManager connectionManager;
 		
-	public MockOrderOneTimeParkingModel (ServerMessageHandler controller) {
+	public OrderOneTimeParkingModel (ServerMessageHandler controller) {
 		connectionManager = MockWebClientConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(controller);
 	}
 	
-	public void SendOrderOrderOneTimeParkingRequestToServer(String customerID,String liscencePlate, String email, String parkingLotID, String arrivalTime, 
-			String estimatedDepartureTime){
+	public void SendOrderOneTimeParkingRequestToServer(int customerID,int liscencePlate, String email, int parkingLotID, long arrivalTime, 
+			long estimatedDepartureTime){
 		WebCustomerRequest request = CustomerRequestFactory.CreateOrderOneTimeParkingRequest(customerID, liscencePlate, email, parkingLotID, arrivalTime, 
 				 estimatedDepartureTime);
 		connectionManager.sendMessageToServer(request);

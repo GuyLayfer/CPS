@@ -5,16 +5,16 @@ import webGui.MockWebClientConnectionManager;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.ServerMessageHandler;
 
-public class MockOrderRoutineMonthlySubscriptionModel {
+public class OrderRoutineMonthlySubscriptionModel {
 	private MockWebClientConnectionManager connectionManager;
 		
-	public MockOrderRoutineMonthlySubscriptionModel(ServerMessageHandler controller) {
+	public OrderRoutineMonthlySubscriptionModel(ServerMessageHandler controller) {
 		connectionManager = MockWebClientConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(controller);
 	}
 
-	public void SendOrderRoutineMonthlySubscriptionRequestToServer(String customerID,String liscencePlate, String email, String parkingLotID, String startingDat, 
-			String routineDepartureTime){
+	public void SendOrderRoutineMonthlySubscriptionRequestToServer(int customerID,int liscencePlate, String email, int parkingLotID, long startingDat, 
+			long routineDepartureTime){
 		WebCustomerRequest request = CustomerRequestFactory.CreateOrderRoutineMonthlySubscriptionRequest(customerID, liscencePlate, email, parkingLotID, startingDat, 
 				 routineDepartureTime);
 		connectionManager.sendMessageToServer(request);
