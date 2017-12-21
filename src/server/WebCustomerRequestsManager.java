@@ -8,11 +8,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
 import core.ServerBasicResponse;
 import core.ServerGenericResponse;
 import core.ServerResponseStatus;
+import core.ServerTrackOrderResponse;
 import core.WebCustomerRequest;
+import db.DBAPI;
+import db.SqlColumns;
 
 /*
  * This is a temporary mock server which was created in order to simplify the implementation of the prototype.
@@ -28,11 +35,12 @@ public class WebCustomerRequestsManager extends AbstractServer {
 	
 	public WebCustomerRequestsManager(int port) {
 		super(port);
-		// TODO: retrieve the last order id from DB and initialize lastOrderId.
+		// TODO: retrieve the last order id from DB and initialize lastOrderId 
+		// (not necessary for the prototype, but the tables in the DB must be empty before running the prototype).
 	}
 	
 	public void ChargeAccount() {
-		// TODO: implement
+		// TODO: implement after the prototype submission
 	}
 
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -41,29 +49,58 @@ public class WebCustomerRequestsManager extends AbstractServer {
 			switch (request.webCustomerRequestType) {
 			case ORDER_ONE_TIME_PARKING:
 				++lastOrderId;
-				// TODO: store the order data in the DB
-				client.sendToClient(new ServerGenericResponse(String.valueOf(lastOrderId)));
+				DBAPI.updateParkingReservaion(request.carID, request.customerID, lastOrderId, request.parkingLotID,
+						new Date(request.arrivalTime), new Date(request.estimatedDepartureTime), new Date(0), new Date(0), 
+						DBAPI.orderType.ORDER.getId());
+				DBAPI.createNewAccount(request.customerID, request.email, request.carID, false);
+				client.sendToClient(gson.toJson(new ServerGenericResponse(String.valueOf(lastOrderId))));
 				break;
 			case CANCEL_ORDER:
-				// TODO: implement
+				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
+						"this request type isn't supported yet"));
+				// TODO: implement after the prototype submission
 				break;
 			case TRACK_ORDER_STATUS:
-				// TODO: retrieve the order data from DB and send it to the client
+				ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+				DBAPI.trackOrderStatus(request.orderID, resultList);
+				if (resultList.isEmpty()) {
+					client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.REQUEST_DENIED, 
+							"Wrong Order ID")));
+				} else {
+					Map<String, Object> result = resultList.iterator().next();
+					ServerTrackOrderResponse response = new ServerTrackOrderResponse();
+					response.orderID = (Integer) result.get(SqlColumns.ENTRANCE_ID);
+					response.customerID = (Integer) result.get(SqlColumns.ACCOUNT_ID);
+					response.carID = result.get(SqlColumns.CAR_ID).toString();
+					response.parkingLotID = (Integer) result.get(SqlColumns.LOT_ID);
+					response.arrivalTime = ((Date) result.get(SqlColumns.ARRIVE_PREDICTION)).getTime();
+					response.estimatedDepartureTime = ((Date) result.get(SqlColumns.LEAVE_PREDICTION)).getTime();
+					client.sendToClient(gson.toJson(response));
+				}
 				break;
 			case ORDER_ROUTINE_MONTHLY_SUBSCRIPTION:
-				// TODO: implement
+				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
+						"this request type isn't supported yet"));
+				// TODO: implement after the prototype submission
 				break;
 			case ORDER_FULL_MONTHLY_SUBSCRIPTION:
-				// TODO: implement
+				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
+						"this request type isn't supported yet"));
+				// TODO: implement after the prototype submission
 				break;
 			case SUBSCRIPTION_RENEWAL:
-				// TODO: implement
+				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
+						"this request type isn't supported yet"));
+				// TODO: implement after the prototype submission
 				break;
 			case OPEN_COMPLAINT:
-				// TODO: implement
+				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
+						"this request type isn't supported yet"));
+				// TODO: implement after the prototype submission
 				break;
 			default:
-				// TODO: implement
+				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.BAD_REQUEST, 
+						"Illegal webCustomerRequestType"));
 				break;
 			}
 		} catch (JsonSyntaxException e) {

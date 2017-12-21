@@ -16,19 +16,20 @@ public class DBAPI {
 
 //	public int [][] lots_dimensions; // not needed for now.
 
-	enum orderType {ONE_TIME(0), ORDER(1), SUBSCRIPTION(2), SUBSCRIPTION_FULL(3);
+	public enum orderType {ONE_TIME(0), ORDER(1), SUBSCRIPTION(2), SUBSCRIPTION_FULL(3);
 		
 		int id;
 		orderType(int p) {
 		      id = p;
 		   }
-		   int getId() {
+		   public int getId() {
 		      return id;
 		   } 
 	
 	};
 
-	public static void carEnteredParkingUpdate(int carId, int accountId, int entranceId, int lotId, Date predictionArrive,
+	// TODO: change the type of carId to String (the carId of embassy cars is often consisted of digits and letters)
+	public static void updateParkingReservaion(int carId, int accountId, int entranceId, int lotId, Date predictionArrive,
 												Date predictionLeave, Date timeArrive, Date timeLeave,/*DBConnection.orderType*/int kind/*order, occasional entrance, etc*/) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all param types to paramTypes. in order of the SQL query
@@ -56,7 +57,7 @@ public class DBAPI {
 	
 	public static void newOrder(int entranceId, int accountId, int carId, int lotId, Date predictionArrive, Date predictionLeave, Date timeArrive, Date timeLeave)
 			throws SQLException {
-		carEnteredParkingUpdate(carId, accountId, entranceId, lotId, predictionArrive, predictionLeave, timeArrive, timeLeave, orderType.ORDER.getId());
+		updateParkingReservaion(carId, accountId, entranceId, lotId, predictionArrive, predictionLeave, timeArrive, timeLeave, orderType.ORDER.getId());
 	}
 
 	public static void trackOrderStatus(int entranceId, ArrayList<Map<String, Object>> resultList)
@@ -120,7 +121,7 @@ public class DBAPI {
 			System.out.println("!!!!!" + orderType.ORDER.getId());
 			Date timeArrive = new Date(0);
 			Date timeLeave = new Date(0);
-			carEnteredParkingUpdate(51/*carId*/,4/*accountId*/, 2/*entranceId*/, 1/*lotId*/, dateArrive, dateLeave, timeArrive, timeLeave, orderType.ORDER.getId()/*order*/);	
+			updateParkingReservaion(51/*carId*/,4/*accountId*/, 2/*entranceId*/, 1/*lotId*/, dateArrive, dateLeave, timeArrive, timeLeave, orderType.ORDER.getId()/*order*/);	
 		}
 		catch (SQLException e) {
 			System.out.println("ERRORR");

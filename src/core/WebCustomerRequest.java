@@ -7,8 +7,8 @@ public class WebCustomerRequest {
 	
 // Optional:
 	// used in most of the orders
-	public String customerID;
-	public String licensePlate;
+	public int customerID;
+	public int carID;		// TODO: change it to String when Raz changes it in the DB
 	public String email;
 	public int parkingLotID;
 	
