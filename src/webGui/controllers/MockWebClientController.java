@@ -47,7 +47,7 @@ public class MockWebClientController{
     @FXML
     void orderRoutineMonthlySubscription(ActionEvent event) {
     	try {
-    		URL uri = getClass().getResource("../views/MockOrderRoutineMonthlySubscriptionView.fxml");
+    		URL uri = getClass().getResource("../views/OrderRoutineMonthlySubscriptionView.fxml");
     	    AnchorPane  pane = FXMLLoader.load(uri);
     		Stage stage = new Stage();
             stage.setTitle("Order Routine Monthly Subscription");
@@ -74,7 +74,7 @@ public class MockWebClientController{
     @FXML
     void orderOneTimeParking(ActionEvent event) {
     	try {
-    		URL uri = getClass().getResource("../views/MockOrderOneTimeParkingView.fxml");
+    		URL uri = getClass().getResource("../views/OrderOneTimeParkingView.fxml");
     	    AnchorPane  pane = FXMLLoader.load(uri);
     		Stage stage = new Stage();
             stage.setTitle("Order One Time Parking");
@@ -91,7 +91,7 @@ public class MockWebClientController{
     @FXML
     void TrackOrderStatus(ActionEvent event) {
     	try {
-    		URL uri = getClass().getResource("../views/MockTrackOrderStatusView.fxml");
+    		URL uri = getClass().getResource("../views/TrackOrderStatusView.fxml");
     	    AnchorPane  pane = FXMLLoader.load(uri);
     		Stage stage = new Stage();
             stage.setTitle("Track Order Status");
@@ -108,7 +108,7 @@ public class MockWebClientController{
     @FXML
     void cancelOrder(ActionEvent event) {
     	try {
-    		URL uri = getClass().getResource("../views/MockCancelOrderView.fxml");
+    		URL uri = getClass().getResource("../views/CancelOrderView.fxml");
     	    AnchorPane  pane = FXMLLoader.load(uri);
     		Stage stage = new Stage();
             stage.setTitle("Cancel Order");
@@ -124,7 +124,7 @@ public class MockWebClientController{
     @FXML
     void OpenComplaint(ActionEvent event) {
     	try {
-    		URL uri = getClass().getResource("../views/MockOpenComplaintView.fxml");
+    		URL uri = getClass().getResource("../views/OpenComplaintView.fxml");
     	    AnchorPane  pane = FXMLLoader.load(uri);
     		Stage stage = new Stage();
             stage.setTitle("Open Complaint");

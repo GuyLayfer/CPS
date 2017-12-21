@@ -5,10 +5,10 @@ import webGui.MockWebClientConnectionManager;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.ServerMessageHandler;
 
-public class MockOpenComplaintModel {
+public class OpenComplaintModel {
 	private MockWebClientConnectionManager connectionManager;
 		
-		public MockOpenComplaintModel(ServerMessageHandler controller) {
+		public OpenComplaintModel(ServerMessageHandler controller) {
 			connectionManager = MockWebClientConnectionManager.getInstance();
 			connectionManager.addServerMessageListener(controller);
 		}
