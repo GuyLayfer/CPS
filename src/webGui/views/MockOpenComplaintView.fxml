@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.MockOpenComplaintController">
+   <children>
+      <TextField fx:id="openComplaintTF" alignment="TOP_LEFT" layoutX="28.0" layoutY="14.0" prefHeight="89.0" prefWidth="345.0" promptText="Complaint Content" />
+      <Button fx:id="openComplaintBT" layoutX="150.0" layoutY="124.0" mnemonicParsing="false" onAction="#openComplaintT" prefHeight="33.0" text="Open Complaint" />
+   </children>
+</AnchorPane>
