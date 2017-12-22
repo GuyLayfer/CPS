@@ -10,4 +10,9 @@ public class ServerBasicResponse {
 		this.status = status;
 		this.statusDescription = statusDescription;
 	}
+	
+	@Override
+	public String toString(){
+		return status + ": " + statusDescription;
+	}
 }

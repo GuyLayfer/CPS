@@ -16,16 +16,23 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	final private static String DEFAULT_HOST = "localhost";
 	final private Gson gson = new Gson();
 	private List<ServerMessageHandler> listeners = new ArrayList<ServerMessageHandler>();
+	private static List<ServerMessageHandler> startupListeners = new ArrayList<ServerMessageHandler>();
+	// Had trouble registering the shell for messages because it starts on startup, before the connection.
+	// It's not a good solution but it is the easiest. Other option is to access the shell via childViewAnchor.getParent().lookup("#lebelInParent"));
 	
-	private MockWebClientConnectionManager() throws IOException {
-		super(DEFAULT_HOST, DEFAULT_PORT);
+	public static String alternativeHostAddress = null;
+	
+	private MockWebClientConnectionManager(String hostAddress) throws IOException {
+		super(hostAddress == null ? DEFAULT_HOST : hostAddress, DEFAULT_PORT);
 		openConnection();
 	}
 	
 	public static MockWebClientConnectionManager getInstance(){
 		if(instance == null){
 			try {
-				return new MockWebClientConnectionManager();
+				MockWebClientConnectionManager instance = new MockWebClientConnectionManager(alternativeHostAddress);
+				instance.listeners.addAll(startupListeners);
+				return instance;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -39,11 +46,6 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		listeners.add(listner);
 	}
 
-	@Override
-	protected void handleMessageFromServer(Object arg0) {
-		notifyListeners((String)arg0);
-	}
-
 	public void sendMessageToServer(WebCustomerRequest order) {
 		try {
 			sendToServer(gson.toJson(order));
@@ -53,9 +55,9 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		}
 	}
 	
-	public WebCustomerRequest CreateOrder(){
-//		Add parameters as needed or change implementation.
-		return new WebCustomerRequest();
+	@Override
+	protected void handleMessageFromServer(Object arg0) {
+		notifyListeners(gson.fromJson((String)arg0, ServerBasicResponse.class).toString());
 	}
 
 	private void quit() {
@@ -69,10 +71,13 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	}
 	
 	private void notifyListeners(String message){
-//		Observer pattern. Send message from the model to the controller (We don't want the model to reference the WebClientMockController
-//		because the controller references the model and that could end up in circular reference).
+//		Observer pattern.
 		for (ServerMessageHandler listener : listeners){
 			listener.handleServerMessage(message);
 		}
+	}
+	
+	public static void registerStartupListeners(ServerMessageHandler listner){
+		startupListeners.add(listner);
 	}
 }

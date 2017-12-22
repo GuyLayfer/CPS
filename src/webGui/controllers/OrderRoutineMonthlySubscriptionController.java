@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import webGui.models.OrderRoutineMonthlySubscriptionModel;
+import webGui.util.NumberTextField;
 import webGui.util.ServerMessageHandler;
 
 public class OrderRoutineMonthlySubscriptionController implements ServerMessageHandler{
@@ -23,7 +24,7 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
     private TextField msgTF; // Value injected by FXMLLoader
     
     @FXML // fx:id="routineDepartureTimeTF"
-    private TextField routineDepartureTimeTF; // Value injected by FXMLLoader
+    private NumberTextField routineDepartureTimeTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="LiscencePlateLBL"
     private Label LiscencePlateLBL; // Value injected by FXMLLoader
@@ -35,10 +36,10 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
     private Label RoutineDepartureTimeLBL; // Value injected by FXMLLoader
 
     @FXML // fx:id="parkingLotIDTF"
-    private TextField parkingLotIDTF; // Value injected by FXMLLoader
+    private NumberTextField parkingLotIDTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="customerIDTF"
-    private TextField customerIDTF; // Value injected by FXMLLoader
+    private NumberTextField customerIDTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="customerIDLBL"
     private Label customerIDLBL; // Value injected by FXMLLoader
@@ -50,7 +51,7 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
     private Label RotMonSubLBL; // Value injected by FXMLLoader
 
     @FXML // fx:id="startingDateTF"
-    private TextField startingDateTF; // Value injected by FXMLLoader
+    private NumberTextField startingDateTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="ParkingLotIDLBL"
     private Label ParkingLotIDLBL; // Value injected by FXMLLoader
@@ -63,6 +64,7 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 
     @FXML
     void CreateSubscription(ActionEvent event) {
+    	// TODO: change liscencePlateTF to String when Raz changes it in the DB
     	model.SendOrderRoutineMonthlySubscriptionRequestToServer(Integer.parseInt(customerIDTF.getText()), Integer.parseInt(liscencePlateTF.getText()), 
     			emailTF.getText(), Integer.parseInt(parkingLotIDTF.getText()), Long.parseLong(startingDateTF.getText()), Long.parseLong(routineDepartureTimeTF.getText()));
 

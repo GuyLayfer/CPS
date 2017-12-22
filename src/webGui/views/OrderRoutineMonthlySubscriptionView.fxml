@@ -5,6 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import webGui.util.NumberTextField ?>
 
 <AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.OrderRoutineMonthlySubscriptionController">
    <children>
@@ -16,12 +17,12 @@
       <Label fx:id="ParkingLotIDLBL" layoutX="19.0" layoutY="177.0" prefHeight="25.0" prefWidth="108.0" text="Parking Lot ID" />
       <Label fx:id="StartingDateLBL" layoutX="19.0" layoutY="211.0" prefHeight="25.0" prefWidth="108.0" text="Starting Date" />
       <Label fx:id="RoutineDepartureTimeLBL" layoutX="19.0" layoutY="244.0" prefHeight="25.0" prefWidth="133.0" text="Routine Departure Time" />
-      <TextField fx:id="customerIDTF" layoutX="160.0" layoutY="79.0" />
+      <NumberTextField fx:id="customerIDTF" layoutX="160.0" layoutY="79.0" />
       <TextField fx:id="liscencePlateTF" layoutX="160.0" layoutY="113.0" />
       <TextField fx:id="emailTF" layoutX="160.0" layoutY="146.0" />
-      <TextField fx:id="parkingLotIDTF" layoutX="160.0" layoutY="178.0" />
-      <TextField fx:id="startingDateTF" layoutX="160.0" layoutY="212.0" />
-      <TextField fx:id="routineDepartureTimeTF" layoutX="160.0" layoutY="245.0" />
+      <NumberTextField fx:id="parkingLotIDTF" layoutX="160.0" layoutY="178.0" />
+      <NumberTextField fx:id="startingDateTF" layoutX="160.0" layoutY="212.0" />
+      <NumberTextField fx:id="routineDepartureTimeTF" layoutX="160.0" layoutY="245.0" />
       <Button fx:id="createSubscriptionBTN" layoutX="138.0" layoutY="294.0" mnemonicParsing="false" onAction="#CreateSubscription" prefHeight="33.0" prefWidth="125.0" text="Create Subscription" />
       <TextField fx:id="msgTF" layoutX="23.0" layoutY="335.0" prefHeight="33.0" prefWidth="355.0" />
    </children>

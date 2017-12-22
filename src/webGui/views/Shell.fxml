@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<StackPane prefHeight="550.0" prefWidth="600.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="webGui.controllers.ShellController">
+	<children>
+		<TextArea fx:id="responseTextArea" editable="false"
+			maxHeight="100.0" maxWidth="600.0" prefHeight="100.0" prefWidth="600.0"
+			promptText="Messages go here" StackPane.alignment="BOTTOM_LEFT">
+		</TextArea>
+	</children>
+</StackPane>

@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import webGui.models.OrderOneTimeParkingModel;
+import webGui.util.NumberTextField;
 import webGui.util.ServerMessageHandler;
 
 public class OrderOneTimeParkingController implements ServerMessageHandler{
@@ -23,7 +24,7 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
     private TextField msgTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="estimatedDepartureTimeTF"
-    private TextField estimatedDepartureTimeTF; // Value injected by FXMLLoader
+    private NumberTextField estimatedDepartureTimeTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="OrderOneTimeParkingBTN"
     private Button OrderOneTimeParkingBTN; // Value injected by FXMLLoader
@@ -32,16 +33,16 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
     private Label LiscencePlateLBL; // Value injected by FXMLLoader
 
     @FXML // fx:id="liscencePlateTF"
-    private TextField liscencePlateTF; // Value injected by FXMLLoader
+    private NumberTextField liscencePlateTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="EstimatedDepartureTimeLBL"
     private Label EstimatedDepartureTimeLBL; // Value injected by FXMLLoader
 
     @FXML // fx:id="parkingLotIDTF"
-    private TextField parkingLotIDTF; // Value injected by FXMLLoader
+    private NumberTextField parkingLotIDTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="customerIDTF"
-    private TextField customerIDTF; // Value injected by FXMLLoader
+    private NumberTextField customerIDTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="ArrivalTimeLBL"
     private Label ArrivalTimeLBL; // Value injected by FXMLLoader
@@ -53,7 +54,7 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
     private TextField emailTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="arrivalTimeTF"
-    private TextField arrivalTimeTF; // Value injected by FXMLLoader
+    private NumberTextField arrivalTimeTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="orderOneTimeParkingLBL"
     private Label orderOneTimeParkingLBL; // Value injected by FXMLLoader

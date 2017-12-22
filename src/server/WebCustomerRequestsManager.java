@@ -56,8 +56,7 @@ public class WebCustomerRequestsManager extends AbstractServer {
 				client.sendToClient(gson.toJson(new ServerGenericResponse(String.valueOf(lastOrderId))));
 				break;
 			case CANCEL_ORDER:
-				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
-						"this request type isn't supported yet")));
+				client.sendToClient(gson.toJson(CreateNotSupportedFeatureResponse()));
 				// TODO: implement after the prototype submission
 				break;
 			case TRACK_ORDER_STATUS:
@@ -79,28 +78,24 @@ public class WebCustomerRequestsManager extends AbstractServer {
 				}
 				break;
 			case ORDER_ROUTINE_MONTHLY_SUBSCRIPTION:
-				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
-						"this request type isn't supported yet")));
+				client.sendToClient(gson.toJson(CreateNotSupportedFeatureResponse()));
 				// TODO: implement after the prototype submission
 				break;
 			case ORDER_FULL_MONTHLY_SUBSCRIPTION:
-				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
-						"this request type isn't supported yet")));
+				client.sendToClient(gson.toJson(CreateNotSupportedFeatureResponse()));
 				// TODO: implement after the prototype submission
 				break;
 			case SUBSCRIPTION_RENEWAL:
-				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
-						"this request type isn't supported yet")));
+				client.sendToClient(gson.toJson(CreateNotSupportedFeatureResponse()));
 				// TODO: implement after the prototype submission
 				break;
 			case OPEN_COMPLAINT:
-				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
-						"this request type isn't supported yet")));
+				client.sendToClient(gson.toJson(CreateNotSupportedFeatureResponse()));
 				// TODO: implement after the prototype submission
 				break;
 			default:
-				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.BAD_REQUEST, 
-						"Illegal webCustomerRequestType")));
+				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.BAD_REQUEST, 
+						"Illegal webCustomerRequestType"));
 				break;
 			}
 		} catch (JsonSyntaxException e) {
@@ -141,5 +136,10 @@ public class WebCustomerRequestsManager extends AbstractServer {
 		} catch (Exception ex) {
 			System.out.println("ERROR - Could not listen for clients!");
 		}
+	}
+	
+	private static ServerBasicResponse CreateNotSupportedFeatureResponse(){
+		return new ServerBasicResponse(ServerResponseStatus.UNSUPPORTED_FEATURE, 
+				"this request type isnt supported yet");
 	}
 }

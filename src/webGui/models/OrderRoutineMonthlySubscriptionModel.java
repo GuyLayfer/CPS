@@ -13,6 +13,7 @@ public class OrderRoutineMonthlySubscriptionModel {
 		connectionManager.addServerMessageListener(controller);
 	}
 
+	// TODO: change liscencePlate to String when Raz changes it in the DB
 	public void SendOrderRoutineMonthlySubscriptionRequestToServer(int customerID,int liscencePlate, String email, int parkingLotID, long startingDat, 
 			long routineDepartureTime){
 		WebCustomerRequest request = CustomerRequestFactory.CreateOrderRoutineMonthlySubscriptionRequest(customerID, liscencePlate, email, parkingLotID, startingDat, 

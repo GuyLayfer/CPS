@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane prefHeight="237.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.MockWebClientController">
-   <children>
-      <MenuButton fx:id="SubscriptionsMenuButton" alignment="CENTER" layoutX="128.0" layoutY="137.0" mnemonicParsing="false" onAction="#SubscriptionsMenu" prefHeight="33.0" prefWidth="144.0" text="subscriptions" textAlignment="CENTER">
-         <items>
-            <MenuItem fx:id="orderRoutineMonthlySubscriptionButton" mnemonicParsing="false" onAction="#orderRoutineMonthlySubscription" text="Order routine monthly subscription" />
-            <MenuItem fx:id="orderFullMonthlySubscriptionButton" mnemonicParsing="false" onAction="#orderFullMonthlySubscription" text="order full monthly subscription" />
-            <MenuItem fx:id="renewSubscriptionButton" mnemonicParsing="false" onAction="#renewSubscription" text="Renew Subscription" />
-         </items>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </MenuButton>
-      <Button fx:id="orderOneTimeParkingButton" layoutX="34.0" layoutY="32.0" mnemonicParsing="false" onAction="#orderOneTimeParking" prefHeight="33.0" prefWidth="144.0" text="Order one time parking" />
-      <Button fx:id="TrackOrderStatusButton" layoutX="216.0" layoutY="32.0" mnemonicParsing="false" onAction="#TrackOrderStatus" prefHeight="33.0" prefWidth="144.0" text="Track order status" />
-      <Button fx:id="cancelOrderButton" layoutX="34.0" layoutY="82.0" mnemonicParsing="false" onAction="#cancelOrder" prefHeight="33.0" prefWidth="144.0" text="Cancel order" />
-      <Button fx:id="OpenComplaintButton" layoutX="216.0" layoutY="82.0" mnemonicParsing="false" onAction="#OpenComplaint" prefHeight="33.0" prefWidth="144.0" text="Open complaint" />
-   </children>
-</AnchorPane>
+<TabPane prefHeight="450.0" prefWidth="600.0" fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.MockWebClientController">
+  <tabs>
+    <Tab fx:id="orderOneTimeParking" text="One time parking" >
+    	<fx:include fx:id="OrderOneTimeParkingTab" source="OrderOneTimeParkingView.fxml"/>
+    </Tab>
+    <Tab text="Monthly subscription">
+		<content>
+			<TabPane  tabClosingPolicy="UNAVAILABLE">
+				<tabs>
+				<Tab fx:id="orderRoutineMonthlySubscription" text="Routine subscription" >
+                	<fx:include fx:id="OrderRoutineMonthlySubscriptionTab" source="OrderRoutineMonthlySubscriptionView.fxml"/>
+                </Tab>
+                <Tab fx:id="orderFullMonthlySubscription" text="Full subscription" />
+
+                <Tab fx:id="renewSubscription" text="Renew subscription" />
+
+              	</tabs>
+            </TabPane>
+         </content>
+    </Tab>
+	<Tab fx:id="TrackOrderStatus" text="Track order" >
+      	<fx:include fx:id="TrackOrderStatusTab" source="TrackOrderStatusView.fxml"/>
+    </Tab>
+	<Tab fx:id="cancelOrder" text="Cancel order" >
+      	<fx:include fx:id="CancelOrderTab" source="CancelOrderView.fxml"/>
+    </Tab>
+	<Tab fx:id="OpenComplaint" text="Open complaint" >
+      	<fx:include fx:id="OpenComplaintTab" source="OpenComplaintView.fxml"/>
+    </Tab>
+  </tabs>
+</TabPane>

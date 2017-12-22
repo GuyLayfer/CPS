@@ -4,11 +4,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import webGui.util.NumberTextField ?>
 
 <AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="webGui.controllers.TrackOrderStatusController">
    <children>
       <Button fx:id="trackOrderStatusBTN" layoutX="140.0" layoutY="107.0" mnemonicParsing="false" onAction="#TrackOrderStatus" prefHeight="33.0" prefWidth="123.0" text="Track Order Status" />
-      <TextField fx:id="orderIDTF" layoutX="129.0" layoutY="56.0" prefHeight="33.0" prefWidth="144.0" promptText="order ID" />
+      <NumberTextField fx:id="orderIDTF" layoutX="129.0" layoutY="56.0" prefHeight="33.0" prefWidth="144.0" promptText="order ID" />
    </children>
 </AnchorPane>
