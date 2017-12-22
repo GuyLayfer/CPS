@@ -105,7 +105,7 @@ public class WebCustomerRequestsManager extends AbstractServer {
 			}
 		} catch (JsonSyntaxException e) {
 			try {
-				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.BAD_REQUEST, "JsonSyntaxException"));
+				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.BAD_REQUEST, "JsonSyntaxException")));
 				e.printStackTrace();
 			} catch (IOException e2) {
 				e2.printStackTrace();
@@ -113,7 +113,7 @@ public class WebCustomerRequestsManager extends AbstractServer {
 			e.printStackTrace();
 		} catch (SQLException e) { // compilation error will be fixed after adding the DB communication functions
 			try {
-				client.sendToClient(new ServerBasicResponse(ServerResponseStatus.SERVER_FAILLURE, "Server Failure"));
+				client.sendToClient(gson.toJson(new ServerBasicResponse(ServerResponseStatus.SERVER_FAILLURE, "Server Failure")));
 				e.printStackTrace();
 			} catch (IOException e2) {
 				e2.printStackTrace();
