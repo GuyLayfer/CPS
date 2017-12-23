@@ -6,7 +6,12 @@ public class ServerGenericResponse extends ServerBasicResponse {
 	public String data;
 	
 	public ServerGenericResponse(String data) {
-		super(ServerResponseStatus.OK, null);
+		super(ServerResponseStatus.OK, null, "serverGenericResponse");
 		this.data = data;
+	}
+	
+	@Override
+	public String toString(){
+		return status + ": " + data;
 	}
 }
