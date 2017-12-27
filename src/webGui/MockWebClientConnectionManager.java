@@ -9,13 +9,12 @@ import com.google.gson.Gson;
 import core.*;
 import ocsf.client.AbstractClient;
 import webGui.util.ServerMessageHandler;
-import webGui.util.ServerResponseGson;
 
 public class MockWebClientConnectionManager extends AbstractClient {
 	private static MockWebClientConnectionManager instance;
 	final private static int DEFAULT_PORT = 5555;
 	final private static String DEFAULT_HOST = "localhost";
-	final private Gson serverResponseGson = new ServerResponseGson().getGson();
+	final private Gson gson = new Gson();
 	private List<ServerMessageHandler> listeners = new ArrayList<ServerMessageHandler>();
 	private static List<ServerMessageHandler> startupListeners = new ArrayList<ServerMessageHandler>();
 	// Had trouble registering the shell for messages because it starts on startup, before the connection.
@@ -49,7 +48,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 
 	public void sendMessageToServer(WebCustomerRequest order) {
 		try {
-			sendToServer(serverResponseGson.toJson(order));
+			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
 			notifyListeners("Could not send message to server.  Terminating client.");
 			quit();
@@ -58,7 +57,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	
 	@Override
 	protected void handleMessageFromServer(Object arg0) {
-		notifyListeners(serverResponseGson.fromJson((String)arg0, ServerBasicResponse.class).toString());
+		notifyListeners(gson.fromJson((String)arg0, ServerBasicResponse.class).toString());
 	}
 
 	private void quit() {
