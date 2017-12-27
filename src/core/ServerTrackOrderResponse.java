@@ -10,11 +10,6 @@ public class ServerTrackOrderResponse extends ServerBasicResponse {
 	public long estimatedDepartureTime;		// milliseconds
 	
 	public ServerTrackOrderResponse() {
-		super(ServerResponseStatus.OK, null, "serverTrackOrderResponse");
-	}
-	
-	@Override
-	public String toString(){
-		return "Order details:\n" + orderID + "\n" + customerID + "\n" + carID + "\n" + parkingLotID + "\n" + arrivalTime + "\n" + estimatedDepartureTime;
+		super(ServerResponseStatus.OK, null);
 	}
 }
