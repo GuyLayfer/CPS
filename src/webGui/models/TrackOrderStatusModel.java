@@ -1,6 +1,6 @@
 package webGui.models;
 
-import core.WebCustomerRequest;
+import core.Customer.CustomerRequest;
 import webGui.MockWebClientConnectionManager;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.ServerMessageHandler;
@@ -14,7 +14,7 @@ private MockWebClientConnectionManager connectionManager;
 	}
 	
 	public void SendTrackOrderStatusRequestToServer(int orderId){
-		WebCustomerRequest request = CustomerRequestFactory.CreateTrackOrderStatusRequest(orderId);
+		CustomerRequest request = CustomerRequestFactory.CreateTrackOrderStatusRequest(orderId);
 		connectionManager.sendMessageToServer(request);
 	}
 

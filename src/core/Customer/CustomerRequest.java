@@ -1,9 +1,9 @@
-package core;
+package core.Customer;
 
 // Used in requests between the web GUI and the server
-public class WebCustomerRequest {
+public class CustomerRequest {
 // Mandatory:
-	public WebCustomerRequestType webCustomerRequestType;
+	public CustomerRequestType requestType;
 	
 // Optional:
 	// used in most of the orders

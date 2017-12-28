@@ -1,6 +1,6 @@
 package core;
 
-public enum ServerResponseStatus {
+public enum ResponseStatus {
 	OK,
 	REQUEST_DENIED,
 	SERVER_FAILLURE,

@@ -13,7 +13,22 @@ import db.DBConnection.sqlTypeKind;
 
 //TODO: change orderType representation in DB from int to ENUM.
 public class DBAPI {
+/*************************************** TODO Section ********************************************/
 
+	public static int getLastEntranceID() throws SQLException {
+		return 0; // TODO: change it to the right value
+	}
+	
+	public static int getLastSubscriptionID() throws SQLException {
+		return 0; // TODO: change it to the right value
+	}
+	
+	public static int getLastComplaintID() throws SQLException {
+		return 0; // TODO: change it to the right value
+	}
+	
+/************************************ End Of TODO Section ****************************************/
+	
 //	public int [][] lots_dimensions; // not needed for now.
 
 	public enum orderType {ONE_TIME(0), ORDER(1), SUBSCRIPTION(2), SUBSCRIPTION_FULL(3);
@@ -79,9 +94,8 @@ public class DBAPI {
 		}
 	
 	
-	public static void createNewAccount(int accountId, String email, int carId, boolean hasSubscription)
+	public static void createNewAccount(int accountId, String email, int carId, double balance, boolean hasSubscription)
 			throws SQLException {
-		double balance = 0;
 		Queue<Object> q = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
 		q.add(accountId);
@@ -134,7 +148,7 @@ public class DBAPI {
 
 		try {
 			trackOrderStatus(2, resultList);
-			createNewAccount(123, "asdas@jsdflkj.com", 123456, false);
+			createNewAccount(123, "asdas@jsdflkj.com", 123456, 0.0, false);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

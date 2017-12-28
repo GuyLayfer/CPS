@@ -1,6 +1,7 @@
-package core;
+package core.Customer;
 
-public enum WebCustomerRequestType {
+// Used also as response type
+public enum CustomerRequestType {
 	ORDER_ONE_TIME_PARKING,
 	CANCEL_ORDER,
 	TRACK_ORDER_STATUS,
@@ -8,5 +9,8 @@ public enum WebCustomerRequestType {
 	ORDER_FULL_MONTHLY_SUBSCRIPTION,
 	SUBSCRIPTION_RENEWAL,
 	OPEN_COMPLAINT,
-// Add more types if required
+	// relevant only for kiosk clients
+	OCCASIONAL_PARKING,
+	ENTER_PARKING,
+	EXIT_PARKING,
 }

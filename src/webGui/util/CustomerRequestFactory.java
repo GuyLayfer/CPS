@@ -1,14 +1,14 @@
 package webGui.util;
 
-import core.WebCustomerRequestType;
-import core.WebCustomerRequest;
+import core.Customer.CustomerRequest;
+import core.Customer.CustomerRequestType;
 
 public class CustomerRequestFactory {
 	
-	public static WebCustomerRequest CreateOrderOneTimeParkingRequest(int customerID,int licensePlate, String email, int parkingLotID, long arrivalTime, 
+	public static CustomerRequest CreateOrderOneTimeParkingRequest(int customerID,int licensePlate, String email, int parkingLotID, long arrivalTime, 
 			long estimatedDepartureTime){
-		WebCustomerRequest OrderOneTimeParkingRequest = new WebCustomerRequest();
-		OrderOneTimeParkingRequest.webCustomerRequestType = WebCustomerRequestType.ORDER_ONE_TIME_PARKING;
+		CustomerRequest OrderOneTimeParkingRequest = new CustomerRequest();
+		OrderOneTimeParkingRequest.requestType = CustomerRequestType.ORDER_ONE_TIME_PARKING;
 		OrderOneTimeParkingRequest.customerID = customerID;
 		OrderOneTimeParkingRequest.carID = licensePlate;
 		OrderOneTimeParkingRequest.email = email;
@@ -18,24 +18,24 @@ public class CustomerRequestFactory {
 		return OrderOneTimeParkingRequest;
 	}
 	
-	public static WebCustomerRequest CreateCancelRequest(int orderId){
-		WebCustomerRequest cancelOrder = new WebCustomerRequest();
-		cancelOrder.webCustomerRequestType = WebCustomerRequestType.CANCEL_ORDER;
+	public static CustomerRequest CreateCancelRequest(int orderId){
+		CustomerRequest cancelOrder = new CustomerRequest();
+		cancelOrder.requestType = CustomerRequestType.CANCEL_ORDER;
 		cancelOrder.orderID = orderId;
 		return cancelOrder;
 	}
 	
-	public static WebCustomerRequest CreateTrackOrderStatusRequest(int orderId){
-		WebCustomerRequest trackOrderStatus = new WebCustomerRequest();
-		trackOrderStatus.webCustomerRequestType = WebCustomerRequestType.TRACK_ORDER_STATUS;
+	public static CustomerRequest CreateTrackOrderStatusRequest(int orderId){
+		CustomerRequest trackOrderStatus = new CustomerRequest();
+		trackOrderStatus.requestType = CustomerRequestType.TRACK_ORDER_STATUS;
 		trackOrderStatus.orderID = orderId;
 		return trackOrderStatus;
 	}
 	
-	public static WebCustomerRequest CreateOrderRoutineMonthlySubscriptionRequest(int customerID,int licensePlate, String email, int parkingLotID, long startingDat, 
+	public static CustomerRequest CreateOrderRoutineMonthlySubscriptionRequest(int customerID,int licensePlate, String email, int parkingLotID, long startingDat, 
 			long routineDepartureTime){
-		WebCustomerRequest OrderRoutineMonthlySubscriptionRequest = new WebCustomerRequest();
-		OrderRoutineMonthlySubscriptionRequest.webCustomerRequestType = WebCustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION;
+		CustomerRequest OrderRoutineMonthlySubscriptionRequest = new CustomerRequest();
+		OrderRoutineMonthlySubscriptionRequest.requestType = CustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION;
 		OrderRoutineMonthlySubscriptionRequest.customerID = customerID;
 		OrderRoutineMonthlySubscriptionRequest.carID = licensePlate;
 		OrderRoutineMonthlySubscriptionRequest.email = email;
@@ -45,9 +45,9 @@ public class CustomerRequestFactory {
 		return OrderRoutineMonthlySubscriptionRequest;
 	}
 	
-	public static WebCustomerRequest CreateOrderFullMonthlySubscriptionRequest(int customerID,int licensePlate, String email, long startingDat){
-		WebCustomerRequest OrderFullMonthlySubscriptionRequest = new WebCustomerRequest();
-		OrderFullMonthlySubscriptionRequest.webCustomerRequestType = WebCustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION;
+	public static CustomerRequest CreateOrderFullMonthlySubscriptionRequest(int customerID,int licensePlate, String email, long startingDat){
+		CustomerRequest OrderFullMonthlySubscriptionRequest = new CustomerRequest();
+		OrderFullMonthlySubscriptionRequest.requestType = CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION;
 		OrderFullMonthlySubscriptionRequest.customerID = customerID;
 		OrderFullMonthlySubscriptionRequest.carID = licensePlate;
 		OrderFullMonthlySubscriptionRequest.email = email;
@@ -55,16 +55,16 @@ public class CustomerRequestFactory {
 		return OrderFullMonthlySubscriptionRequest;
 	}
 	
-	public static WebCustomerRequest CreateSubscriptionRenewalRequest(int orderId){
-		WebCustomerRequest subscriptionRenewal = new WebCustomerRequest();
-		subscriptionRenewal.webCustomerRequestType = WebCustomerRequestType.SUBSCRIPTION_RENEWAL;
+	public static CustomerRequest CreateSubscriptionRenewalRequest(int orderId){
+		CustomerRequest subscriptionRenewal = new CustomerRequest();
+		subscriptionRenewal.requestType = CustomerRequestType.SUBSCRIPTION_RENEWAL;
 		subscriptionRenewal.orderID = orderId;
 		return subscriptionRenewal;
 	}
 	
-	public static WebCustomerRequest CreateOpenComplaintRequest(){
-		WebCustomerRequest openComplaint = new WebCustomerRequest();
-		openComplaint.webCustomerRequestType = WebCustomerRequestType.OPEN_COMPLAINT;
+	public static CustomerRequest CreateOpenComplaintRequest(){
+		CustomerRequest openComplaint = new CustomerRequest();
+		openComplaint.requestType = CustomerRequestType.OPEN_COMPLAINT;
 		return openComplaint;
 	}
 	

@@ -7,6 +7,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import core.*;
+import core.Customer.CustomerRequest;
 import ocsf.client.AbstractClient;
 import webGui.util.ServerMessageHandler;
 
@@ -46,7 +47,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		listeners.add(listner);
 	}
 
-	public void sendMessageToServer(WebCustomerRequest order) {
+	public void sendMessageToServer(CustomerRequest order) {
 		try {
 			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
