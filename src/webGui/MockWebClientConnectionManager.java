@@ -58,7 +58,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	
 	@Override
 	protected void handleMessageFromServer(Object arg0) {
-		notifyListeners(gson.fromJson((String)arg0, ServerBasicResponse.class).toString());
+		//notifyListeners(gson.fromJson((String)arg0, ServerBasicResponse.class).toString());
 	}
 
 	private void quit() {
