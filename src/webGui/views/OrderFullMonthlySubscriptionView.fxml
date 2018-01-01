@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import webGui.util.NumberTextField?>
+<?import tornadofx.control.DateTimePicker?>
+
+<AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.OrderFullMonthlySubscriptionController">
+   <children>
+      <Label fx:id="orderFullMonthlyLBL" alignment="CENTER" layoutX="50.0" layoutY="25.0" prefHeight="33.0" prefWidth="192.0" text="Order Full monthly subscription" />
+      <Label fx:id="customerIDLBL" layoutX="20.0" layoutY="80.0" prefHeight="25.0" prefWidth="108.0" text="Customer ID" />
+      <NumberTextField fx:id="customerIDTF" layoutX="160.0" layoutY="80.0" promptText="Customet ID" />
+      <Label fx:id="LiscencePlateLBL" layoutX="20.0" layoutY="115.0" prefHeight="25.0" prefWidth="108.0" text="Liscence Plate" />
+      <NumberTextField fx:id="liscencePlateTF" layoutX="160.0" layoutY="115.0" promptText="Liscence Plate" />
+      <Label fx:id="EmailLBL" layoutX="20.0" layoutY="150.0" prefHeight="25.0" prefWidth="108.0" text="Email" />
+      <TextField fx:id="emailTF" layoutX="160.0" layoutY="150.0" promptText="Email" />
+      <Label fx:id="startingDateLBL" layoutX="20.0" layoutY="185.0" prefHeight="25.0" prefWidth="108.0" text="Starting date" />
+      <DatePicker fx:id="startingDateTF" layoutX="160.0" layoutY="185.0" promptText="Starting date" />
+      <Button fx:id="OrderFullMonthlySubscriptionBTN" layoutX="160.0" layoutY="255.0" mnemonicParsing="false" onAction="#OrderFullMonthlySubscription" prefHeight="33.0" prefWidth="149.0" text="Create Subscription" />
+   </children>
+</AnchorPane>

@@ -66,4 +66,9 @@ public class CustomerResponse extends AbstractResponse {
 		this.status = status;
 		this.statusDescription = statusDescription;
 	}
+
+	@Override
+	public String toString() {
+		return status != ResponseStatus.OK ? super.toString() : "Request: " + requestType;
+	}
 }

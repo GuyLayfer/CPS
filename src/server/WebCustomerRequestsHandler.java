@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
+import core.CpsGson;
 import core.IdPricePair;
 import core.ResponseStatus;
 import core.ServerPorts;
@@ -25,7 +26,7 @@ import db.SqlColumns.ParkingTonnage;
 
 
 public class WebCustomerRequestsHandler extends AbstractServer {
-	final protected Gson gson = new Gson();
+	final protected Gson gson = new CpsGson().GetGson();
 	protected IDsGenerator idsGenerator;
 	
 	
@@ -41,7 +42,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	protected String orderOneTimeParking(CustomerRequest request) throws SQLException {
 		int entranceId = idsGenerator.nextEntranceID();
 		DBAPI.updateParkingReservaion(request.carID, request.customerID, entranceId, request.parkingLotID,
-				new Date(request.arrivalTime), new Date(request.estimatedDepartureTime), new Date(0), new Date(0), 
+				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
 				DBAPI.orderType.ORDER.getId());
 		//TODO: calculate order price and update the account balance
 		double price = 0.0;
@@ -62,8 +63,8 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			response.customerID = (Integer) result.get(SqlColumns.ParkingTonnage.ACCOUNT_ID);
 			response.carID = result.get(SqlColumns.ParkingTonnage.CAR_ID).toString();
 			response.parkingLotID = (Integer) result.get(SqlColumns.ParkingTonnage.LOT_ID);
-			response.arrivalTime = ((Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)).getTime();
-			response.estimatedDepartureTime = ((Date) result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION)).getTime();
+			response.arrivalTime = (Date)result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
+			response.estimatedDepartureTime = (Date)result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
 			return createOkResponse(request.requestType, gson.toJson(response));
 		}
 	}

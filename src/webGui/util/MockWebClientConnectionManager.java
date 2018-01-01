@@ -1,31 +1,38 @@
-package webGui;
+package webGui.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 import com.google.gson.Gson;
 
 import core.*;
 import core.Customer.CustomerRequest;
+import core.Customer.CustomerRequestType;
+import core.Customer.CustomerResponse;
+import core.Customer.TrackOrderResponseData;
 import ocsf.client.AbstractClient;
-import webGui.util.ServerMessageHandler;
 
 public class MockWebClientConnectionManager extends AbstractClient {
 	private static MockWebClientConnectionManager instance;
 	final private static int DEFAULT_PORT = 5555;
 	final private static String DEFAULT_HOST = "localhost";
-	final private Gson gson = new Gson();
+	final private Gson gson = new CpsGson().GetGson();
 	private List<ServerMessageHandler> listeners = new ArrayList<ServerMessageHandler>();
 	private static List<ServerMessageHandler> startupListeners = new ArrayList<ServerMessageHandler>();
 	// Had trouble registering the shell for messages because it starts on startup, before the connection.
 	// It's not a good solution but it is the easiest. Other option is to access the shell via childViewAnchor.getParent().lookup("#lebelInParent"));
+	private Map<CustomerRequestType, Function<String, CustomerResponse>> responseConverterMap;
 	
 	public static String alternativeHostAddress = null;
 	
 	private MockWebClientConnectionManager(String hostAddress) throws IOException {
 		super(hostAddress == null ? DEFAULT_HOST : hostAddress, DEFAULT_PORT);
 		openConnection();
+		responseConverterMap = CreateResponseConverterMap();
 	}
 	
 	public static MockWebClientConnectionManager getInstance(){
@@ -58,7 +65,13 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	
 	@Override
 	protected void handleMessageFromServer(Object arg0) {
-		notifyListeners(gson.fromJson((String)arg0, ServerBasicResponse.class).toString());
+		CustomerResponse response = gson.fromJson((String)arg0, CustomerResponse.class);
+		if(response.status == ResponseStatus.OK){
+			String stringResponse = responseConverterMap.get(response.requestType).apply(response.jsonData).toString();
+			notifyListeners(stringResponse);
+		} else {
+			notifyListeners(response.toString());
+		}
 	}
 
 	private void quit() {
@@ -81,4 +94,17 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	public static void registerStartupListeners(ServerMessageHandler listner){
 		startupListeners.add(listner);
 	}
+	
+	private Map<CustomerRequestType, Function<String, CustomerResponse>> CreateResponseConverterMap(){
+		Map<CustomerRequestType, Function<String, CustomerResponse>> converterMap = new HashMap<CustomerRequestType, Function<String, CustomerResponse>>();
+		converterMap.put(CustomerRequestType.ORDER_ONE_TIME_PARKING, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
+		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
+		converterMap.put(CustomerRequestType.TRACK_ORDER_STATUS, (gsonString) -> { return gson.fromJson((String)gsonString, TrackOrderResponseData.class); });
+		converterMap.put(CustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
+		converterMap.put(CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
+		converterMap.put(CustomerRequestType.SUBSCRIPTION_RENEWAL, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
+		converterMap.put(CustomerRequestType.OPEN_COMPLAINT, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
+		
+		return converterMap;
+	};
 }

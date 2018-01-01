@@ -5,16 +5,17 @@ import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
 import webGui.util.ServerMessageHandler;
 
-public class CancelOrderModel {
+public class RenewSubscriptionModel {
+	
 	private MockWebClientConnectionManager connectionManager;
 	
-	public CancelOrderModel(ServerMessageHandler controller) {
+	public RenewSubscriptionModel(ServerMessageHandler controller) {
 		connectionManager = MockWebClientConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(controller);
 	}
 	
-	public void SendCancelRequestToServer(int orderId){
-		CustomerRequest request = CustomerRequestFactory.CreateCancelRequest(orderId);
+	public void SendRenewSubscriptionRequestToServer(int customerId, int subscriptionId){
+		CustomerRequest request = CustomerRequestFactory.CreateSubscriptionRenewalRequest(customerId, subscriptionId);
 		connectionManager.sendMessageToServer(request);
 	}
 }

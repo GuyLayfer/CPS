@@ -8,7 +8,6 @@ public abstract class AbstractResponse {
 	// jsonData is valid only if status == OK.
 	public String jsonData;
 	
-	// I didn't change this function because I'm not sure how the client developers prefer to use it.
 	@Override
 	public String toString(){
 		return status + ": " + statusDescription;

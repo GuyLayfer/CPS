@@ -1,10 +1,10 @@
 package webGui.util;
 
+import core.CpsRegEx;
 import javafx.scene.control.TextField;
 
-public class NumberTextField extends TextField
-{
-
+public class NumberTextField extends TextField {
+	
     @Override
     public void replaceText(int start, int end, String text)
     {
@@ -25,6 +25,6 @@ public class NumberTextField extends TextField
 
     private boolean validate(String text)
     {
-        return text.matches("[0-9]*");
+        return text.matches(CpsRegEx.OnlyIntegers);
     }
 }
