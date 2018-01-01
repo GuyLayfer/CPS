@@ -6,5 +6,9 @@
 	<classpathentry kind="lib" path="library/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="library/OCSF/bin"/>
 	<classpathentry kind="lib" path="library/mysql-connector-java-5.1.44-bin.jar"/>
+	<classpathentry kind="lib" path="library/commons-validator-1.6.jar"/>
+	<classpathentry kind="lib" path="library/controlsfx-8.40.14.jar"/>
+	<classpathentry kind="lib" path="library/tornadofx-controls-1.0.6.jar"/>
+	<classpathentry kind="lib" path="library/jfoenix.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

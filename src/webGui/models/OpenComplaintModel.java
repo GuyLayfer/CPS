@@ -1,8 +1,8 @@
 package webGui.models;
 
 import core.Customer.CustomerRequest;
-import webGui.MockWebClientConnectionManager;
 import webGui.util.CustomerRequestFactory;
+import webGui.util.MockWebClientConnectionManager;
 import webGui.util.ServerMessageHandler;
 
 public class OpenComplaintModel {
@@ -13,8 +13,8 @@ public class OpenComplaintModel {
 			connectionManager.addServerMessageListener(controller);
 		}
 		
-		public void SendOpenComplaintRequestToServer(){
-			CustomerRequest request = CustomerRequestFactory.CreateOpenComplaintRequest();
+		public void SendOpenComplaintRequestToServer(String complaint){
+			CustomerRequest request = CustomerRequestFactory.CreateOpenComplaintRequest(complaint);
 			connectionManager.sendMessageToServer(request);
 		}
 

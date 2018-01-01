@@ -2,7 +2,7 @@ package webGui.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import webGui.MockWebClientConnectionManager;
+import webGui.util.MockWebClientConnectionManager;
 import webGui.util.ServerMessageHandler;
 
 public class ShellController implements ServerMessageHandler {

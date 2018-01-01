@@ -2,6 +2,11 @@
 package webGui.controllers;
 
 
+import org.controlsfx.validation.Severity;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
+
+import core.CpsRegEx;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,9 +16,16 @@ import webGui.util.ServerMessageHandler;
 
 public class TrackOrderStatusController implements ServerMessageHandler{
 	private TrackOrderStatusModel model;
+	private ValidationSupport validation = new ValidationSupport();
 	
 	public TrackOrderStatusController() {
 		model = new TrackOrderStatusModel(this);
+	}
+	
+	@FXML
+	protected void initialize() {
+		trackOrderStatusBTN.disableProperty().bind(validation.invalidProperty());
+		validation.registerValidator(orderIDTF, Validator.createRegexValidator("Order ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
 	}
 
     @FXML // fx:id="trackOrderStatusBTN"
@@ -30,8 +42,8 @@ public class TrackOrderStatusController implements ServerMessageHandler{
     
     @Override
 	public void handleServerMessage(String msg) {
-    	orderIDTF.setText(msg);
-	}
+
+    }
 
 }
 

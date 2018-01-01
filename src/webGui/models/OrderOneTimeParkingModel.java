@@ -1,8 +1,10 @@
 package webGui.models;
 
+import java.util.Date;
+
 import core.Customer.CustomerRequest;
-import webGui.MockWebClientConnectionManager;
 import webGui.util.CustomerRequestFactory;
+import webGui.util.MockWebClientConnectionManager;
 import webGui.util.ServerMessageHandler;
 
 public class OrderOneTimeParkingModel {
@@ -13,8 +15,8 @@ public class OrderOneTimeParkingModel {
 		connectionManager.addServerMessageListener(controller);
 	}
 	
-	public void SendOrderOneTimeParkingRequestToServer(int customerID,int liscencePlate, String email, int parkingLotID, long arrivalTime, 
-			long estimatedDepartureTime){
+	public void SendOrderOneTimeParkingRequestToServer(int customerID,int liscencePlate, String email, int parkingLotID, Date arrivalTime, 
+			Date estimatedDepartureTime){
 		CustomerRequest request = CustomerRequestFactory.CreateOrderOneTimeParkingRequest(customerID, liscencePlate, email, parkingLotID, arrivalTime, 
 				 estimatedDepartureTime);
 		connectionManager.sendMessageToServer(request);

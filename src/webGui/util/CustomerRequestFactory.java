@@ -1,12 +1,16 @@
 package webGui.util;
 
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.List;
+
 import core.Customer.CustomerRequest;
 import core.Customer.CustomerRequestType;
 
 public class CustomerRequestFactory {
 	
-	public static CustomerRequest CreateOrderOneTimeParkingRequest(int customerID,int licensePlate, String email, int parkingLotID, long arrivalTime, 
-			long estimatedDepartureTime){
+	public static CustomerRequest CreateOrderOneTimeParkingRequest(int customerID,int licensePlate, String email, int parkingLotID, Date arrivalTime, 
+			Date estimatedDepartureTime){
 		CustomerRequest OrderOneTimeParkingRequest = new CustomerRequest();
 		OrderOneTimeParkingRequest.requestType = CustomerRequestType.ORDER_ONE_TIME_PARKING;
 		OrderOneTimeParkingRequest.customerID = customerID;
@@ -32,39 +36,41 @@ public class CustomerRequestFactory {
 		return trackOrderStatus;
 	}
 	
-	public static CustomerRequest CreateOrderRoutineMonthlySubscriptionRequest(int customerID,int licensePlate, String email, int parkingLotID, long startingDat, 
-			long routineDepartureTime){
+	public static CustomerRequest CreateOrderRoutineMonthlySubscriptionRequest(int customerID,List<String> licensePlates, String email, int parkingLotID, Date startingDate, 
+			LocalTime routineDepartureTime){
 		CustomerRequest OrderRoutineMonthlySubscriptionRequest = new CustomerRequest();
 		OrderRoutineMonthlySubscriptionRequest.requestType = CustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION;
 		OrderRoutineMonthlySubscriptionRequest.customerID = customerID;
-		OrderRoutineMonthlySubscriptionRequest.carID = licensePlate;
+		OrderRoutineMonthlySubscriptionRequest.liscencePlates = licensePlates;
 		OrderRoutineMonthlySubscriptionRequest.email = email;
 		OrderRoutineMonthlySubscriptionRequest.parkingLotID = parkingLotID;
-		OrderRoutineMonthlySubscriptionRequest.arrivalTime = startingDat;
-		OrderRoutineMonthlySubscriptionRequest.estimatedDepartureTime = routineDepartureTime;
+		OrderRoutineMonthlySubscriptionRequest.startingDate = startingDate;
+		OrderRoutineMonthlySubscriptionRequest.routineDepartureTime = routineDepartureTime.toString();
 		return OrderRoutineMonthlySubscriptionRequest;
 	}
 	
-	public static CustomerRequest CreateOrderFullMonthlySubscriptionRequest(int customerID,int licensePlate, String email, long startingDat){
+	public static CustomerRequest CreateOrderFullMonthlySubscriptionRequest(int customerID,int licensePlate, String email, Date startingDate){
 		CustomerRequest OrderFullMonthlySubscriptionRequest = new CustomerRequest();
 		OrderFullMonthlySubscriptionRequest.requestType = CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION;
 		OrderFullMonthlySubscriptionRequest.customerID = customerID;
 		OrderFullMonthlySubscriptionRequest.carID = licensePlate;
 		OrderFullMonthlySubscriptionRequest.email = email;
-		OrderFullMonthlySubscriptionRequest.arrivalTime = startingDat;
+		OrderFullMonthlySubscriptionRequest.startingDate = startingDate;
 		return OrderFullMonthlySubscriptionRequest;
 	}
 	
-	public static CustomerRequest CreateSubscriptionRenewalRequest(int orderId){
+	public static CustomerRequest CreateSubscriptionRenewalRequest(int customerID, int subscriptionId){
 		CustomerRequest subscriptionRenewal = new CustomerRequest();
 		subscriptionRenewal.requestType = CustomerRequestType.SUBSCRIPTION_RENEWAL;
-		subscriptionRenewal.orderID = orderId;
+		subscriptionRenewal.customerID = customerID;
+		subscriptionRenewal.subscriptionID = subscriptionId;
 		return subscriptionRenewal;
 	}
 	
-	public static CustomerRequest CreateOpenComplaintRequest(){
+	public static CustomerRequest CreateOpenComplaintRequest(String complaint){
 		CustomerRequest openComplaint = new CustomerRequest();
 		openComplaint.requestType = CustomerRequestType.OPEN_COMPLAINT;
+		openComplaint.Complaint = complaint;
 		return openComplaint;
 	}
 	

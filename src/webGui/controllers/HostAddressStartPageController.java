@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import webGui.MockWebClientApplicationStarter;
-import webGui.MockWebClientConnectionManager;
+import webGui.util.MockWebClientConnectionManager;
 
 
 public class HostAddressStartPageController {

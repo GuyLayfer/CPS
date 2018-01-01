@@ -16,6 +16,10 @@ public class MockWebClientApplicationStarter extends Application {
 	private static StackPane stackPane;
 	private static AnchorPane hostAddressPane;
 	
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		URL rootUri = getClass().getResource("views/Shell.fxml");
@@ -29,10 +33,6 @@ public class MockWebClientApplicationStarter extends Application {
 		primaryStage.show();
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-	
 	public static void navigateToWebClientView(){
 		TabPane pane = null;
 		URL uri = MockWebClientApplicationStarter.class.getResource("views/MockWebClientView.fxml");

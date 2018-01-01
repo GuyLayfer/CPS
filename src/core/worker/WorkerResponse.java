@@ -2,7 +2,6 @@ package core.worker;
 
 import core.AbstractResponse;
 import core.ResponseStatus;
-import core.Customer.CustomerRequestType;
 
 //The usage is similar to the usage of CustomerResponse
 //TODO: add responseType to jsonData-type map as in CustomerResponse

@@ -14,13 +14,15 @@
 		<content>
 			<TabPane  tabClosingPolicy="UNAVAILABLE">
 				<tabs>
-				<Tab fx:id="orderRoutineMonthlySubscription" text="Routine subscription" >
-                	<fx:include fx:id="OrderRoutineMonthlySubscriptionTab" source="OrderRoutineMonthlySubscriptionView.fxml"/>
-                </Tab>
-                <Tab fx:id="orderFullMonthlySubscription" text="Full subscription" />
-
-                <Tab fx:id="renewSubscription" text="Renew subscription" />
-
+					<Tab fx:id="orderRoutineMonthlySubscription" text="Routine subscription" >
+                		<fx:include fx:id="OrderRoutineMonthlySubscriptionTab" source="OrderRoutineMonthlySubscriptionView.fxml"/>
+                	</Tab>
+                	<Tab fx:id="orderFullMonthlySubscription" text="Full subscription" >
+                		<fx:include fx:id="orderFullMonthlySubscriptionTab" source="OrderFullMonthlySubscriptionView.fxml"/>
+					</Tab>
+                	<Tab fx:id="renewSubscription" text="Renew subscription" >
+                		<fx:include fx:id="renewSubscriptionTab" source="RenewSubscriptionView.fxml"/>
+					</Tab>
               	</tabs>
             </TabPane>
          </content>
