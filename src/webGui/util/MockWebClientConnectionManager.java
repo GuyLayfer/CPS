@@ -25,7 +25,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	private static List<ServerMessageHandler> startupListeners = new ArrayList<ServerMessageHandler>();
 	// Had trouble registering the shell for messages because it starts on startup, before the connection.
 	// It's not a good solution but it is the easiest. Other option is to access the shell via childViewAnchor.getParent().lookup("#lebelInParent"));
-	private Map<CustomerRequestType, Function<String, CustomerResponse>> responseConverterMap;
+	private Map<CustomerRequestType, Function<String, Object>> responseConverterMap;
 	
 	public static String alternativeHostAddress = null;
 	
@@ -95,8 +95,8 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		startupListeners.add(listner);
 	}
 	
-	private Map<CustomerRequestType, Function<String, CustomerResponse>> CreateResponseConverterMap(){
-		Map<CustomerRequestType, Function<String, CustomerResponse>> converterMap = new HashMap<CustomerRequestType, Function<String, CustomerResponse>>();
+	private Map<CustomerRequestType, Function<String, Object>> CreateResponseConverterMap(){
+		Map<CustomerRequestType, Function<String, Object>> converterMap = new HashMap<CustomerRequestType, Function<String, Object>>();
 		converterMap.put(CustomerRequestType.ORDER_ONE_TIME_PARKING, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
 		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> { return gson.fromJson((String)gsonString, CustomerResponse.class); });
 		converterMap.put(CustomerRequestType.TRACK_ORDER_STATUS, (gsonString) -> { return gson.fromJson((String)gsonString, TrackOrderResponseData.class); });
