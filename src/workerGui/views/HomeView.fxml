@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ToolBar prefHeight="25.0" prefWidth="600.0">
+         <items>
+            <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="88.0" style="-fx-background-color: transparent;">
+              <menus>
+                <Menu mnemonicParsing="false" text="Parking lot">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <MenuBar layoutX="88.0" layoutY="2.0" prefHeight="25.0" prefWidth="122.0" style="-fx-background-color: transparent;">
+              <menus>
+                <Menu mnemonicParsing="false" text="Customer service">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <MenuBar layoutX="210.0" layoutY="2.0" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: transparent;">
+              <menus>
+                <Menu mnemonicParsing="false" text="Management">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <ToolBar prefHeight="25.0" prefWidth="151.0" visible="false" />
+            <MenuBar disable="true" prefHeight="33.0" prefWidth="5.0" style="-fx-background-color: transparent;">
+              <menus>
+                <Menu mnemonicParsing="false">
+                     <graphic>
+                        <Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="18.0" />
+                     </graphic>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <MenuBar layoutX="529.0" layoutY="2.0" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: transparent;">
+              <menus>
+                <Menu mnemonicParsing="false" text="Logout">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </items>
+      </ToolBar>
+   </children>
+</AnchorPane>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="orderOccasionalParkingBTN" layoutX="120.0" layoutY="77.0" mnemonicParsing="false" onAction="#orderOccasionalParking" prefHeight="100.0" prefWidth="215.0" text="Order occasionl Parking">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="PreOrderedParkingLoginBTN" layoutX="239.0" layoutY="239.0" mnemonicParsing="false" onAction="#PreOrderedParkingLogin" prefHeight="100.0" prefWidth="215.0" text="Pre ordered parking login">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="subscriptionsLoginBTN" layoutX="6.0" layoutY="239.0" mnemonicParsing="false" onAction="#subscriptionsLogin" prefHeight="100.0" prefWidth="215.0" text="Subscriptions login">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

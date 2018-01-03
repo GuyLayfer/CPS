@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Label alignment="CENTER" layoutX="117.0" layoutY="25.0" prefHeight="31.0" prefWidth="166.0" text="Pre ordered parking login">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="33.0" layoutY="88.0" prefHeight="24.0" prefWidth="71.0" text="Car ID" />
+      <Button fx:id="submitBTN" layoutX="175.0" layoutY="143.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
+   </children>
+</AnchorPane>
