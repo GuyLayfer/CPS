@@ -1,4 +1,4 @@
-package core;
+package core.GuiUtilities;
 
 public class CpsRegEx {
 	
