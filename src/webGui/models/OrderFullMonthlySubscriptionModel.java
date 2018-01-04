@@ -2,7 +2,7 @@ package webGui.models;
 
 import java.util.Date;
 
-import core.Customer.CustomerRequest;
+import core.custome.CustomerRequest;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
 import webGui.util.ServerMessageHandler;

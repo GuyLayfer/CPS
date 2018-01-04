@@ -1,4 +1,4 @@
-package core.Customer;
+package core.custome;
 
 import java.util.Date;
 import java.util.List;

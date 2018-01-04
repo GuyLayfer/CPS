@@ -3,7 +3,7 @@ package kiosk;
 import java.io.IOException;
 import java.net.URL;
 
-import core.GuiUtilities.UriDictionary;
+import core.gui.UriDictionary;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,8 +18,8 @@ public class KioskClientApplicationStarter extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		URL shellUri = UriDictionary.class.getResource(UriDictionary.Kiosk.KioskGuiShell);
-		URL mainView = UriDictionary.class.getResource(UriDictionary.Kiosk.KioskClientView);
+		URL shellUri = UriDictionary.class.getResource(UriDictionary.Kiosk.Shell);
+		URL mainView = UriDictionary.class.getResource(UriDictionary.Kiosk.ClientView);
 		Region kioskView = FXMLLoader.load(mainView);
 		Region shell = FXMLLoader.load(shellUri);
 		Scene scene = new Scene(shell);
