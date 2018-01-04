@@ -1,4 +1,4 @@
-package kioskGui.controllers;
+package kiosk.controllers;
 
 import org.controlsfx.control.BreadCrumbBar;
 import org.controlsfx.control.BreadCrumbBar.BreadCrumbActionEvent;
@@ -8,7 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
-import kioskGui.util.UriToString;
+import kiosk.util.UriToString;
 
 public class KioskGuiShellController extends KioskClientController {
 

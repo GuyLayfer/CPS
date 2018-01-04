@@ -1,4 +1,4 @@
-package kioskGui.util;
+package kiosk.util;
 
 import org.controlsfx.control.BreadCrumbBar;
 

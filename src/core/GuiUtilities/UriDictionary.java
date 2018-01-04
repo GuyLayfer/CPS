@@ -11,12 +11,12 @@ public class UriDictionary {
 
 	// Kiosk GUI resources
 	public class Kiosk {
-		public static final String KioskGuiShell = "../../kioskGui/views/KioskGuiShell.fxml";
-		public static final String KioskClientView = "../../kioskGui/views/KioskClientView.fxml";
-		public static final String KioskEntranceView = "../../kioskGui/views/EntranceView.fxml";
-		public static final String KioskOrderOccasionalParkingView = "../../kioskGui/views/OrderOccasionalParkingView.fxml";
-		public static final String KioskPreOrderedParkingLoginView = "../../kioskGui/views/PreOrderedParkingLoginView.fxml";
-		public static final String KioskSubscriptionsLoginView = "../../kioskGui/views/SubscriptionsLoginView.fxml";
+		public static final String KioskGuiShell = "../../kiosk/views/KioskGuiShell.fxml";
+		public static final String KioskClientView = "../../kiosk/views/KioskClientView.fxml";
+		public static final String KioskEntranceView = "../../kiosk/views/EntranceView.fxml";
+		public static final String KioskOrderOccasionalParkingView = "../../kiosk/views/OrderOccasionalParkingView.fxml";
+		public static final String KioskPreOrderedParkingLoginView = "../../kiosk/views/PreOrderedParkingLoginView.fxml";
+		public static final String KioskSubscriptionsLoginView = "../../kiosk/views/SubscriptionsLoginView.fxml";
 	}
 
 	// Regions used as placeholder for views

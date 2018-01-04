@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TilePane prefHeight="350.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kioskGui.controllers.EntranceController">
+<TilePane prefHeight="350.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kiosk.controllers.EntranceController">
 	<children>
 		<Button fx:id="orderOccasionalParkingBTN" mnemonicParsing="false" onAction="#orderOccasionalParking" prefHeight="350.0" prefWidth="350.0"
 			text="Order occasionl Parking">

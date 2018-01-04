@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="kioskGui.controllers.SubscriptionsLoginController">
+	fx:controller="kiosk.controllers.SubscriptionsLoginController">
 	<children>
 		<Button layoutX="174.0" layoutY="150.0" mnemonicParsing="false" onAction="#SubmitSubscriptionLoginRequest" text="Submit" />
 		<Text layoutX="22.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Licence Plate:" />

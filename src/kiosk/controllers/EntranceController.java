@@ -1,4 +1,4 @@
-package kioskGui.controllers;
+package kiosk.controllers;
 
 import core.GuiUtilities.UriDictionary;
 import javafx.event.ActionEvent;
