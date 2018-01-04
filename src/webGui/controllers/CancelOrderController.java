@@ -5,8 +5,8 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
-import core.gui.CpsRegEx;
-import core.gui.NumberTextField;
+import core.guiUtilities.CpsRegEx;
+import core.guiUtilities.NumberTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -12,8 +12,8 @@ import org.controlsfx.validation.Validator;
 
 import com.jfoenix.controls.JFXTimePicker;
 
-import core.gui.CpsRegEx;
-import core.gui.NumberTextField;
+import core.guiUtilities.CpsRegEx;
+import core.guiUtilities.NumberTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

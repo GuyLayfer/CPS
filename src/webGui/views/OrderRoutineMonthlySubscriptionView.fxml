@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import core.gui.NumberTextField?>
+<?import core.guiUtilities.NumberTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 
 <AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"

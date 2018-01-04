@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
-import core.custome.CustomerRequest;
+import core.customer.CustomerRequest;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
 import webGui.util.ServerMessageHandler;

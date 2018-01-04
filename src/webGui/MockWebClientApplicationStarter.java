@@ -3,7 +3,7 @@ package webGui;
 import java.io.IOException;
 import java.net.URL;
 
-import core.gui.UriDictionary;
+import core.guiUtilities.UriDictionary;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
