@@ -4,8 +4,8 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
-import core.Customer.CustomerRequest;
-import core.Customer.CustomerRequestType;
+import core.custome.CustomerRequest;
+import core.custome.CustomerRequestType;
 
 public class CustomerRequestFactory {
 	

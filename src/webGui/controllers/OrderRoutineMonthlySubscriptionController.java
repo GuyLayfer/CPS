@@ -12,7 +12,8 @@ import org.controlsfx.validation.Validator;
 
 import com.jfoenix.controls.JFXTimePicker;
 
-import core.GuiUtilities.CpsRegEx;
+import core.gui.CpsRegEx;
+import core.gui.NumberTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +23,6 @@ import javafx.scene.control.TextField;
 import webGui.models.OrderRoutineMonthlySubscriptionModel;
 import webGui.util.LocalTimeConverter;
 import webGui.util.MultipleCarsDialog;
-import webGui.util.NumberTextField;
 import webGui.util.ServerMessageHandler;
 
 public class OrderRoutineMonthlySubscriptionController implements ServerMessageHandler {
@@ -39,14 +39,10 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 	protected void initialize() {
 		SetupClockField();
 		liscencePlateTF.setEditable(false);
-		validation.registerValidator(emailTF,
-				Validator.createPredicateValidator((email) -> emailValidator.isValid((String) email), "Email is not valid"));
-		validation.registerValidator(parkingLotIDTF,
-				Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
-		validation.registerValidator(customerIDTF,
-				Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
-		validation.registerValidator(liscencePlateTF,
-				Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String) email), "Email is not valid"));
+		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(liscencePlateTF, Validator.createEmptyValidator("Liscence plate is Required"));
 		validation.registerValidator(TimePickerHelper, Validator.createEmptyValidator("Departure time is Required"));
 		validation.registerValidator(startingDateTF, Validator.createEmptyValidator("Starting date is Required"));
 	}

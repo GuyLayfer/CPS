@@ -1,4 +1,4 @@
-package core.Customer;
+package core.custome;
 
 import core.AbstractResponse;
 import core.ResponseStatus;

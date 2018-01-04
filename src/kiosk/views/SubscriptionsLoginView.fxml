@@ -5,15 +5,17 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import core.gui.LicencePlateTextField?>
+<?import core.gui.NumberTextField?>
 
 <AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="kiosk.controllers.SubscriptionsLoginController">
 	<children>
-		<Button layoutX="174.0" layoutY="150.0" mnemonicParsing="false" onAction="#SubmitSubscriptionLoginRequest" text="Submit" />
+		<Button fx:id="submitBTN" layoutX="174.0" layoutY="150.0" mnemonicParsing="false" onAction="#SubmitSubscriptionLoginRequest" text="Submit" />
 		<Text layoutX="22.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Licence Plate:" />
 		<Text layoutX="22.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscription  ID:" />
 		<Text layoutX="139.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Subscriptions login" />
-		<TextField fx:id="CarIdField" layoutX="147.0" layoutY="62.0" />
-		<TextField fx:id="SubscriptionIdField" layoutX="147.0" layoutY="99.0" />
+		<LicencePlateTextField fx:id="CarIdField" layoutX="147.0" layoutY="62.0" />
+		<NumberTextField fx:id="SubscriptionIdField" layoutX="147.0" layoutY="99.0" />
 	</children>
 </AnchorPane>
