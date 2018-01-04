@@ -4,24 +4,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import webGui.util.NumberTextField?>
+<?import core.gui.NumberTextField?>
 <?import tornadofx.control.DateTimePicker?>
+<?import core.gui.LicencePlateTextField?>
 
-<AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.OrderOneTimeParkingController">
-   <children>
-      <Label fx:id="orderOneTimeParkingLBL" alignment="CENTER" layoutX="117.0" layoutY="20.0" prefHeight="33.0" prefWidth="167.0" text="Order One Time Parking" />
-      <Label fx:id="customerIDLBL" layoutX="19.0" layoutY="78.0" prefHeight="25.0" prefWidth="108.0" text="Customer ID" />
-      <NumberTextField fx:id="customerIDTF" layoutX="160.0" layoutY="79.0" promptText="Customet ID" />
-      <Label fx:id="LiscencePlateLBL" layoutX="19.0" layoutY="113.0" prefHeight="25.0" prefWidth="108.0" text="Liscence Plate" />
-      <NumberTextField fx:id="liscencePlateTF" layoutX="160.0" layoutY="113.0" promptText="Liscence Plate" />
-      <Label fx:id="EmailLBL" layoutX="19.0" layoutY="145.0" prefHeight="25.0" prefWidth="108.0" text="Email" />
-      <TextField fx:id="emailTF" layoutX="160.0" layoutY="146.0" promptText="Email" />
-      <Label fx:id="ParkingLotIDLBL" layoutX="19.0" layoutY="177.0" prefHeight="25.0" prefWidth="108.0" text="Parking Lot ID" />
-      <NumberTextField fx:id="parkingLotIDTF" layoutX="160.0" layoutY="178.0" promptText="Parking Lot ID" />
-      <Label fx:id="ArrivalTimeLBL" layoutX="19.0" layoutY="211.0" prefHeight="25.0" prefWidth="108.0" text="Arrival Time" />
-      <DateTimePicker fx:id="arrivalTimeTF" layoutX="160.0" layoutY="212.0" promptText="Arrival Time" />
-      <Label fx:id="EstimatedDepartureTimeLBL" layoutX="19.0" layoutY="244.0" prefHeight="25.0" prefWidth="144.0" text="Estimated Departure Time" />
-      <DateTimePicker fx:id="estimatedDepartureTimeTF" layoutX="160.0" layoutY="245.0" promptText="Estimated Departure Time" />
-      <Button fx:id="OrderOneTimeParkingBTN" layoutX="193.0" layoutY="279.0" mnemonicParsing="false" onAction="#OrderOneTimeParking" prefHeight="33.0" prefWidth="79.0" text="Order" />
-   </children>
+<AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="webGui.controllers.OrderOneTimeParkingController">
+	<children>
+		<Label fx:id="orderOneTimeParkingLBL" alignment="CENTER" layoutX="117.0" layoutY="20.0" prefHeight="33.0" prefWidth="167.0" text="Order One Time Parking" />
+		<Label fx:id="customerIDLBL" layoutX="19.0" layoutY="78.0" prefHeight="25.0" prefWidth="108.0" text="Customer ID" />
+		<NumberTextField fx:id="customerIDTF" layoutX="160.0" layoutY="79.0" promptText="Customet ID" />
+		<Label fx:id="LiscencePlateLBL" layoutX="19.0" layoutY="113.0" prefHeight="25.0" prefWidth="108.0" text="Liscence Plate" />
+		<LicencePlateTextField fx:id="liscencePlateTF" layoutX="160.0" layoutY="113.0" promptText="Liscence Plate" />
+		<Label fx:id="EmailLBL" layoutX="19.0" layoutY="145.0" prefHeight="25.0" prefWidth="108.0" text="Email" />
+		<TextField fx:id="emailTF" layoutX="160.0" layoutY="146.0" promptText="Email" />
+		<Label fx:id="ParkingLotIDLBL" layoutX="19.0" layoutY="177.0" prefHeight="25.0" prefWidth="108.0" text="Parking Lot ID" />
+		<NumberTextField fx:id="parkingLotIDTF" layoutX="160.0" layoutY="178.0" promptText="Parking Lot ID" />
+		<Label fx:id="ArrivalTimeLBL" layoutX="19.0" layoutY="211.0" prefHeight="25.0" prefWidth="108.0" text="Arrival Time" />
+		<DateTimePicker fx:id="arrivalTimeTF" layoutX="160.0" layoutY="212.0" promptText="Arrival Time" />
+		<Label fx:id="EstimatedDepartureTimeLBL" layoutX="19.0" layoutY="244.0" prefHeight="25.0" prefWidth="144.0" text="Estimated Departure Time" />
+		<DateTimePicker fx:id="estimatedDepartureTimeTF" layoutX="160.0" layoutY="245.0" promptText="Estimated Departure Time" />
+		<Button fx:id="OrderOneTimeParkingBTN" layoutX="193.0" layoutY="279.0" mnemonicParsing="false" onAction="#OrderOneTimeParking" prefHeight="33.0"
+			prefWidth="79.0" text="Order" />
+	</children>
 </AnchorPane>

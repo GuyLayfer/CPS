@@ -3,7 +3,7 @@ package webGui;
 import java.io.IOException;
 import java.net.URL;
 
-import core.GuiUtilities.UriDictionary;
+import core.gui.UriDictionary;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,7 +20,7 @@ public class MockWebClientApplicationStarter extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		URL shellUri = UriDictionary.class.getResource(UriDictionary.WebGui.WebGuiShell);
+		URL shellUri = UriDictionary.class.getResource(UriDictionary.WebGui.Shell);
 		URL uri = UriDictionary.class.getResource(UriDictionary.WebGui.HostAddressStartPageView);
 		AnchorPane hostAddress = FXMLLoader.load(uri);
 		StackPane stackPane = FXMLLoader.load(shellUri);

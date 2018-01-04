@@ -1,4 +1,4 @@
-package kioskGui.util;
+package kiosk.util;
 
 public class UriToString {
 	public UriToString(String uri, String displayName) {

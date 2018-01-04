@@ -1,6 +1,6 @@
 package webGui.controllers;
 
-import core.GuiUtilities.UriDictionary;
+import core.gui.UriDictionary;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -27,6 +27,6 @@ public class HostAddressStartPageController extends WebGuiController{
 
 	private void changeHost(String host) {
 		MockWebClientConnectionManager.alternativeHostAddress = host;
-		NavigateTo(changeHostButton.getScene(), UriDictionary.WebGui.MockWebClientView);
+		NavigateTo(changeHostButton.getScene(), UriDictionary.WebGui.ClientView);
 	}
 }

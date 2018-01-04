@@ -5,12 +5,14 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import core.gui.LicencePlateTextField?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kioskGui.controllers.PreOrderedParkingLoginController">
+<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="kiosk.controllers.PreOrderedParkingLoginController">
 	<children>
 		<Button fx:id="submitBTN" layoutX="175.0" layoutY="143.0" mnemonicParsing="false" onAction="#SubmitPreOrdered" text="Submit" />
 		<Text layoutX="23.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car License Plate:" />
-		<TextField fx:id="CarIdField" layoutX="137.0" layoutY="84.0" />
-      <Text layoutX="114.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pre ordered parking login" />
+		<LicencePlateTextField fx:id="CarIdField" layoutX="137.0" layoutY="84.0" />
+		<Text layoutX="114.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pre ordered parking login" />
 	</children>
 </AnchorPane>

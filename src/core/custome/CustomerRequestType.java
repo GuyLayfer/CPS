@@ -1,4 +1,4 @@
-package core.Customer;
+package core.custome;
 
 // Used also as response type
 public enum CustomerRequestType {
