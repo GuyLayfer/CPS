@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kioskGui.controllers.PreOrderedParkingLoginController">
+<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kiosk.controllers.PreOrderedParkingLoginController">
 	<children>
 		<Button fx:id="submitBTN" layoutX="175.0" layoutY="143.0" mnemonicParsing="false" onAction="#SubmitPreOrdered" text="Submit" />
 		<Text layoutX="23.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car License Plate:" />

@@ -1,11 +1,11 @@
-package kioskGui.controllers;
+package kiosk.controllers;
 
 import core.GuiUtilities.UriDictionary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import kioskGui.util.KioskGuiController;
+import kiosk.util.KioskGuiController;
 
 public class KioskClientController extends KioskGuiController{
 

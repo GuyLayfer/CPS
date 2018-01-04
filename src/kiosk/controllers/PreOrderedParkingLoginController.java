@@ -1,4 +1,4 @@
-package kioskGui.controllers;
+package kiosk.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
