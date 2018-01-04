@@ -1,6 +1,6 @@
 package webGui.controllers;
 
-import core.gui.UriDictionary;
+import core.guiUtilities.UriDictionary;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import com.google.gson.JsonSyntaxException;
 
 import core.ResponseStatus;
-import core.custome.CustomerRequest;
-import core.custome.CustomerResponse;
+import core.customer.CustomerRequest;
+import core.customer.CustomerResponse;
 import ocsf.server.ConnectionToClient;
 
 public class KioskRequestsHandler extends WebCustomerRequestsHandler {

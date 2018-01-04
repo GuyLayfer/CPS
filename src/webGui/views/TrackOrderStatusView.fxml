@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import core.gui.NumberTextField?>
+<?import core.guiUtilities.NumberTextField?>
 
 <AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="webGui.controllers.TrackOrderStatusController">
 	<children>
