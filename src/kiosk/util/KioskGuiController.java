@@ -1,9 +1,9 @@
-package kioskGui.util;
+package kiosk.util;
 
 import org.controlsfx.control.BreadCrumbBar;
 
-import core.GuiUtilities.BaseController;
-import core.GuiUtilities.UriDictionary;
+import core.gui.BaseController;
+import core.gui.UriDictionary;
 import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 

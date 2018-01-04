@@ -6,12 +6,12 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
-import core.GuiUtilities.CpsRegEx;
+import core.gui.CpsRegEx;
+import core.gui.NumberTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import webGui.models.RenewSubscriptionModel;
-import webGui.util.NumberTextField;
 import webGui.util.ServerMessageHandler;
 
 public class RenewSubscriptionController implements ServerMessageHandler{

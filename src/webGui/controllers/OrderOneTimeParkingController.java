@@ -9,7 +9,9 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
-import core.GuiUtilities.CpsRegEx;
+import core.gui.CpsRegEx;
+import core.gui.LicencePlateTextField;
+import core.gui.NumberTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tornadofx.control.DateTimePicker;
 import webGui.models.OrderOneTimeParkingModel;
-import webGui.util.NumberTextField;
 import webGui.util.ServerMessageHandler;
 
 public class OrderOneTimeParkingController implements ServerMessageHandler{
@@ -35,7 +36,7 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
 		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String)email), "Email is not valid"));
 		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
 		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
-		validation.registerValidator(liscencePlateTF, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(liscencePlateTF, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.LicencePlateLength, Severity.ERROR));
 		validation.registerValidator(estimatedDepartureTimeTF, Validator.createEmptyValidator("Departure time is Required"));
 		validation.registerValidator(arrivalTimeTF, Validator.createEmptyValidator("Arrival time is Required"));
 //		validation.registerValidator(arrivalTimeTF, Validator.createPredicateValidator((nothing) -> CheckDate(), "Departure time should be later than Arrival"));
@@ -54,7 +55,7 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
     private Label LiscencePlateLBL; // Value injected by FXMLLoader
 
     @FXML // fx:id="liscencePlateTF"
-    private NumberTextField liscencePlateTF; // Value injected by FXMLLoader
+    private LicencePlateTextField liscencePlateTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="EstimatedDepartureTimeLBL"
     private Label EstimatedDepartureTimeLBL; // Value injected by FXMLLoader

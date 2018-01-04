@@ -1,14 +1,14 @@
-package kioskGui.controllers;
+package kiosk.controllers;
 
 import org.controlsfx.control.BreadCrumbBar;
 import org.controlsfx.control.BreadCrumbBar.BreadCrumbActionEvent;
 
-import core.GuiUtilities.UriDictionary;
+import core.gui.UriDictionary;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
-import kioskGui.util.UriToString;
+import kiosk.util.UriToString;
 
 public class KioskGuiShellController extends KioskClientController {
 
@@ -20,7 +20,7 @@ public class KioskGuiShellController extends KioskClientController {
 
 	@FXML
 	protected void initialize() {
-		TreeItem<UriToString> initialPath = BreadCrumbBar.buildTreeModel(new UriToString(UriDictionary.Kiosk.KioskClientView, "Home"));
+		TreeItem<UriToString> initialPath = BreadCrumbBar.buildTreeModel(new UriToString(UriDictionary.Kiosk.ClientView, "Home"));
 		breadCrumbBar.setSelectedCrumb(initialPath);
 
 		breadCrumbBar.setOnCrumbAction(new EventHandler<BreadCrumbBar.BreadCrumbActionEvent<UriToString>>() {

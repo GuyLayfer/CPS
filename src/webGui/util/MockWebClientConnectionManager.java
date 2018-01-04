@@ -10,10 +10,10 @@ import java.util.function.Function;
 import com.google.gson.Gson;
 
 import core.*;
-import core.Customer.CustomerRequest;
-import core.Customer.CustomerRequestType;
-import core.Customer.CustomerResponse;
-import core.Customer.TrackOrderResponseData;
+import core.custome.CustomerRequest;
+import core.custome.CustomerRequestType;
+import core.custome.CustomerResponse;
+import core.custome.TrackOrderResponseData;
 import ocsf.client.AbstractClient;
 
 public class MockWebClientConnectionManager extends AbstractClient {

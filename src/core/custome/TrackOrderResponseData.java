@@ -1,4 +1,4 @@
-package core.Customer;
+package core.custome;
 
 import java.text.DateFormat;
 import java.util.Date;

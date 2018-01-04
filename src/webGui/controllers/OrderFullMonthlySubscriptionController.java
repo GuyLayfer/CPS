@@ -9,7 +9,9 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
-import core.GuiUtilities.CpsRegEx;
+import core.gui.CpsRegEx;
+import core.gui.LicencePlateTextField;
+import core.gui.NumberTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,7 +19,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import webGui.models.OrderFullMonthlySubscriptionModel;
-import webGui.util.NumberTextField;
 import webGui.util.ServerMessageHandler;
 
 public class OrderFullMonthlySubscriptionController implements ServerMessageHandler{
@@ -34,7 +35,7 @@ public class OrderFullMonthlySubscriptionController implements ServerMessageHand
     	OrderFullMonthlySubscriptionBTN.disableProperty().bind(validation.invalidProperty());
 		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String)email), "Email is not valid"));
 		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
-		validation.registerValidator(liscencePlateTF, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(liscencePlateTF, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.LicencePlateLength, Severity.ERROR));
 		validation.registerValidator(startingDateTF, Validator.createEmptyValidator("Starting date is Required"));
 	}
 
@@ -48,7 +49,7 @@ public class OrderFullMonthlySubscriptionController implements ServerMessageHand
     private Label LiscencePlateLBL; // Value injected by FXMLLoader
 
     @FXML // fx:id="liscencePlateTF"
-    private NumberTextField liscencePlateTF; // Value injected by FXMLLoader
+    private LicencePlateTextField liscencePlateTF; // Value injected by FXMLLoader
 
     @FXML // fx:id="customerIDTF"
     private NumberTextField customerIDTF; // Value injected by FXMLLoader

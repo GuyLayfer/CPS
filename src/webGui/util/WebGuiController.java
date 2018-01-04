@@ -1,7 +1,7 @@
 package webGui.util;
 
-import core.GuiUtilities.BaseController;
-import core.GuiUtilities.UriDictionary;
+import core.gui.BaseController;
+import core.gui.UriDictionary;
 
 public class WebGuiController extends BaseController {
 
