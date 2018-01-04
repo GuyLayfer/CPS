@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.StackPane?>
+
+<TilePane prefHeight="350.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kioskGui.controllers.KioskClientController">
+	<children>
+		<Button fx:id="LeaveParkingLotButton" mnemonicParsing="false" onAction="#OpenLeaveParkingLotdialog" prefHeight="350.0" prefWidth="350.0"
+			text="Leave">
+			<font>
+				<Font size="72.0" />
+			</font>
+		</Button>
+		<Button fx:id="OrderParkingButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#OpenWebGui" prefHeight="350.0"
+			prefWidth="350.0" text="Order">
+			<font>
+				<Font size="72.0" />
+			</font>
+		</Button>
+		<Button fx:id="EnterParkingLotButton" mnemonicParsing="false" onAction="#OpenEnterParkingLotMenu" prefHeight="350.0" prefWidth="350.0" text="Enter">
+			<font>
+				<Font size="72.0" />
+			</font>
+		</Button>
+	</children>
+</TilePane>
