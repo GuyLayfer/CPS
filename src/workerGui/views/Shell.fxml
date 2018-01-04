@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ToolBar prefHeight="25.0" prefWidth="600.0">
@@ -32,13 +31,13 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Management">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem mnemonicParsing="false" text="Approve new rates" />
                   </items>
                 </Menu>
               </menus>
             </MenuBar>
-            <ToolBar prefHeight="25.0" prefWidth="151.0" visible="false" />
-            <MenuBar disable="true" prefHeight="33.0" prefWidth="5.0" style="-fx-background-color: transparent;">
+            <ToolBar prefHeight="25.0" prefWidth="150.0" visible="false" />
+            <MenuBar mouseTransparent="true" prefHeight="33.0" prefWidth="33.0" style="-fx-background-color: transparent;">
               <menus>
                 <Menu mnemonicParsing="false">
                      <graphic>
@@ -49,11 +48,7 @@
             </MenuBar>
             <MenuBar layoutX="529.0" layoutY="2.0" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: transparent;">
               <menus>
-                <Menu mnemonicParsing="false" text="Logout">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
-                  </items>
-                </Menu>
+                <Menu mnemonicParsing="false" text="Logout" />
               </menus>
             </MenuBar>
          </items>
