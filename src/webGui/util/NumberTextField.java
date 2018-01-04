@@ -1,6 +1,6 @@
 package webGui.util;
 
-import core.CpsRegEx;
+import core.GuiUtilities.CpsRegEx;
 import javafx.scene.control.TextField;
 
 public class NumberTextField extends TextField {

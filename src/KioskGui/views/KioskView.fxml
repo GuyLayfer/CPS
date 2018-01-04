@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.StackPane?>
 
-<TabPane minHeight="600.0" prefHeight="600.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kioskGui.controllers.kioskController">
+<TabPane minHeight="600.0" prefHeight="600.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="KioskGui.controllers.kioskController">
    <tabs>
       <Tab text="Home">
         <content>

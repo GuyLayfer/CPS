@@ -3,47 +3,34 @@ package webGui;
 import java.io.IOException;
 import java.net.URL;
 
+import core.GuiUtilities.UriDictionary;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MockWebClientApplicationStarter extends Application {
-	private static StackPane stackPane;
-	private static AnchorPane hostAddressPane;
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		URL rootUri = getClass().getResource("views/Shell.fxml");
-		URL uri = getClass().getResource("views/HostAddressStartPageView.fxml");
-		AnchorPane pane = hostAddressPane = FXMLLoader.load(uri);
-		stackPane = FXMLLoader.load(rootUri);
-		stackPane.getChildren().add(pane);
+		URL shellUri = UriDictionary.class.getResource(UriDictionary.WebGui.WebGuiShell);
+		URL uri = UriDictionary.class.getResource(UriDictionary.WebGui.HostAddressStartPageView);
+		AnchorPane hostAddress = FXMLLoader.load(uri);
+		StackPane stackPane = FXMLLoader.load(shellUri);
 		Scene scene = new Scene(stackPane);
+
+		Pane mainViewRegion = (Pane) scene.lookup(UriDictionary.Regions.webGuiMainViewRegion);
+		mainViewRegion.getChildren().add(hostAddress);
+
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Web Client Mock");
 		primaryStage.show();
-	}
-
-	public static void navigateToWebClientView(){
-		TabPane pane = null;
-		URL uri = MockWebClientApplicationStarter.class.getResource("views/MockWebClientView.fxml");
-		try {
-			pane = FXMLLoader.load(uri);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		stackPane.getChildren().remove(hostAddressPane);
-		StackPane.setAlignment(pane,Pos.TOP_LEFT);
-		stackPane.getChildren().add(pane);
 	}
 }

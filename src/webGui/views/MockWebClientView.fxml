@@ -4,37 +4,43 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<TabPane prefHeight="450.0" prefWidth="600.0" fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.MockWebClientController">
-  <tabs>
-    <Tab fx:id="orderOneTimeParking" text="One time parking" >
-    	<fx:include fx:id="OrderOneTimeParkingTab" source="OrderOneTimeParkingView.fxml"/>
-    </Tab>
-    <Tab text="Monthly subscription">
-		<content>
-			<TabPane  tabClosingPolicy="UNAVAILABLE">
-				<tabs>
-					<Tab fx:id="orderRoutineMonthlySubscription" text="Routine subscription" >
-                		<fx:include fx:id="OrderRoutineMonthlySubscriptionTab" source="OrderRoutineMonthlySubscriptionView.fxml"/>
-                	</Tab>
-                	<Tab fx:id="orderFullMonthlySubscription" text="Full subscription" >
-                		<fx:include fx:id="orderFullMonthlySubscriptionTab" source="OrderFullMonthlySubscriptionView.fxml"/>
-					</Tab>
-                	<Tab fx:id="renewSubscription" text="Renew subscription" >
-                		<fx:include fx:id="renewSubscriptionTab" source="RenewSubscriptionView.fxml"/>
-					</Tab>
-              	</tabs>
-            </TabPane>
-         </content>
-    </Tab>
-	<Tab fx:id="TrackOrderStatus" text="Track order" >
-      	<fx:include fx:id="TrackOrderStatusTab" source="TrackOrderStatusView.fxml"/>
-    </Tab>
-	<Tab fx:id="cancelOrder" text="Cancel order" >
-      	<fx:include fx:id="CancelOrderTab" source="CancelOrderView.fxml"/>
-    </Tab>
-	<Tab fx:id="OpenComplaint" text="Open complaint" >
-      	<fx:include fx:id="OpenComplaintTab" source="OpenComplaintView.fxml"/>
-    </Tab>
-  </tabs>
-</TabPane>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="webGui.controllers.MockWebClientController">
+	<TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" prefHeight="450.0" prefWidth="600.0">
+		<tabs>
+			<Tab fx:id="orderOneTimeParking" text="One time parking">
+				<fx:include fx:id="OrderOneTimeParkingTab" source="OrderOneTimeParkingView.fxml" />
+			</Tab>
+			<Tab text="Monthly subscription">
+				<content>
+					<TabPane tabClosingPolicy="UNAVAILABLE">
+						<tabs>
+							<Tab fx:id="orderRoutineMonthlySubscription" text="Routine subscription">
+								<fx:include fx:id="OrderRoutineMonthlySubscriptionTab" source="OrderRoutineMonthlySubscriptionView.fxml" />
+							</Tab>
+							<Tab fx:id="orderFullMonthlySubscription" text="Full subscription">
+								<fx:include fx:id="orderFullMonthlySubscriptionTab" source="OrderFullMonthlySubscriptionView.fxml" />
+							</Tab>
+							<Tab fx:id="renewSubscription" text="Renew subscription">
+								<fx:include fx:id="renewSubscriptionTab" source="RenewSubscriptionView.fxml" />
+							</Tab>
+						</tabs>
+					</TabPane>
+				</content>
+			</Tab>
+			<Tab fx:id="TrackOrderStatus" text="Track order">
+				<fx:include fx:id="TrackOrderStatusTab" source="TrackOrderStatusView.fxml" />
+			</Tab>
+			<Tab fx:id="cancelOrder" text="Cancel order">
+				<fx:include fx:id="CancelOrderTab" source="CancelOrderView.fxml" />
+			</Tab>
+			<Tab fx:id="OpenComplaint" text="Open complaint">
+				<fx:include fx:id="OpenComplaintTab" source="OpenComplaintView.fxml" />
+			</Tab>
+		</tabs>
+	</TabPane>
+	<TextArea fx:id="responseTextArea" editable="false" prefHeight="100.0" prefWidth="600.0" promptText="Messages go here"
+		StackPane.alignment="BOTTOM_LEFT">
+	</TextArea>
+</VBox>
