@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import core.guiUtilities.*?>
+<?import tornadofx.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workerGui.controllers.UpdateRatesRequestController">
+<AnchorPane fx:id="PreOrderedField" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="workerGui.controllers.UpdateRatesRequestController">
 	<children>
-		<Button fx:id="orderBTN" layoutX="174.0" layoutY="235.0" onAction="#orderOccasionalParking" text="Order" />
-		<NumberTextField fx:id="CustomerIdField" layoutX="174.0" layoutY="64.0" />
-		<LicencePlateTextField fx:id="CarIdField" layoutX="174.0" layoutY="101.0" />
-		<TextField fx:id="EmailField" layoutX="174.0" layoutY="175.0" />
-		<DateTimePicker fx:id="DepartureDateField" layoutX="174.0" layoutY="137.0" />
-		<Text layoutX="24.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID:" />
-		<Text layoutX="24.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Licence Plate:" />
-		<Text layoutX="24.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimated departure time:" />
-		<Text layoutX="26.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" />
-		<Text layoutX="129.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order occasional parking" />
+		<Text layoutX="100.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking lot rates update request">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Text>
+		<FloatNumberTextField fx:id="OccasionalRateField" layoutX="220.0" layoutY="70.0" />
+		<FloatNumberTextField fx:id="CarIdField" layoutX="220.0" layoutY="110.0" />
+		<FloatNumberTextField fx:id="FullNonthlyField" layoutX="220.0" layoutY="230.0" />
+		<FloatNumberTextField fx:id="RutineMonthlyField" layoutX="220.0" layoutY="150.0" />
+		<FloatNumberTextField fx:id="RutineMonthlyMultipleField" layoutX="220.0" layoutY="190.0" />
+		<Text layoutX="25.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Occasional rate:" />
+		<Text layoutX="25.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pre-Ordered rate:" />
+		<Text layoutX="24.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Full Monthly Subscription rate:" />
+		<Text layoutX="25.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rutine Monthly Subscription rate:" />
+		<Text layoutX="25.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rutine Monthly Subscription" />
+		<Text layoutX="40.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Multiple cars Rate:" />
+		<Button fx:id="orderBTN" layoutX="160.0" layoutY="280.0" onAction="#SendRatesUpdateRequest" text="Send request">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
 	</children>
 </AnchorPane>

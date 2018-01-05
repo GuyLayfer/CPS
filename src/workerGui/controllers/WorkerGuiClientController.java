@@ -1,5 +1,6 @@
 package workerGui.controllers;
 
+import core.guiUtilities.UriDictionary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -26,7 +27,7 @@ public class WorkerGuiClientController extends WorkerGuiController {
 
 	@FXML
 	void GoDisableParkingSpaceLot(ActionEvent event) {
-
+		NavigateTo(GoDisableParkingSpaceLink.getScene(), UriDictionary.WorkerGui.SetOutOfOrderParkingSpaceView);
 	}
 
 	@FXML
@@ -38,5 +39,4 @@ public class WorkerGuiClientController extends WorkerGuiController {
 	void GoReserveParkingSpace(ActionEvent event) {
 
 	}
-
 }
