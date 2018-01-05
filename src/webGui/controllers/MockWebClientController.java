@@ -1,11 +1,11 @@
 package webGui.controllers;
 
+import core.guiUtilities.ServerMessageHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import webGui.util.MockWebClientConnectionManager;
-import webGui.util.ServerMessageHandler;
 import webGui.util.WebGuiController;
 
 public class MockWebClientController extends WebGuiController implements ServerMessageHandler{

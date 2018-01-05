@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import core.customer.CustomerRequest;
+import core.guiUtilities.ServerMessageHandler;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
-import webGui.util.ServerMessageHandler;
 
 public class OrderRoutineMonthlySubscriptionModel {
 	private MockWebClientConnectionManager connectionManager;
