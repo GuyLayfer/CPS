@@ -14,6 +14,7 @@ import com.jfoenix.controls.JFXTimePicker;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
+import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,7 +24,6 @@ import javafx.scene.control.TextField;
 import webGui.models.OrderRoutineMonthlySubscriptionModel;
 import webGui.util.LocalTimeConverter;
 import webGui.util.MultipleCarsDialog;
-import webGui.util.ServerMessageHandler;
 
 public class OrderRoutineMonthlySubscriptionController implements ServerMessageHandler {
 	private OrderRoutineMonthlySubscriptionModel model;

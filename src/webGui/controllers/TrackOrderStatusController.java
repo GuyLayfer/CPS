@@ -8,11 +8,11 @@ import org.controlsfx.validation.Validator;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
+import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import webGui.models.TrackOrderStatusModel;
-import webGui.util.ServerMessageHandler;
 
 public class TrackOrderStatusController implements ServerMessageHandler{
 	private TrackOrderStatusModel model;

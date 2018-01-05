@@ -3,9 +3,9 @@ package webGui.models;
 import java.util.Date;
 
 import core.customer.CustomerRequest;
+import core.guiUtilities.ServerMessageHandler;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
-import webGui.util.ServerMessageHandler;
 
 public class OrderOneTimeParkingModel {
 	private MockWebClientConnectionManager connectionManager;

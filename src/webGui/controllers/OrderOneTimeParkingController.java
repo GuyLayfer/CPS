@@ -12,6 +12,7 @@ import org.controlsfx.validation.Validator;
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.LicencePlateTextField;
 import core.guiUtilities.NumberTextField;
+import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,7 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import tornadofx.control.DateTimePicker;
 import webGui.models.OrderOneTimeParkingModel;
-import webGui.util.ServerMessageHandler;
 
 public class OrderOneTimeParkingController implements ServerMessageHandler{
 	private OrderOneTimeParkingModel model;

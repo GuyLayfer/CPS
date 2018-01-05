@@ -4,12 +4,12 @@ package webGui.controllers;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
+import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import webGui.models.OpenComplaintModel;
-import webGui.util.ServerMessageHandler;
 
 public class OpenComplaintController implements ServerMessageHandler{
 	private OpenComplaintModel model;
