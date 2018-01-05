@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import core.guiUtilities.NumberTextField?>
-<?import core.guiUtilities.LicencePlateTextField?>
-<?import tornadofx.control.*?>
 
-<AnchorPane prefHeight="298.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="kioskGui.controllers.OrderOccasionalParkingController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workerGui.controllers.UpdateRatesRequestController">
 	<children>
-		<Button fx:id="orderBTN" layoutX="174.0" layoutY="235.0" mnemonicParsing="false" onAction="#orderOccasionalParking" text="Order" />
+		<Button fx:id="orderBTN" layoutX="174.0" layoutY="235.0" onAction="#orderOccasionalParking" text="Order" />
 		<NumberTextField fx:id="CustomerIdField" layoutX="174.0" layoutY="64.0" />
 		<LicencePlateTextField fx:id="CarIdField" layoutX="174.0" layoutY="101.0" />
 		<TextField fx:id="EmailField" layoutX="174.0" layoutY="175.0" />

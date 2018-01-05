@@ -20,10 +20,19 @@ public class UriDictionary {
 		public static final String LeaveParkingLotView = "../../kioskGui/views/LeaveParkingLotView.fxml";
 	}
 
+	// Worker GUI resources
+	public class WorkerGui {
+		public static final String Shell = "../../WorkerGui/views/WorkerGuiShell.fxml";
+		public static final String ClientView = "../../WorkerGui/views/WorkerGuiClientView.fxml";
+		public static final String SetOutOfOrderParkingSpaceView = "../../WorkerGui/views/SetOutOfOrderParkingSpaceView.fxml";
+		public static final String UpdateRatesRequestView = "../../WorkerGui/views/UpdateRatesRequestView.fxml";
+	}
+
 	// Regions used as placeholder for views
 	public class Regions {
 		public static final String webGuiMainViewRegion = "#webGuiMainViewRegion";
 		public static final String kisokMainViewRegion = "#kisokMainViewRegion";
+		public static final String workerMainViewRegion = "#workerMainViewRegion";
 		public static final String kisokBreadCrumb = "#breadCrumbBar";
 	}
 }
