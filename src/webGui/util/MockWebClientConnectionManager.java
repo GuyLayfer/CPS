@@ -1,10 +1,10 @@
 package webGui.util;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 import com.google.gson.Gson;
@@ -22,7 +22,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	final private static int DEFAULT_PORT = ServerPorts.WEB_CUSTOMER_PORT;
 	final private static String DEFAULT_HOST = "localhost";
 	final private Gson gson = new CpsGson().GetGson();
-	private List<ServerMessageHandler> listeners = new ArrayList<ServerMessageHandler>();
+	private List<ServerMessageHandler> listeners = new CopyOnWriteArrayList<ServerMessageHandler>();
 	private Map<CustomerRequestType, Function<String, Object>> responseConverterMap;
 	public static String alternativeHostAddress = null;
 
@@ -35,7 +35,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	public static MockWebClientConnectionManager getInstance() {
 		if (instance == null) {
 			try {
-				MockWebClientConnectionManager instance = new MockWebClientConnectionManager(alternativeHostAddress);
+				instance = new MockWebClientConnectionManager(alternativeHostAddress);
 				return instance;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -54,7 +54,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		try {
 			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
-			notifyListeners("Could not send message to server.  Terminating client.");
+			System.out.println("Could not send message to server.\n" + e.getMessage() +  "\nTerminating client.");
 			quit();
 		}
 	}

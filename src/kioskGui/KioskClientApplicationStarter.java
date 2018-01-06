@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class KioskClientApplicationStarter extends Application{
 	public static void main(String[] args) {

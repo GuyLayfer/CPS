@@ -11,6 +11,7 @@ public enum CustomerRequestType {
 	OPEN_COMPLAINT,
 	// relevant only for kiosk clients
 	OCCASIONAL_PARKING,
-	ENTER_PARKING,
+	ENTER_PARKING_PRE_ORDERED,
+	ENTER_PARKING_SUBSCRIBER,
 	EXIT_PARKING,
 }
