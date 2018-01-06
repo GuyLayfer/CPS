@@ -26,12 +26,12 @@ public class EntranceController extends KioskClientController {
 	@FXML
 	void PreOrderedParkingLogin(ActionEvent event) {
 		Scene scene = PreOrderedParkingLoginBTN.getScene();
-		NavigateTo("Pre Ordered Parking Login", scene, UriDictionary.Kiosk.PreOrderedParkingLoginView);
+		NavigateTo("Pre Ordered Parking Entrance", scene, UriDictionary.Kiosk.PreOrderedParkingLoginView);
 	}
 
 	@FXML
 	void subscriptionsLogin(ActionEvent event) {
 		Scene scene = subscriptionsLoginBTN.getScene();
-		NavigateTo("Subscriber Login", scene, UriDictionary.Kiosk.SubscriptionsLoginView);
+		NavigateTo("Subscriber Entrance", scene, UriDictionary.Kiosk.SubscriptionsLoginView);
 	}
 }

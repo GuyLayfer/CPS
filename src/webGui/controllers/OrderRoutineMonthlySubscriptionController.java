@@ -97,8 +97,12 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 	@FXML
 	public void CreateSubscription(ActionEvent event) {
 		// TODO: change liscencePlateTF to String when Raz changes it in the DB
-		model.SendOrderRoutineMonthlySubscriptionRequestToServer(Integer.parseInt(customerIDTF.getText()), carsLiscencePlates, emailTF.getText(),
-				Integer.parseInt(parkingLotIDTF.getText()), java.sql.Date.valueOf(startingDateTF.getValue()), routineDepartureTimeTF.getValue());
+		model.SendOrderRoutineMonthlySubscriptionRequestToServer(
+				customerIDTF.getNumber(),
+				carsLiscencePlates, emailTF.getText(),
+				parkingLotIDTF.getNumber(),
+				java.sql.Date.valueOf(startingDateTF.getValue()),
+				routineDepartureTimeTF.getValue());
 	}
 
 	@FXML

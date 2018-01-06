@@ -40,7 +40,7 @@ public class CancelOrderController implements ServerMessageHandler {
 
 	@FXML
 	void cancelOrder(ActionEvent event) {
-		model.SendCancelRequestToServer(Integer.parseInt(orderIDTF.getText()));
+		model.SendCancelRequestToServer(orderIDTF.getNumber());
 	}
 
 	@Override

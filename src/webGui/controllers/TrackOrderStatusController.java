@@ -36,7 +36,7 @@ public class TrackOrderStatusController implements ServerMessageHandler{
 
     @FXML
     void TrackOrderStatus(ActionEvent event) {
-    	model.SendTrackOrderStatusRequestToServer(Integer.parseInt(orderIDTF.getText()));
+    	model.SendTrackOrderStatusRequestToServer(orderIDTF.getNumber());
 
     }
     

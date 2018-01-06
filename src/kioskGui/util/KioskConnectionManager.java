@@ -37,7 +37,7 @@ public class KioskConnectionManager extends AbstractClient {
 	public static KioskConnectionManager getInstance() {
 		if (instance == null) {
 			try {
-				KioskConnectionManager instance = new KioskConnectionManager(alternativeHostAddress);
+				instance = new KioskConnectionManager(alternativeHostAddress);
 				return instance;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -56,7 +56,7 @@ public class KioskConnectionManager extends AbstractClient {
 		try {
 			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
-			notifyListeners("Could not send message to server.  Terminating client.");
+			System.out.println("Could not send message to server.\n" + e.getMessage() +  "\nTerminating client.");
 			quit();
 		}
 	}
