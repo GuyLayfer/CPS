@@ -1,4 +1,4 @@
-package server.db.dbAPI;
+package server.db.dbAPI; 
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,19 +9,36 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-
 import server.db.DBConnection;
-import server.db.DBConstants;
 import server.db.DBConnection.sqlTypeKind;
+import server.db.DBConstants;
 import server.db.DBConstants.parkingMap;
 import server.db.queries.ParkingMapQueries;
 import server.db.queries.RegularQueries;
 import server.db.queries.ReportsQueries;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RegularDBAPI.
+ */
 public class RegularDBAPI extends DBAPI{
 
 
-	public static int insertParkingReservaion(String carId, int accountId,/* int entranceId,*/ int lotId, Date predictionArrive,
+	/**
+	 * Insert parking reservation.
+	 *
+	 * @param carId the car id
+	 * @param accountId the account id
+	 * @param lotId the lot id
+	 * @param predictionArrive the prediction arrive
+	 * @param predictionLeave the prediction leave
+	 * @param timeArrive the time arrive
+	 * @param timeLeave the time leave
+	 * @param orderType the order type
+	 * @return the int
+	 * @throws SQLException the SQL exception
+	 */
+	public static int insertParkingReservation(String carId, int accountId,/* int entranceId,*/ int lotId, Date predictionArrive,
 			Date predictionLeave, Date timeArrive, Date timeLeave,
 			/*DBConnection.orderType*/DBConstants.orderType orderType/*order, occasional entrance, etc*/) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
@@ -68,6 +85,14 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
+	/**
+	 * Gets the subscription id by car id.
+	 *
+	 * @param subscription_id the subscription id
+	 * @param resultList the result list
+	 * @return the subscription id by car id
+	 * @throws SQLException the SQL exception
+	 */
 	public static void getSubscriptionIdByCarId(int subscription_id, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		/*return if customer has subscription*/	
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
@@ -78,11 +103,33 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
+	/**
+	 * Insert new order.
+	 *
+	 * @param accountId the account id
+	 * @param carId the car id
+	 * @param lotId the lot id
+	 * @param predictionArrive the prediction arrive
+	 * @param predictionLeave the prediction leave
+	 * @param timeArrive the time arrive
+	 * @param timeLeave the time leave
+	 * @return the int
+	 * @throws SQLException the SQL exception
+	 */
 	public static int insertNewOrder(/*int entranceId,*/ int accountId, String carId, int lotId, Date predictionArrive, Date predictionLeave, Date timeArrive, Date timeLeave)
 			throws SQLException {
-		return insertParkingReservaion(carId, accountId,/* entranceId,*/ lotId, predictionArrive, predictionLeave, timeArrive, timeLeave, DBConstants.orderType.ORDER);
+		return insertParkingReservation(carId, accountId,/* entranceId,*/ lotId, predictionArrive, predictionLeave, timeArrive, timeLeave, DBConstants.orderType.ORDER);
 	}
 
+	/**
+	 * Select order status.
+	 *
+	 *select all details of the reservation (includes: one time order, regular order and any other kind that is inside the parking right now).
+	 *
+	 * @param entranceId the entrance id
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public static void selectOrderStatus(int entranceId, ArrayList<Map<String, Object>> resultList)
 			throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
@@ -92,6 +139,13 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.selectSql(RegularQueries.track_order, paramsValues, paramTypes, resultList);
 	}
 
+	/**
+	 * Select account details.
+	 *
+	 * @param accountId the account id
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public static void selectAccountDetails(int accountId, ArrayList<Map<String, Object>> resultList)
 			throws SQLException {
 		Queue<Object> q = new LinkedList<Object>(); // push all params to q. in order of SQL
@@ -102,6 +156,17 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
+	/**
+	 * Insert new account.
+	 *
+	 * create a new account in the db
+	 *
+	 * @param accountId the account id
+	 * @param email the email
+	 * @param carId the car id
+	 * @param hasSubscription the has subscription
+	 * @throws SQLException the SQL exception
+	 */
 	public static void insertNewAccount(int accountId, String email, String carId, DBConstants.trueFalse hasSubscription)
 			throws SQLException {
 		double balance = 0;
@@ -121,6 +186,15 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
+	/**
+	 * Select customer account details.
+	 *
+	 * selects all customer account details.
+	 *
+	 * @param customerId the customer id
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public static void selectCustomerAccountDetails(int customerId, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
@@ -130,6 +204,16 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
+	/**
+	 * Car left parking.
+	 * 
+	 * updates in logs table the leaving time.
+	 * deletes from the table of current cars in parking.
+	 *
+	 * @param entranceId the entrance id
+	 * @param timeLeft the time left
+	 * @throws SQLException the SQL exception
+	 */
 	public static void carLeftParking(int entranceId, Date timeLeft) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
@@ -143,7 +227,15 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.updateSql(RegularQueries.delete_entrance_from_car_planed_being_in_parking, paramsValues, paramTypes);
 	}
 
-	public static void getComplainDetails(int complainId, ArrayList<Map<String, Object>> resultList) throws SQLException {
+	/**
+	 * Selects the complaint details.
+	 * selects all the complaingId details.
+	 * @param complainId the complain id
+	 * @param resultList the result list
+	 * @return the complain details
+	 * @throws SQLException the SQL exception
+	 */
+	public static void selectComplaintDetails(int complainId, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(complainId);
@@ -152,6 +244,13 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
+	/**
+	 * Update customer balance.
+	 *
+	 * @param customerId the customer id
+	 * @param valueInCashToAdd the value in cash to add
+	 * @throws SQLException the SQL exception
+	 */
 	public static void updateCustomerBalance(int customerId, double valueInCashToAdd) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
@@ -162,6 +261,17 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.updateSql(RegularQueries.update_customer_balance, paramsValues, paramTypes);
 	}
 
+	/**
+	 * Cancel order.
+	 * 
+ 	 * updates in logs table the leaving time.
+	 * deletes from the table of current cars in parking.
+	 * TODO: for now it also updates in the daily stats the canceled orders for today. maybe delete it, and do it once in a week.
+	 * 
+	 * @param entrance_id the entrance id
+	 * @param valueInCashToAddReduce the value in cash to add reduce
+	 * @throws SQLException the SQL exception
+	 */
 	public static void cancelOrder(int entrance_id, double valueInCashToAddReduce) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
@@ -183,6 +293,15 @@ public class RegularDBAPI extends DBAPI{
 		updateCustomerBalance(customerId, valueInCashToAddReduce);
 	}
 
+	
+//	TODO: still need to check if it is possible to create the array inside the function. for now, the user should create an array with the appropriate size.
+	/**
+	 * Select parking map by lot id.
+	 *
+	 * @param lotId the lot id
+	 * @param parkingMapArr the parking map array - called with empty array. returned with a full one.
+	 * @throws SQLException the SQL exception
+	 */
 	public static void selectParkingMapByLotId(int lotId, parkingMap [] parkingMapArr) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
@@ -200,6 +319,13 @@ public class RegularDBAPI extends DBAPI{
 		}
 	}
 
+	/**
+	 * Insert parking map of lot id.
+	 *
+	 * @param lotId the lot id
+	 * @param parkingMapArr the parking map arr
+	 * @throws SQLException the SQL exception
+	 */
 	public static void insertParkingMapOfLotId(int lotId, DBConstants.parkingMap [] parkingMapArr) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
@@ -212,6 +338,12 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.updateSql(ParkingMapQueries.parkingMapInsertQueriesIdxByLotId[lotId-1], paramsValues, paramTypes);
 	}
 
+	/**
+	 * Delete parking map.
+	 *
+	 * @param lotId the lot id
+	 * @throws SQLException the SQL exception
+	 */
 	public static void deleteParkingMap(int lotId) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
