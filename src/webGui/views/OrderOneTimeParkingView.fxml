@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import core.guiUtilities.NumberTextField?>
-<?import tornadofx.control.DateTimePicker?>
+<?import tornadofx.control.*?>
 <?import core.guiUtilities.LicencePlateTextField?>
 
 <AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"

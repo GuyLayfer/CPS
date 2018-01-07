@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workerGui.controllers.WorkerGuiClientController">
+	<children>
+		<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Working!">
+			<font>
+				<Font name="System Bold" size="18.0" />
+			</font>
+			<VBox.margin>
+				<Insets left="10.0" top="20.0" />
+			</VBox.margin>
+		</Text>
+		<Text strokeType="OUTSIDE" strokeWidth="0.0" text="What do you want to do first?">
+			<font>
+				<Font size="16.0" />
+			</font>
+			<VBox.margin>
+				<Insets left="10.0" top="5.0" />
+			</VBox.margin>
+		</Text>
+		<Hyperlink fx:id="GoInitializeLink" onAction="#GoInitialize" text="Initialize your parking lot">
+			<font>
+				<Font size="18.0" />
+			</font>
+			<VBox.margin>
+				<Insets left="20.0" top="20.0" />
+			</VBox.margin>
+		</Hyperlink>
+		<Hyperlink fx:id="GoDisableParkingSpaceLink" onAction="#GoDisableParkingSpaceLot" text="Disable a parking space">
+			<font>
+				<Font size="18.0" />
+			</font>
+			<VBox.margin>
+				<Insets left="20.0" top="20.0" />
+			</VBox.margin>
+		</Hyperlink>
+		<Hyperlink fx:id="GoParkingLotFullLink" onAction="#GoParkingLotFull" text="Set Parking lot full">
+			<font>
+				<Font size="18.0" />
+			</font>
+			<VBox.margin>
+				<Insets left="20.0" top="20.0" />
+			</VBox.margin>
+		</Hyperlink>
+		<Hyperlink fx:id="GoReserveParkingSpaceLink" onAction="#GoReserveParkingSpace" text="Reserve parking space">
+			<font>
+				<Font size="18.0" />
+			</font>
+			<VBox.margin>
+				<Insets left="20.0" top="20.0" />
+			</VBox.margin>
+		</Hyperlink>
+	</children>
+</VBox>

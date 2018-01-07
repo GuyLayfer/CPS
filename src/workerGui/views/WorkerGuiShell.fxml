@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workerGui.controllers.WorkerGuiShellController">
+	<children>
+		<ToolBar prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+			<items>
+				<MenuBar prefHeight="25.0" style="-fx-background-color: transparent;">
+					<menus>
+						<Menu mnemonicParsing="false" text="Parking lot">
+							<items>
+								<MenuItem mnemonicParsing="false" onAction="#GoSetOutOfOrder" text="Disable Parking Space" />
+								<MenuItem mnemonicParsing="false" onAction="#InitializeParkingLot" text="Initialize Parking Lot" />
+								<MenuItem mnemonicParsing="false" onAction="#GoSetParkingLotIsFull" text="Set Parking Lot Full" />
+								<MenuItem mnemonicParsing="false" onAction="#GoReserveParkingSpace" text="Reserve Parking Space" />
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<MenuBar layoutX="88.0" style="-fx-background-color: transparent;">
+					<menus>
+						<Menu mnemonicParsing="false" text="Customer service">
+							<items>
+								<MenuItem mnemonicParsing="false" onAction="#GoCancelOrder" text="Cancel Customer Order" />
+								<MenuItem mnemonicParsing="false" onAction="#GoChargeAccount" text="Charge Customer Account" />
+								<MenuItem mnemonicParsing="false" onAction="#GoComplaintsPortal" text="Open Complaints Portal" />
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<MenuBar layoutX="210.0" style="-fx-background-color: transparent;">
+					<menus>
+						<Menu mnemonicParsing="false" text="Management">
+							<items>
+								<MenuItem mnemonicParsing="false" onAction="#GoUpdateRates" text="Request Parking Lot Rates Update" />
+								<MenuItem mnemonicParsing="false" onAction="#GoNewRatesRequests" text="Check New Rates Requests" />
+								<Menu mnemonicParsing="false" text="Reports">
+									<items>
+										<Menu mnemonicParsing="false" text="Quartly Reports">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Complains Report" />
+												<MenuItem mnemonicParsing="false" text="Out Of Order Parking Lots" />
+											</items>
+										</Menu>
+										<Menu mnemonicParsing="false" text="Statistical Reports">
+											<items>
+												<MenuItem mnemonicParsing="false" text="Current Lot Space Report " />
+												<MenuItem mnemonicParsing="false" text="Performence Report " />
+												<MenuItem mnemonicParsing="false" text="Operation Report " />
+											</items>
+										</Menu>
+									</items>
+								</Menu>
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<Pane mouseTransparent="true" HBox.hgrow="ALWAYS" />
+				<MenuBar mouseTransparent="true" prefHeight="25.0" prefWidth="33.0" style="-fx-background-color: transparent;">
+					<menus>
+						<Menu mnemonicParsing="false">
+							<graphic>
+								<Separator orientation="VERTICAL" prefHeight="25.0" prefWidth="18.0" />
+							</graphic>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<Button fx:id="LogoutButton" mnemonicParsing="false" onAction="#AskToLogout" style="-fx-background-color: transparent;" text="Logout"
+					AnchorPane.rightAnchor="0.0" />
+			</items>
+		</ToolBar>
+		<AnchorPane fx:id="workerMainViewRegion" />
+	</children>
+</VBox>
