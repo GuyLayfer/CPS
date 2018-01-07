@@ -2,7 +2,8 @@ package server;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import server.db.dbAPI.DBAPI;
+import server.db.dbAPI.*;
+import server.db.DBConstants;
 
 import com.google.gson.Gson;
 
@@ -24,7 +25,6 @@ import core.customer.TrackOrderResponseData;
 import db.SqlColumns;
 import db.SqlColumns.ParkingTonnage;
 
-
 public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = new CpsGson().GetGson();
 	protected IDsGenerator idsGenerator;
@@ -40,20 +40,19 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	}
 	
 	protected String orderOneTimeParking(CustomerRequest request) throws SQLException {
-		int entranceId = idsGenerator.nextEntranceID();
-		DBAPI.updateParkingReservaion(request.carID, request.customerID, entranceId, request.parkingLotID,
+		int entranceID = RegularDBAPI.insertParkingReservaion(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				server.db.dbAPI.orderType.ORDER.getId());
+				DBConstants.orderType.ONE_TIME);
 		//TODO: calculate order price and update the account balance
 		double price = 0.0;
-		DBAPI.createNewAccount(request.customerID, request.email, request.carID, price, false);
+		RegularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, DBConstants.trueFalse.FALSE);
 		//TODO: update parking lots info
-		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceId, price)));
+		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceID, price)));
 	}
 	
 	protected String trackOrderStatus(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		DBAPI.trackOrderStatus(request.orderID, resultList);
+		RegularDBAPI.selectOrderStatus(request.orderID, resultList);
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
