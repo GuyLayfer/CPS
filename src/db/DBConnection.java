@@ -16,17 +16,10 @@ import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetMetaData;
 
 
-
 public class DBConnection {
 
-
-
-	public enum sqlTypeKind {INT, VARCHAR, FLOAT, TIMESTAMP, DATE, DOUBLE;
-	
+	public enum sqlTypeKind {INT, VARCHAR, FLOAT, TIMESTAMP, DATE, DOUBLE, ENUM, TEXT;
 	};
-
-	enum parkingMap {FREE, PARKED, RESERVED, BROKEN, MAINTENENCE};
-
 
 	public static void preparePSParams(String stmt, PreparedStatement ps, 
 			Queue<Object> params, Queue<sqlTypeKind> types) throws SQLException {
@@ -34,6 +27,7 @@ public class DBConnection {
 		for (int i = 1; params != null && !params.isEmpty(); i++) {
 			Object curParam = params.remove();
 			sqlTypeKind curType = types.remove();
+
 			System.out.println(curParam);
 			System.out.println(curType);
 			switch(curType) {
@@ -48,35 +42,25 @@ public class DBConnection {
 				ps.setFloat(i, (Float) curParam);
 				break;
 			case TIMESTAMP:
-				//				Date d = (Date) curParam;
-
-
-				//			    java.util.Date utilDate = new java.util.Date();
-				//			    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-
-				java.util.Date CreatedDate = new Date();
 				Timestamp ts = new Timestamp(((Date)curParam).getTime());
-
-
 				String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(ts);
-
-				//			    System.out.println(date);
-
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				Date parsedDate;
 				try {
 					parsedDate = dateFormat.parse(date);
 					Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 					ps.setTimestamp(i, timestamp);
-
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				break;
 			case VARCHAR:
+			case TEXT:
 				ps.setString(i, (String) curParam);
+				break;
+			case DATE:
+				ps.setDate(i, (java.sql.Date) curParam);
 				break;
 			default:
 				break;
@@ -103,14 +87,10 @@ public class DBConnection {
 			Statement stmt;
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString);
-
 				preparePSParams(stmtString, ps, params, types);
-
 				ResultSet rs = ps.executeQuery();
 
-
 				Map<String, Object> row = null;
-
 				ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
 				Integer columnCount = metaData.getColumnCount();
 
@@ -121,8 +101,6 @@ public class DBConnection {
 					}
 					resultList.add(row);
 				}
-
-
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -138,10 +116,7 @@ public class DBConnection {
 		}
 	}
 
-
-
-
-	public static void updateSql(String stmtString, Queue<Object> params, Queue<sqlTypeKind> types) throws SQLException 
+	public static int updateSql(String stmtString, Queue<Object> params, Queue<sqlTypeKind> types) throws SQLException 
 	{
 		try 
 		{
@@ -154,12 +129,15 @@ public class DBConnection {
 							"short_tailed_bat","9(QxN\"&c7.52(jTS");
 			System.out.println("SQL connection succeed");
 			try {
-				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString);
-
+				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString, Statement.RETURN_GENERATED_KEYS);
 				preparePSParams(stmtString, ps, params, types);
-
-
 				ps.executeUpdate();
+
+				//TODO: if decide to use auto increment, use this
+				ResultSet rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					return rs.getInt(1);
+				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -171,7 +149,8 @@ public class DBConnection {
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 			throw ex;
-		}	
+		}
+		return 0;	
 	}
 
 

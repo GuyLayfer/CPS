@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="db/tests/|db/tests/DBAPITest.java" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
 	<classpathentry kind="lib" path="library/gson-2.8.2.jar"/>
 	<classpathentry kind="lib" path="library/OCSF/bin"/>
@@ -10,5 +14,7 @@
 	<classpathentry kind="lib" path="library/controlsfx-8.40.14.jar"/>
 	<classpathentry kind="lib" path="library/tornadofx-controls-1.0.6.jar"/>
 	<classpathentry kind="lib" path="library/jfoenix.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mizra/eclipse-workspace/CPS/src/db/junit-4.12.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
