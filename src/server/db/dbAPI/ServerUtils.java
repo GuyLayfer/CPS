@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import core.ParkingMap;
+import core.ParkingState;
 import server.db.DBConstants;
 
 // TODO: Auto-generated Javadoc
@@ -22,18 +25,19 @@ public class ServerUtils {
 	 * @param parkingMapAsArrList the parking map as arr list
 	 * @return the DB constants.parking map[]
 	 */
-	public static DBConstants.parkingMap [] dbParkingMapTo1DArray(ArrayList<Map<String, Object>> parkingMapAsArrList) {
+	public static ParkingMap [] dbParkingMapTo1DArray(ArrayList<Map<String, Object>> parkingMapAsArrList) {
 		
 //		int countRows = 0;
 //		int x = 0, y = 0, z = 0;
 		
 		int numberOfParkings = ((parkingMapAsArrList.get(0)).entrySet()).size();
-		DBConstants.parkingMap arr1d[] = new DBConstants.parkingMap[numberOfParkings];
+		ParkingMap arr1d[] = new ParkingMap[numberOfParkings];
 		Map<String, Object> parkingMapMap = parkingMapAsArrList.get(0);
 		for (int i = 1; i <= arr1d.length; i++) {
 			String currKey = "c" + i;
 			String currValueString = (String) parkingMapMap.get(currKey);
-			arr1d[i-1] = DBConstants.parkingMap.convertStringToParkingMapEnum(currValueString);
+			// TODO: check if this parking is parked or reserved and replace the null with the actual carId in these cases.
+			arr1d[i-1] = new ParkingMap(ParkingState.convertStringToParkingMapEnum(currValueString), null);
 		}
 		return arr1d;
 	}
@@ -45,7 +49,7 @@ public class ServerUtils {
 	 * @param parkingMap3D the parking map 3 D
 	 * @param parkingMap1D the parking map 1 D
 	 */
-	public static void dbParkingMapTo1DArray(DBConstants.parkingMap [][][] parkingMap3D, DBConstants.parkingMap [] parkingMap1D) {
+	public static void dbParkingMapTo1DArray(ParkingMap [][][] parkingMap3D, ParkingMap [] parkingMap1D) {
 		int oneDIndex = 0;
 		int x = parkingMap3D.length;
 		int y = parkingMap3D[1].length;

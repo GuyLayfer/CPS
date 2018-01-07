@@ -4,8 +4,9 @@ package server.db.dbAPI;
 
 import java.sql.SQLException;
 
+import core.ParkingMap;
+import core.ParkingState;
 import server.db.DBConstants;
-import server.db.DBConstants.parkingMap;
 
 public class MainDBAPI {
 
@@ -15,7 +16,7 @@ public class MainDBAPI {
 		
 		int lot1Size = 36;
 		int lotId = 1;
-		parkingMap[] parkingMapArrForSelectQuery = new parkingMap[lot1Size];
+		ParkingMap[] parkingMapArrForSelectQuery = new ParkingMap[lot1Size];
 		try {
 		RegularDBAPI.selectParkingMapByLotId(lotId, parkingMapArrForSelectQuery);
 	} catch (SQLException e) {
@@ -23,13 +24,13 @@ public class MainDBAPI {
 		e.printStackTrace();
 	}
 		for (int i = 0; i < parkingMapArrForSelectQuery.length; i++) {
-			System.out.println(parkingMapArrForSelectQuery[i]);
+			System.out.println(parkingMapArrForSelectQuery[i].parkingState);
 		}
 		
 		
-		parkingMap[] parkingMapArrForInsertQuery = new parkingMap[lot1Size];
+		ParkingMap[] parkingMapArrForInsertQuery = new ParkingMap[lot1Size];
 		for (int i = 0; i < parkingMapArrForInsertQuery.length; i++) {
-			parkingMapArrForInsertQuery[i] = DBConstants.parkingMap.FREE;
+			parkingMapArrForInsertQuery[i] = new ParkingMap(ParkingState.FREE, null);
 		}
 		try {
 			RegularDBAPI.deleteParkingMap(lotId);
