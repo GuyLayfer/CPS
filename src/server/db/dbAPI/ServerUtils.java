@@ -1,4 +1,4 @@
-package db.dbAPI;
+package server.db.dbAPI;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import db.DBConstants;
+
+import server.db.DBConstants;
 
 public class ServerUtils {
 

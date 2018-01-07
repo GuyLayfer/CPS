@@ -1,10 +1,11 @@
 /*This class is only to demonstrate implemantion of the DBAPI*/
 
-package db.dbAPI;
+package server.db.dbAPI;
 
 import java.sql.SQLException;
-import db.DBConstants;
-import db.DBConstants.parkingMap;
+
+import server.db.DBConstants;
+import server.db.DBConstants.parkingMap;
 
 public class MainDBAPI {
 
