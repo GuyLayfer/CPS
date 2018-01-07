@@ -1,4 +1,4 @@
-package db.dbAPI;
+package server.db.dbAPI; 
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,9 +7,9 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import db.DBConnection;
-import db.queries.RegularQueries;
-import db.queries.ReportsQueries;
+import server.db.DBConnection;
+import server.db.queries.RegularQueries;
+import server.db.queries.ReportsQueries;
 
 // TODO: Auto-generated Javadoc
 /**

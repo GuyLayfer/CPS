@@ -1,4 +1,4 @@
-package db.dbAPI;
+package server.db.dbAPI;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,9 +7,9 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import db.DBConnection;
-import db.DBConnection.sqlTypeKind;
-import db.queries.SubscriptionsQueries;
+import server.db.DBConnection;
+import server.db.DBConnection.sqlTypeKind;
+import server.db.queries.SubscriptionsQueries;
 
 // TODO: Auto-generated Javadoc
 /**

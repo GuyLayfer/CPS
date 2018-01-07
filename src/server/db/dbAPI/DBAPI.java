@@ -1,10 +1,10 @@
-package db.dbAPI;
+package server.db.dbAPI;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import db.DBConnection;
+import server.db.DBConnection;
 
 // TODO: Auto-generated Javadoc
 /**

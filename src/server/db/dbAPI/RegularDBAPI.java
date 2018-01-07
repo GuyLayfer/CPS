@@ -1,4 +1,4 @@
-package db.dbAPI;
+package server.db.dbAPI; 
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,13 +9,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import db.DBConnection;
-import db.DBConnection.sqlTypeKind;
-import db.DBConstants;
-import db.DBConstants.parkingMap;
-import db.queries.ParkingMapQueries;
-import db.queries.RegularQueries;
-import db.queries.ReportsQueries;
+import server.db.DBConnection;
+import server.db.DBConnection.sqlTypeKind;
+import server.db.DBConstants;
+import server.db.DBConstants.parkingMap;
+import server.db.queries.ParkingMapQueries;
+import server.db.queries.RegularQueries;
+import server.db.queries.ReportsQueries;
 
 // TODO: Auto-generated Javadoc
 /**
