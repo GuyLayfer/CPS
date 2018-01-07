@@ -1,7 +1,7 @@
-package db.queries;
+package server.db.queries;
 
-import db.DBConstants.sqlColumns;
-import db.DBConstants.sqlTables;
+import server.db.DBConstants.sqlColumns;
+import server.db.DBConstants.sqlTables;
 
 public class WorkersQueries {
 

@@ -1,4 +1,4 @@
-package db.queries;
+package server.db.queries;
 
 public class FirstDBInitializationQueries {
 

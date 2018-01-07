@@ -2,6 +2,7 @@ package server;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import server.db.dbAPI.DBAPI;
 
 import com.google.gson.Gson;
 
@@ -20,7 +21,6 @@ import core.customer.CustomerRequest;
 import core.customer.CustomerRequestType;
 import core.customer.CustomerResponse;
 import core.customer.TrackOrderResponseData;
-import db.DBAPI;
 import db.SqlColumns;
 import db.SqlColumns.ParkingTonnage;
 
@@ -43,7 +43,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		int entranceId = idsGenerator.nextEntranceID();
 		DBAPI.updateParkingReservaion(request.carID, request.customerID, entranceId, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				DBAPI.orderType.ORDER.getId());
+				server.db.dbAPI.orderType.ORDER.getId());
 		//TODO: calculate order price and update the account balance
 		double price = 0.0;
 		DBAPI.createNewAccount(request.customerID, request.email, request.carID, price, false);
