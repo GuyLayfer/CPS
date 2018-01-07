@@ -102,7 +102,7 @@ class DBAPITest {
 		Date timeLeave = new Date(0);
 		try {
 			resultList.clear();
-			entranceId = RegularDBAPI.insertParkingReservaion(carId , accountId,
+			entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
 					lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -188,7 +188,7 @@ class DBAPITest {
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = RegularDBAPI.insertParkingReservaion(carId , accountId,
+		entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
 														lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);	
 		RegularDBAPI.carLeftParking(entranceId, timeLeave);
 
@@ -219,7 +219,7 @@ class DBAPITest {
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = RegularDBAPI.insertParkingReservaion(carId , accountId,
+		entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
 				lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);	
 		RegularDBAPI.selectOrderStatus(entranceId, resultList);
 
