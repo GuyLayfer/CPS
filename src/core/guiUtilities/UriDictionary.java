@@ -12,6 +12,8 @@ public class UriDictionary {
 	// Kiosk GUI resources
 	public class Kiosk {
 		public static final String Shell = "../../kioskGui/views/KioskGuiShell.fxml";
+		public static final String OuterShell = "../../kioskGui/views/KioskOuterShell.fxml";
+		public static final String KioskStartPageView = "../../kioskGui/views/KioskStartPageView.fxml";
 		public static final String ClientView = "../../kioskGui/views/KioskClientView.fxml";
 		public static final String EntranceView = "../../kioskGui/views/EntranceView.fxml";
 		public static final String OrderOccasionalParkingView = "../../kioskGui/views/OrderOccasionalParkingView.fxml";
@@ -33,6 +35,7 @@ public class UriDictionary {
 		public static final String webGuiMainViewRegion = "#webGuiMainViewRegion";
 		public static final String kisokMainViewRegion = "#kisokMainViewRegion";
 		public static final String workerMainViewRegion = "#workerMainViewRegion";
+		public static final String kisokOuterShellRegion = "#kisokOuterShellRegion";
 		public static final String kisokBreadCrumb = "#breadCrumbBar";
 	}
 }

@@ -23,7 +23,9 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 			switch (request.requestType) {
 			case OCCASIONAL_PARKING: // TODO: implement
 				client.sendToClient(createUnsupportedFeatureResponse(request.requestType));
-			case ENTER_PARKING: // TODO: implement
+			case ENTER_PARKING_PRE_ORDERED: // TODO: implement
+				client.sendToClient(createUnsupportedFeatureResponse(request.requestType));
+			case ENTER_PARKING_SUBSCRIBER: // TODO: implement
 				client.sendToClient(createUnsupportedFeatureResponse(request.requestType));
 			case EXIT_PARKING: // TODO: implement
 				client.sendToClient(createUnsupportedFeatureResponse(request.requestType));

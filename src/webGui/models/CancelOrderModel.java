@@ -1,9 +1,9 @@
 package webGui.models;
 
 import core.customer.CustomerRequest;
+import core.guiUtilities.ServerMessageHandler;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
-import webGui.util.ServerMessageHandler;
 
 public class CancelOrderModel {
 	private MockWebClientConnectionManager connectionManager;

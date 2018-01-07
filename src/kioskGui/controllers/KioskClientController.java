@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.KioskGuiController;
+import webGui.util.MockWebClientConnectionManager;
 
 public class KioskClientController extends KioskGuiController{
 
@@ -26,8 +28,9 @@ public class KioskClientController extends KioskGuiController{
 
 	@FXML
 	void OpenWebGui(ActionEvent event) {
-//		TODO: Make it work with host IP
 		Scene scene = OrderParkingButton.getScene();
+		MockWebClientConnectionManager.alternativeHostAddress = KioskConnectionManager.getInstance().getHost();
+//		Should be the host address. If not change to the static alternativeHostAddress 
 		NavigateTo("Web Portal", scene, UriDictionary.WebGui.ClientView);
 	}
 

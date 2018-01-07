@@ -14,6 +14,7 @@ import com.jfoenix.controls.JFXTimePicker;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
+import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,7 +24,6 @@ import javafx.scene.control.TextField;
 import webGui.models.OrderRoutineMonthlySubscriptionModel;
 import webGui.util.LocalTimeConverter;
 import webGui.util.MultipleCarsDialog;
-import webGui.util.ServerMessageHandler;
 
 public class OrderRoutineMonthlySubscriptionController implements ServerMessageHandler {
 	private OrderRoutineMonthlySubscriptionModel model;
@@ -97,8 +97,12 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 	@FXML
 	public void CreateSubscription(ActionEvent event) {
 		// TODO: change liscencePlateTF to String when Raz changes it in the DB
-		model.SendOrderRoutineMonthlySubscriptionRequestToServer(Integer.parseInt(customerIDTF.getText()), carsLiscencePlates, emailTF.getText(),
-				Integer.parseInt(parkingLotIDTF.getText()), java.sql.Date.valueOf(startingDateTF.getValue()), routineDepartureTimeTF.getValue());
+		model.SendOrderRoutineMonthlySubscriptionRequestToServer(
+				customerIDTF.getNumber(),
+				carsLiscencePlates, emailTF.getText(),
+				parkingLotIDTF.getNumber(),
+				java.sql.Date.valueOf(startingDateTF.getValue()),
+				routineDepartureTimeTF.getValue());
 	}
 
 	@FXML

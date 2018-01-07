@@ -21,4 +21,8 @@ public class NumberTextField extends TextField {
 	private boolean validate(String text) {
 		return text.matches(CpsRegEx.OnlyIntegers);
 	}
+	
+	public Integer getNumber() {
+		return Integer.parseInt(this.getText());
+	}
 }

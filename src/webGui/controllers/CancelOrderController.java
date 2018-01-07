@@ -7,11 +7,11 @@ import org.controlsfx.validation.Validator;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
+import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import webGui.models.CancelOrderModel;
-import webGui.util.ServerMessageHandler;
 
 public class CancelOrderController implements ServerMessageHandler {
 	private CancelOrderModel model;
@@ -40,7 +40,7 @@ public class CancelOrderController implements ServerMessageHandler {
 
 	@FXML
 	void cancelOrder(ActionEvent event) {
-		model.SendCancelRequestToServer(Integer.parseInt(orderIDTF.getText()));
+		model.SendCancelRequestToServer(orderIDTF.getNumber());
 	}
 
 	@Override

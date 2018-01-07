@@ -1,41 +1,43 @@
-package webGui.util;
+package kioskGui.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 import com.google.gson.Gson;
 
-import core.*;
+import core.CpsGson;
+import core.ResponseStatus;
+import core.ServerPorts;
 import core.customer.CustomerRequest;
 import core.customer.CustomerRequestType;
 import core.customer.CustomerResponse;
-import core.customer.TrackOrderResponseData;
 import core.guiUtilities.ServerMessageHandler;
 import ocsf.client.AbstractClient;
 
-public class MockWebClientConnectionManager extends AbstractClient {
-	private static MockWebClientConnectionManager instance;
-	final private static int DEFAULT_PORT = ServerPorts.WEB_CUSTOMER_PORT;
+public class KioskConnectionManager extends AbstractClient {
+
+	private static KioskConnectionManager instance;
+	final private static int DEFAULT_PORT = ServerPorts.KIOSK_PORT;
 	final private static String DEFAULT_HOST = "localhost";
 	final private Gson gson = new CpsGson().GetGson();
-	private List<ServerMessageHandler> listeners = new CopyOnWriteArrayList<ServerMessageHandler>();
+	private List<ServerMessageHandler> listeners = new ArrayList<ServerMessageHandler>();
 	private Map<CustomerRequestType, Function<String, Object>> responseConverterMap;
 	public static String alternativeHostAddress = null;
 
-	private MockWebClientConnectionManager(String hostAddress) throws IOException {
+	private KioskConnectionManager(String hostAddress) throws IOException {
 		super(hostAddress == null ? DEFAULT_HOST : hostAddress, DEFAULT_PORT);
 		openConnection();
 		responseConverterMap = CreateResponseConverterMap();
 	}
 
-	public static MockWebClientConnectionManager getInstance() {
+	public static KioskConnectionManager getInstance() {
 		if (instance == null) {
 			try {
-				instance = new MockWebClientConnectionManager(alternativeHostAddress);
+				instance = new KioskConnectionManager(alternativeHostAddress);
 				return instance;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -89,28 +91,30 @@ public class MockWebClientConnectionManager extends AbstractClient {
 
 	private Map<CustomerRequestType, Function<String, Object>> CreateResponseConverterMap() {
 		Map<CustomerRequestType, Function<String, Object>> converterMap = new HashMap<CustomerRequestType, Function<String, Object>>();
-		converterMap.put(CustomerRequestType.ORDER_ONE_TIME_PARKING, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.TRACK_ORDER_STATUS, (gsonString) -> {
-			return gson.fromJson((String) gsonString, TrackOrderResponseData.class);
-		});
-		converterMap.put(CustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.SUBSCRIPTION_RENEWAL, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.OPEN_COMPLAINT, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
+//		Add Relevant response converters
+//		converterMap.put(CustomerRequestType.ORDER_ONE_TIME_PARKING, (gsonString) -> {
+//			return gson.fromJson((String) gsonString, CustomerResponse.class);
+//		});
+//		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> {
+//			return gson.fromJson((String) gsonString, CustomerResponse.class);
+//		});
+//		converterMap.put(CustomerRequestType.TRACK_ORDER_STATUS, (gsonString) -> {
+//			return gson.fromJson((String) gsonString, TrackOrderResponseData.class);
+//		});
+//		converterMap.put(CustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION, (gsonString) -> {
+//			return gson.fromJson((String) gsonString, CustomerResponse.class);
+//		});
+//		converterMap.put(CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION, (gsonString) -> {
+//			return gson.fromJson((String) gsonString, CustomerResponse.class);
+//		});
+//		converterMap.put(CustomerRequestType.SUBSCRIPTION_RENEWAL, (gsonString) -> {
+//			return gson.fromJson((String) gsonString, CustomerResponse.class);
+//		});
+//		converterMap.put(CustomerRequestType.OPEN_COMPLAINT, (gsonString) -> {
+//			return gson.fromJson((String) gsonString, CustomerResponse.class);
+//		});
 
 		return converterMap;
 	};
+
 }
