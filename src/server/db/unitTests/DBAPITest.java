@@ -1,4 +1,4 @@
-package server.db.unitTests;
+package db.test;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import server.db.DBConstants;
-import server.db.dbAPI.DBAPI;
-import server.db.dbAPI.RegularDBAPI;
-import server.db.dbAPI.ReportsDBAPI;
-import server.db.queries.ReportsQueries;
+import db.DBConstants;
+import db.dbAPI.DBAPI;
+import db.dbAPI.RegularDBAPI;
+import db.dbAPI.ReportsDBAPI;
+import db.queries.ReportsQueries;
 
 class DBAPITest {
 
@@ -102,7 +102,7 @@ class DBAPITest {
 		Date timeLeave = new Date(0);
 		try {
 			resultList.clear();
-			entranceId = RegularDBAPI.insertParkingReservaion(carId , accountId,
+			entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
 					lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -188,7 +188,7 @@ class DBAPITest {
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = RegularDBAPI.insertParkingReservaion(carId , accountId,
+		entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
 														lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);	
 		RegularDBAPI.carLeftParking(entranceId, timeLeave);
 
@@ -219,7 +219,7 @@ class DBAPITest {
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = RegularDBAPI.insertParkingReservaion(carId , accountId,
+		entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
 				lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);	
 		RegularDBAPI.selectOrderStatus(entranceId, resultList);
 

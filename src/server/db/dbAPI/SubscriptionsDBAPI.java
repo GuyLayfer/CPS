@@ -1,4 +1,4 @@
-package server.db.dbAPI;
+package db.dbAPI;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,15 +7,26 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import server.db.DBConnection;
-import server.db.DBConnection.sqlTypeKind;
-import server.db.queries.SubscriptionsQueries;
+import db.DBConnection;
+import db.DBConnection.sqlTypeKind;
+import db.queries.SubscriptionsQueries;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SubscriptionsDBAPI.
+ */
 public class SubscriptionsDBAPI extends DBAPI{
 
 	
-
-	public static void acvivateSubscriptionBeforeExpired(int subscriptionId, Date newExpiredDate, ArrayList<Map<String, Object>> resultList) throws SQLException {
+// 	TODO: test
+	/**
+	 * Update subscription expired date.
+	 *
+	 * @param subscriptionId the subscription id
+	 * @param newExpiredDate the new expired date
+	 * @throws SQLException the SQL exception
+	 */
+	public static void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
@@ -41,7 +52,16 @@ public class SubscriptionsDBAPI extends DBAPI{
 //		DBConnection.updateSql(QueriesSubscriptions.update_expired_date, params, paramTypes);
 //	}
 	
-	public static void selectSubscriptionDetails (int subscriptionId, ArrayList<Map<String, Object>> rs) throws SQLException {
+	
+//	TODO: test
+	/**
+ * Select subscription details.
+ *
+ * @param subscriptionId the subscription id
+ * @param rs the arrayList contains the details of this subscriptionId.
+ * @throws SQLException the SQL exception
+ */
+public static void selectSubscriptionDetails (int subscriptionId, ArrayList<Map<String, Object>> rs) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
