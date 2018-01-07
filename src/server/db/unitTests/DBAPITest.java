@@ -1,4 +1,4 @@
-package db.test;
+package server.db.unitTests;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import db.DBConstants;
-import db.dbAPI.DBAPI;
-import db.dbAPI.RegularDBAPI;
-import db.dbAPI.ReportsDBAPI;
-import db.queries.ReportsQueries;
+import server.db.DBConstants;
+import server.db.dbAPI.DBAPI;
+import server.db.dbAPI.RegularDBAPI;
+import server.db.dbAPI.ReportsDBAPI;
+import server.db.queries.ReportsQueries;
 
 class DBAPITest {
 

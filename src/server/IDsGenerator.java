@@ -2,7 +2,7 @@ package server;
 
 import java.sql.SQLException;
 
-import db.DBAPI;
+import server.db.dbAPI.DBAPI;
 
 // Singleton.
 // All the non-static methods must be synchronized, 

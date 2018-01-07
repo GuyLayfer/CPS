@@ -1,6 +1,6 @@
-package db;
+package server.db;
 
-import db.DBConnection.sqlTypeKind;
+import server.db.DBConnection.sqlTypeKind;
 
 // These constants must be the same as the column names in the DB 
 public class DBConstants {

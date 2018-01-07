@@ -1,6 +1,6 @@
-package db.queries;
-import db.DBConstants.sqlColumns;
-import db.DBConstants.sqlTables;
+package server.db.queries;
+import server.db.DBConstants.sqlColumns;
+import server.db.DBConstants.sqlTables;
 
 public class ReportsQueries {
 
