@@ -7,11 +7,13 @@ public class Rates {
 			double occasionalParkingRate,
 			double preOrderedParkingRate,
 			double routineMonthlySubscription,
+			double routineMonthlySubscriptionMultipleCars,
 			double fullMonthlySubscription) {
 		this.parkingLotId = parkingLotId;
 		this.occasionalParkingRate = occasionalParkingRate;
 		this.preOrderedParkingRate = preOrderedParkingRate;
 		this.routineMonthlySubscription = routineMonthlySubscription;
+		this.routineMonthlySubscriptionMultipleCars = routineMonthlySubscriptionMultipleCars;
 		this.fullMonthlySubscription = fullMonthlySubscription;
 	}
 
@@ -22,6 +24,8 @@ public class Rates {
 	public double preOrderedParkingRate;
 
 	public double routineMonthlySubscription;
+	
+	public double routineMonthlySubscriptionMultipleCars;
 
 	public double fullMonthlySubscription;
 }

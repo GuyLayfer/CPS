@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="workerGui.controllers.ParkingLotFullController">
+	<children>
+		<Text layoutX="100.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set or unset parking lot is full state">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Text>
+		<Text layoutX="25.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking Lot ID:" />
+		<ComboBox fx:id="ParkingLotId" layoutX="140.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
+		<Button fx:id="SetParkingLotIsFullButton" layoutX="30.0" layoutY="120.0" onAction="#SetParkingLotIsFull" text="Set parking lot is full">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
+		<Button fx:id="UnsetParkingLotIsFullButton" layoutX="200.0" layoutY="120.0" onAction="#UnsetParkingLotIsFull" text="Unset parking lot is full">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
+	</children>
+</AnchorPane>

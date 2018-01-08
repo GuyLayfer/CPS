@@ -37,17 +37,19 @@ public class ApproveRatesRequestsPortalController {
 		TableRowExpanderColumn<RatesUiElement> expanderColumn = new TableRowExpanderColumn<>(this::createEditor);
 		TableColumn<RatesUiElement, Integer> idColumn = new TableColumn<>("Parking Lot ID");
 		idColumn.setCellValueFactory(new PropertyValueFactory<>("parkingLotId"));
-		TableColumn<RatesUiElement, Double> occasionalColumn = new TableColumn<>("Occasional Parking Rate");
+		TableColumn<RatesUiElement, Double> occasionalColumn = new TableColumn<>("Occasional");
 		occasionalColumn.setCellValueFactory(new PropertyValueFactory<>("occasionalParkingRate"));
-		TableColumn<RatesUiElement, Double> preOrderedColumn = new TableColumn<>("Pre Ordered Parking Rate");
+		TableColumn<RatesUiElement, Double> preOrderedColumn = new TableColumn<>("Pre Ordered");
 		preOrderedColumn.setCellValueFactory(new PropertyValueFactory<>("preOrderedParkingRate"));
-		TableColumn<RatesUiElement, Double> routinelColumn = new TableColumn<>("Routine Monthly Subscription");
+		TableColumn<RatesUiElement, Double> routinelColumn = new TableColumn<>("Routine Subscription");
 		routinelColumn.setCellValueFactory(new PropertyValueFactory<>("routineMonthlySubscriptionRate"));
-		TableColumn<RatesUiElement, Double> fullMonthlyColumn = new TableColumn<>("Full Monthly Subscription");
+		TableColumn<RatesUiElement, Double> multipleroutinelColumn = new TableColumn<>("Multiple Cars Subscription");
+		multipleroutinelColumn.setCellValueFactory(new PropertyValueFactory<>("routineMonthlySubscriptionMultipleCarsRate"));
+		TableColumn<RatesUiElement, Double> fullMonthlyColumn = new TableColumn<>("Full Subscription");
 		fullMonthlyColumn.setCellValueFactory(new PropertyValueFactory<>("fullMonthlySubscriptionRate"));
 
 		RatesTable.setPlaceholder(new Label("No pending Rates Requests. Please come back later."));
-		RatesTable.getColumns().addAll(expanderColumn, idColumn, occasionalColumn, preOrderedColumn, routinelColumn, fullMonthlyColumn);
+		RatesTable.getColumns().addAll(expanderColumn, idColumn, occasionalColumn, preOrderedColumn, routinelColumn, multipleroutinelColumn, fullMonthlyColumn);
 		RatesTable.setItems(FXCollections.observableArrayList(getExample()));
 	}
 
@@ -71,37 +73,38 @@ public class ApproveRatesRequestsPortalController {
 		occasionalParkingRateField.setEditable(false);
 		TextField routineMonthlySubscriptionRateField = new TextField(Double.toString(rates.getRoutineMonthlySubscriptionRate()));
 		occasionalParkingRateField.setEditable(false);
+		TextField monthlyMultipleCarsSubscriptionRateField = new TextField(Double.toString(rates.getRoutineMonthlySubscriptionMultipleCarsRate()));
+		monthlyMultipleCarsSubscriptionRateField.setEditable(false);
 		TextField fullMonthlySubscriptionRateField = new TextField(Double.toString(rates.getFullMonthlySubscriptionRate()));
 		occasionalParkingRateField.setEditable(false);
 
 		editor.addRow(0, new Label("Parking Lot ID:"), parkingLotIdField);
 		editor.addRow(1, new Label("Occasional Parking Rate:"), occasionalParkingRateField);
 		editor.addRow(2, new Label("Pre Ordered Parking Rate:"), preOrderedParkingRateField);
-		editor.addRow(3, new Label("Routine Monthly Subscription:"), routineMonthlySubscriptionRateField);
-		editor.addRow(4, new Label("Full Monthly Subscription"), fullMonthlySubscriptionRateField);
+		editor.addRow(3, new Label("Routine Monthly Subscription Rate:"), routineMonthlySubscriptionRateField);
+		editor.addRow(4, new Label("Monthly Multiple Cars Subscription Rate:"), monthlyMultipleCarsSubscriptionRateField);
+		editor.addRow(5, new Label("Full Monthly Subscription Rate:"), fullMonthlySubscriptionRateField);
 
 		Button approveButton = new Button("Approve");
 		approveButton.setOnAction(event -> {
 			model.SendApproveRates(param.getValue());
-			RatesTable.getItems().remove(param.getValue());
+			RatesTable.getItems().remove(rates);
 		});
 
 		Button declineButton = new Button("Decline");
 		declineButton.setOnAction(event -> {
-			Object obj = rates;
-			System.out.println(obj);
 			model.SendDeclineRates(rates);
 			RatesTable.getItems().remove(rates);
 		});
 
-		editor.addRow(5, approveButton, declineButton);
-
+		editor.addRow(6, approveButton, declineButton);
 		return editor;
 	}
 
 	private ArrayList<RatesUiElement> getExample() {
 		ArrayList<RatesUiElement> list = new ArrayList<RatesUiElement>();
-		list.add(new RatesUiElement(new Rates(1, 5, 6, 20, 30)));
+		list.add(new RatesUiElement(new Rates(1, 5, 6, 20, 18, 30)));
+		list.add(new RatesUiElement(new Rates(2, 5, 6, 20, 18, 30)));
 		return list;
 	}
 }

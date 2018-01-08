@@ -9,6 +9,7 @@ public class RatesUiElement {
 	private SimpleDoubleProperty occasionalParkingRate = new SimpleDoubleProperty(this, "occasionalParkingRate");
 	private SimpleDoubleProperty preOrderedParkingRate = new SimpleDoubleProperty(this, "preOrderedParkingRate");
 	private SimpleDoubleProperty routineMonthlySubscriptionRate = new SimpleDoubleProperty(this, "routineMonthlySubscriptionRate");
+	private SimpleDoubleProperty routineMonthlySubscriptionMultipleCarsRate = new SimpleDoubleProperty(this, "routineMonthlySubscriptionMultipleCarsRate");
 	private SimpleDoubleProperty fullMonthlySubscriptionRate = new SimpleDoubleProperty(this, "fullMonthlySubscriptionRate");
 	private Rates rates;
 
@@ -17,6 +18,7 @@ public class RatesUiElement {
 		this.occasionalParkingRate.set(rates.occasionalParkingRate);
 		this.preOrderedParkingRate.set(rates.preOrderedParkingRate);
 		this.routineMonthlySubscriptionRate.set(rates.routineMonthlySubscription);
+		this.routineMonthlySubscriptionMultipleCarsRate.set(rates.routineMonthlySubscriptionMultipleCars);
 		this.fullMonthlySubscriptionRate.set(rates.fullMonthlySubscription);
 		this.rates = rates;
 	}
@@ -35,6 +37,10 @@ public class RatesUiElement {
 
 	public double getRoutineMonthlySubscriptionRate() {
 		return routineMonthlySubscriptionRate.get();
+	}
+	
+	public double getRoutineMonthlySubscriptionMultipleCarsRate() {
+		return routineMonthlySubscriptionMultipleCarsRate.get();
 	}
 
 	public double getFullMonthlySubscriptionRate() {
@@ -55,6 +61,10 @@ public class RatesUiElement {
 
 	public void setRoutineMonthlySubscriptionRate(double routineMonthlySubscriptionRate) {
 		this.routineMonthlySubscriptionRate.set(routineMonthlySubscriptionRate);
+	}
+	
+	public void setRoutineMonthlySubscriptionMultipleCarsRate(double routineMonthlySubscriptionMultipleCarsRate) {
+		this.routineMonthlySubscriptionMultipleCarsRate.set(routineMonthlySubscriptionMultipleCarsRate);
 	}
 
 	public void setFullMonthlySubscriptionRate(double fullMonthlySubscriptionRate) {

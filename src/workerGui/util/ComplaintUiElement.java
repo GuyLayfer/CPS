@@ -1,0 +1,65 @@
+package workerGui.util;
+
+import core.worker.Complaint;
+import javafx.beans.property.SimpleStringProperty;
+
+public class ComplaintUiElement {
+	private static final int displayLength = 100;
+	private SimpleStringProperty content = new SimpleStringProperty(this, "content");
+	private SimpleStringProperty briefContent = new SimpleStringProperty(this, "briefContent");
+	private SimpleStringProperty timeLeftToReply = new SimpleStringProperty(this, "timeLeftToReply");
+	private Complaint complaint;
+
+	public ComplaintUiElement(Complaint complaint) {
+		this.content.set(complaint.getContent());
+		this.timeLeftToReply.set(complaint.toString());
+		briefContent.set(getContent().subSequence(0, displayLength).toString());
+		this.complaint = complaint;
+	}
+
+	public Complaint getValue() {
+		return this.complaint;
+	}
+
+	public String getBriefContent() {
+		return briefContent.get();
+	}
+
+	public String getContent() {
+		return content.get();
+	}
+
+	public String getTimeLeftToReply() {
+		return timeLeftToReply.get();
+	}
+
+	public void setContent(String content) {
+		this.content.set(content);
+	}
+
+	public void setTimeLeftToReply(String timeLeftToReply) {
+		this.timeLeftToReply.set(timeLeftToReply);
+	}
+
+	@Override
+	public String toString() {
+		return getContent();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		ComplaintUiElement complaintElement = (ComplaintUiElement) o;
+
+		return content != null ? content.equals(complaintElement.content) : complaintElement.content == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return content != null ? content.hashCode() : 0;
+	}
+}

@@ -30,6 +30,11 @@ public class UriDictionary {
 		public static final String UpdateRatesRequestView = "../../workerGui/views/UpdateRatesRequestView.fxml";
 		public static final String ApproveRatesRequestsPortalView = "../../workerGui/views/ApproveRatesRequestsPortalView.fxml";
 		public static final String InitializeParkingLotView = "../../workerGui/views/InitializeParkingLotView.fxml";
+		public static final String AcquitOrChargeAccountView = "../../workerGui/views/AcquitOrChargeAccountView.fxml";
+		public static final String CancelCustomerOrderView = "../../workerGui/views/CancelCustomerOrderView.fxml";
+		public static final String ComplaintsPortalView = "../../workerGui/views/ComplaintsPortalView.fxml";
+		public static final String ParkingLotFullView = "../../workerGui/views/ParkingLotFullView.fxml";
+		public static final String ReserveParkingSpaceView = "../../workerGui/views/ReserveParkingSpaceView.fxml"; // Not implemented yet
 	}
 
 	// Regions used as placeholder for views

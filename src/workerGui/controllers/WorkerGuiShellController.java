@@ -49,27 +49,27 @@ public class WorkerGuiShellController extends WorkerGuiController {
 
 	@FXML
 	void GoSetParkingLotIsFull(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ParkingLotFullView);
 	}
 
 	@FXML
 	void GoReserveParkingSpace(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReserveParkingSpaceView);
 	}
 
 	@FXML
 	void GoCancelOrder(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.CancelCustomerOrderView);
 	}
 
 	@FXML
-	void GoChargeAccount(ActionEvent event) {
-
+	void GoAcquitOrChargeAccount(ActionEvent event) {
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.AcquitOrChargeAccountView);
 	}
 
 	@FXML
 	void GoComplaintsPortal(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ComplaintsPortalView);
 	}
 
 	@FXML
