@@ -10,8 +10,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import core.ParkingMap;
 import core.ParkingState;
+import core.ParkingStatus;
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
 import server.db.DBConstants;
@@ -304,7 +304,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @param parkingMapArr the parking map array - called with empty array. returned with a full one.
 	 * @throws SQLException the SQL exception
 	 */
-	public static void selectParkingMapByLotId(int lotId, ParkingMap [] parkingMapArr) throws SQLException {
+	public static void selectParkingMapByLotId(int lotId, ParkingState [] parkingMapArr) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(lotId);
@@ -317,7 +317,7 @@ public class RegularDBAPI extends DBAPI{
 			for (int i = 0; i < parkingMapArr.length; i++) {
 				String curIdx = "c"+(i+1);
 				// TODO: check if this parking is parked or reserved and replace the null with the actual carId in these cases.
-				parkingMapArr[i] = new ParkingMap(ParkingState.convertStringToParkingMapEnum((String)row.get(curIdx)), null);
+				parkingMapArr[i] = new ParkingState(ParkingStatus.convertStringToParkingMapEnum((String)row.get(curIdx)), null);
 			}
 		}
 	}
@@ -329,7 +329,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @param parkingMapArr the parking map arr
 	 * @throws SQLException the SQL exception
 	 */
-	public static void insertParkingMapOfLotId(int lotId, ParkingMap [] parkingMapArr) throws SQLException {
+	public static void insertParkingMapOfLotId(int lotId, ParkingState [] parkingMapArr) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(lotId);
