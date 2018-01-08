@@ -29,7 +29,7 @@ public class CustomerRequest {
 	// used in subscriptionRenewal
 	public int subscriptionID;
 	
-	public String Complaint;
+	public String complaint;
 	
 // Add more parameters if required
 }
