@@ -66,12 +66,15 @@ public class ReportsQueries {
 			" and " + sqlColumns.ARRIVE_TIME.getName() + " between ? and ?";
 
 	
+//	TODO: change the name of the query
 	public static final String select_counts_of_cars_of_one_subscription_grouped_by_subs_id = 
 			"SELECT " +
 			sqlColumns.SUBSCRIPTION_ID.getName() +
 			", count(" + sqlColumns.CAR_ID.getName() + ") " +
 			"FROM " + sqlTables.CARS.getName() +
-			" GROUP BY " + sqlColumns.SUBSCRIPTION_ID.getName();
+			" GROUP BY " + sqlColumns.SUBSCRIPTION_ID.getName() +
+			"having (count(" + sqlColumns.CAR_ID.getName() + ") >= 1)" ;
+			
 			
 	
 	

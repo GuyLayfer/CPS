@@ -111,6 +111,7 @@ public class ReportsDBAPI extends DBAPI{
 		
 	}	
 	
+//	TODO: change the name of the function
 	/**
 	 * Select number of cars of one subscription grouped by subscription id.
 	 *
