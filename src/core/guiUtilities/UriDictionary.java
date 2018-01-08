@@ -24,10 +24,12 @@ public class UriDictionary {
 
 	// Worker GUI resources
 	public class WorkerGui {
-		public static final String Shell = "../../WorkerGui/views/WorkerGuiShell.fxml";
-		public static final String ClientView = "../../WorkerGui/views/WorkerGuiClientView.fxml";
-		public static final String SetOutOfOrderParkingSpaceView = "../../WorkerGui/views/SetOutOfOrderParkingSpaceView.fxml";
-		public static final String UpdateRatesRequestView = "../../WorkerGui/views/UpdateRatesRequestView.fxml";
+		public static final String Shell = "../../workerGui/views/WorkerGuiShell.fxml";
+		public static final String ClientView = "../../workerGui/views/WorkerGuiClientView.fxml";
+		public static final String SetOutOfOrderParkingSpaceView = "../../workerGui/views/SetOutOfOrderParkingSpaceView.fxml";
+		public static final String UpdateRatesRequestView = "../../workerGui/views/UpdateRatesRequestView.fxml";
+		public static final String ApproveRatesRequestsPortalView = "../../workerGui/views/ApproveRatesRequestsPortalView.fxml";
+		public static final String InitializeParkingLotView = "../../workerGui/views/InitializeParkingLotView.fxml";
 	}
 
 	// Regions used as placeholder for views

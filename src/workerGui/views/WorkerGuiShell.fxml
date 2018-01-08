@@ -39,7 +39,7 @@
 						<Menu mnemonicParsing="false" text="Management">
 							<items>
 								<MenuItem mnemonicParsing="false" onAction="#GoUpdateRates" text="Request Parking Lot Rates Update" />
-								<MenuItem mnemonicParsing="false" onAction="#GoNewRatesRequests" text="Check New Rates Requests" />
+								<MenuItem mnemonicParsing="false" onAction="#GoRatesRequestsPortal" text="Check New Rates Requests" />
 								<Menu mnemonicParsing="false" text="Reports">
 									<items>
 										<Menu mnemonicParsing="false" text="Quartly Reports">

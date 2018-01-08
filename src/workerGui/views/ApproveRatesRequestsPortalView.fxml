@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import org.controlsfx.control.*?>
+<?import javafx.scene.control.TableView?>
+
+<GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="workerGui.controllers.ApproveRatesRequestsPortalController">
+	<columnConstraints>
+		<ColumnConstraints hgrow="ALWAYS" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints />
+		<RowConstraints vgrow="ALWAYS" />
+	</rowConstraints>
+	<children>
+		<AnchorPane>
+			<children>
+				<Text layoutX="50.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve or Decline Rates Requests" GridPane.columnIndex="0"
+					GridPane.rowIndex="0">
+					<font>
+						<Font name="System Bold" size="14.0" />
+					</font>
+				</Text>
+			</children>
+		</AnchorPane>
+		<GridPane fx:id="RatesRequests" GridPane.columnIndex="0" GridPane.rowIndex="1">
+			<columnConstraints>
+				<ColumnConstraints />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints />
+			</rowConstraints>
+			<children>
+				<TableView fx:id="RatesTable" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+					<GridPane.margin>
+						<Insets bottom="30.0" top="10.0" />
+					</GridPane.margin>
+				</TableView>
+			</children>
+		</GridPane>
+	</children>
+</GridPane>

@@ -39,13 +39,12 @@ public class WorkerGuiShellController extends WorkerGuiController {
 	@FXML
 	void AskToLogout(ActionEvent event) {
 		Alert logout = LogoutDialog.GetLogOotConfirmatio();
-
 		logout.showAndWait().filter(response -> response == ButtonType.YES).ifPresent(response -> LogoutFromSystem());
 	}
 
 	@FXML
 	void InitializeParkingLot(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.InitializeParkingLotView);
 	}
 
 	@FXML
@@ -74,8 +73,8 @@ public class WorkerGuiShellController extends WorkerGuiController {
 	}
 
 	@FXML
-	void GoNewRatesRequests(ActionEvent event) {
-
+	void GoRatesRequestsPortal(ActionEvent event) {
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ApproveRatesRequestsPortalView);
 	}
 
 	private void LogoutFromSystem() {
