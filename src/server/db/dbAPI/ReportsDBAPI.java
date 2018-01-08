@@ -110,7 +110,30 @@ public class ReportsDBAPI extends DBAPI{
 		DBConnection.selectSql(ReportsQueries.get_daily_stats_by_day_id, params, paramTypes, resultList);
 		
 	}	
+	
+	/**
+	 * Select number of cars of one subscription grouped by subscription id.
+	 *
+	 * @param resultList the result list contains: the number of cars owned by each subscription.
+	 * @throws SQLException the SQL exception
+	 */
+	public static void selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(ArrayList<Map<String, Object>> resultList) throws SQLException {
+		DBConnection.selectSql(ReportsQueries.select_counts_of_cars_of_one_subscription_grouped_by_subs_id, null, null, resultList);
+	}
 
+	
+	/**
+	 * Gets the number of subscriptions has more than one cars.
+	 *
+	 * @return the number of subscriptions has more than one car.
+	 * @throws SQLException the SQL exception
+	 */
+	public static int getNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
+		ArrayList<Map<String, Object>> rs = new ArrayList<Map<String, Object>>();
+		selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(rs);
+		return rs.size();
+	}
+	
 	
 	
 	

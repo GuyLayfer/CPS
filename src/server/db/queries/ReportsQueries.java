@@ -58,13 +58,29 @@ public class ReportsQueries {
 			"INSERT into " + sqlTables.DAILY_STATS.getName() +
 			" Values(?,?,?,?) "; 
 	
-	
+	//TODO: test the query
 	public static final String select_the_mean_of_entrances = 
 			"SELECT (mean(count(" + sqlColumns.ENTRANCE_ID.getName() + "))) " +
 			"  FROM " + sqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+
 			"  WHERE " + sqlColumns.ARRIVE_TIME.getName() + " < " + sqlColumns.LEAVE_TIME.getName()  + /*this guarantees the order filled and ended (car left)*/
 			" and " + sqlColumns.ARRIVE_TIME.getName() + " between ? and ?";
 
+	
+	public static final String select_counts_of_cars_of_one_subscription_grouped_by_subs_id = 
+			"SELECT " +
+			sqlColumns.SUBSCRIPTION_ID.getName() +
+			", count(" + sqlColumns.CAR_ID.getName() + ") " +
+			"FROM " + sqlTables.CARS.getName() +
+			" GROUP BY " + sqlColumns.SUBSCRIPTION_ID.getName();
+			
+	
+	
+	
+	
+	
+	
+	
+	
 	/*gives the count of lating reservations of the last day */
 //	SELECT count(entranceID)
 //	 FROM parking status log

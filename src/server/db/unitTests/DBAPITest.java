@@ -17,7 +17,7 @@ import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.ReportsDBAPI;
 import server.db.queries.ReportsQueries;
 
-class DBAPITest {
+public class DBAPITest {
 
 	private int entranceId;
 	private int lotId;
@@ -37,7 +37,7 @@ class DBAPITest {
 
 
 	@Before
-	void setUp() throws Exception {
+	public void setUp() throws Exception {
 		dateArrive =  new Date(System.currentTimeMillis());
 		calendarLeft = new GregorianCalendar();
 		resultList = new ArrayList<Map<String, Object>>();
@@ -56,9 +56,17 @@ class DBAPITest {
 	}
 
 
+	
+	@Test
+	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
+		int numberOfSubsHavingMoreThanOneCar = ReportsDBAPI.getNumberOfSubscriptionsHasMoreThanOneCar();
+		System.out.println(numberOfSubsHavingMoreThanOneCar);
+		
+		int i = 123;
+	}
 
 	@Test
-	void testGetAllOfReservationsBetween2Dates() throws SQLException {
+	public void testGetAllOfReservationsBetween2Dates() throws SQLException {
 		DBAPI.selectBetween2DatesQuery(ReportsQueries.select_all_reservations_between_2_dates, firstDate, secondDate, resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
@@ -71,7 +79,7 @@ class DBAPITest {
 	
 	
 	@Test
-	void testNumberOfReservationsOfLastWeekGroupedByOrder() throws SQLException {
+	public void testNumberOfReservationsOfLastWeekGroupedByOrder() throws SQLException {
 		ReportsDBAPI.getNumberOfReservationsOfLastWeekGroupedByOrder(resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
@@ -83,7 +91,7 @@ class DBAPITest {
 	
 	
 	@Test
-	void testGetNumberOfReservationsOfLastDay() throws SQLException {
+	public void testGetNumberOfReservationsOfLastDay() throws SQLException {
 		ReportsDBAPI.getNumberOfReservationsOfLastDay(resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
@@ -95,7 +103,7 @@ class DBAPITest {
 	
 	
 	@Test
-	void testCancelOrder()  {
+	public void testCancelOrder()  {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
@@ -183,7 +191,7 @@ class DBAPITest {
 
 
 	@Test
-	void testCarLeftParking() throws SQLException {
+	public void testCarLeftParking() throws SQLException {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
@@ -198,7 +206,7 @@ class DBAPITest {
 
 	}
 	@Test
-	void testCreateNewAccountAndGetCustomerAccountDetails() throws SQLException {
+	public void testCreateNewAccountAndGetCustomerAccountDetails() throws SQLException {
 
 		RegularDBAPI.insertNewAccount(accountId, email, carId, hasSubscription);
 		RegularDBAPI.selectAccountDetails(accountId, resultList);
@@ -214,7 +222,7 @@ class DBAPITest {
 
 	}	
 	@Test
-	void testInsertOrderAndTrackOrder() throws SQLException {
+	public void testInsertOrderAndTrackOrder() throws SQLException {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
