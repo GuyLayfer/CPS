@@ -15,7 +15,7 @@ public class OrderOneTimeParkingModel {
 		connectionManager.addServerMessageListener(controller);
 	}
 	
-	public void SendOrderOneTimeParkingRequestToServer(int customerID,int liscencePlate, String email, int parkingLotID, Date arrivalTime, 
+	public void SendOrderOneTimeParkingRequestToServer(int customerID, String liscencePlate, String email, int parkingLotID, Date arrivalTime, 
 			Date estimatedDepartureTime){
 		CustomerRequest request = CustomerRequestFactory.CreateOrderOneTimeParkingRequest(customerID, liscencePlate, email, parkingLotID, arrivalTime, 
 				 estimatedDepartureTime);

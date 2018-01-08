@@ -73,7 +73,7 @@ public class OrderFullMonthlySubscriptionController implements ServerMessageHand
 	public void OrderFullMonthlySubscription(ActionEvent event) {
 		model.SendFullMonthlySubcriptionRequestToServer(
 				customerIDTF.getNumber(),
-				Integer.parseInt(liscencePlateTF.getText()),
+				liscencePlateTF.getText(),
 				emailTF.getText(),
 				Date.from(startingDateTF.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()));
 	}
