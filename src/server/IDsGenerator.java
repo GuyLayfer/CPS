@@ -1,5 +1,5 @@
 package server;
-
+// TODO: delete this class
 import java.sql.SQLException;
 
 import server.db.dbAPI.DBAPI;
@@ -16,9 +16,11 @@ public class IDsGenerator {
 	private static IDsGenerator instance;
 	
 	private IDsGenerator() throws SQLException {
+		/*
 		this.entranceID = DBAPI.getLastEntranceID();
 		this.subscriptionID = DBAPI.getLastSubscriptionID();
 		this.complaintID = DBAPI.getLastComplaintID();
+		*/
 	}
 	
 	public static IDsGenerator getInstance() throws SQLException {
