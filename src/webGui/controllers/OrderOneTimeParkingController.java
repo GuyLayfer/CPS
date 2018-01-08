@@ -88,7 +88,7 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
     public void OrderOneTimeParking(ActionEvent event) {
     	model.SendOrderOneTimeParkingRequestToServer(
     			customerIDTF.getNumber(),
-    			Integer.parseInt(liscencePlateTF.getText()),
+    			liscencePlateTF.getText(),
     			emailTF.getText(),
     			parkingLotIDTF.getNumber(),
     			Date.from(arrivalTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()), 
