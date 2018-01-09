@@ -72,6 +72,22 @@ public class ReportsDBAPI extends DBAPI{
 		selectBetween2DatesQuery(ReportsQueries.select_count_reservations_between_2_dates_grouped_by_kind, yesterday, today, resultList);
 	}
 	
+
+	/**
+	 * Gets the number of reservations between two dates.
+	 *
+	 * @param earlyDate the early date
+	 * @param latterDate the latter date
+	 * @param resultList the result list
+	 * @return the number of reservations between 2 dates. each row is grouped by order_type
+	 * @throws SQLException the SQL exception
+	 */
+	//TODO: test this query
+	public static void getNumberOfReservationsBetween2Dates(java.sql.Date earlyDate, java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList) throws SQLException{
+		selectBetween2DatesQuery(ReportsQueries.select_count_reservations_between_2_dates_grouped_by_kind, earlyDate, latterDate, resultList);
+	}
+	
+	
 	/**
 	 * Gets the number of lating reservations of last day.
 	 *
@@ -89,6 +105,24 @@ public class ReportsDBAPI extends DBAPI{
 		selectBetween2DatesQuery(ReportsQueries.select_lating_reservations_between_2_dates, yesterday, today, resultList);//TODO: verify order yesterday today
 		DBConnection.selectSql(ReportsQueries.select_lating_reservations_between_2_dates, params, paramTypes, resultList);
 	}
+	
+	/**
+	 * get the number of lating reservations between 2 dates.
+	 *
+	 * @param earlyDate the early date
+	 * @param latterDate the latter date
+	 * @param resultList the result list
+	 * @return the number of lating reservations between 2 dates.
+	 * @throws SQLException the SQL exception
+	 */
+	public static void getNumberOfLatingReservationsBetween2Dates(java.sql.Date earlyDate, java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList) throws SQLException{
+		selectBetween2DatesQuery(ReportsQueries.select_lating_reservations_between_2_dates, earlyDate, latterDate, resultList);
+	}
+	
+	public static void getNumberOfCanceledReservationsBetween2Dates(java.sql.Date earlyDate, java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList) throws SQLException{
+		selectBetween2DatesQuery(ReportsQueries.select_canceled_reservations_between_2_dates, earlyDate, latterDate, resultList);
+	}
+	
 	
 	/**
 	 * Gets the daily stats of today.
@@ -111,29 +145,7 @@ public class ReportsDBAPI extends DBAPI{
 		
 	}	
 	
-//	TODO: change the name of the function
-	/**
-	 * Select number of cars of one subscription grouped by subscription id.
-	 *
-	 * @param resultList the result list contains: the number of cars owned by each subscription.
-	 * @throws SQLException the SQL exception
-	 */
-	public static void selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(ArrayList<Map<String, Object>> resultList) throws SQLException {
-		DBConnection.selectSql(ReportsQueries.select_counts_of_cars_of_one_subscription_grouped_by_subs_id, null, null, resultList);
-	}
 
-	
-	/**
-	 * Gets the number of subscriptions has more than one cars.
-	 *
-	 * @return the number of subscriptions has more than one car.
-	 * @throws SQLException the SQL exception
-	 */
-	public static int getNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
-		ArrayList<Map<String, Object>> rs = new ArrayList<Map<String, Object>>();
-		selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(rs);
-		return rs.size();
-	}
 	
 	
 	

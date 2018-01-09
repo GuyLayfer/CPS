@@ -16,26 +16,6 @@ import server.db.queries.WorkersQueries;
  */
 public class WorkersDBAPI extends DBAPI{
 	
-	//TODO: test
-	/**
-	 * Gets the permissions of role.
-	 *
-	 * @param role the role
-	 * @param resultList the result list
-	 * @return the permissions of role
-	 * @throws SQLException the SQL exception
-	 */
-	public static void getPermissionsOfRole(DBConstants.Role role, ArrayList<Map<String, Object>> resultList) throws SQLException {
-		
-		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
-		paramsValues.add(role.getName());
-		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
-		
-		DBConnection.selectSql(WorkersQueries.select_role_permissions, paramsValues, paramTypes, resultList);
-		
-	}
-	
 	
 	//TODO: fix this. also to change names. not tested yet.
 	/**

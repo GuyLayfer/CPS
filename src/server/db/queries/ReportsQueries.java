@@ -51,7 +51,14 @@ public class ReportsQueries {
 			"  FROM " + sqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName() +
 			"  WHERE (( " + sqlColumns.DAY_ID.getName() + " BETWEEN ? and ?) &&" +
 					 " ( " + sqlColumns.ARRIVE_PREDICTION.getName() + " < " + sqlColumns.ARRIVE_TIME.getName() +
-					 " || " + sqlColumns.ARRIVE_PREDICTION.getName() + " < " + sqlColumns.ARRIVE_TIME.getName() + "))";
+					 " || " + sqlColumns.LEAVE_PREDICTION.getName() + " > " + sqlColumns.LEAVE_TIME.getName() + "))";
+
+	public static final String select_canceled_reservations_between_2_dates = 
+			"SELECT count( " + sqlColumns.ENTRANCE_ID.getName() + ")" +
+			"  FROM " + sqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName() +
+			"  WHERE (( " + sqlColumns.ARRIVE_PREDICTION.getName() + " BETWEEN ? and ?) && (" +
+					 sqlColumns.ARRIVE_TIME.getName() + " IS NULL ))" ;
+	
 	
 	/*  day, filled_reservations, canceled_reservations, lating_per_park. might be done on initialization, with values of (0, 0, 0, 0)*/
 	public static final String insert_into_daily_stats_new_day =
@@ -71,9 +78,9 @@ public class ReportsQueries {
 			"SELECT " +
 			sqlColumns.SUBSCRIPTION_ID.getName() +
 			", count(" + sqlColumns.CAR_ID.getName() + ") " +
-			"FROM " + sqlTables.CARS.getName() +
+			" FROM " + sqlTables.CARS.getName() +
 			" GROUP BY " + sqlColumns.SUBSCRIPTION_ID.getName() +
-			"having (count(" + sqlColumns.CAR_ID.getName() + ") > 1)" ;
+			" having (count(" + sqlColumns.CAR_ID.getName() + ") > 1)" ;
 			
 			
 	

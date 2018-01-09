@@ -85,22 +85,7 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
-	/**
-	 * Gets the subscription id by car id.
-	 *
-	 * @param subscription_id the subscription id
-	 * @param resultList the result list
-	 * @return the subscription id by car id
-	 * @throws SQLException the SQL exception
-	 */
-	public static void getSubscriptionIdByCarId(int subscription_id, ArrayList<Map<String, Object>> resultList) throws SQLException {
-		/*return if customer has subscription*/	
-		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
-		paramsValues.add(subscription_id);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		DBConnection.selectSql(RegularQueries.select_subscriptioin_id_by_car_id, paramsValues, paramTypes, resultList);
-	}
+
 
 
 	/**
@@ -289,7 +274,6 @@ public class RegularDBAPI extends DBAPI{
 		paramsValues.add(today);
 		paramTypes.add(DBConnection.sqlTypeKind.DATE);
 
-		DBConnection.updateSql(ReportsQueries.add_canceled_reservation_daily, paramsValues, paramTypes);
 		updateCustomerBalance(customerId, valueInCashToAddReduce);
 	}
 

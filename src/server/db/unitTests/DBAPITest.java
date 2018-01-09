@@ -15,6 +15,7 @@ import server.db.DBConstants;
 import server.db.dbAPI.DBAPI;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.ReportsDBAPI;
+import server.db.dbAPI.SubscriptionsDBAPI;
 import server.db.queries.ReportsQueries;
 
 public class DBAPITest {
@@ -32,8 +33,8 @@ public class DBAPITest {
 	private Map<String, Object> curMap;
 	private double cash;
 	private Calendar firstDateCalendar;
-	private java.sql.Date firstDate;
-	private java.sql.Date secondDate;
+	private java.sql.Date laterDate;
+	private java.sql.Date earlierDate;
 
 
 	@Before
@@ -50,24 +51,44 @@ public class DBAPITest {
 		cash = 100;
 		entranceId = 5;
 		firstDateCalendar = new GregorianCalendar();
-		firstDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
-		firstDateCalendar.add(Calendar.DATE, -7); //get a week back
-		secondDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
+		laterDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
+		firstDateCalendar.add(Calendar.DATE, -9); //get a week back
+		earlierDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
 	}
 
 
 	
 	@Test
 	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
-		int numberOfSubsHavingMoreThanOneCar = ReportsDBAPI.getNumberOfSubscriptionsHasMoreThanOneCar();
+		int numberOfSubsHavingMoreThanOneCar = SubscriptionsDBAPI.getNumberOfSubscriptionsHasMoreThanOneCar();
 		System.out.println(numberOfSubsHavingMoreThanOneCar);
 		
 		int i = 123;
 	}
 
+	
+	
+	
+
+	@Test
+	public void testGetNumberOfCanceledReservationsBetween2Dates() throws SQLException {
+		DBAPI.selectBetween2DatesQuery(ReportsQueries.select_canceled_reservations_between_2_dates, earlierDate, laterDate, resultList);
+		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			for (Map.Entry<String, Object> column : row.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
+			}
+		}
+		int i = 123;
+	}
+	
+	
+	
+	
+	
 	@Test
 	public void testGetAllOfReservationsBetween2Dates() throws SQLException {
-		DBAPI.selectBetween2DatesQuery(ReportsQueries.select_all_reservations_between_2_dates, firstDate, secondDate, resultList);
+		DBAPI.selectBetween2DatesQuery(ReportsQueries.select_all_reservations_between_2_dates, laterDate, earlierDate, resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
@@ -130,16 +151,6 @@ public class DBAPITest {
 		curMap = resultList.get(0);
 		double oldBalance = (double) curMap.get(DBConstants.sqlColumns.BALANCE.getName());
 
-		try {
-			resultList.clear();
-			ReportsDBAPI.getDailyStatsOfToday(resultList);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("getDailyStatsOfToday");
-		}
-		curMap = resultList.get(0);
-		int oldCancelledReservations = (int) curMap.get(DBConstants.sqlColumns.CANCELED_ORDERS.getName()); 
 
 		try {
 			RegularDBAPI.cancelOrder(entranceId, cash);
@@ -172,19 +183,6 @@ public class DBAPITest {
 			System.out.println("trackOrderStatus");
 		}
 		Assert.assertTrue(resultList.isEmpty());
-
-		try {
-			resultList.clear();
-			ReportsDBAPI.getDailyStatsOfToday(resultList);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("getDailyStatsOfToday2");
-		}
-		curMap = resultList.get(0);
-		int newCanceledReservations = (int) curMap.get(DBConstants.sqlColumns.CANCELED_ORDERS.getName());
-		System.out.println("today canceled orders: " + newCanceledReservations);
-		Assert.assertTrue((oldCancelledReservations+1) == newCanceledReservations);
 
 
 	}
