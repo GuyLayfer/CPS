@@ -73,7 +73,7 @@ public class ReportsQueries {
 			", count(" + sqlColumns.CAR_ID.getName() + ") " +
 			"FROM " + sqlTables.CARS.getName() +
 			" GROUP BY " + sqlColumns.SUBSCRIPTION_ID.getName() +
-			"having (count(" + sqlColumns.CAR_ID.getName() + ") >= 1)" ;
+			"having (count(" + sqlColumns.CAR_ID.getName() + ") > 1)" ;
 			
 			
 	
