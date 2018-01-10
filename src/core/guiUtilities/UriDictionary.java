@@ -25,6 +25,8 @@ public class UriDictionary {
 	// Worker GUI resources
 	public class WorkerGui {
 		public static final String Shell = "../../workerGui/views/WorkerGuiShell.fxml";
+		public static final String OuterShell = "../../workerGui/views/WorkerOuterShell.fxml";
+		public static final String WorkerStartPageView = "../../workerGui/views/WorkerStartPageView.fxml";
 		public static final String ClientView = "../../workerGui/views/WorkerGuiClientView.fxml";
 		public static final String SetOutOfOrderParkingSpaceView = "../../workerGui/views/SetOutOfOrderParkingSpaceView.fxml";
 		public static final String UpdateRatesRequestView = "../../workerGui/views/UpdateRatesRequestView.fxml";
@@ -43,6 +45,7 @@ public class UriDictionary {
 		public static final String kisokMainViewRegion = "#kisokMainViewRegion";
 		public static final String workerMainViewRegion = "#workerMainViewRegion";
 		public static final String kisokOuterShellRegion = "#kisokOuterShellRegion";
+		public static final String workerOuterShellRegion = "#workerOuterShellRegion";
 		public static final String kisokBreadCrumb = "#breadCrumbBar";
 	}
 }
