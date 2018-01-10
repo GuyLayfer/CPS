@@ -35,7 +35,7 @@ public class OrderOccasionalParkingController implements ServerMessageHandler {
 	protected void initialize() {
 		orderBTN.disableProperty().bind(validation.invalidProperty());
 		validation.registerValidator(EmailField, Validator.createPredicateValidator((email) -> emailValidator.isValid((String) email), "Email is not valid"));
-		validation.registerValidator(CustomerIdField, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(CustomerIdField, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 		validation.registerValidator(CarIdField, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.LicencePlateLength, Severity.ERROR));
 		validation.registerValidator(DepartureDateField, Validator.createEmptyValidator("Departure time is Required"));
 	}

@@ -39,43 +39,42 @@ public class WorkerGuiShellController extends WorkerGuiController {
 	@FXML
 	void AskToLogout(ActionEvent event) {
 		Alert logout = LogoutDialog.GetLogOotConfirmatio();
-
 		logout.showAndWait().filter(response -> response == ButtonType.YES).ifPresent(response -> LogoutFromSystem());
 	}
 
 	@FXML
 	void InitializeParkingLot(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.InitializeParkingLotView);
 	}
 
 	@FXML
 	void GoSetParkingLotIsFull(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ParkingLotFullView);
 	}
 
 	@FXML
 	void GoReserveParkingSpace(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReserveParkingSpaceView);
 	}
 
 	@FXML
 	void GoCancelOrder(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.CancelCustomerOrderView);
 	}
 
 	@FXML
-	void GoChargeAccount(ActionEvent event) {
-
+	void GoAcquitOrChargeAccount(ActionEvent event) {
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.AcquitOrChargeAccountView);
 	}
 
 	@FXML
 	void GoComplaintsPortal(ActionEvent event) {
-
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ComplaintsPortalView);
 	}
 
 	@FXML
-	void GoNewRatesRequests(ActionEvent event) {
-
+	void GoRatesRequestsPortal(ActionEvent event) {
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ApproveRatesRequestsPortalView);
 	}
 
 	private void LogoutFromSystem() {

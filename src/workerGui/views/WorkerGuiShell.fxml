@@ -28,7 +28,7 @@
 						<Menu mnemonicParsing="false" text="Customer service">
 							<items>
 								<MenuItem mnemonicParsing="false" onAction="#GoCancelOrder" text="Cancel Customer Order" />
-								<MenuItem mnemonicParsing="false" onAction="#GoChargeAccount" text="Charge Customer Account" />
+								<MenuItem mnemonicParsing="false" onAction="#GoAcquitOrChargeAccount" text="Acquit Or Charge Account" />
 								<MenuItem mnemonicParsing="false" onAction="#GoComplaintsPortal" text="Open Complaints Portal" />
 							</items>
 						</Menu>
@@ -39,7 +39,7 @@
 						<Menu mnemonicParsing="false" text="Management">
 							<items>
 								<MenuItem mnemonicParsing="false" onAction="#GoUpdateRates" text="Request Parking Lot Rates Update" />
-								<MenuItem mnemonicParsing="false" onAction="#GoNewRatesRequests" text="Check New Rates Requests" />
+								<MenuItem mnemonicParsing="false" onAction="#GoRatesRequestsPortal" text="Check New Rates Requests" />
 								<Menu mnemonicParsing="false" text="Reports">
 									<items>
 										<Menu mnemonicParsing="false" text="Quartly Reports">

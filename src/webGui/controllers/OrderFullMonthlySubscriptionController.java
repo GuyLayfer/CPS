@@ -34,7 +34,7 @@ public class OrderFullMonthlySubscriptionController implements ServerMessageHand
 	protected void initialize() {
 		OrderFullMonthlySubscriptionBTN.disableProperty().bind(validation.invalidProperty());
 		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String) email), "Email is not valid"));
-		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 		validation.registerValidator(liscencePlateTF, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.LicencePlateLength, Severity.ERROR));
 		validation.registerValidator(startingDateTF, Validator.createEmptyValidator("Starting date is Required"));
 	}

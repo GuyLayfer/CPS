@@ -2,7 +2,7 @@ package core.guiUtilities;
 
 public class CpsRegEx {
 	
-	public static String OneOrMoreIntegers = "^\\d+$";
+	public static String IntegerBetweenMinAndMaxLength = "^\\d{1,9}$";
 	
 	public static String OnlyIntegers = "\\d*";
 	

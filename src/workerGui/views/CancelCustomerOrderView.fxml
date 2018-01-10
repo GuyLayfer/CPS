@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import core.guiUtilities.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="workerGui.controllers.CancelCustomerOrderController">
+	<children>
+		<Text layoutX="60.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cancel customer order">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Text>
+		<Text layoutX="25.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order ID:" />
+		<NumberTextField fx:id="OrderIdField" layoutX="100.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
+		<Button fx:id="CancelOrderButton" layoutX="60.0" layoutY="120.0" onAction="#CancelOrder" text="Cancel order">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
+	</children>
+</AnchorPane>

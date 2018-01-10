@@ -13,8 +13,8 @@ public class OpenComplaintModel {
 			connectionManager.addServerMessageListener(controller);
 		}
 		
-		public void SendOpenComplaintRequestToServer(String complaint){
-			CustomerRequest request = CustomerRequestFactory.CreateOpenComplaintRequest(complaint);
+		public void SendOpenComplaintRequestToServer(String complaint, int customerId){
+			CustomerRequest request = CustomerRequestFactory.CreateOpenComplaintRequest(complaint, customerId);
 			connectionManager.sendMessageToServer(request);
 		}
 
