@@ -40,8 +40,8 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 		SetupClockField();
 		liscencePlateTF.setEditable(false);
 		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String) email), "Email is not valid"));
-		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
-		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
+		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 		validation.registerValidator(liscencePlateTF, Validator.createEmptyValidator("Liscence plate is Required"));
 		validation.registerValidator(TimePickerHelper, Validator.createEmptyValidator("Departure time is Required"));
 		validation.registerValidator(startingDateTF, Validator.createEmptyValidator("Starting date is Required"));
