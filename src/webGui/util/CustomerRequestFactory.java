@@ -67,10 +67,11 @@ public class CustomerRequestFactory {
 		return subscriptionRenewal;
 	}
 	
-	public static CustomerRequest CreateOpenComplaintRequest(String complaint){
+	public static CustomerRequest CreateOpenComplaintRequest(String complaint, int customerId){
 		CustomerRequest openComplaint = new CustomerRequest();
 		openComplaint.requestType = CustomerRequestType.OPEN_COMPLAINT;
 		openComplaint.complaint = complaint;
+		openComplaint.customerID = customerId;
 		return openComplaint;
 	}
 	

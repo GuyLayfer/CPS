@@ -1,12 +1,14 @@
 package workerGui.util;
 
 import core.worker.Complaint;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ComplaintUiElement {
 	private static final int displayLength = 100;
 	private SimpleStringProperty content = new SimpleStringProperty(this, "content");
 	private SimpleStringProperty briefContent = new SimpleStringProperty(this, "briefContent");
+	private SimpleIntegerProperty customerId = new SimpleIntegerProperty(this, "customerId");
 	private SimpleStringProperty timeLeftToReply = new SimpleStringProperty(this, "timeLeftToReply");
 	private Complaint complaint;
 
@@ -39,6 +41,14 @@ public class ComplaintUiElement {
 
 	public void setTimeLeftToReply(String timeLeftToReply) {
 		this.timeLeftToReply.set(timeLeftToReply);
+	}
+
+	public int getCustomerId() {
+		return customerId.get();
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId.set(customerId);
 	}
 
 	@Override

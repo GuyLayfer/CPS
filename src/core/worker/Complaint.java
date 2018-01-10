@@ -7,13 +7,15 @@ public class Complaint {
 	private static final int daysToReply = 1;
 
 	private String content;
+	
+	private int customerId;
 
 	private Date timeIssued;
 
 	private Date dueReplyDate;
 	// No setter on propose. All time implementation is here and should stay here so it'll be consisted throughout the program.
 
-	public Complaint(String content, Date timeIssued) {
+	public Complaint(String content, long customerId, Date timeIssued) {
 		setContent(content);
 		setTimeIssued(timeIssued);
 	}
@@ -45,6 +47,10 @@ public class Complaint {
 		return dueReplyDate;
 	}
 
+	public int getCustomerId() {
+		return customerId;
+	}
+
 	public void setContent(String content) {
 		this.content = content;
 	}
@@ -53,5 +59,9 @@ public class Complaint {
 		this.timeIssued = timeIssued;
 		dueReplyDate = Date
 				.from((timeIssued.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()).plusDays(daysToReply).atZone(ZoneId.systemDefault()).toInstant());
+	}
+
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
 }

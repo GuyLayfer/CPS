@@ -39,13 +39,14 @@ public class ComplaintsPortalController {
 	protected void initialize() {
 		TableRowExpanderColumn<ComplaintUiElement> expanderColumn = new TableRowExpanderColumn<>(this::createEditor);
 		TableColumn<ComplaintUiElement, String> timeLeftColumn = new TableColumn<>("Time Left To Reply");
+		TableColumn<ComplaintUiElement, Integer> customerId = new TableColumn<>("Customer ID");
 		timeLeftColumn.setCellValueFactory(new PropertyValueFactory<>("timeLeftToReply"));
 		TableColumn<ComplaintUiElement, String> contentColumn = new TableColumn<>("Brief Content");
 		contentColumn.setCellValueFactory(new PropertyValueFactory<>("briefContent"));
 
 
 		ComplaintsTable.setPlaceholder(new Label("No pending Rates Requests. Please come back later."));
-		ComplaintsTable.getColumns().addAll(expanderColumn, timeLeftColumn, contentColumn);
+		ComplaintsTable.getColumns().addAll(expanderColumn, timeLeftColumn, customerId, contentColumn);
 		ComplaintsTable.setItems(FXCollections.observableArrayList(getExample()));
 	}
 
@@ -63,12 +64,16 @@ public class ComplaintsPortalController {
 
 		TextArea contentTextArea = new TextArea(complaint.getContent());
 		contentTextArea.setEditable(false);
+		TextField CustomerIdTextField = new TextField(Integer.toString(complaint.getCustomerId()));
+		CustomerIdTextField.setEditable(false);
+		CustomerIdTextField.setMaxWidth(150);
 		TextField timeLeftToReplyField = new TextField(complaint.getTimeLeftToReply());
 		timeLeftToReplyField.setEditable(false);
 		timeLeftToReplyField.setMaxWidth(150);
 
 		editor.addRow(0, new Label("Complaint Content:"), contentTextArea);
-		editor.addRow(1, new Label("Time Left To reply:"), timeLeftToReplyField);
+		editor.addRow(1, new Label("Customer ID:"), CustomerIdTextField);
+		editor.addRow(2, new Label("Time Left To reply:"), timeLeftToReplyField);
 
 		Button approveButton = new Button("Approve");
 		approveButton.setOnAction(event -> {
@@ -94,16 +99,17 @@ public class ComplaintsPortalController {
 			}
 		});
 
-		editor.addRow(2, approveButton, declineButton);
-		editor.addRow(3, acquitButton, acquitAmountField);
+		editor.addRow(3, approveButton, declineButton);
+		editor.addRow(4, acquitButton, acquitAmountField);
 
 		return editor;
 	}
 
 	private ArrayList<ComplaintUiElement> getExample() {
 		ArrayList<ComplaintUiElement> list = new ArrayList<ComplaintUiElement>();
-		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum1(), new Date())));
-		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum2(), new Date())));
+		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum1(), 1, new Date())));
+		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum2(), 18, new Date())));
+		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum3(), 42, new Date())));
 		return list;
 	}
 
@@ -133,5 +139,10 @@ public class ComplaintsPortalController {
 				+ "Aliquam ut vehicula erat. Morbi scelerisque metus id imperdiet eleifend. "
 				+ "\r\n"
 				+ "Donec ut est consectetur, porta justo quis, fringilla erat.";
+	}
+	
+	private String GetLoremIpsum3() {
+		return "So there I was, in the middle of the parking lot, looking for my car, when this DAMN ROBOT TRIED TO INCINERATE ME!!"
+				+ "\nThis is unacceptable. I want my car back and I want that robot fired.";
 	}
 }

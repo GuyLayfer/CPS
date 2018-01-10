@@ -70,13 +70,13 @@ public class ApproveRatesRequestsPortalController {
 		TextField occasionalParkingRateField = new TextField(Double.toString(rates.getOccasionalParkingRate()));
 		occasionalParkingRateField.setEditable(false);
 		TextField preOrderedParkingRateField = new TextField(Double.toString(rates.getPreOrderedParkingRate()));
-		occasionalParkingRateField.setEditable(false);
+		preOrderedParkingRateField.setEditable(false);
 		TextField routineMonthlySubscriptionRateField = new TextField(Double.toString(rates.getRoutineMonthlySubscriptionRate()));
-		occasionalParkingRateField.setEditable(false);
+		routineMonthlySubscriptionRateField.setEditable(false);
 		TextField monthlyMultipleCarsSubscriptionRateField = new TextField(Double.toString(rates.getRoutineMonthlySubscriptionMultipleCarsRate()));
 		monthlyMultipleCarsSubscriptionRateField.setEditable(false);
 		TextField fullMonthlySubscriptionRateField = new TextField(Double.toString(rates.getFullMonthlySubscriptionRate()));
-		occasionalParkingRateField.setEditable(false);
+		fullMonthlySubscriptionRateField.setEditable(false);
 
 		editor.addRow(0, new Label("Parking Lot ID:"), parkingLotIdField);
 		editor.addRow(1, new Label("Occasional Parking Rate:"), occasionalParkingRateField);
