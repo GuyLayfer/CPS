@@ -2,8 +2,6 @@ package server;
 // TODO: delete this class
 import java.sql.SQLException;
 
-import server.db.dbAPI.DBAPI;
-
 // Singleton.
 // All the non-static methods must be synchronized, 
 // because kiosk client and webCustomer client may use them concurrently.

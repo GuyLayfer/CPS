@@ -2,12 +2,12 @@ package server;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import server.db.DBConstants;
-import server.db.dbAPI.DBAPI;
+import server.db.DBConstants.OrderType;
+import server.db.DBConstants.TrueFalse;
+import server.db.SqlColumns;
 import server.db.dbAPI.RegularDBAPI;
 
 import com.google.gson.Gson;
-import server.db.DBConstants.SqlColumns;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,6 +27,7 @@ import core.customer.TrackOrderResponseData;
 
 public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = new CpsGson().GetGson();
+	private RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	protected IDsGenerator idsGenerator;
 	
 	
@@ -41,25 +42,25 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	
 	protected String orderOneTimeParking(CustomerRequest request) throws SQLException {
 
-		int entranceID = RegularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
+		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				orderType.ONE_TIME);
+				OrderType.ONE_TIME);
 		//TODO: calculate order price and update the account balance
 		double price = 0.0;
-		RegularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, trueFalse.FALSE);
+		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
 		//TODO: update parking lots info
 		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceID, price)));
 	}
 	
 	protected String cancelOrder(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		RegularDBAPI.selectOrderStatus(request.orderID, resultList);
+		regularDBAPI.selectOrderStatus(request.orderID, resultList);
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
 			double refund = 0.0; // TODO calculate refund
 			//if cancelTime < 
-			RegularDBAPI.cancelOrder(request.orderID ,refund);
+			regularDBAPI.cancelOrder(request.orderID ,refund);
 			return createOkResponse(request.requestType, gson.toJson(refund));
 		}
 	}
