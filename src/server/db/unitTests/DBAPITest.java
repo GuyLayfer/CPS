@@ -10,56 +10,93 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import server.db.DBConstants;
 import server.db.dbAPI.DBAPI;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.ReportsDBAPI;
+import server.db.dbAPI.SubscriptionsDBAPI;
+import server.db.dbAPI.WorkersDBAPI;
+import server.db.queries.RegularQueries;
 import server.db.queries.ReportsQueries;
+import server.db.queries.SubscriptionsQueries;
+import server.db.queries.WorkersQueries;
 
-class DBAPITest {
+public class DBAPITest {
 
 	private int entranceId;
 	private int lotId;
 	private int accountId;
 	private String carId;
 	private String email;
-	private DBConstants.trueFalse hasSubscription;
-	private DBConstants.orderType orderType;
+	private DBConstants.TrueFalse hasSubscription;
+	private DBConstants.OrderType orderType;
 	private Date dateArrive;
 	private Calendar calendarLeft;
 	private ArrayList<Map<String, Object>> resultList;
 	private Map<String, Object> curMap;
 	private double cash;
 	private Calendar firstDateCalendar;
-	private java.sql.Date firstDate;
-	private java.sql.Date secondDate;
+	private java.sql.Date laterDate;
+	private java.sql.Date earlierDate;
+
+	private RegularDBAPI regularDBAPIInst;
+	private SubscriptionsDBAPI subscriptionsDBAPIInst;
+	private WorkersDBAPI workersDBAPIInst;
+	private ReportsDBAPI reportsDBAPIInst;
+
+	private RegularQueries regularQueries;
+	private ReportsQueries reportsQueries;
+	private WorkersQueries workersQueries;
+	private SubscriptionsQueries subscriptionsQueries;
+
 
 
 	@Before
-	void setUp() throws Exception {
+	public void setUp() throws Exception {
 		dateArrive =  new Date(System.currentTimeMillis());
 		calendarLeft = new GregorianCalendar();
 		resultList = new ArrayList<Map<String, Object>>();
 		lotId = 4;
 		accountId = 12342;
 		carId = "hsgfjk";
-		orderType = DBConstants.orderType.ORDER;
+		orderType = DBConstants.OrderType.ORDER;
 		email = "asdas@jsdflkj.com";
-		hasSubscription = DBConstants.trueFalse.FALSE;
+		hasSubscription = DBConstants.TrueFalse.FALSE;
 		cash = 100;
 		entranceId = 5;
 		firstDateCalendar = new GregorianCalendar();
-		firstDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
-		firstDateCalendar.add(Calendar.DATE, -7); //get a week back
-		secondDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
+		laterDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
+		firstDateCalendar.add(Calendar.DATE, -9); //get a week back
+		earlierDate = new java.sql.Date(firstDateCalendar.getTimeInMillis());
+
+		regularDBAPIInst = RegularDBAPI.getInstance();
+		subscriptionsDBAPIInst = SubscriptionsDBAPI.getInstance();
+		workersDBAPIInst = WorkersDBAPI.getInstance();
+		reportsDBAPIInst = ReportsDBAPI.getInstance();
+
+		regularQueries = RegularQueries.getInstance();
+		subscriptionsQueries = SubscriptionsQueries.getInstance();
+		workersQueries = WorkersQueries.getInstance();
+		reportsQueries = ReportsQueries.getInstance();
 	}
 
 
 
 	@Test
-	void testGetAllOfReservationsBetween2Dates() throws SQLException {
-		DBAPI.selectBetween2DatesQuery(ReportsQueries.select_all_reservations_between_2_dates, firstDate, secondDate, resultList);
+	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
+		int numberOfSubsHavingMoreThanOneCar = subscriptionsDBAPIInst.getNumberOfSubscriptionsHasMoreThanOneCar();
+		System.out.println(numberOfSubsHavingMoreThanOneCar);
+
+		int i = 123;
+	}
+
+
+
+
+
+	@Test
+	public void testGetNumberOfCanceledReservationsBetween2Dates() throws SQLException {
+		DBAPI.selectBetween2DatesQuery(reportsQueries.select_canceled_reservations_between_2_dates, earlierDate, laterDate, resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
@@ -68,11 +105,27 @@ class DBAPITest {
 		}
 		int i = 123;
 	}
-	
-	
+
+
+
+
+
 	@Test
-	void testNumberOfReservationsOfLastWeekGroupedByOrder() throws SQLException {
-		ReportsDBAPI.getNumberOfReservationsOfLastWeekGroupedByOrder(resultList);
+	public void testGetAllOfReservationsBetween2Dates() throws SQLException {
+		DBAPI.selectBetween2DatesQuery(reportsQueries.select_all_reservations_between_2_dates, laterDate, earlierDate, resultList);
+		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			for (Map.Entry<String, Object> column : row.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
+			}
+		}
+		int i = 123;
+	}
+
+
+	@Test
+	public void testNumberOfReservationsOfLastWeekGroupedByOrder() throws SQLException {
+		reportsDBAPIInst.getNumberOfReservationsOfLastWeekGroupedByOrder(resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
@@ -80,11 +133,11 @@ class DBAPITest {
 			}
 		}
 	}
-	
-	
+
+
 	@Test
-	void testGetNumberOfReservationsOfLastDay() throws SQLException {
-		ReportsDBAPI.getNumberOfReservationsOfLastDay(resultList);
+	public void testGetNumberOfReservationsOfLastDay() throws SQLException {
+		reportsDBAPIInst.getNumberOfReservationsOfLastDay(resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
@@ -92,17 +145,17 @@ class DBAPITest {
 			}
 		}
 	}	
-	
-	
+
+
 	@Test
-	void testCancelOrder()  {
+	public void testCancelOrder()  {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
 		try {
 			resultList.clear();
-			entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
+			entranceId = regularDBAPIInst.insertParkingReservation(carId , accountId,
 					lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -113,28 +166,18 @@ class DBAPITest {
 		//check that balance added to account
 		try {
 			resultList.clear();
-			RegularDBAPI.selectAccountDetails(accountId, resultList);
+			regularDBAPIInst.selectAccountDetails(accountId, resultList);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("getAccountDetails");
 		}
 		curMap = resultList.get(0);
-		double oldBalance = (double) curMap.get(DBConstants.sqlColumns.BALANCE.getName());
+		double oldBalance = ((double) (curMap.get(DBConstants.SqlColumns.BALANCE.getName())));
+
 
 		try {
-			resultList.clear();
-			ReportsDBAPI.getDailyStatsOfToday(resultList);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("getDailyStatsOfToday");
-		}
-		curMap = resultList.get(0);
-		int oldCancelledReservations = (int) curMap.get(DBConstants.sqlColumns.CANCELED_ORDERS.getName()); 
-
-		try {
-			RegularDBAPI.cancelOrder(entranceId, cash);
+			regularDBAPIInst.cancelOrder(entranceId, cash);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,21 +186,21 @@ class DBAPITest {
 
 		try {
 			resultList.clear();
-			RegularDBAPI.selectAccountDetails(accountId, resultList);
+			regularDBAPIInst.selectAccountDetails(accountId, resultList);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("getAccountDetails2");
 		}
 		curMap = resultList.get(0);
-		double newBalance = (double) curMap.get(DBConstants.sqlColumns.BALANCE.getName());
+		double newBalance = ((double) (curMap.get(DBConstants.SqlColumns.BALANCE.getName())));
 		Assert.assertTrue(oldBalance+cash == newBalance);
 
 		//get entranceId from current_parks_in_parking and check that it is empty
 		resultList = new ArrayList<Map<String, Object>>();
 		try {
 			resultList.clear();
-			RegularDBAPI.selectOrderStatus(entranceId, resultList);
+			regularDBAPIInst.selectOrderStatus(entranceId, resultList);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -165,74 +208,65 @@ class DBAPITest {
 		}
 		Assert.assertTrue(resultList.isEmpty());
 
-		try {
-			resultList.clear();
-			ReportsDBAPI.getDailyStatsOfToday(resultList);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("getDailyStatsOfToday2");
-		}
-		curMap = resultList.get(0);
-		int newCanceledReservations = (int) curMap.get(DBConstants.sqlColumns.CANCELED_ORDERS.getName());
-		System.out.println("today canceled orders: " + newCanceledReservations);
-		Assert.assertTrue((oldCancelledReservations+1) == newCanceledReservations);
-
 
 	}
 
 
 	@Test
-	void testCarLeftParking() throws SQLException {
+	public void testCarLeftParking() throws SQLException {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
-														lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);	
-		RegularDBAPI.carLeftParking(entranceId, timeLeave);
+		entranceId = regularDBAPIInst.insertParkingReservation(carId , accountId,
+				lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);	
+		regularDBAPIInst.carLeftParking(entranceId, timeLeave);
 
 		//get entranceId from current_cars_in_parking and check that it is empty
-		RegularDBAPI.selectOrderStatus(entranceId, resultList);
+		regularDBAPIInst.selectOrderStatus(entranceId, resultList);
 		Assert.assertTrue(resultList.isEmpty());
 
 	}
 	@Test
-	void testCreateNewAccountAndGetCustomerAccountDetails() throws SQLException {
+	public void testCreateNewAccountAndGetCustomerAccountDetails() throws SQLException {
 
-		RegularDBAPI.insertNewAccount(accountId, email, carId, hasSubscription);
-		RegularDBAPI.selectAccountDetails(accountId, resultList);
+		regularDBAPIInst.insertNewAccount(accountId, email, carId, hasSubscription);
+		regularDBAPIInst.selectAccountDetails(accountId, resultList);
 
 		curMap = resultList.get(0);
-		Assert.assertTrue(curMap.get(DBConstants.sqlColumns.ACCOUNT_ID.getName()).equals(accountId));
-		Assert.assertTrue(curMap.get(DBConstants.sqlColumns.CAR_ID.getName()).equals(carId));
-		System.out.println((curMap.get(DBConstants.sqlColumns.HAS_SUBSCRIPTION.getName()).toString()));
-		System.out.println(hasSubscription.getValue());
-		Assert.assertTrue((curMap.get(DBConstants.sqlColumns.HAS_SUBSCRIPTION.getName()).toString()).equals(hasSubscription.getValue()));
-		Assert.assertTrue(curMap.get(DBConstants.sqlColumns.EMAIL.getName()).equals(email));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.ACCOUNT_ID.getName()).equals(accountId));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.CAR_ID.getName()).equals(carId));
+		System.out.println((curMap.get(DBConstants.SqlColumns.HAS_SUBSCRIPTION.getName()).toString()));
+		System.out.println(hasSubscription);
+		System.out.println(curMap.get(DBConstants.SqlColumns.HAS_SUBSCRIPTION.getName()));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.HAS_SUBSCRIPTION.getName()).equals(hasSubscription.getValue()));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.EMAIL.getName()).equals(email));
 
 
 	}	
 	@Test
-	void testInsertOrderAndTrackOrder() throws SQLException {
+	public void testInsertOrderAndTrackOrder() throws SQLException {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = RegularDBAPI.insertParkingReservation(carId , accountId,
+		entranceId = regularDBAPIInst.insertParkingReservation(carId , accountId,
 				lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);	
-		RegularDBAPI.selectOrderStatus(entranceId, resultList);
+		regularDBAPIInst.selectOrderStatus(entranceId, resultList);
 
 		curMap = resultList.get(0);
 		//			System.out.println(curMap.get(DBConstants.sqlColumns.LOT_ID.getName()));
 		//			System.out.println(dateArrive);
 		//			System.out.println((curMap.get(DBConstants.sqlColumns.ORDER_TYPE.getName())));
 		//			System.out.println(orderType.getValue());
-		Assert.assertTrue(curMap.get(DBConstants.sqlColumns.LOT_ID.getName()).equals(lotId));
-		Assert.assertTrue(curMap.get(DBConstants.sqlColumns.ACCOUNT_ID.getName()).equals(accountId));
-		Assert.assertTrue(curMap.get(DBConstants.sqlColumns.CAR_ID.getName()).equals(carId));
-		Assert.assertTrue((curMap.get(DBConstants.sqlColumns.ORDER_TYPE.getName()).toString()).equals(orderType.getValue()));
-		Assert.assertTrue(curMap.get(DBConstants.sqlColumns.ENTRANCE_ID.getName()).equals(entranceId));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.LOT_ID.getName()).equals(lotId));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.ACCOUNT_ID.getName()).equals(accountId));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.CAR_ID.getName()).equals(carId));
+		System.out.println((DBConstants.SqlColumns.ORDER_TYPE.getName()));
+
+		System.out.println((curMap.get(DBConstants.SqlColumns.ORDER_TYPE.getName())));
+		Assert.assertTrue(((curMap.get(DBConstants.SqlColumns.ORDER_TYPE.getName()))).equals(orderType.getValue()));
+		Assert.assertTrue(curMap.get(DBConstants.SqlColumns.ENTRANCE_ID.getName()).equals(entranceId));
 
 
 	}

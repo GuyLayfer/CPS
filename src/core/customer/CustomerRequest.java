@@ -11,7 +11,8 @@ public class CustomerRequest {
 // Optional:
 	// used in most of the orders
 	public int customerID;
-	public String carID;
+	public String carID;		
+
 	public String email;
 	public int parkingLotID;
 	public List<String> liscencePlates;

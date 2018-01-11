@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-
 import server.db.DBConnection;
-import server.db.DBConstants;
 import server.db.queries.WorkersQueries;
 
 // TODO: Auto-generated Javadoc
@@ -15,28 +13,29 @@ import server.db.queries.WorkersQueries;
  * The Class WorkersDBAPI.
  */
 public class WorkersDBAPI extends DBAPI{
-	
-	//TODO: test
-	/**
-	 * Gets the permissions of role.
-	 *
-	 * @param role the role
-	 * @param resultList the result list
-	 * @return the permissions of role
-	 * @throws SQLException the SQL exception
-	 */
-	public static void getPermissionsOfRole(DBConstants.Role role, ArrayList<Map<String, Object>> resultList) throws SQLException {
-		
-		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
-		paramsValues.add(role.getName());
-		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
-		
-		DBConnection.selectSql(WorkersQueries.select_role_permissions, paramsValues, paramTypes, resultList);
-		
+
+	private static volatile WorkersDBAPI instance;
+	//	private static Object mutex = new Object();
+	private WorkersQueries workersQueriesInst;
+
+
+	private WorkersDBAPI() {
+		workersQueriesInst = WorkersQueries.getInstance();
 	}
-	
-	
+
+	public static WorkersDBAPI getInstance() {
+		WorkersDBAPI result = instance;
+		if (result == null) {
+			synchronized (mutex) {
+				result = instance;
+				if (result == null)
+					instance = result = new WorkersDBAPI();
+			}
+		}
+		return result;
+	}
+
+
 	//TODO: fix this. also to change names. not tested yet.
 	/**
 	 * Gets the workers role.
@@ -46,17 +45,12 @@ public class WorkersDBAPI extends DBAPI{
 	 * @return the workers role
 	 * @throws SQLException the SQL exception
 	 */
-	public static void getWorkersRole(int workerId, ArrayList<Map<String, Object>> resultList) throws SQLException {
+	public void getWorkersRole(int workerId, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
 		paramsValues.add(workerId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		DBConnection.selectSql(WorkersQueries.select_worker_role, paramsValues, paramTypes, resultList);
+		DBConnection.selectSql(workersQueriesInst.select_worker_role, paramsValues, paramTypes, resultList);
 	}
-
-	
-	
-	
-	
 }
 

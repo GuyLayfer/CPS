@@ -15,13 +15,13 @@ public class IDsGenerator {
 	
 	private static IDsGenerator instance;
 	
-	private IDsGenerator() throws SQLException {
-		/*
-		this.entranceID = DBAPI.getLastEntranceID();
-		this.subscriptionID = DBAPI.getLastSubscriptionID();
-		this.complaintID = DBAPI.getLastComplaintID();
-		*/
-	}
+//	TODO: maybe to delete this?
+//	private IDsGenerator() throws SQLException {
+//		this.entranceID = DBAPI.getLastEntranceID();
+//		this.subscriptionID = DBAPI.getLastSubscriptionID();
+//		this.complaintID = DBAPI.getLastComplaintID();
+//	}
+
 	
 	public static IDsGenerator getInstance() throws SQLException {
 		if (instance == null) {

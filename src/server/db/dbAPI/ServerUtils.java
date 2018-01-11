@@ -1,10 +1,8 @@
 package server.db.dbAPI;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,19 +23,21 @@ public class ServerUtils {
 	 * @param parkingMapAsArrList the parking map as arr list
 	 * @return the DB constants.parking map[]
 	 */
-	public static ParkingState [] dbParkingMapTo1DArray(ArrayList<Map<String, Object>> parkingMapAsArrList) {
+	public static DBConstants.ParkingMap [] dbParkingMapTo1DArray(ArrayList<Map<String, Object>> parkingMapAsArrList) {
+
 		
 //		int countRows = 0;
 //		int x = 0, y = 0, z = 0;
 		
 		int numberOfParkings = ((parkingMapAsArrList.get(0)).entrySet()).size();
-		ParkingState arr1d[] = new ParkingState[numberOfParkings];
+		DBConstants.ParkingMap arr1d[] = new DBConstants.ParkingMap[numberOfParkings];
+
 		Map<String, Object> parkingMapMap = parkingMapAsArrList.get(0);
 		for (int i = 1; i <= arr1d.length; i++) {
 			String currKey = "c" + i;
 			String currValueString = (String) parkingMapMap.get(currKey);
-			// TODO: check if this parking is parked or reserved and replace the null with the actual carId in these cases.
-			arr1d[i-1] = new ParkingState(ParkingStatus.convertStringToParkingMapEnum(currValueString), null);
+			arr1d[i-1] = DBConstants.ParkingMap.convertStringToParkingMapEnum(currValueString);
+
 		}
 		return arr1d;
 	}
@@ -49,7 +49,8 @@ public class ServerUtils {
 	 * @param parkingMap3D the parking map 3 D
 	 * @param parkingMap1D the parking map 1 D
 	 */
-	public static void dbParkingMapTo1DArray(ParkingState [][][] parkingMap3D, ParkingState [] parkingMap1D) {
+	public static void dbParkingMapTo1DArray(DBConstants.ParkingMap [][][] parkingMap3D, DBConstants.ParkingMap [] parkingMap1D) {
+
 		int oneDIndex = 0;
 		int x = parkingMap3D.length;
 		int y = parkingMap3D[1].length;
@@ -130,24 +131,6 @@ public class ServerUtils {
         return dateFormat.format(yesterday());
 }
 	
-	/**
-	 * Checks if is subscription active.
-	 * compares the expired date entity and today.
-	 * @param subscriptionId the subscription id
-	 * @return true, if is subscription active
-	 * @throws SQLException the SQL exception
-	 */
-	public static boolean isSubscriptionActive(int subscriptionId) throws SQLException {
-		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		SubscriptionsDBAPI.selectSubscriptionDetails(subscriptionId, resultList);
-		Map<String, Object> map = (Map<String, Object>) resultList.get(0);
-		Date expiredDate = (Date) map.get("expired_date");
-	    long  expiredDateInMillis = expiredDate.getTime();
-		if (expiredDateInMillis > System.currentTimeMillis()) {
-			return true;			
-		}
-		else
-			return false;
-	}
+
 	
 }

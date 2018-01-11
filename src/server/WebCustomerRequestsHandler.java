@@ -2,12 +2,12 @@ package server;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import server.db.DBConstants;
+import server.db.dbAPI.DBAPI;
 import server.db.dbAPI.RegularDBAPI;
-import server.db.DBConstants.orderType;
-import server.db.DBConstants.trueFalse;
 
 import com.google.gson.Gson;
-
+import server.db.DBConstants.SqlColumns;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,7 +23,7 @@ import core.customer.CustomerRequest;
 import core.customer.CustomerRequestType;
 import core.customer.CustomerResponse;
 import core.customer.TrackOrderResponseData;
-import server.db.SqlColumns;
+
 
 public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = new CpsGson().GetGson();
@@ -40,6 +40,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	}
 	
 	protected String orderOneTimeParking(CustomerRequest request) throws SQLException {
+
 		int entranceID = RegularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
 				orderType.ONE_TIME);
@@ -65,12 +66,14 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	
 	protected String trackOrderStatus(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		RegularDBAPI.selectOrderStatus(request.orderID, resultList);
+		RegularDBAPI.getInstance().selectOrderStatus(request.orderID, resultList);
+
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
 			Map<String, Object> result = resultList.iterator().next();
 			TrackOrderResponseData response = new TrackOrderResponseData();
+
 			response.orderID = (Integer) result.get(SqlColumns.ParkingTonnage.ENTRANCE_ID);
 			response.customerID = (Integer) result.get(SqlColumns.ParkingTonnage.ACCOUNT_ID);
 			response.carID = result.get(SqlColumns.ParkingTonnage.CAR_ID).toString();
