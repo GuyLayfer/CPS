@@ -1,19 +1,12 @@
 package workerGui.controllers;
 
-import workerGui.util.WorkerGuiController;
-
 import core.guiUtilities.FloatNumberTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.ComboBox;
 
-public class UpdateRatesRequestController extends WorkerGuiController {
-
-	@FXML
-	protected void initialize() {
-		
-	}
+public class UpdateRatesRequestController {
 
 	@FXML
 	private FloatNumberTextField RutineMonthlyField;
@@ -25,16 +18,16 @@ public class UpdateRatesRequestController extends WorkerGuiController {
 	private FloatNumberTextField RutineMonthlyMultipleField;
 
 	@FXML
+	private ComboBox<Integer> ParkingLotIdField;
+
+	@FXML
 	private FloatNumberTextField FullNonthlyField;
 
 	@FXML
-	private FloatNumberTextField CarIdField;
+	private FloatNumberTextField PreOrderedField;
 
 	@FXML
-	private AnchorPane PreOrderedField;
-
-	@FXML
-	private Button orderBTN;
+	private Button orderButton;
 
 	@FXML
 	void SendRatesUpdateRequest(ActionEvent event) {

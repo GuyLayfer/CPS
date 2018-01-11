@@ -39,6 +39,8 @@ import core.ResponseStatus;
  *		OCCASIONAL_PARKING					- IdPricePair (orderID, price)
  *		ENTER_PARKING						- TODO
  *		EXIT_PARKING						- TODO
+ *  used only for sending messages from the server to the client:
+ *		FULL_PARKING_LOT					- TODO
  */
 public class CustomerResponse extends AbstractResponse {
 	// requestType has a valid value only if status is OK or REQUEST_DENIED or UNSUPPORTED_FEATURE

@@ -5,6 +5,7 @@ import ocsf.server.ConnectionToClient;
 import server.db.DBConstants;
 import server.db.dbAPI.DBAPI;
 import server.db.dbAPI.RegularDBAPI;
+
 import com.google.gson.Gson;
 import server.db.DBConstants.SqlColumns;
 import com.google.gson.JsonSyntaxException;
@@ -39,35 +40,92 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	}
 	
 	protected String orderOneTimeParking(CustomerRequest request) throws SQLException {
-		int entranceId = idsGenerator.nextEntranceID();
-		RegularDBAPI.getInstance().updateParkingReservaion(request.carID, request.customerID, entranceId, request.parkingLotID,
+
+		int entranceID = RegularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				DBConstants.OrderType.ORDER.getValue());
+				orderType.ONE_TIME);
 		//TODO: calculate order price and update the account balance
 		double price = 0.0;
-
-//		public void insertNewAccount(int accountId, String email, String carId, DBConstants.trueFalse hasSubscription)
-		RegularDBAPI.getInstance().insertNewAccount(request.customerID, request.email, request.carID, /*price, New account always start with 0*/ DBConstants.TrueFalse.FALSE);
+		RegularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, trueFalse.FALSE);
 		//TODO: update parking lots info
-		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceId, price)));
+		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceID, price)));
+	}
+	
+	protected String cancelOrder(CustomerRequest request) throws SQLException {
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		RegularDBAPI.selectOrderStatus(request.orderID, resultList);
+		if (resultList.isEmpty()) {
+			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
+		} else {
+			double refund = 0.0; // TODO calculate refund
+			//if cancelTime < 
+			RegularDBAPI.cancelOrder(request.orderID ,refund);
+			return createOkResponse(request.requestType, gson.toJson(refund));
+		}
 	}
 	
 	protected String trackOrderStatus(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		RegularDBAPI.getInstance().selectOrderStatus(request.orderID, resultList);
+
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
 			Map<String, Object> result = resultList.iterator().next();
 			TrackOrderResponseData response = new TrackOrderResponseData();
-			response.orderID = (Integer) (result.get(ParkingTonnage.ENTRANCE_ID));
-			response.customerID = (Integer) result.get(sqlColumns.SqlColumns.ACCOUNT_ID);
-			response.carID = result.get(sqlColumns.SqlColumns.CAR_ID).toString();
-			response.parkingLotID = (Integer) result.get(sqlColumns.SqlColumns.LOT_ID);
-			response.arrivalTime = (Date)result.get(sqlColumns.SqlColumns.ARRIVE_PREDICTION);
-			response.estimatedDepartureTime = (Date)result.get(sqlColumns.SqlColumns.LEAVE_PREDICTION);
+
+			response.orderID = (Integer) result.get(SqlColumns.ParkingTonnage.ENTRANCE_ID);
+			response.customerID = (Integer) result.get(SqlColumns.ParkingTonnage.ACCOUNT_ID);
+			response.carID = result.get(SqlColumns.ParkingTonnage.CAR_ID).toString();
+			response.parkingLotID = (Integer) result.get(SqlColumns.ParkingTonnage.LOT_ID);
+			response.arrivalTime = (Date)result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
+			response.estimatedDepartureTime = (Date)result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
 			return createOkResponse(request.requestType, gson.toJson(response));
 		}
+	}
+	
+	protected String orderRoutineMonthlySubscription(CustomerRequest request) throws SQLException {
+		// the request contains:
+		//customerID
+		//carID
+		//email
+		//parkingLotID
+		//startingDate
+		//routineDepartureTime
+		
+		//first check if there is a customerID already
+		
+		double price = 0.0; // TODO calculate price
+		int subscriptionID = 1234567; //TODO calculate subscriptionID
+		return createUnsupportedFeatureResponse(request.requestType);
+		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
+	}
+	
+	protected String orderFullMonthlySubscription(CustomerRequest request) throws SQLException {
+		// the request contains:
+		//customerID
+		//carID
+		//email
+		//startingDate
+		double price = 0.0; // TODO calculate price
+		int subscriptionID = 1234567; //TODO calculate subscriptionID
+		return createUnsupportedFeatureResponse(request.requestType);
+		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
+	}
+	
+	protected String subscriptionRenweal(CustomerRequest request) throws SQLException {
+		int subscriptionID = request.subscriptionID;
+		// TODO what function should I use to renew the subscription?
+		double price = 0.0; // TODO calculate price
+		return createUnsupportedFeatureResponse(request.requestType);
+		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
+	}
+	
+	protected String openComplaint(CustomerRequest request) throws SQLException {
+		int complaintID = 1234567; //TODO calculate complaintID
+		// TODO What function should I use to open complaint
+		return createUnsupportedFeatureResponse(request.requestType);
+		//return createOkResponse(request.requestType, gson.toJson(complaintID));
 	}
 	
 	// returns the response json string
@@ -76,17 +134,17 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		case ORDER_ONE_TIME_PARKING:
 			return orderOneTimeParking(request);
 		case CANCEL_ORDER: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return cancelOrder(request);
 		case TRACK_ORDER_STATUS:
 			return trackOrderStatus(request);
 		case ORDER_ROUTINE_MONTHLY_SUBSCRIPTION: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return orderRoutineMonthlySubscription(request);
 		case ORDER_FULL_MONTHLY_SUBSCRIPTION: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return orderFullMonthlySubscription(request);
 		case SUBSCRIPTION_RENEWAL: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return subscriptionRenweal(request);
 		case OPEN_COMPLAINT: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return openComplaint(request);
 		default:
 			if (getPort() == ServerPorts.WEB_CUSTOMER_PORT) {
 				return gson.toJson(new CustomerResponse(ResponseStatus.BAD_REQUEST, 

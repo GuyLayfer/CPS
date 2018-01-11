@@ -21,8 +21,12 @@ public class NumberTextField extends TextField {
 	private boolean validate(String text) {
 		return text.matches(CpsRegEx.OnlyIntegers);
 	}
-	
+
 	public Integer getNumber() {
-		return Integer.parseInt(this.getText());
+		if (this.getText().length() < 9) {
+			return Integer.parseInt(this.getText());
+		} else {
+			return Integer.MAX_VALUE;
+		}
 	}
 }

@@ -12,6 +12,7 @@ public class CustomerRequest {
 	// used in most of the orders
 	public int customerID;
 	public String carID;		
+
 	public String email;
 	public int parkingLotID;
 	public List<String> liscencePlates;
@@ -29,7 +30,7 @@ public class CustomerRequest {
 	// used in subscriptionRenewal
 	public int subscriptionID;
 	
-	public String Complaint;
+	public String complaint;
 	
 // Add more parameters if required
 }

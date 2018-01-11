@@ -3,6 +3,7 @@
 package server.db.dbAPI;
 
 import java.sql.SQLException;
+
 import server.db.DBConstants;
 
 public class MainDBAPI {
@@ -15,6 +16,7 @@ public class MainDBAPI {
 		int lot1Size = 36;
 		int lotId = 1;
 		String [] parkingMapArrForSelectQuery = new String [lot1Size];
+
 		try {
 			regularDBAPIInst.selectParkingMapByLotId(lotId, parkingMapArrForSelectQuery);
 		} catch (SQLException e) {
@@ -22,13 +24,14 @@ public class MainDBAPI {
 			e.printStackTrace();
 		}
 		for (int i = 0; i < parkingMapArrForSelectQuery.length; i++) {
-			System.out.println(parkingMapArrForSelectQuery[i]);
+			System.out.println(parkingMapArrForSelectQuery[i].parkingState);
 		}
 
 
 		String [] parkingMapArrForInsertQuery = new String [lot1Size];
 		for (int i = 0; i < parkingMapArrForInsertQuery.length; i++) {
 			parkingMapArrForInsertQuery[i] = DBConstants.ParkingMap.FREE.getValue();
+
 		}
 		try {
 			regularDBAPIInst.deleteParkingMap(lotId);

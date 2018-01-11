@@ -9,9 +9,13 @@ public enum CustomerRequestType {
 	ORDER_FULL_MONTHLY_SUBSCRIPTION,
 	SUBSCRIPTION_RENEWAL,
 	OPEN_COMPLAINT,
+	
 	// relevant only for kiosk clients
 	OCCASIONAL_PARKING,
 	ENTER_PARKING_PRE_ORDERED,
 	ENTER_PARKING_SUBSCRIBER,
 	EXIT_PARKING,
+	
+	// used only for sending messages from the server to the client
+	FULL_PARKING_LOT,
 }

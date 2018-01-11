@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import core.ParkingState;
+import core.ParkingStatus;
 import server.db.DBConstants;
 
 // TODO: Auto-generated Javadoc
@@ -21,17 +24,20 @@ public class ServerUtils {
 	 * @return the DB constants.parking map[]
 	 */
 	public static DBConstants.ParkingMap [] dbParkingMapTo1DArray(ArrayList<Map<String, Object>> parkingMapAsArrList) {
+
 		
 //		int countRows = 0;
 //		int x = 0, y = 0, z = 0;
 		
 		int numberOfParkings = ((parkingMapAsArrList.get(0)).entrySet()).size();
 		DBConstants.ParkingMap arr1d[] = new DBConstants.ParkingMap[numberOfParkings];
+
 		Map<String, Object> parkingMapMap = parkingMapAsArrList.get(0);
 		for (int i = 1; i <= arr1d.length; i++) {
 			String currKey = "c" + i;
 			String currValueString = (String) parkingMapMap.get(currKey);
 			arr1d[i-1] = DBConstants.ParkingMap.convertStringToParkingMapEnum(currValueString);
+
 		}
 		return arr1d;
 	}
@@ -44,6 +50,7 @@ public class ServerUtils {
 	 * @param parkingMap1D the parking map 1 D
 	 */
 	public static void dbParkingMapTo1DArray(DBConstants.ParkingMap [][][] parkingMap3D, DBConstants.ParkingMap [] parkingMap1D) {
+
 		int oneDIndex = 0;
 		int x = parkingMap3D.length;
 		int y = parkingMap3D[1].length;

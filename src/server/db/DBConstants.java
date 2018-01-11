@@ -75,7 +75,7 @@ public class DBConstants {
 		
 	};
 	
-	
+
 	public enum ParkingMap {FREE("free"), PARKED("parked"), RESERVED("reserved"), BROKEN("broken"), MAINTENENCE("maintenence");
 		String value;
 		ParkingMap(String value) {
@@ -103,6 +103,7 @@ public class DBConstants {
 	};
 	
 	public enum OrderType {ONE_TIME("oneTime"), ORDER("order"), SUBSCRIPTION("subscriptionRegular"), SUBSCRIPTION_FULL("subscriptionFull");
+
 		String value;
 		OrderType(String value) {
 		      this.value = value;

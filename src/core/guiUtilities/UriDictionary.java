@@ -24,10 +24,19 @@ public class UriDictionary {
 
 	// Worker GUI resources
 	public class WorkerGui {
-		public static final String Shell = "../../WorkerGui/views/WorkerGuiShell.fxml";
-		public static final String ClientView = "../../WorkerGui/views/WorkerGuiClientView.fxml";
-		public static final String SetOutOfOrderParkingSpaceView = "../../WorkerGui/views/SetOutOfOrderParkingSpaceView.fxml";
-		public static final String UpdateRatesRequestView = "../../WorkerGui/views/UpdateRatesRequestView.fxml";
+		public static final String Shell = "../../workerGui/views/WorkerGuiShell.fxml";
+		public static final String OuterShell = "../../workerGui/views/WorkerOuterShell.fxml";
+		public static final String WorkerStartPageView = "../../workerGui/views/WorkerStartPageView.fxml";
+		public static final String ClientView = "../../workerGui/views/WorkerGuiClientView.fxml";
+		public static final String SetOutOfOrderParkingSpaceView = "../../workerGui/views/SetOutOfOrderParkingSpaceView.fxml";
+		public static final String UpdateRatesRequestView = "../../workerGui/views/UpdateRatesRequestView.fxml";
+		public static final String ApproveRatesRequestsPortalView = "../../workerGui/views/ApproveRatesRequestsPortalView.fxml";
+		public static final String InitializeParkingLotView = "../../workerGui/views/InitializeParkingLotView.fxml";
+		public static final String AcquitOrChargeAccountView = "../../workerGui/views/AcquitOrChargeAccountView.fxml";
+		public static final String CancelCustomerOrderView = "../../workerGui/views/CancelCustomerOrderView.fxml";
+		public static final String ComplaintsPortalView = "../../workerGui/views/ComplaintsPortalView.fxml";
+		public static final String ParkingLotFullView = "../../workerGui/views/ParkingLotFullView.fxml";
+		public static final String ReserveParkingSpaceView = "../../workerGui/views/ReserveParkingSpaceView.fxml"; // Not implemented yet
 	}
 
 	// Regions used as placeholder for views
@@ -36,6 +45,7 @@ public class UriDictionary {
 		public static final String kisokMainViewRegion = "#kisokMainViewRegion";
 		public static final String workerMainViewRegion = "#workerMainViewRegion";
 		public static final String kisokOuterShellRegion = "#kisokOuterShellRegion";
+		public static final String workerOuterShellRegion = "#workerOuterShellRegion";
 		public static final String kisokBreadCrumb = "#breadCrumbBar";
 	}
 }

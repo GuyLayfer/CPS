@@ -22,7 +22,7 @@ public class WorkerGuiClientController extends WorkerGuiController {
 
 	@FXML
 	void GoInitialize(ActionEvent event) {
-
+		NavigateTo(GoDisableParkingSpaceLink.getScene(), UriDictionary.WorkerGui.InitializeParkingLotView);
 	}
 
 	@FXML
@@ -32,11 +32,11 @@ public class WorkerGuiClientController extends WorkerGuiController {
 
 	@FXML
 	void GoParkingLotFull(ActionEvent event) {
-
+		NavigateTo(GoDisableParkingSpaceLink.getScene(), UriDictionary.WorkerGui.ParkingLotFullView);
 	}
 
 	@FXML
 	void GoReserveParkingSpace(ActionEvent event) {
-
+		NavigateTo(GoDisableParkingSpaceLink.getScene(), UriDictionary.WorkerGui.ReserveParkingSpaceView);
 	}
 }

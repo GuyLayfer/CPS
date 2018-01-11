@@ -9,6 +9,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+
+import core.ParkingState;
+import core.ParkingStatus;
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
 import server.db.DBConstants;
@@ -304,6 +307,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @throws SQLException the SQL exception
 	 */
 	public void selectParkingMapByLotId(int lotId, String [] parkingMapArr) throws SQLException {
+
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(lotId);
@@ -316,6 +320,7 @@ public class RegularDBAPI extends DBAPI{
 			for (int i = 0; i < parkingMapArr.length; i++) {
 				String curIdx = "c"+(i+1);
 				parkingMapArr[i] = (String)row.get(curIdx);
+
 			}
 		}
 	}
@@ -328,12 +333,14 @@ public class RegularDBAPI extends DBAPI{
 	 * @throws SQLException the SQL exception
 	 */
 	public void insertParkingMapOfLotId(int lotId, String [] parkingMapArr) throws SQLException {
+
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(lotId);
 		paramTypes.add(sqlTypeKind.INT);	
 		for (int i = 0; i < parkingMapArr.length; i++) {
 			paramsValues.add(parkingMapArr[i]);
+
 			paramTypes.add(sqlTypeKind.VARCHAR);			
 		}
 		DBConnection.updateSql(parkingMapQueriesInst.parkingMapInsertQueriesIdxByLotId[lotId-1], paramsValues, paramTypes);

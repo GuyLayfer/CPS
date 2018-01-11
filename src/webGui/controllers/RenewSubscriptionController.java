@@ -24,8 +24,8 @@ public class RenewSubscriptionController implements ServerMessageHandler {
 	@FXML
 	protected void initialize() {
 		renewSubscriptionBTN.disableProperty().bind(validation.invalidProperty());
-		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
-		validation.registerValidator(subscriptionIDTF, Validator.createRegexValidator("Subscription ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
+		validation.registerValidator(subscriptionIDTF, Validator.createRegexValidator("Subscription ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 
 	}
 

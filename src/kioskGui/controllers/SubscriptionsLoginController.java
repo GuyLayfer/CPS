@@ -28,7 +28,7 @@ public class SubscriptionsLoginController implements ServerMessageHandler {
 	protected void initialize() {
 		submitBTN.disableProperty().bind(validation.invalidProperty());
 		validation.registerValidator(CarIdField, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.LicencePlateLength, Severity.ERROR));
-		validation.registerValidator(SubscriptionIdField, Validator.createRegexValidator("Subscription ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(SubscriptionIdField, Validator.createRegexValidator("Subscription ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 	}
 
 	@FXML

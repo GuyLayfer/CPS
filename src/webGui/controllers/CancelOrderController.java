@@ -24,7 +24,7 @@ public class CancelOrderController implements ServerMessageHandler {
 	@FXML
 	protected void initialize() {
 		CancelOrderBTN.disableProperty().bind(validation.invalidProperty());
-		validation.registerValidator(orderIDTF, Validator.createRegexValidator("Order ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(orderIDTF, Validator.createRegexValidator("Order ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 	}
 
 	@FXML // fx:id="CancelOrderBTN"

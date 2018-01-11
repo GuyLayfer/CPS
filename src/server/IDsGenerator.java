@@ -1,5 +1,5 @@
 package server;
-
+// TODO: delete this class
 import java.sql.SQLException;
 
 import server.db.dbAPI.DBAPI;
@@ -21,6 +21,7 @@ public class IDsGenerator {
 //		this.subscriptionID = DBAPI.getLastSubscriptionID();
 //		this.complaintID = DBAPI.getLastComplaintID();
 //	}
+
 	
 	public static IDsGenerator getInstance() throws SQLException {
 		if (instance == null) {

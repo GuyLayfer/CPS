@@ -34,8 +34,8 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
     protected void initialize() {
 		OrderOneTimeParkingBTN.disableProperty().bind(validation.invalidProperty());
 		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String)email), "Email is not valid"));
-		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
-		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.OneOrMoreIntegers, Severity.ERROR));
+		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
+		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 		validation.registerValidator(liscencePlateTF, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.LicencePlateLength, Severity.ERROR));
 		validation.registerValidator(estimatedDepartureTimeTF, Validator.createEmptyValidator("Departure time is Required"));
 		validation.registerValidator(arrivalTimeTF, Validator.createEmptyValidator("Arrival time is Required"));
