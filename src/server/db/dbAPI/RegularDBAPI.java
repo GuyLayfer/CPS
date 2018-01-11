@@ -10,8 +10,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import core.ParkingState;
-import core.ParkingStatus;
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
 import server.db.DBConstants;
@@ -314,8 +312,8 @@ public class RegularDBAPI extends DBAPI{
 		paramTypes.add(sqlTypeKind.INT);
 		ArrayList<Map<String, Object>> rs = new ArrayList<Map<String,Object>>();
 		DBConnection.selectSql(parkingMapQueriesInst.select_parking_map_by_lot_id, paramsValues, paramTypes, rs);
-
-		for (Iterator iterator = rs.iterator(); iterator.hasNext();) {
+		Iterator<Map<String, Object>> iterator = rs.iterator();
+		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (int i = 0; i < parkingMapArr.length; i++) {
 				String curIdx = "c"+(i+1);

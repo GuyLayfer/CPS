@@ -5,7 +5,7 @@ import server.db.DBConnection.sqlTypeKind;
 // These constants must be the same as the column names in the DB 
 public class DBConstants {
 	
-	public enum SqlColumns{
+	public enum DbSqlColumns{
 		ENTRANCE_ID("entrance_id", DBConnection.sqlTypeKind.INT),
 		LEAVE_TIME("leave_time", DBConnection.sqlTypeKind.TIMESTAMP),
 		ACCOUNT_ID("account_id", DBConnection.sqlTypeKind.INT),
@@ -36,7 +36,7 @@ public class DBConstants {
 		;
 		String columnName;
 		sqlTypeKind type;
-		SqlColumns(String columnName, sqlTypeKind columnType){
+		DbSqlColumns(String columnName, sqlTypeKind columnType){
 			 this.columnName = columnName; 
 			 this.type = columnType;
 		}

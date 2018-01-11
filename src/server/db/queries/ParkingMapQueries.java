@@ -1,6 +1,6 @@
 package server.db.queries;
 
-import server.db.DBConstants.SqlColumns;
+import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
 
 public class ParkingMapQueries {
@@ -54,13 +54,13 @@ public class ParkingMapQueries {
 	public final String select_parking_map_by_lot_id =
 			"SELECT * " + 
 			" FROM " + SqlTables.PARKING_MAP.getName() + 
-			" WHERE " + SqlColumns.LOT_ID.getName() + " = ?";
+			" WHERE " + DbSqlColumns.LOT_ID.getName() + " = ?";
 
 
 	
 	public final String delete_parking_map_of_lot_id =
 			"DELETE FROM " + SqlTables.PARKING_MAP.getName()+
-			" WHERE " + SqlColumns.LOT_ID.getName() + " = ?";	
+			" WHERE " + DbSqlColumns.LOT_ID.getName() + " = ?";	
 	
 	
 }

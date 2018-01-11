@@ -1,6 +1,6 @@
 package server.db.queries;
 
-import server.db.DBConstants.SqlColumns;
+import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
 
 public class SubscriptionsQueries {
@@ -25,18 +25,18 @@ public class SubscriptionsQueries {
 
 
 	public final String select_subscriptioin_id_by_car_id = 
-			"SELECT " + SqlColumns.CAR_ID.getName() + 
+			"SELECT " + DbSqlColumns.CAR_ID.getName() + 
 			" FROM " + SqlTables.SUBSCRIPTIONS.getName() + 
-			"  WHERE " + SqlColumns.SUBSCRIPTION_ID.getName() + " = ? ";
+			"  WHERE " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ? ";
 	
 //	TODO: change the name of the query
 	public final String select_counts_of_cars_of_one_subscription_grouped_by_subs_id = 
 			"SELECT " +
-			SqlColumns.SUBSCRIPTION_ID.getName() +
-			", count(" + SqlColumns.CAR_ID.getName() + ") " +
+			DbSqlColumns.SUBSCRIPTION_ID.getName() +
+			", count(" + DbSqlColumns.CAR_ID.getName() + ") " +
 			" FROM " + SqlTables.CARS.getName() +
-			" GROUP BY " + SqlColumns.SUBSCRIPTION_ID.getName() +
-			" having (count(" + SqlColumns.CAR_ID.getName() + ") > 1)" ;
+			" GROUP BY " + DbSqlColumns.SUBSCRIPTION_ID.getName() +
+			" having (count(" + DbSqlColumns.CAR_ID.getName() + ") > 1)" ;
 
 	public final String insert_subscription =
 			"INSERT INTO " + SqlTables.SUBSCRIPTIONS.getName() + 
@@ -45,14 +45,14 @@ public class SubscriptionsQueries {
 
 
 	public final String update_subscription_expired_date = 
-			" UPDATE  " +SqlTables.SUBSCRIPTIONS.getName() + " SET "+ SqlColumns.EXPIRED_DATE.getName() + " = ? " +
-					"   WHERE  " + SqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
+			" UPDATE  " +SqlTables.SUBSCRIPTIONS.getName() + " SET "+ DbSqlColumns.EXPIRED_DATE.getName() + " = ? " +
+					"   WHERE  " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
 
 
 	public final String select_subscription_details_by_id =
 			"SELECT * " +
 					" FROM " + SqlTables.SUBSCRIPTIONS.getName() +
-					"   WHERE  " + SqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
+					"   WHERE  " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
 
 	public final String select_all_active_subscriptions = 
 			"SELECT * " +

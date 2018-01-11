@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import core.ParkingState;
-import core.ParkingStatus;
 import server.db.DBConstants;
 
 // TODO: Auto-generated Javadoc

@@ -1,6 +1,6 @@
 package server.db.queries;
 
-import server.db.DBConstants.SqlColumns;
+import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
 
 
@@ -32,48 +32,48 @@ public class RegularQueries {
 	public final String get_last_day_complains =
 			"SELECT * " +
 			"FROM " + SqlTables.COMPLAINTS.getName() + 
-			"  WHERE " + SqlColumns.COMPLAINT_DATETIME.getName()  +
+			"  WHERE " + DbSqlColumns.COMPLAINT_DATETIME.getName()  +
 			" BETWEEN ? AND ?";
 	
 	public final String car_id_details = 
 			"SELECT * " +
 			"FROM " +  SqlTables.CARS.getName() + 
-			"  WHERE " + SqlColumns.CAR_ID.getName() + " = ?";
+			"  WHERE " + DbSqlColumns.CAR_ID.getName() + " = ?";
 	
 	
 	public final String select_complain_details =
 			"SELECT * " +
 			"FROM " +  SqlTables.COMPLAINTS.getName() +
-			" WHERE " + SqlColumns.COMPLAINT_ID.getName() + " = ?";
+			" WHERE " + DbSqlColumns.COMPLAINT_ID.getName() + " = ?";
 
 	public final String select_complaints_last_day = 
 			"SELECT * " +
 			" FROM " +  SqlTables.COMPLAINTS.getName() +
-			" WHERE " + SqlColumns.COMPLAINT_DATETIME.getName() +
+			" WHERE " + DbSqlColumns.COMPLAINT_DATETIME.getName() +
 			" BETWEEN ? and ?";
 	
 	public final String update_customer_balance =
 			" UPDATE  " + SqlTables.ACCOUNTS.getName() +
-			" SET " + SqlColumns.BALANCE.getName() + " = " + SqlColumns.BALANCE.getName() + " + ? " +
-			" WHERE " + SqlColumns.ACCOUNT_ID.getName() + " = ?";
+			" SET " + DbSqlColumns.BALANCE.getName() + " = " + DbSqlColumns.BALANCE.getName() + " + ? " +
+			" WHERE " + DbSqlColumns.ACCOUNT_ID.getName() + " = ?";
 	
 	public final String select_customer_id_by_entrance_id = 
-			"SELECT " + SqlColumns.ACCOUNT_ID.getName()  +
+			"SELECT " + DbSqlColumns.ACCOUNT_ID.getName()  +
 			" FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+ 
-			"  WHERE " + SqlColumns.ENTRANCE_ID.getName() + " = ?";
+			"  WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
 	
 	
 	public final String insert_car_planed_being_in_parking_to_log = 
 			"INSERT INTO " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName()+
 			"(" +
-			 SqlColumns.CAR_ID.getName() + ", " +
-			SqlColumns.ACCOUNT_ID.getName() + ", " +
-			 SqlColumns.LOT_ID.getName() + ", " + 
-			 SqlColumns.ORDER_TYPE.getName() + ", " +
-			 SqlColumns.ARRIVE_PREDICTION.getName() + ", " +
-			 SqlColumns.LEAVE_PREDICTION.getName() + ", " +
-			 SqlColumns.ARRIVE_TIME.getName() + ", " +
-			  SqlColumns.LEAVE_TIME.getName() + 
+			 DbSqlColumns.CAR_ID.getName() + ", " +
+			DbSqlColumns.ACCOUNT_ID.getName() + ", " +
+			 DbSqlColumns.LOT_ID.getName() + ", " + 
+			 DbSqlColumns.ORDER_TYPE.getName() + ", " +
+			 DbSqlColumns.ARRIVE_PREDICTION.getName() + ", " +
+			 DbSqlColumns.LEAVE_PREDICTION.getName() + ", " +
+			 DbSqlColumns.ARRIVE_TIME.getName() + ", " +
+			  DbSqlColumns.LEAVE_TIME.getName() + 
 			 " ) " +
 			  " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	
@@ -84,18 +84,18 @@ public class RegularQueries {
 	
 	public final String car_left_parking_update_time_left = 
 			" UPDATE  " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName() + 
-			" SET " + SqlColumns.LEAVE_TIME.getName() + " = ? "
-			+ " WHERE " + SqlColumns.ENTRANCE_ID.getName() + " = ?";
+			" SET " + DbSqlColumns.LEAVE_TIME.getName() + " = ? "
+			+ " WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
 	
 	public final String delete_entrance_from_car_planed_being_in_parking = 
 			"DELETE FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+
-			" WHERE " + SqlColumns.ENTRANCE_ID.getName() + " = ?";
+			" WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
 	
 
 	public final String track_order =
 			"SELECT * " +
 			 "	FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+
-			 "  WHERE " + SqlColumns.ENTRANCE_ID.getName() + " = ?";
+			 "  WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
 	
 
 	public final String insert_new_account = 
@@ -105,7 +105,7 @@ public class RegularQueries {
 	public final String select_account_details = 
 			"SELECT * " +
 			"FROM  " + SqlTables.ACCOUNTS.getName() +
-			" WHERE " + SqlColumns.ACCOUNT_ID.getName() + " = ?";
+			" WHERE " + DbSqlColumns.ACCOUNT_ID.getName() + " = ?";
 	
 	
 	public final String select_all_cars = 

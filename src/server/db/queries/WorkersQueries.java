@@ -1,6 +1,6 @@
 package server.db.queries;
 
-import server.db.DBConstants.SqlColumns;
+import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
 import server.db.dbAPI.DBAPI;
 
@@ -25,9 +25,9 @@ public class WorkersQueries extends DBAPI {
 	}
 	
 
-public final String select_worker_role = "SELECT " + SqlColumns.ROLE_ID.getName() + ", " + SqlColumns.LOT_ID.getName()  + 
+public final String select_worker_role = "SELECT " + DbSqlColumns.ROLE_ID.getName() + ", " + DbSqlColumns.LOT_ID.getName()  + 
 		" FROM " + SqlTables.WORKERS.getName() +
-		"  WHERE  " + SqlColumns.WORKER_ID.getName() + " = ?";
+		"  WHERE  " + DbSqlColumns.WORKER_ID.getName() + " = ?";
 	
 	
 }

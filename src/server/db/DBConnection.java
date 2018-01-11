@@ -82,7 +82,6 @@ public class DBConnection {
 					DriverManager.getConnection("jdbc:mysql://softengproject.cspvcqknb3vj.eu-central-1.rds.amazonaws.com/short_tailed_bat_schema",
 							"short_tailed_bat","9(QxN\"&c7.52(jTS");
 			System.out.println("SQL connection succeed");
-			Statement stmt;
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString);
 				preparePSParams(stmtString, ps, params, types);
