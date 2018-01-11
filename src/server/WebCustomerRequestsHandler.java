@@ -2,10 +2,11 @@ package server;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import server.db.DBConstants;
 import server.db.dbAPI.DBAPI;
-
+import server.db.dbAPI.RegularDBAPI;
 import com.google.gson.Gson;
-
+import server.db.DBConstants.SqlColumns;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,8 +22,6 @@ import core.customer.CustomerRequest;
 import core.customer.CustomerRequestType;
 import core.customer.CustomerResponse;
 import core.customer.TrackOrderResponseData;
-import db.SqlColumns;
-import db.SqlColumns.ParkingTonnage;
 
 
 public class WebCustomerRequestsHandler extends AbstractServer {
@@ -41,30 +40,32 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	
 	protected String orderOneTimeParking(CustomerRequest request) throws SQLException {
 		int entranceId = idsGenerator.nextEntranceID();
-		DBAPI.updateParkingReservaion(request.carID, request.customerID, entranceId, request.parkingLotID,
+		RegularDBAPI.getInstance().updateParkingReservaion(request.carID, request.customerID, entranceId, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				server.db.dbAPI.orderType.ORDER.getId());
+				DBConstants.OrderType.ORDER.getValue());
 		//TODO: calculate order price and update the account balance
 		double price = 0.0;
-		DBAPI.createNewAccount(request.customerID, request.email, request.carID, price, false);
+
+//		public void insertNewAccount(int accountId, String email, String carId, DBConstants.trueFalse hasSubscription)
+		RegularDBAPI.getInstance().insertNewAccount(request.customerID, request.email, request.carID, /*price, New account always start with 0*/ DBConstants.TrueFalse.FALSE);
 		//TODO: update parking lots info
 		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceId, price)));
 	}
 	
 	protected String trackOrderStatus(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		DBAPI.trackOrderStatus(request.orderID, resultList);
+		RegularDBAPI.getInstance().selectOrderStatus(request.orderID, resultList);
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
 			Map<String, Object> result = resultList.iterator().next();
 			TrackOrderResponseData response = new TrackOrderResponseData();
-			response.orderID = (Integer) result.get(ParkingTonnage.ENTRANCE_ID);
-			response.customerID = (Integer) result.get(SqlColumns.ParkingTonnage.ACCOUNT_ID);
-			response.carID = result.get(SqlColumns.ParkingTonnage.CAR_ID).toString();
-			response.parkingLotID = (Integer) result.get(SqlColumns.ParkingTonnage.LOT_ID);
-			response.arrivalTime = (Date)result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
-			response.estimatedDepartureTime = (Date)result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
+			response.orderID = (Integer) (result.get(ParkingTonnage.ENTRANCE_ID));
+			response.customerID = (Integer) result.get(sqlColumns.SqlColumns.ACCOUNT_ID);
+			response.carID = result.get(sqlColumns.SqlColumns.CAR_ID).toString();
+			response.parkingLotID = (Integer) result.get(sqlColumns.SqlColumns.LOT_ID);
+			response.arrivalTime = (Date)result.get(sqlColumns.SqlColumns.ARRIVE_PREDICTION);
+			response.estimatedDepartureTime = (Date)result.get(sqlColumns.SqlColumns.LEAVE_PREDICTION);
 			return createOkResponse(request.requestType, gson.toJson(response));
 		}
 	}

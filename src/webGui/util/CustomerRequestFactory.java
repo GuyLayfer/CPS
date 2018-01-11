@@ -9,7 +9,7 @@ import core.customer.CustomerRequestType;
 
 public class CustomerRequestFactory {
 	
-	public static CustomerRequest CreateOrderOneTimeParkingRequest(int customerID,int licensePlate, String email, int parkingLotID, Date arrivalTime, 
+	public static CustomerRequest CreateOrderOneTimeParkingRequest(int customerID, String licensePlate, String email, int parkingLotID, Date arrivalTime, 
 			Date estimatedDepartureTime){
 		CustomerRequest OrderOneTimeParkingRequest = new CustomerRequest();
 		OrderOneTimeParkingRequest.requestType = CustomerRequestType.ORDER_ONE_TIME_PARKING;
@@ -49,7 +49,7 @@ public class CustomerRequestFactory {
 		return OrderRoutineMonthlySubscriptionRequest;
 	}
 	
-	public static CustomerRequest CreateOrderFullMonthlySubscriptionRequest(int customerID,int licensePlate, String email, Date startingDate){
+	public static CustomerRequest CreateOrderFullMonthlySubscriptionRequest(int customerID, String licensePlate, String email, Date startingDate){
 		CustomerRequest OrderFullMonthlySubscriptionRequest = new CustomerRequest();
 		OrderFullMonthlySubscriptionRequest.requestType = CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION;
 		OrderFullMonthlySubscriptionRequest.customerID = customerID;

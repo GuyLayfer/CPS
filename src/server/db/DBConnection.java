@@ -1,4 +1,5 @@
 package server.db;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import com.mysql.jdbc.ResultSetMetaData;
 
 public class DBConnection {
 
-	public enum sqlTypeKind {INT, VARCHAR, FLOAT, TIMESTAMP, DATE, DOUBLE, ENUM, TEXT;
+	public enum sqlTypeKind {INT, VARCHAR,  TIMESTAMP, DATE, DOUBLE, ENUM, TEXT;
 	};
 
 	public static void preparePSParams(String stmt, PreparedStatement ps, 
@@ -37,9 +38,6 @@ public class DBConnection {
 				break;
 			case DOUBLE:
 				ps.setDouble(i, ((Double)curParam));
-				break;
-			case FLOAT:
-				ps.setFloat(i, (Float) curParam);
 				break;
 			case TIMESTAMP:
 				Timestamp ts = new Timestamp(((Date)curParam).getTime());

@@ -11,7 +11,7 @@ public class CustomerRequest {
 // Optional:
 	// used in most of the orders
 	public int customerID;
-	public int carID;		// TODO: change it to String when Raz changes it in the DB
+	public String carID;		
 	public String email;
 	public int parkingLotID;
 	public List<String> liscencePlates;

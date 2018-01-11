@@ -5,12 +5,19 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import server.db.DBConnection;
+import server.db.queries.ParkingMapQueries;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class DBAPI.
  */
 public abstract class DBAPI {
+
+	protected static Object mutex = new Object();
+	protected ParkingMapQueries parkingMapQueriesInst; //this query is commons to several inherited instances
+
+	//	protected RegularQueries regularQueriesInst;
+	//	protected ParkingMapQueries parkingMapQueriesInst;
 
 
 	/**
@@ -25,7 +32,7 @@ public abstract class DBAPI {
 	 * @throws SQLException the SQL exception
 	 */
 	public static void selectBetween2DatesQuery(String query, java.sql.Date leftDate, java.sql.Date rightDate, 
-												ArrayList<Map<String, Object>> resultList) throws SQLException {
+			ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(leftDate);
@@ -36,3 +43,4 @@ public abstract class DBAPI {
 	}
 
 }
+

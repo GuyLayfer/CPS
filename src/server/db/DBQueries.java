@@ -13,22 +13,22 @@ public class DBQueries {
 //	");";	
 	
 	
-public static String parking_map = "SELECT parking_lot_$id " + 
-			"FROM parking_map";
-
-
-
-
-
-
-
-
-
-
-
-public static String lots_dimensions = "SELECT x, y, z " +
-				"FROM lots_dimensions";
-
+//public static String parking_map = "SELECT parking_lot_$id " + 
+//			"FROM parking_map";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//public static String lots_dimensions = "SELECT x, y, z " +
+//				"FROM lots_dimensions";
+//
 
 
 

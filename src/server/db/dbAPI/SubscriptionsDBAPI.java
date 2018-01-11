@@ -1,16 +1,13 @@
 package server.db.dbAPI;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
-import server.db.queries.RegularQueries;
-import server.db.queries.ReportsQueries;
 import server.db.queries.SubscriptionsQueries;
 
 // TODO: Auto-generated Javadoc
@@ -18,6 +15,60 @@ import server.db.queries.SubscriptionsQueries;
  * The Class SubscriptionsDBAPI.
  */
 public class SubscriptionsDBAPI extends DBAPI{
+
+	//	private static Object mutex = new Object();
+	private static volatile SubscriptionsDBAPI instance;
+	private SubscriptionsQueries subscriptionsQueriesInst;
+
+
+	private SubscriptionsDBAPI() {
+		subscriptionsQueriesInst = SubscriptionsQueries.getInstance();
+	}
+
+	public static SubscriptionsDBAPI getInstance() {
+		SubscriptionsDBAPI result = instance;
+		if (result == null) {
+			synchronized (mutex) {
+				result = instance;
+				if (result == null)
+					instance = result = new SubscriptionsDBAPI();
+			}
+		}
+		return result;
+	}
+
+
+	/**
+	 * Gets the number of subscriptions has more than one cars.
+	 *
+	 * @return the number of subscriptions has more than one car.
+	 * @throws SQLException the SQL exception
+	 */
+	public  int getNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
+		ArrayList<Map<String, Object>> rs = new ArrayList<Map<String, Object>>();
+		selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(rs);
+		return rs.size();
+	}
+
+	/**
+	 * Checks if is subscription active.
+	 * compares the expired date entity and today.
+	 * @param subscriptionId the subscription id
+	 * @return true, if is subscription active
+	 * @throws SQLException the SQL exception
+	 */
+	public boolean isSubscriptionActive(int subscriptionId) throws SQLException {
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		selectSubscriptionDetails(subscriptionId, resultList);
+		Map<String, Object> map = (Map<String, Object>) resultList.get(0);
+		Date expiredDate = (Date)( map.get("expired_date"));
+		long  expiredDateInMillis = expiredDate.getTime();
+		if (expiredDateInMillis > System.currentTimeMillis()) {
+			return true;			
+		}
+		else
+			return false;
+	}
 
 
 	// 	TODO: test
@@ -28,14 +79,14 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 * @param newExpiredDate the new expired date
 	 * @throws SQLException the SQL exception
 	 */
-	public static void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate) throws SQLException {
+	public void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		params.add(newExpiredDate);
 		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
-		DBConnection.updateSql(SubscriptionsQueries.update_subscription_expired_date, params, paramTypes);
+		DBConnection.updateSql(subscriptionsQueriesInst.update_subscription_expired_date, params, paramTypes);
 	}
 
 
@@ -47,13 +98,24 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 * @param rs the arrayList contains the details of this subscriptionId.
 	 * @throws SQLException the SQL exception
 	 */
-	public static void selectSubscriptionDetails (int subscriptionId, ArrayList<Map<String, Object>> rs) throws SQLException {
+	public void selectSubscriptionDetails (int subscriptionId, ArrayList<Map<String, Object>> rs) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
 		paramTypes.add(sqlTypeKind.INT);
 
-		DBConnection.selectSql(SubscriptionsQueries.select_subscription_details_by_id, params, paramTypes, rs);
+		DBConnection.selectSql(subscriptionsQueriesInst.select_subscription_details_by_id, params, paramTypes, rs);
+	}
+
+	//	TODO: change the name of the function
+	/**
+	 * Select number of cars of one subscription grouped by subscription id.
+	 *
+	 * @param resultList the result list contains: the number of cars owned by each subscription.
+	 * @throws SQLException the SQL exception
+	 */
+	public  void selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(ArrayList<Map<String, Object>> resultList) throws SQLException {
+		DBConnection.selectSql(subscriptionsQueriesInst.select_counts_of_cars_of_one_subscription_grouped_by_subs_id, null, null, resultList);
 	}
 
 	/**
@@ -64,38 +126,29 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 * @return the subscription id by car id
 	 * @throws SQLException the SQL exception
 	 */
-	public static void getSubscriptionIdByCarId(int subscription_id, ArrayList<Map<String, Object>> resultList) throws SQLException {
+	public void getSubscriptionIdByCarId(int subscription_id, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		/*return if customer has subscription*/	
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
 		paramsValues.add(subscription_id);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		DBConnection.selectSql(RegularQueries.select_subscriptioin_id_by_car_id, paramsValues, paramTypes, resultList);
-	}
-	
-//	TODO: change the name of the function
-	/**
-	 * Select number of cars of one subscription grouped by subscription id.
-	 *
-	 * @param resultList the result list contains: the number of cars owned by each subscription.
-	 * @throws SQLException the SQL exception
-	 */
-	public static void selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(ArrayList<Map<String, Object>> resultList) throws SQLException {
-		DBConnection.selectSql(ReportsQueries.select_counts_of_cars_of_one_subscription_grouped_by_subs_id, null, null, resultList);
+		DBConnection.selectSql(subscriptionsQueriesInst.select_subscriptioin_id_by_car_id, paramsValues, paramTypes, resultList);
 	}
 
-	
 	/**
-	 * Gets the number of subscriptions has more than one cars.
+	 * Insert new subscription.
 	 *
-	 * @return the number of subscriptions has more than one car.
-	 * @throws SQLException the SQL exception
+	 * @param customerId the customer id
+	 * @param listOfCarsForThisSubscriptioin the list of cars for this subscription
+	 * @return the subscription ID.
 	 */
-	public static int getNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
-		ArrayList<Map<String, Object>> rs = new ArrayList<Map<String, Object>>();
-		selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(rs);
-		return rs.size();
+	//TODO: implement
+	public int insertNewSubscription(int customerId, ArrayList<String> listOfCarsForThisSubscription) {
+		return 0;
 	}
+
+
+
 
 
 
