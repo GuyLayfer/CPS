@@ -28,7 +28,7 @@ public abstract class BaseController {
 		Region region = null;
 		try {
 			region = FXMLLoader.load(uri);
-			StackPane.setAlignment(region, Pos.TOP_LEFT);
+			StackPane.setAlignment(region, Pos.CENTER);
 			mainViewRegion.getChildren().clear();
 			mainViewRegion.getChildren().add(region);
 			transitionVisible(region);
