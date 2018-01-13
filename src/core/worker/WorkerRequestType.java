@@ -1,5 +1,21 @@
 package core.worker;
 
 public enum WorkerRequestType {
-	//TODO: add enum names as in CustomerRequestType
+	ACQUIT_OR_CHARGE_ACCOUNT,
+	CANCEL_CUSTOMER_ORDER,
+	INITIALIZE_PARKING_LOT,
+	PARKING_LOT_FULL,
+	RESERVE_PARKING_SPACE,
+	OUT_OF_ORDER,
+	UPDATE_RATES,
+	REQUEST_COMPLAINTS_FOR_REVIEW,
+	REQUEST_RATES_FOR_REVIEW,
+	DECIDE_ON_RATES,
+	DECIDE_ON_COMPLAINTS,
+	PARKING_LOT_NAMES,
+	REQUEST_PERMISSIONS,
+	BAD_REQUEST, // Used only for responses. The client should not send this request
+	OPERATION_REPORT,
+	STATISTICS_REPORT
+	// TODO: Add reports if needed
 }
