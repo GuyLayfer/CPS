@@ -24,10 +24,10 @@ public class SubscriptionsQueries {
 	}
 
 
-	public final String select_subscriptioin_id_by_car_id = 
-			"SELECT " + DbSqlColumns.CAR_ID.getName() + 
-			" FROM " + SqlTables.SUBSCRIPTIONS.getName() + 
-			"  WHERE " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ? ";
+//	public final String select_subscriptioin_id_by_car_id = 
+//			"SELECT " + DbSqlColumns.CAR_ID.getName() + 
+//			" FROM " + SqlTables.SUBSCRIPTIONS.getName() + 
+//			"  WHERE " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ? ";
 	
 //	TODO: change the name of the query
 	public final String select_counts_of_cars_of_one_subscription_grouped_by_subs_id = 
@@ -38,11 +38,28 @@ public class SubscriptionsQueries {
 			" GROUP BY " + DbSqlColumns.SUBSCRIPTION_ID.getName() +
 			" having (count(" + DbSqlColumns.CAR_ID.getName() + ") > 1)" ;
 
+	public final String select_cars_of_subscription_id = 
+			"SELECT " + DbSqlColumns.CAR_ID.getName() + 
+			" FROM " + SqlTables.CARS.getName() + 
+			"  WHERE " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ? ";
+	
+	
+	
 	public final String insert_subscription =
 			"INSERT INTO " + SqlTables.SUBSCRIPTIONS.getName() + 
-			" VALUES (?, ?, ?, ?, ?, ?, ?)";/*subscription_id, customer_id, car_id,
-			 								shigrati_or_full, already_came_today, lot_id, expired_date*/
+			"(" +
+			 DbSqlColumns.ACCOUNT_ID.getName() + ", " +
+			 DbSqlColumns.LOT_ID.getName() + ", " + 
+			 DbSqlColumns.OCCASIONAL_OR_FULL.getName() + ", " +
+			 DbSqlColumns.EXPIRED_DATE.getName() +
+			 " ) " +
+			" VALUES (?, ?, ?, ?)";/*subscription_id auto incremented, customer_id, lot_id, 
+				shigrati_or_full, expired_date*/
 
+	
+	public final String insert_car_to_cars = 
+			"INSERT INTO " + SqlTables.CARS.getName() +
+			" values (?,?,? )" ; 
 
 	public final String update_subscription_expired_date = 
 			" UPDATE  " +SqlTables.SUBSCRIPTIONS.getName() + " SET "+ DbSqlColumns.EXPIRED_DATE.getName() + " = ? " +
