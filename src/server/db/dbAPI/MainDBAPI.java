@@ -17,7 +17,7 @@ public class MainDBAPI {
 	public static void main(String[] args) {
 		// TODO: Who uses this code? Why there's main here?
 
-		
+/*
 		RegularDBAPI regularDBAPIInst = RegularDBAPI.getInstance();
 		int lot1Size = 36;
 		int lotId = 1;
@@ -35,6 +35,7 @@ public class MainDBAPI {
 		for (ParkingState parkingState : parkingMap) {
 			System.out.println(parkingState);
 		}
+		
 
 		String[] parkingMapArrForInsertQuery = new String[lot1Size];
 		for (int i = 0; i < parkingMapArrForInsertQuery.length; i++) {
@@ -48,7 +49,7 @@ public class MainDBAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+*/
 		
 		
 		
