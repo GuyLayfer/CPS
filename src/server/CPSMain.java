@@ -1,6 +1,8 @@
 package server;
 
 import core.ServerPorts;
+import server.workerServer.WorkerRequestsHandler;
+
 import java.sql.SQLException;
 
 // CPS Server main class

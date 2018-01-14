@@ -1,0 +1,132 @@
+package workerGui.util;
+
+import core.worker.Complaint;
+import core.worker.Rates;
+import core.worker.WorkerRequestType;
+import core.worker.requests.*;
+
+public class WorkerRequestsFactory {
+
+	public static BaseRequest CreateCancelCustomerOrderRequest(int orderId) {
+		CancelCustomerOrderRequest request = new CancelCustomerOrderRequest();
+		request.requestType = WorkerRequestType.CANCEL_CUSTOMER_ORDER;
+		request.orderId = orderId;
+		return request;
+	}
+
+	public static BaseRequest CreateAcquitOrChargeAccountRequest(int accountId, double amount) {
+		AcquitOrChargeAccountRequest request = new AcquitOrChargeAccountRequest();
+		request.requestType = WorkerRequestType.ACQUIT_OR_CHARGE_ACCOUNT;
+		request.accountId = accountId;
+		request.amount = amount;
+		return request;
+	}
+
+	public static BaseRequest CreatePermissionsRequest(int workerId, String password) {
+		PermissionsRequest request = new PermissionsRequest();
+		request.requestType = WorkerRequestType.REQUEST_PERMISSIONS;
+		request.workerId = workerId;
+		request.password = password;
+		return request;
+	}
+
+	public static BaseRequest CreateParkingLotNamesRequest() {
+		ParkingLotsNamesRequest request = new ParkingLotsNamesRequest();
+		request.requestType = WorkerRequestType.PARKING_LOT_NAMES;
+		return request;
+	}
+
+	public static BaseRequest CreateInitializeParkingLotRequest(int parkingLotId, int numberOfRows) {
+		InitializeParkingLotRequest request = new InitializeParkingLotRequest();
+		request.requestType = WorkerRequestType.INITIALIZE_PARKING_LOT;
+		request.parkingLotId = parkingLotId;
+		request.numberOfRows = numberOfRows;
+		return request;
+	}
+
+	public static BaseRequest CreateParkingLotFullRequest(Boolean setParkingLotIsFull) {
+		ParkingLotFullRequest request = new ParkingLotFullRequest();
+		request.requestType = WorkerRequestType.PARKING_LOT_FULL;
+		request.setParkingLotIsFull = setParkingLotIsFull;
+		return request;
+	}
+
+	public static BaseRequest CreateReserveParkingSpaceRequest(int lotId, int row, int column, int floor) {
+		ReserveParkingSpaceRequest request = new ReserveParkingSpaceRequest();
+		request.requestType = WorkerRequestType.RESERVE_PARKING_SPACE;
+		request.lotId = lotId;
+		request.row = row;
+		request.column = column;
+		request.floor = floor;
+		return request;
+	}
+
+	public static BaseRequest CreateOutOfOrderRequest(int lotId, int row, int column, int floor) {
+		OutOfOrderRequest request = new OutOfOrderRequest();
+		request.requestType = WorkerRequestType.OUT_OF_ORDER;
+		request.lotId = lotId;
+		request.row = row;
+		request.column = column;
+		request.floor = floor;
+		return request;
+	}
+
+	public static BaseRequest CreateUpdateRatesRequest(
+			int lotId,
+			double occasionalRate,
+			double preOrderedRate,
+			double rutineMonthlyRate,
+			double rutineMonthlyMultipleRate,
+			double fullNonthlyField) {
+		UpdateRatesRequest request = new UpdateRatesRequest();
+		request.requestType = WorkerRequestType.UPDATE_RATES;
+		request.lotId = lotId;
+		request.occasionalRate = occasionalRate;
+		request.preOrderedRate = preOrderedRate;
+		request.rutineMonthlyRate = rutineMonthlyRate;
+		request.rutineMonthlyMultipleRate = rutineMonthlyMultipleRate;
+		request.fullNonthlyField = fullNonthlyField;
+		return request;
+	}
+	
+	public static BaseRequest CreateRatesForReviewRequest() {
+		DecideOnRateRequest request = new DecideOnRateRequest();
+		request.requestType = WorkerRequestType.REQUEST_RATES_FOR_REVIEW;
+		return request;
+	}
+
+	public static BaseRequest CreateComplaintsForReviewRequest() {
+		DecideOnComplaintRequest request = new DecideOnComplaintRequest();
+		request.requestType = WorkerRequestType.REQUEST_COMPLAINTS_FOR_REVIEW;
+		return request;
+	}
+
+	public static BaseRequest CreateDecideOnRatesRequest(Rates ratesToDecide, Boolean isNewRateApproved) {
+		DecideOnRateRequest request = new DecideOnRateRequest();
+		request.requestType = WorkerRequestType.DECIDE_ON_RATES;
+		request.ratesToDecide = ratesToDecide;
+		request.isNewRateApproved = isNewRateApproved;
+		return request;
+	}
+
+	public static BaseRequest CreateDecideOnComplaintsRequest(Complaint complaintToDecide, Boolean isComplaintApproved, double amountToAcquit) {
+		DecideOnComplaintRequest request = new DecideOnComplaintRequest();
+		request.requestType = WorkerRequestType.DECIDE_ON_COMPLAINTS;
+		request.complaintToDecide = complaintToDecide;
+		request.isComplaintApproved = isComplaintApproved;
+		request.amountToAcquit = amountToAcquit;
+		return request;
+	}
+
+	public static BaseRequest CreateOperationReportRequest() {
+		OperationReportRequest request = new OperationReportRequest();
+		request.requestType = WorkerRequestType.OPERATION_REPORT;
+		return request;
+	}
+
+	public static BaseRequest CreateStatisticsReportRequest() {
+		StatisticsReportRequest request = new StatisticsReportRequest();
+		request.requestType = WorkerRequestType.STATISTICS_REPORT;
+		return request;
+	}
+}

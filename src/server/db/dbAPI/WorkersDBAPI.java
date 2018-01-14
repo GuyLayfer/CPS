@@ -38,19 +38,22 @@ public class WorkersDBAPI extends DBAPI{
 
 	//TODO: fix this. also to change names. not tested yet.
 	/**
-	 * Gets the workers role.
+	 * Gets the worker by name and password.
 	 *
 	 * @param workerId the worker id
+	 * @param workerPassword the worker password
 	 * @param resultList the result list
 	 * @return the workers role
 	 * @throws SQLException the SQL exception
 	 */
-	public void getWorkersRole(int workerId, ArrayList<Map<String, Object>> resultList) throws SQLException {
+	public void getWorkerByNameAndPassword(int workerId, String workerPassword, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
 		paramsValues.add(workerId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		DBConnection.selectSql(workersQueriesInst.select_worker_role, paramsValues, paramTypes, resultList);
+		paramsValues.add(workerPassword);
+		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
+		DBConnection.selectSql(workersQueriesInst.selectWorkerBtNameAndPassword, paramsValues, paramTypes, resultList);
 	}
 }
 

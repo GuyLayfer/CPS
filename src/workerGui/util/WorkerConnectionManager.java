@@ -2,7 +2,6 @@ package workerGui.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -10,12 +9,13 @@ import java.util.function.Function;
 import com.google.gson.Gson;
 
 import core.CpsGson;
-import core.ResponseStatus;
 import core.ServerPorts;
-import core.guiUtilities.ServerMessageHandler;
-import core.worker.WorkerRequest;
+import core.guiUtilities.IServerResponseHandler;
+import core.worker.requests.BaseRequest;
+import core.worker.requests.WorkerRequest;
 import core.worker.WorkerRequestType;
-import core.worker.WorkerResponse;
+import core.worker.responses.BaseResponse;
+import core.worker.responses.WorkerResponse;
 import ocsf.client.AbstractClient;
 
 public class WorkerConnectionManager extends AbstractClient {
@@ -24,14 +24,14 @@ public class WorkerConnectionManager extends AbstractClient {
 	final private static int DEFAULT_PORT = ServerPorts.WORKER_PORT;
 	final private static String DEFAULT_HOST = "localhost";
 	final private Gson gson = new CpsGson().GetGson();
-	private List<ServerMessageHandler> listeners = new ArrayList<ServerMessageHandler>();
-	private Map<WorkerRequestType, Function<String, Object>> responseConverterMap;
+	private List<IServerResponseHandler> listeners = new ArrayList<IServerResponseHandler>();
+	private Map<WorkerRequestType, Function<String, BaseResponse>> responseConverterMap;
 	public static String alternativeHostAddress = null;
 
 	private WorkerConnectionManager(String hostAddress) throws IOException {
 		super(hostAddress == null ? DEFAULT_HOST : hostAddress, DEFAULT_PORT);
 		openConnection();
-		responseConverterMap = CreateResponseConverterMap();
+		responseConverterMap = ResponsesTypesMapper.CreateResponsesConverterMap();
 	}
 
 	public static WorkerConnectionManager getInstance() {
@@ -47,16 +47,19 @@ public class WorkerConnectionManager extends AbstractClient {
 		return instance;
 	}
 
-	// Observer pattern
-	public void addServerMessageListener(ServerMessageHandler listner) {
+	public void addServerMessageListener(IServerResponseHandler listner) {
 		listeners.add(listner);
 	}
 
-	public void sendMessageToServer(WorkerRequest order) {
+	public void sendMessageToServer(BaseRequest specificRequest) {
 		try {
-			sendToServer(gson.toJson(order));
+			WorkerRequest workerRequest = new WorkerRequest();
+			workerRequest.requestType = specificRequest.requestType;
+			workerRequest.jsonData = gson.toJson(specificRequest);
+			sendToServer(gson.toJson(workerRequest));
 		} catch (IOException e) {
-			System.out.println("Could not send message to server.\n" + e.getMessage() +  "\nTerminating client.");
+			System.out.println("Could not send message to server.\n" + e.getMessage() + "\nTerminating client.");
+			e.printStackTrace();
 			quit();
 		}
 	}
@@ -64,12 +67,9 @@ public class WorkerConnectionManager extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object arg0) {
 		WorkerResponse response = gson.fromJson((String) arg0, WorkerResponse.class);
-		if (response.status == ResponseStatus.OK) {
-			String stringResponse = responseConverterMap.get(response.requestType).apply(response.jsonData).toString();
-			notifyListeners(stringResponse);
-		} else {
-			notifyListeners(response.toString());
-		}
+
+		BaseResponse specificResponse = responseConverterMap.get(response.requestType).apply(response.jsonData);
+		notifyListeners(specificResponse);
 	}
 
 	private void quit() {
@@ -82,39 +82,9 @@ public class WorkerConnectionManager extends AbstractClient {
 		System.exit(0);
 	}
 
-	private void notifyListeners(String message) {
-		// Observer pattern.
-		for (ServerMessageHandler listener : listeners) {
-			listener.handleServerMessage(message);
+	private void notifyListeners(BaseResponse message) {
+		for (IServerResponseHandler listener : listeners) {
+			listener.handleServerResponse(message);
 		}
 	}
-
-	private Map<WorkerRequestType, Function<String, Object>> CreateResponseConverterMap() {
-		Map<WorkerRequestType, Function<String, Object>> converterMap = new HashMap<WorkerRequestType, Function<String, Object>>();
-//		Add Relevant response converters
-//		converterMap.put(CustomerRequestType.ORDER_ONE_TIME_PARKING, (gsonString) -> {
-//			return gson.fromJson((String) gsonString, CustomerResponse.class);
-//		});
-//		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> {
-//			return gson.fromJson((String) gsonString, CustomerResponse.class);
-//		});
-//		converterMap.put(CustomerRequestType.TRACK_ORDER_STATUS, (gsonString) -> {
-//			return gson.fromJson((String) gsonString, TrackOrderResponseData.class);
-//		});
-//		converterMap.put(CustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION, (gsonString) -> {
-//			return gson.fromJson((String) gsonString, CustomerResponse.class);
-//		});
-//		converterMap.put(CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION, (gsonString) -> {
-//			return gson.fromJson((String) gsonString, CustomerResponse.class);
-//		});
-//		converterMap.put(CustomerRequestType.SUBSCRIPTION_RENEWAL, (gsonString) -> {
-//			return gson.fromJson((String) gsonString, CustomerResponse.class);
-//		});
-//		converterMap.put(CustomerRequestType.OPEN_COMPLAINT, (gsonString) -> {
-//			return gson.fromJson((String) gsonString, CustomerResponse.class);
-//		});
-
-		return converterMap;
-	};
-
 }

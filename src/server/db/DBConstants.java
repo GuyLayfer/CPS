@@ -124,19 +124,6 @@ public class DBConstants {
 		}
 	}
 	
-	public enum Role {LOT_MGR("lotMgr"), FIRM_MGR("firmMgr"), CUSTOMER_SERVICE("customerService");
-		
-		String name;
-		Role(String name){};
-		
-		public String getName() {
-			return name;
-		}
-		
-	};
-
-	
-	
 	// current_cars_planed_being_in_parking columns
 //	final public static String ENTRANCE_ID = "entrance_id";
 //	final public static String LEAVE_TIME = "leave_time";

@@ -1,7 +1,7 @@
 package server.db.queries;
 
-import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
+import server.db.SqlColumns;
 import server.db.dbAPI.DBAPI;
 
 public class WorkersQueries extends DBAPI {
@@ -25,9 +25,10 @@ public class WorkersQueries extends DBAPI {
 	}
 	
 
-public final String select_worker_role = "SELECT " + DbSqlColumns.ROLE_ID.getName() + ", " + DbSqlColumns.LOT_ID.getName()  + 
-		" FROM " + SqlTables.WORKERS.getName() +
-		"  WHERE  " + DbSqlColumns.WORKER_ID.getName() + " = ?";
-	
-	
+public final String selectWorkerBtNameAndPassword = "SELECT *"
+		+ " FROM " + SqlTables.WORKERS.getName()
+		+ "  WHERE " + SqlColumns.Workers.WORKER_ID
+		+ " = ?"
+		+ " AND " + SqlColumns.Workers.PASSWORD
+		+ " = ?";
 }
