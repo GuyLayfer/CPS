@@ -17,7 +17,7 @@
 			</font>
 		</Text>
 		<Text layoutX="25.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking Lot ID:" />
-		<Text layoutX="25.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Rows:" />
+		<Text layoutX="25.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lot row size:" />
 		<NumberTextField fx:id="ParkingLotId" layoutX="140.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
 		<ComboBox fx:id="LotRowComboBox" layoutX="140.0" layoutY="110.0" prefWidth="150.0" />
 		<Button fx:id="InitializeParkingLotButton" layoutX="120.0" layoutY="160.0" onAction="#InitializeParkingLot" text="Initialize">

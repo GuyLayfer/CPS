@@ -2,6 +2,7 @@ package workerGui.controllers;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.controlsfx.control.table.TableRowExpanderColumn;
 
@@ -20,12 +21,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import workerGui.models.ComplaintsPortalModel;
 import workerGui.util.ComplaintUiElement;
+import workerGui.util.WorkerGuiController;
 
-public class ComplaintsPortalController {
+public class ComplaintsPortalController extends WorkerGuiController implements IAddItemsToTable<ComplaintUiElement>{
 	private ComplaintsPortalModel model;
 
 	public ComplaintsPortalController() {
-		model = new ComplaintsPortalModel();
+		model = new ComplaintsPortalModel(this);
 	}
 
 	@FXML
@@ -48,10 +50,12 @@ public class ComplaintsPortalController {
 		ComplaintsTable.setPlaceholder(new Label("No pending Rates Requests. Please come back later."));
 		ComplaintsTable.getColumns().addAll(expanderColumn, timeLeftColumn, customerId, contentColumn);
 		ComplaintsTable.setItems(FXCollections.observableArrayList(getExample()));
+		model.sendRequestForPendingRatesRequests();
 	}
-
-	public void AddToTableWhenApplicable() {
-		ComplaintsTable.setItems(FXCollections.observableArrayList(model.GetPendingComplaints()));
+	
+	@Override
+	public void AddToTable(List<ComplaintUiElement> pendingItems) {
+		ComplaintsTable.setItems(FXCollections.observableArrayList(pendingItems));
 	}
 
 	private GridPane createEditor(TableRowExpanderColumn.TableRowDataFeatures<ComplaintUiElement> param) {

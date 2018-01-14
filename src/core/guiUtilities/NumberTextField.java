@@ -23,6 +23,10 @@ public class NumberTextField extends TextField {
 	}
 
 	public Integer getNumber() {
+		if (this.getText().isEmpty()) {
+			return 0;
+		}
+
 		if (this.getText().length() < 9) {
 			return Integer.parseInt(this.getText());
 		} else {

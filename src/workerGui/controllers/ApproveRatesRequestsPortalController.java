@@ -1,15 +1,15 @@
 package workerGui.controllers;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.controlsfx.control.table.TableRowExpanderColumn;
 
-import core.worker.Rates;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import workerGui.models.ApproveRatesRequestsPortalModel;
 import workerGui.util.RatesUiElement;
+import workerGui.util.WorkerGuiController;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -18,11 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
 
-public class ApproveRatesRequestsPortalController {
+public class ApproveRatesRequestsPortalController extends WorkerGuiController implements IAddItemsToTable<RatesUiElement> {
 	private ApproveRatesRequestsPortalModel model;
 
 	public ApproveRatesRequestsPortalController() {
-		model = new ApproveRatesRequestsPortalModel();
+		model = new ApproveRatesRequestsPortalModel(this);
 	}
 	
 	@FXML
@@ -50,11 +50,20 @@ public class ApproveRatesRequestsPortalController {
 
 		RatesTable.setPlaceholder(new Label("No pending Rates Requests. Please come back later."));
 		RatesTable.getColumns().addAll(expanderColumn, idColumn, occasionalColumn, preOrderedColumn, routinelColumn, multipleroutinelColumn, fullMonthlyColumn);
-		RatesTable.setItems(FXCollections.observableArrayList(getExample()));
+//		RatesTable.setItems(FXCollections.observableArrayList(getExample()));
+		model.sendRequestForPendingRatesRequests();
 	}
 
-	public void AddToTableWhenApplicable() {
-		RatesTable.setItems(FXCollections.observableArrayList(model.GetPendingRatesRequests()));
+//	public void AddToTable(List<RatesUiElement> pendingRates) {
+//		RatesTable.setItems(FXCollections.observableArrayList(pendingRates));
+//		showNotification("Youv'e got " + pendingRates.size() + " pending rates requests.");
+//	}
+	
+	@Override
+	public void AddToTable(List<RatesUiElement> pendingItems) {
+		RatesTable.setItems(FXCollections.observableArrayList(pendingItems));
+		showNotification("Youv'e got " + pendingItems.size() + " pending rates requests.");
+		
 	}
 
 	private GridPane createEditor(TableRowExpanderColumn.TableRowDataFeatures<RatesUiElement> param) {
@@ -101,10 +110,10 @@ public class ApproveRatesRequestsPortalController {
 		return editor;
 	}
 
-	private ArrayList<RatesUiElement> getExample() {
-		ArrayList<RatesUiElement> list = new ArrayList<RatesUiElement>();
-		list.add(new RatesUiElement(new Rates(1, 5, 6, 20, 18, 30)));
-		list.add(new RatesUiElement(new Rates(2, 5, 6, 20, 18, 30)));
-		return list;
-	}
+//	private ArrayList<RatesUiElement> getExample() {
+//		ArrayList<RatesUiElement> list = new ArrayList<RatesUiElement>();
+//		list.add(new RatesUiElement(new Rates(1, 5, 6, 20, 18, 30)));
+//		list.add(new RatesUiElement(new Rates(2, 5, 6, 20, 18, 30)));
+//		return list;
+//	}
 }

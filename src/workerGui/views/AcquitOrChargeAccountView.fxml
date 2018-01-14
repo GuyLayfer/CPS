@@ -11,7 +11,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="workerGui.controllers.AcquitOrChargeAccountController">
 	<children>
-		<Text layoutX="100.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking lot rates update request">
+		<Text layoutX="100.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acquit Or Charge Account">
 			<font>
 				<Font name="System Bold" size="14.0" />
 			</font>

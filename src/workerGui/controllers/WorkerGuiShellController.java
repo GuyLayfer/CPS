@@ -6,6 +6,7 @@ import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.IServerResponseHandler;
 import core.guiUtilities.UriDictionary;
 import core.worker.responses.BaseResponse;
+import core.worker.responses.NotificationResponse;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -43,7 +44,10 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 
 	@Override
 	public void handleServerResponse(BaseResponse response) {
-
+		if(response instanceof NotificationResponse) {
+			NotificationResponse notificationResponse = (NotificationResponse) response;
+			showNotification(notificationResponse.message);
+		}
 	}
 
 	@FXML
