@@ -63,6 +63,7 @@ public class WorkerRequestsFactory {
 
 	public static BaseRequest CreateOutOfOrderRequest(int lotId, int row, int column, int floor) {
 		OutOfOrderRequest request = new OutOfOrderRequest();
+		request.requestType = WorkerRequestType.OUT_OF_ORDER;
 		request.lotId = lotId;
 		request.row = row;
 		request.column = column;
@@ -85,6 +86,18 @@ public class WorkerRequestsFactory {
 		request.rutineMonthlyRate = rutineMonthlyRate;
 		request.rutineMonthlyMultipleRate = rutineMonthlyMultipleRate;
 		request.fullNonthlyField = fullNonthlyField;
+		return request;
+	}
+	
+	public static BaseRequest CreateRatesForReviewRequest() {
+		DecideOnRateRequest request = new DecideOnRateRequest();
+		request.requestType = WorkerRequestType.REQUEST_RATES_FOR_REVIEW;
+		return request;
+	}
+
+	public static BaseRequest CreateComplaintsForReviewRequest() {
+		DecideOnComplaintRequest request = new DecideOnComplaintRequest();
+		request.requestType = WorkerRequestType.REQUEST_COMPLAINTS_FOR_REVIEW;
 		return request;
 	}
 

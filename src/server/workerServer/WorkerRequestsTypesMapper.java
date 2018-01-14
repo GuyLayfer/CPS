@@ -31,25 +31,25 @@ public class WorkerRequestsTypesMapper {
 			return gson.fromJson((String) gsonString, ParkingLotFullRequest.class);
 		});
 		converterMap.put(WorkerRequestType.RESERVE_PARKING_SPACE, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CancelCustomerOrderRequest.class);
+			return gson.fromJson((String) gsonString, ReserveParkingSpaceRequest.class);
 		});
 		converterMap.put(WorkerRequestType.OUT_OF_ORDER, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CancelCustomerOrderRequest.class);
+			return gson.fromJson((String) gsonString, OutOfOrderRequest.class);
 		});
 		converterMap.put(WorkerRequestType.UPDATE_RATES, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CancelCustomerOrderRequest.class);
+			return gson.fromJson((String) gsonString, UpdateRatesRequest.class);
 		});
 		converterMap.put(WorkerRequestType.REQUEST_COMPLAINTS_FOR_REVIEW, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CancelCustomerOrderRequest.class);
+			return gson.fromJson((String) gsonString, ComplaintsForReviewRequest.class);
 		});
 		converterMap.put(WorkerRequestType.REQUEST_RATES_FOR_REVIEW, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CancelCustomerOrderRequest.class);
+			return gson.fromJson((String) gsonString, RatesForReviewRequest.class);
 		});
 		converterMap.put(WorkerRequestType.DECIDE_ON_RATES, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CancelCustomerOrderRequest.class);
+			return gson.fromJson((String) gsonString, DecideOnRateRequest.class);
 		});
 		converterMap.put(WorkerRequestType.DECIDE_ON_COMPLAINTS, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CancelCustomerOrderRequest.class);
+			return gson.fromJson((String) gsonString, DecideOnComplaintRequest.class);
 		});
 		converterMap.put(WorkerRequestType.REQUEST_PERMISSIONS, (gsonString) -> {
 			return gson.fromJson((String) gsonString, PermissionsRequest.class);
