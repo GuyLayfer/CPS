@@ -41,13 +41,6 @@ public class MainDBAPI {
 			parkingMapArrForInsertQuery[i] = DBConstants.ParkingMap.FREE.getValue();
 
 		}
-		try {
-			regularDBAPIInst.deleteParkingMap(lotId);
-			regularDBAPIInst.insertParkingMapOfLotId(lotId, parkingMapArrForInsertQuery);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		
 		

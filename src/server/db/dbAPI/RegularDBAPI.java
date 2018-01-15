@@ -335,25 +335,46 @@ public class RegularDBAPI extends DBAPI{
 		}
 	}
 
+
 	/**
 	 * Insert parking map of lot id.
 	 *
 	 * @param lotId the lot id
+	 * @param numOfColumns the num of columns. needed for the first time initialization. can be found in the second column of parking_map table
 	 * @param parkingMapArr the parking map arr
 	 * @throws SQLException the SQL exception
 	 */
-	public void insertParkingMapOfLotId(int lotId, String [] parkingMapArr) throws SQLException {
+	public void insertParkingMapOfLotId(int lotId, int numOfColumns, String [] parkingMapArr) throws SQLException {
 
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(lotId);
-		paramTypes.add(sqlTypeKind.INT);	
+		paramTypes.add(sqlTypeKind.INT);
+		paramsValues.add(numOfColumns);
+		paramTypes.add(sqlTypeKind.INT);
 		for (int i = 0; i < parkingMapArr.length; i++) {
 			paramsValues.add(parkingMapArr[i]);
-
 			paramTypes.add(sqlTypeKind.VARCHAR);			
 		}
-		DBConnection.updateSql(parkingMapQueriesInst.parkingMapInsertQueriesIdxByLotId[lotId-1], paramsValues, paramTypes);
+		switch (numOfColumns) {
+		case 4:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_4_columns, paramsValues, paramTypes);
+			break;
+		case 5:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_5_columns, paramsValues, paramTypes);
+			break;
+		case 6:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_6_columns, paramsValues, paramTypes);
+			break;
+		case 7:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_7_columns, paramsValues, paramTypes);
+			break;
+		case 8:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_8_columns, paramsValues, paramTypes);
+			break;
+		default:
+//			throw Excep; //not supported size.
+		}
 	}
 
 	/**
@@ -442,6 +463,7 @@ public class RegularDBAPI extends DBAPI{
 		// TODO Auto-generated method stub
 
 	}
+
 
 
 

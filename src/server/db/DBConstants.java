@@ -17,6 +17,7 @@ public class DBConstants {
 		CAR_ID("car_id", DBConnection.sqlTypeKind.INT),
 		FILLED_RESERVATIONS("filled_reservations", DBConnection.sqlTypeKind.INT),
 		LOT_ID("lot_id", DBConnection.sqlTypeKind.INT),
+		NUMBER_OF_COLUMNS_IN_THIS_LOT("number_of_columns", DBConnection.sqlTypeKind.INT),
 		ROLE_ID("role_id", DBConnection.sqlTypeKind.VARCHAR), //enum
 		PASSWORD("password", DBConnection.sqlTypeKind.VARCHAR),
 		HAS_SUBSCRIPTION("has_subscription", DBConnection.sqlTypeKind.VARCHAR), //enum
