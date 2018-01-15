@@ -13,10 +13,13 @@ public class ParkingLotsManager {
 		//TODO: implement
 	}
 	
-	public static ParkingLotsManager getInstance() throws SQLException {
+	public static void initialize() throws SQLException {
 		if (instance == null) {
 			instance = new ParkingLotsManager();
 		}
+	}
+	
+	public static ParkingLotsManager getInstance() {
 		return instance;
 	}
 	
