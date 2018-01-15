@@ -1,6 +1,7 @@
 package workerGui.controllers;
 
 import core.guiUtilities.UriDictionary;
+import core.worker.WorkerOperations;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -51,13 +52,17 @@ public class WorkerGuiClientController extends WorkerGuiController implements IC
 
 	@Override
 	public void handleLogout() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void handleLogin() {
-		// TODO Auto-generated method stub
-
+		setPermissions();
+	}
+	
+	private void setPermissions() {
+		GoParkingLotFullLink.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.PARKING_LOT_FULL));
+		GoDisableParkingSpaceLink.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.OUT_OF_ORDER));
+		GoReserveParkingSpaceLink.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.RESERVE_PARKING_SPACE));
+		GoInitializeLink.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.INITIALIZE_PARKING_LOT));
 	}
 }

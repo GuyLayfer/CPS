@@ -2,13 +2,13 @@ package core.guiUtilities;
 
 public class CpsRegEx {
 	
-	public static String IntegerBetweenMinAndMaxLength = "^\\d{1,9}$";
+	public final static String IntegerBetweenMinAndMaxLength = "^\\d{1,9}$";
 	
-	public static String OnlyIntegers = "\\d*";
+	public final static String OnlyIntegers = "\\d*";
 	
-	public static String LicencePlateLength = "^.{7}$";
+	public final static String LicencePlateLength = "^.{7}$";
 	
-	public static String FloatNumber = "^(\\d*[.])?\\d+$";
+	public final static String FloatNumber = "^(\\d*[.])?\\d+$";
 	
-	public static String FloatAllowedCharacter = "^\\d*([.]?\\d*)?$";
+	public final static String FloatAllowedCharacter = "^\\d*([.]?\\d*)?$";
 }

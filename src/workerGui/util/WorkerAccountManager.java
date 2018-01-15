@@ -6,11 +6,12 @@ import java.util.List;
 import core.guiUtilities.IServerResponseHandler;
 import core.worker.Permissions;
 import core.worker.WorkerOperations;
+import core.worker.WorkerRequestType;
 import core.worker.WorkerRole;
 import core.worker.responses.BaseResponse;
 import core.worker.responses.PermissionsResponse;
 
-public class WorkerAccountManager implements IServerResponseHandler{
+public class WorkerAccountManager implements IServerResponseHandler {
 	private static WorkerAccountManager instance;
 	private WorkerConnectionManager connectionManager;
 	private List<ICareAboutLoginState> listeners = new ArrayList<ICareAboutLoginState>();
@@ -33,23 +34,35 @@ public class WorkerAccountManager implements IServerResponseHandler{
 
 		return instance;
 	}
-	
+
 	public Boolean isWorkerLoggedIn() {
 		return workerLoggedIn;
 	}
-	
+
 	public void registerLoginListener(ICareAboutLoginState controller) {
 		listeners.add(controller);
 	}
-	
+
 	public Boolean isOperationAllowed(WorkerOperations operation) {
 		return permissions.isOperationAllowed(operation);
 	}
-	
+
 	public void Login(int workerId, String password) {
 		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreatePermissionsRequest(workerId, password));
+		// debugMode(); // Enable when someone is connected to DB via MySql and you need to work on the GUI.
 	}
-	
+
+//	private void debugMode() {
+//		this.workerId = 1;
+//		this.workerlotId = 1;
+//		this.workerRole = WorkerRole.LOT_MANAGER;
+//		this.permissions = new Permissions(WorkerRole.LOT_MANAGER);
+//		workerLoggedIn = true;
+//		for (ICareAboutLoginState listener : listeners) {
+//			listener.handleLogin();
+//		}
+//	}
+
 	public void Logout() {
 		this.workerId = 0;
 		this.workerlotId = 0;
@@ -63,8 +76,8 @@ public class WorkerAccountManager implements IServerResponseHandler{
 
 	@Override
 	public void handleServerResponse(BaseResponse response) {
-		if(response instanceof PermissionsResponse) {
-			PermissionsResponse permissionsResponse = (PermissionsResponse)response;
+		if (response.requestType == WorkerRequestType.REQUEST_PERMISSIONS) {
+			PermissionsResponse permissionsResponse = (PermissionsResponse) response;
 			this.workerId = permissionsResponse.workerId;
 			this.workerlotId = permissionsResponse.workerLotId;
 			this.workerRole = permissionsResponse.workerRole;
