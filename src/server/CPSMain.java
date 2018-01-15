@@ -12,13 +12,12 @@ public class CPSMain {
 	
 	public static void main(String[] args) {
 		try {
-			IDsGenerator idsGenerator = IDsGenerator.getInstance();
 			//TODO: add parking lots info
 			
 			WebCustomerRequestsHandler webCustomerRequestsHandler = 
-					new WebCustomerRequestsHandler(ServerPorts.WEB_CUSTOMER_PORT, idsGenerator);
+					new WebCustomerRequestsHandler(ServerPorts.WEB_CUSTOMER_PORT);
 			KioskRequestsHandler kioskRequestsHandler = 
-					new KioskRequestsHandler(ServerPorts.KIOSK_PORT, idsGenerator);
+					new KioskRequestsHandler(ServerPorts.KIOSK_PORT);
 			WorkerRequestsHandler workerRequestsHandler = 
 					new WorkerRequestsHandler(ServerPorts.WORKER_PORT);
 			

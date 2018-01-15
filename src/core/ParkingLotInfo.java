@@ -7,7 +7,7 @@ public class ParkingLotInfo {
 	final public int floors;
 	final public int rows;
 	final public int cols;
-	public ArrayList<ParkingState> parkingMap;	// initialized by ParkingLotManager
+	public ArrayList<ParkingState> parkingMap;	// initialized by ParkingLotOperations
 
 	public ParkingLotInfo(int lotId, int floors, int rows, int cols) {
 		this.lotId = lotId;

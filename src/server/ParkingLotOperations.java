@@ -54,22 +54,22 @@ public class ParkingLotOperations extends ParkingLotInfo {
 		return null;
 	}
 	
-	synchronized public void setBrokenPlace(int locationIndex) throws IndexOutOfBoundsException {
-		ParkingState parkingState = parkingMap.get(locationIndex);
+	synchronized public void setBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
+		ParkingState parkingState = parkingMap.get(placeIndex);
 		if (freePlacesMap.isEmpty()) {
-			brokenPlacesQueue.add(locationIndex);
+			brokenPlacesQueue.add(placeIndex);
 		} else {
 			switch (parkingState.parkingStatus) {
 			case FREE:
 				parkingState.parkingStatus = ParkingStatus.BROKEN;
-				freePlacesMap.remove(locationIndex);
+				freePlacesMap.remove(placeIndex);
 				break;
 			case PARKED:
 				//TODO: implement
 				break;
 			case RESERVED:
 				parkingState.parkingStatus = ParkingStatus.BROKEN;
-				reservedPlacesMap.remove(locationIndex);
+				reservedPlacesMap.remove(placeIndex);
 				int lastFreeIndex = freePlacesMap.lastKey();
 				parkingMap.get(lastFreeIndex).parkingStatus = ParkingStatus.RESERVED;
 				freePlacesMap.remove(lastFreeIndex);
@@ -81,7 +81,7 @@ public class ParkingLotOperations extends ParkingLotInfo {
 		}
 	}
 	
-	synchronized public void unSetBrokenPlace(int locationIndex) throws IndexOutOfBoundsException {
+	synchronized public void unSetBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
 		//TODO: implement
 	}
 	
@@ -90,7 +90,7 @@ public class ParkingLotOperations extends ParkingLotInfo {
 		return true;
 	}
 	
-	synchronized public void unReservePlace() {
+	synchronized public void unReservePlace(Date date) {
 		//TODO: implement
 	}
 	

@@ -3,7 +3,7 @@ package core;
 public class ParkingState {
 	public ParkingStatus parkingStatus;
 	public String carId; 	// null if not relevant
-	public long leaveTime; 	// estimated leave time in milliseconds  
+	public long leaveTime; 	// estimated leave time in milliseconds (0 if not relevant)
 	
 	// constructor for PARKED status
 	public ParkingState(String carId, long leaveTime) {

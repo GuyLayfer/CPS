@@ -12,8 +12,8 @@ import ocsf.server.ConnectionToClient;
 
 public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 
-	public KioskRequestsHandler(int port, IDsGenerator idsGenerator) {
-		super(port, idsGenerator);
+	public KioskRequestsHandler(int port) {
+		super(port);
 	}
 	
 	@Override
