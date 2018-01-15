@@ -15,7 +15,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import server.db.dbAPI.RegularDBAPI;
 
-public class ParkingLotOperations extends ParkingLotInfo {
+public class ParkingLot extends ParkingLotInfo {
 	/**************************************** Properties ****************************************/
 	
 	// the keys and the values of these maps are indexes of parkingMap
@@ -31,7 +31,7 @@ public class ParkingLotOperations extends ParkingLotInfo {
 	/************************************** Public Methods **************************************/
 	
 	// used only when adding new parking lot to the system
-	public ParkingLotOperations(int lotId, int floors, int rows, int cols) {
+	public ParkingLot(int lotId, int floors, int rows, int cols) {
 		super(lotId, floors, rows, cols);
 		int size = floors * rows * cols;
 		parkingMap = new ArrayList<ParkingState>(size);

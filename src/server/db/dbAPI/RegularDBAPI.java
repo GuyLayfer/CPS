@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -59,29 +58,55 @@ public class RegularDBAPI extends DBAPI{
 	
 /****************************************** TODO Section ******************************************/
 
-	
+	/**
+	 * returns a unique id for a new parking lot.
+	 *
+	 * @return the new parking lot id
+	 * @throws SQLException the SQL exception
+	 */
 	public int getNewParkingLotId() throws SQLException {
 		//TODO: implement
 		return 0; // temporary return value (to avoid compilation errors)
 	}
 	
-	
-	public void selectAllParkingLots(HashMap<Integer, String> resultMap) throws SQLException {
+	/**
+	 * Selects all ParkingLot json-string representations in the DB and stores them in a result map.
+	 *
+	 * @param resultMap - the keys are lotIds and the values are json-string representations of ParkingLot objects
+	 * @throws SQLException the SQL exception
+	 */
+	public void selectAllParkingLots(Map<Integer, String> resultMap) throws SQLException {
 		//TODO: implement
 	}
 	
-	
+	/**
+	 * Updates lotId's entry with the value parkingLotJson.
+	 *
+	 * @param lotId the lot id
+	 * @param parkingLotJson - a json-string representation of ParkingLot object
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateParkingLot(int lotId, String parkingLotJson) throws SQLException {
 		//TODO: implement
 	}
 	
-	
+	/**
+	 * Inserts new parking lot entry into the DB (the id is determined by the DB).
+	 *
+	 * @param parkingLotJson - a json-string representation of ParkingLot object
+	 * @throws SQLException the SQL exception
+	 */
 	public void insertParkingLot(String parkingLotJson) throws SQLException {
 		//TODO: implement
 	}
 	
-	
-	public void removeParkingLot(int lotId) throws SQLException {
+	/**
+	 * Deletes a parking lot entry from the DB.
+	 *
+	 * @param lotId the lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void deleteParkingLot(int lotId) throws SQLException {
 		//TODO: implement
 	}
 
