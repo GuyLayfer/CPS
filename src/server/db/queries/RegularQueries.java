@@ -1,7 +1,9 @@
 package server.db.queries;
 
+import server.db.DBConnection.sqlTypeKind;
 import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
+import server.db.DBConstants.TrueFalse;
 
 
 
@@ -27,6 +29,25 @@ public class RegularQueries {
 		return result;
 	}
 	
+	
+//	paramsValues.add(customerId);
+//	paramsValues.add(lotId);
+//	paramsValues.add(complaintDescription);
+//	paramsValues.add(entranceId);
+//	paramsValues.add(TrueFalse.FALSE.getValue());
+//	paramsValues.add(complaintTime);
+	
+	public final String insert_complaint = 
+			"INSERT INTO " + SqlTables.COMPLAINTS.getName()+
+			"(" +
+			 DbSqlColumns.ACCOUNT_ID.getName() + ", " +
+			DbSqlColumns.LOT_ID.getName() + ", " +
+			 DbSqlColumns.COMPLAINT_DESCRIPTION.getName() + ", " + 
+			 DbSqlColumns.ENTRANCE_ID.getName() + ", " +
+			 DbSqlColumns.COMPLAINT_FILLED.getName() + ", " +
+			 DbSqlColumns.COMPLAINT_DATETIME.getName() +
+			 " ) " +
+			  " VALUES (?, ?, ?, ?, ?, ?);";
 	
 	
 	public final String get_last_day_complains =

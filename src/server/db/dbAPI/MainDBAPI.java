@@ -35,19 +35,11 @@ public class MainDBAPI {
 		for (ParkingState parkingState : parkingMap) {
 			System.out.println(parkingState);
 		}
-		
 
 		String[] parkingMapArrForInsertQuery = new String[lot1Size];
 		for (int i = 0; i < parkingMapArrForInsertQuery.length; i++) {
 			parkingMapArrForInsertQuery[i] = DBConstants.ParkingMap.FREE.getValue();
 
-		}
-		try {
-			regularDBAPIInst.deleteParkingMap(lotId);
-			regularDBAPIInst.insertParkingMapOfLotId(lotId, parkingMapArrForInsertQuery);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 */
 		

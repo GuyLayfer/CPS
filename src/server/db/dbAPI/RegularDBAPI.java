@@ -13,6 +13,7 @@ import java.util.Queue;
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
 import server.db.DBConstants;
+import server.db.DBConstants.TrueFalse;
 import server.db.queries.ParkingMapQueries;
 import server.db.queries.RegularQueries;
 
@@ -22,14 +23,25 @@ import server.db.queries.RegularQueries;
  */
 public class RegularDBAPI extends DBAPI{
 
+	/** The instance. */
 	private static volatile RegularDBAPI instance;
+	
+	/** The regular queries inst. */
 	private RegularQueries regularQueriesInst;
 
+	/**
+	 * Instantiates a new regular DBAPI.
+	 */
 	private RegularDBAPI() {
 		regularQueriesInst = RegularQueries.getInstance();
 		parkingMapQueriesInst = ParkingMapQueries.getInstance();
 	}
 
+	/**
+	 * Gets the single instance of RegularDBAPI.
+	 *
+	 * @return single instance of RegularDBAPI
+	 */
 	public static RegularDBAPI getInstance() {
 		RegularDBAPI result = instance;
 		if (result == null) {
@@ -323,25 +335,46 @@ public class RegularDBAPI extends DBAPI{
 		}
 	}
 
+
 	/**
 	 * Insert parking map of lot id.
 	 *
 	 * @param lotId the lot id
+	 * @param numOfColumns the num of columns. needed for the first time initialization. can be found in the second column of parking_map table
 	 * @param parkingMapArr the parking map arr
 	 * @throws SQLException the SQL exception
 	 */
-	public void insertParkingMapOfLotId(int lotId, String [] parkingMapArr) throws SQLException {
+	public void insertParkingMapOfLotId(int lotId, int numOfColumns, String [] parkingMapArr) throws SQLException {
 
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(lotId);
-		paramTypes.add(sqlTypeKind.INT);	
+		paramTypes.add(sqlTypeKind.INT);
+		paramsValues.add(numOfColumns);
+		paramTypes.add(sqlTypeKind.INT);
 		for (int i = 0; i < parkingMapArr.length; i++) {
 			paramsValues.add(parkingMapArr[i]);
-
 			paramTypes.add(sqlTypeKind.VARCHAR);			
 		}
-		DBConnection.updateSql(parkingMapQueriesInst.parkingMapInsertQueriesIdxByLotId[lotId-1], paramsValues, paramTypes);
+		switch (numOfColumns) {
+		case 4:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_4_columns, paramsValues, paramTypes);
+			break;
+		case 5:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_5_columns, paramsValues, paramTypes);
+			break;
+		case 6:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_6_columns, paramsValues, paramTypes);
+			break;
+		case 7:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_7_columns, paramsValues, paramTypes);
+			break;
+		case 8:
+			DBConnection.updateSql(parkingMapQueriesInst.insert_parking_map_lot_has_8_columns, paramsValues, paramTypes);
+			break;
+		default:
+//			throw Excep; //not supported size.
+		}
 	}
 
 	/**
@@ -358,8 +391,40 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.updateSql(parkingMapQueriesInst.delete_parking_map_of_lot_id, paramsValues, paramTypes);
 
 	}
-
-
+	
+	/**
+	 * Insert new complaint.
+	 *
+	 * @param customerId the customer id
+	 * @param complaintDescription the complaint description
+	 * @param entranceId the entrance id
+	 * @param lotId the lot id
+	 * @param complaintTime the complaint time
+	 * @return the complaint ID
+	 * @throws SQLException the SQL exception
+	 */
+	public int insertComplaint(int customerId, String complaintDescription, int entranceId, int lotId, Date complaintTime) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
+		
+		paramsValues.add(customerId);
+		paramTypes.add(sqlTypeKind.INT);		
+		paramsValues.add(lotId);
+		paramTypes.add(sqlTypeKind.INT);
+		paramsValues.add(complaintDescription);
+		paramTypes.add(sqlTypeKind.VARCHAR);
+		paramsValues.add(entranceId);
+		paramTypes.add(sqlTypeKind.INT);		
+		paramsValues.add(TrueFalse.FALSE.getValue());
+		paramTypes.add(sqlTypeKind.VARCHAR);
+		paramsValues.add(complaintTime);
+		paramTypes.add(sqlTypeKind.TIMESTAMP);		
+		
+		int complaintId = DBConnection.updateSql(regularQueriesInst.insert_complaint, paramsValues, paramTypes);
+		return complaintId;
+	}
+	
+	
 
 	/**
 	 * Select last day complaints.
@@ -380,11 +445,25 @@ public class RegularDBAPI extends DBAPI{
 
 
 
+	/**
+	 * Update parking reservaion.
+	 *
+	 * @param carID the car ID
+	 * @param customerID the customer ID
+	 * @param entranceId the entrance id
+	 * @param parkingLotID the parking lot ID
+	 * @param arrivalTime the arrival time
+	 * @param estimatedDepartureTime the estimated departure time
+	 * @param date the date
+	 * @param date2 the date 2
+	 * @param value the value
+	 */
 	public void updateParkingReservaion(String carID, int customerID, int entranceId, int parkingLotID,
 			Date arrivalTime, Date estimatedDepartureTime, Date date, Date date2, String value) {
 		// TODO Auto-generated method stub
 
 	}
+
 
 
 

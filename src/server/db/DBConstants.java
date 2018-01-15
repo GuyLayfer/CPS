@@ -17,11 +17,13 @@ public class DBConstants {
 		CAR_ID("car_id", DBConnection.sqlTypeKind.INT),
 		FILLED_RESERVATIONS("filled_reservations", DBConnection.sqlTypeKind.INT),
 		LOT_ID("lot_id", DBConnection.sqlTypeKind.INT),
+		NUMBER_OF_COLUMNS_IN_THIS_LOT("number_of_columns", DBConnection.sqlTypeKind.INT),
 		ROLE_ID("role_id", DBConnection.sqlTypeKind.VARCHAR), //enum
 		PASSWORD("password", DBConnection.sqlTypeKind.VARCHAR),
 		HAS_SUBSCRIPTION("has_subscription", DBConnection.sqlTypeKind.VARCHAR), //enum
 		SUBSCRIPTION_ID("subscription_id", DBConnection.sqlTypeKind.INT),
-		EXPIRED_DATE("subscription_id", DBConnection.sqlTypeKind.TIMESTAMP),
+		EXPIRED_DATE("expired_date", DBConnection.sqlTypeKind.TIMESTAMP),
+		OCCASIONAL_OR_FULL("occasional", DBConnection.sqlTypeKind.VARCHAR),
 		DAY_ID("day_id", DBConnection.sqlTypeKind.DATE),
 		BALANCE("balance", DBConnection.sqlTypeKind.DOUBLE),
 		CANCELED_ORDERS("canceled_reservations", DBConnection.sqlTypeKind.INT),
@@ -31,7 +33,7 @@ public class DBConstants {
 		COMPLAINT_RESULT("complaint_result", DBConnection.sqlTypeKind.VARCHAR), //text
 		COMPLAINT_CUSTOMER_SERVICE_RESPOND("customer_service_response", DBConnection.sqlTypeKind.VARCHAR), //text
 		COMPLAINT_DESCRIPTION("complaint_description", DBConnection.sqlTypeKind.VARCHAR),
-		COMPLAINT_FILLED("complaint_filled", DBConnection.sqlTypeKind.VARCHAR), //enum
+		COMPLAINT_FILLED("filled", DBConnection.sqlTypeKind.VARCHAR), //enum
 		WORKER_ID("worker_id", DBConnection.sqlTypeKind.INT)
 		;
 		String columnName;
