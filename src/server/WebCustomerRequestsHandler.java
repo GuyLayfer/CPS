@@ -27,13 +27,12 @@ import core.customer.TrackOrderResponseData;
 
 public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = new CpsGson().GetGson();
-	private RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
-	protected IDsGenerator idsGenerator;
+	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
+	final protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
 	
 	
-	public WebCustomerRequestsHandler(int port, IDsGenerator idsGenerator) {
+	public WebCustomerRequestsHandler(int port) {
 		super(port);
-		this.idsGenerator = idsGenerator;
 	}
 	
 	protected void ChargeAccount() {
