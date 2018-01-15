@@ -23,8 +23,8 @@ public class ComplaintsPortalModel implements IServerResponseHandler{
 		 this.controller = controller;
 	}
 
-	public void sendRequestForPendingRatesRequests() {
-
+	public void sendRequestForPendingComplaintsRequests() {
+		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateComplaintsForReviewRequest());
 	}
 
 	public void ApproveComplaint(ComplaintUiElement complaint) {

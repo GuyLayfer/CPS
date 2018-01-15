@@ -11,35 +11,35 @@
 	<children>
 		<ToolBar prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 			<items>
-				<MenuBar prefHeight="25.0" style="-fx-background-color: transparent;">
+				<MenuBar fx:id="ParkingLotMenuBar" prefHeight="25.0" style="-fx-background-color: transparent;">
 					<menus>
 						<Menu mnemonicParsing="false" text="Parking lot">
 							<items>
-								<MenuItem mnemonicParsing="false" onAction="#GoSetOutOfOrder" text="Disable Parking Space" />
-								<MenuItem mnemonicParsing="false" onAction="#InitializeParkingLot" text="Initialize Parking Lot" />
-								<MenuItem mnemonicParsing="false" onAction="#GoSetParkingLotIsFull" text="Set Parking Lot Full" />
-								<MenuItem mnemonicParsing="false" onAction="#GoReserveParkingSpace" text="Reserve Parking Space" />
+								<MenuItem fx:id="DisableParkingSpaceMenuItem" mnemonicParsing="false" onAction="#GoSetOutOfOrder" text="Disable Parking Space" />
+								<MenuItem fx:id="InitializeParkingLotMenuItem" mnemonicParsing="false" onAction="#InitializeParkingLot" text="Initialize Parking Lot" />
+								<MenuItem fx:id="SetParkingLotFullMenuItem" mnemonicParsing="false" onAction="#GoSetParkingLotIsFull" text="Set Parking Lot Full" />
+								<MenuItem fx:id="ReserveParkingSpaceMenuItem" mnemonicParsing="false" onAction="#GoReserveParkingSpace" text="Reserve Parking Space" />
 							</items>
 						</Menu>
 					</menus>
 				</MenuBar>
-				<MenuBar layoutX="88.0" style="-fx-background-color: transparent;">
+				<MenuBar fx:id="CustomerServiceMenuBar" layoutX="88.0" style="-fx-background-color: transparent;">
 					<menus>
 						<Menu mnemonicParsing="false" text="Customer service">
 							<items>
-								<MenuItem mnemonicParsing="false" onAction="#GoCancelOrder" text="Cancel Customer Order" />
-								<MenuItem mnemonicParsing="false" onAction="#GoAcquitOrChargeAccount" text="Acquit Or Charge Account" />
-								<MenuItem mnemonicParsing="false" onAction="#GoComplaintsPortal" text="Open Complaints Portal" />
+								<MenuItem fx:id="CancelCustomerOrderMenuItem" mnemonicParsing="false" onAction="#GoCancelOrder" text="Cancel Customer Order" />
+								<MenuItem fx:id="AcquitOrChargeAccountMenuItem" mnemonicParsing="false" onAction="#GoAcquitOrChargeAccount" text="Acquit Or Charge Account" />
+								<MenuItem fx:id="OpenComplaintsPortalMenuItem" mnemonicParsing="false" onAction="#GoComplaintsPortal" text="Open Complaints Portal" />
 							</items>
 						</Menu>
 					</menus>
 				</MenuBar>
-				<MenuBar layoutX="210.0" style="-fx-background-color: transparent;">
+				<MenuBar fx:id="ManagmentMenuBar" layoutX="210.0" style="-fx-background-color: transparent;">
 					<menus>
 						<Menu mnemonicParsing="false" text="Management">
 							<items>
-								<MenuItem mnemonicParsing="false" onAction="#GoUpdateRates" text="Request Parking Lot Rates Update" />
-								<MenuItem mnemonicParsing="false" onAction="#GoRatesRequestsPortal" text="Check New Rates Requests" />
+								<MenuItem fx:id="RequestParkingLotRatesUpdateMenuItem" mnemonicParsing="false" onAction="#GoUpdateRates" text="Request Parking Lot Rates Update" />
+								<MenuItem fx:id="CheckNewRatesRequestsMenuItem" mnemonicParsing="false" onAction="#GoRatesRequestsPortal" text="Check New Rates Requests" />
 								<Menu mnemonicParsing="false" text="Reports">
 									<items>
 										<Menu mnemonicParsing="false" text="Quartly Reports">

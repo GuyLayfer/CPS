@@ -11,12 +11,15 @@ import core.worker.requests.BaseRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerRequestsFactory;
 
 public class AcquitOrChargeAccountController {
 	private ValidationSupport validation = new ValidationSupport();
 	private WorkerConnectionManager connectionManager;
+	private final String acquit = "Acquit";
+	private final String charge = "Charge";
 
 	public AcquitOrChargeAccountController() {
 		connectionManager = WorkerConnectionManager.getInstance();
@@ -24,20 +27,16 @@ public class AcquitOrChargeAccountController {
 
 	@FXML
 	protected void initialize() {
+		submitButton.setDisable(true);
 		submitButton.disableProperty().bind(validation.invalidProperty());
 		validation.registerValidator(AccountIdField, Validator.createRegexValidator("Account ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
-		validation.registerValidator(AcquitAmountField, Validator.createPredicateValidator((acquitAmount) -> {
-			return !((String) acquitAmount).isEmpty() || !chargeAmountField.getText().isEmpty();
-		}, "Charge amount is Required"));
-		validation.registerValidator(chargeAmountField, Validator.createPredicateValidator((chargeAmount) -> {
-			return !((String) chargeAmount).isEmpty() || !AcquitAmountField.getText().isEmpty();
-		}, "Acquit amount is Required"));
-		validation.registerValidator(AcquitAmountField, Validator.createPredicateValidator((acquitAmount) -> isOnlyOneFieldFilled(), "Only one field is Required"));
-		validation.registerValidator(chargeAmountField, Validator.createPredicateValidator((chargeAmount) -> isOnlyOneFieldFilled(), "Only one field is Required"));
+		validation.registerValidator(amountField, Validator.createRegexValidator("Field Amount is Required", CpsRegEx.FloatNumber, Severity.ERROR));
+		validation.registerValidator(AcquitOrChargeComboBox, Validator.createEmptyValidator("Choose option"));
+		AcquitOrChargeComboBox.getItems().addAll(acquit, charge);
 	}
 
 	@FXML
-	private FloatNumberTextField chargeAmountField;
+	private FloatNumberTextField amountField;
 
 	@FXML
 	private NumberTextField AccountIdField;
@@ -46,18 +45,12 @@ public class AcquitOrChargeAccountController {
 	private Button submitButton;
 
 	@FXML
-	private FloatNumberTextField AcquitAmountField;
+	private ComboBox<String> AcquitOrChargeComboBox;
 
 	@FXML
 	void SendTransaction(ActionEvent event) {
-		double amount = AcquitAmountField.getText().isEmpty() ? chargeAmountField.getFloat() : AcquitAmountField.getFloat();
+		double amount = (AcquitOrChargeComboBox.getValue() == acquit) ? amountField.getFloat() : -1 * amountField.getFloat();
 		BaseRequest request = WorkerRequestsFactory.CreateAcquitOrChargeAccountRequest(AccountIdField.getNumber(), amount);
 		connectionManager.sendMessageToServer(request);
-	}
-
-	private Boolean isOnlyOneFieldFilled() {
-		return (AcquitAmountField.getText().isEmpty() ? 0 : 1)
-				+ (chargeAmountField.getText().isEmpty() ? 0 : 1)
-				== 1;
 	}
 }

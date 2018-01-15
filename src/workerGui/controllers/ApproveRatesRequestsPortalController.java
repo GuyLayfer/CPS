@@ -54,11 +54,6 @@ public class ApproveRatesRequestsPortalController extends WorkerGuiController im
 		model.sendRequestForPendingRatesRequests();
 	}
 
-//	public void AddToTable(List<RatesUiElement> pendingRates) {
-//		RatesTable.setItems(FXCollections.observableArrayList(pendingRates));
-//		showNotification("Youv'e got " + pendingRates.size() + " pending rates requests.");
-//	}
-	
 	@Override
 	public void AddToTable(List<RatesUiElement> pendingItems) {
 		RatesTable.setItems(FXCollections.observableArrayList(pendingItems));
