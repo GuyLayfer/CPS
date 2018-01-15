@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import server.db.DBConstants;
+import server.db.DBConstants.TrueFalse;
 import server.db.dbAPI.DBAPI;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.ReportsDBAPI;
@@ -65,6 +66,49 @@ public class DBAPITest {
 
 		reportsQueries = ReportsQueries.getInstance();
 	}
+
+
+	@Test
+	public void testInsertComplaint() throws SQLException {
+		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", entranceId, lotId, laterDate/*complaintDate*/);
+
+		regularDBAPIInst.selectComplaintDetails(complaintId, resultList);
+		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			for (Map.Entry<String, Object> column : row.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
+			}
+		}
+	}
+	
+	@Test
+	public void testInsertSubscription() throws SQLException {
+		
+		ArrayList<String> cars = new ArrayList<String>();
+		
+		cars.add("1234");
+		cars.add("5678");
+		int subscriptionId = subscriptionsDBAPIInst.insertNewSubscription(accountId, lotId, TrueFalse.TRUE/*full*/, laterDate/*expiredDate*/, cars);
+
+		subscriptionsDBAPIInst.selectSubscriptionDetails(subscriptionId, resultList);
+		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			for (Map.Entry<String, Object> column : row.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
+			}
+		}
+		System.out.println("cars of this subscription");
+		resultList.clear();
+		subscriptionsDBAPIInst.selectCarsOfSubscriptionId(subscriptionId,resultList);
+		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			for (Map.Entry<String, Object> column : row.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
+			}
+		}
+		
+	}
+
 
 	@Test
 	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
