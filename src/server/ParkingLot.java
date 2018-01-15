@@ -4,18 +4,18 @@ import core.ParkingState;
 import core.ParkingStatus;
 import core.ParkingLotInfo;
 import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.Date;
+import java.util.LinkedList;
 
 // TODO: remove these imports if they are not required
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.Queue;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import server.db.dbAPI.RegularDBAPI;
 
-public class ParkingLotOperations extends ParkingLotInfo {
+public class ParkingLot extends ParkingLotInfo {
 	/**************************************** Properties ****************************************/
 	
 	// the keys and the values of these maps are indexes of parkingMap
@@ -31,7 +31,7 @@ public class ParkingLotOperations extends ParkingLotInfo {
 	/************************************** Public Methods **************************************/
 	
 	// used only when adding new parking lot to the system
-	public ParkingLotOperations(int lotId, int floors, int rows, int cols) {
+	public ParkingLot(int lotId, int floors, int rows, int cols) {
 		super(lotId, floors, rows, cols);
 		int size = floors * rows * cols;
 		parkingMap = new ArrayList<ParkingState>(size);
