@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -16,6 +17,7 @@ import server.db.DBConstants;
 import server.db.DBConstants.TrueFalse;
 import server.db.queries.ParkingMapQueries;
 import server.db.queries.RegularQueries;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -53,6 +55,37 @@ public class RegularDBAPI extends DBAPI{
 		}
 		return result;
 	}
+	
+	
+/****************************************** TODO Section ******************************************/
+
+	
+	public int getNewParkingLotId() throws SQLException {
+		//TODO: implement
+		return 0; // temporary return value (to avoid compilation errors)
+	}
+	
+	
+	public void selectAllParkingLots(HashMap<Integer, String> resultMap) throws SQLException {
+		//TODO: implement
+	}
+	
+	
+	public void updateParkingLot(int lotId, String parkingLotJson) throws SQLException {
+		//TODO: implement
+	}
+	
+	
+	public void insertParkingLot(String parkingLotJson) throws SQLException {
+		//TODO: implement
+	}
+	
+	
+	public void removeParkingLot(int lotId) throws SQLException {
+		//TODO: implement
+	}
+
+/*************************************** End Of TODO Section **************************************/
 
 
 	/**

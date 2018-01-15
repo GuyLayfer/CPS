@@ -4,14 +4,14 @@ import core.ParkingState;
 import core.ParkingStatus;
 import core.ParkingLotInfo;
 import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.Date;
+import java.util.LinkedList;
 
 // TODO: remove these imports if they are not required
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.Queue;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 import server.db.dbAPI.RegularDBAPI;
 

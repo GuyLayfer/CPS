@@ -2,12 +2,14 @@ package server;
 
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Hashtable;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 // Singleton
 public class ParkingLotsManager {
 	private static ParkingLotsManager instance = null;
-	private Hashtable<Integer, ParkingLotOperations> parkingLots;
+	private ConcurrentHashMap<Integer, ParkingLotOperations> parkingLots; // synchronized map
+	private Vector<Integer> lotIds; // Vector is synchronized
 	
 	private ParkingLotsManager() throws SQLException {
 		//TODO: implement
@@ -21,6 +23,11 @@ public class ParkingLotsManager {
 	
 	public static ParkingLotsManager getInstance() {
 		return instance;
+	}
+	
+	public Vector<Integer> getAllIds() {
+		//TODO: implement
+		return lotIds; // change it later to a deep copy of that Vector
 	}
 	
 	public int addParkingLot(int floors, int rows, int cols) throws SQLException {
