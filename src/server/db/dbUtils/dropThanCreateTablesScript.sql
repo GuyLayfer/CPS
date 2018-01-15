@@ -65,7 +65,7 @@ PRIMARY KEY (complaint_id)
 CREATE TABLE workers(
 worker_id  int,
 password varchar(255),
-role_type ENUM('lotMgr','firmMgr','customerService'),
+role_type ENUM('LOT_WORKER','LOT_MANAGER','CUSTOMER_SERVICE', 'FIRM_MANAGER'),
 customer_service_response text,
 lot_id int,
 UNIQUE(worker_id),
