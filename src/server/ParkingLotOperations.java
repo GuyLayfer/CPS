@@ -8,6 +8,7 @@ import java.util.ArrayList;
 // TODO: remove these imports if they are not required
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.TreeMap;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 import server.db.dbAPI.RegularDBAPI;
 
 public class ParkingLotOperations extends ParkingLotInfo {
+	/**************************************** Properties ****************************************/
+	
 	// the keys and the values of these maps are indexes of parkingMap
 	private TreeMap<Integer, Integer> parkedPlacesMap;
 	private TreeMap<Integer, Integer> freePlacesMap;
@@ -22,7 +25,10 @@ public class ParkingLotOperations extends ParkingLotInfo {
 	private Robot robot;
 	// a queue of broken place indexes which the system hasn't updated yet
 	private LinkedList<Integer> brokenPlacesQueue; 
+	// a queue of reserved place indexes which the system hasn't updated yet
+	private LinkedList<Integer> reservedPlacesQueue; 
 	
+	/************************************** Public Methods **************************************/
 	
 	// used only when adding new parking lot to the system
 	public ParkingLotOperations(int lotId, int floors, int rows, int cols) {
@@ -39,12 +45,12 @@ public class ParkingLotOperations extends ParkingLotInfo {
 	}
 	
 	synchronized public String insertCar(String carId, long leaveTime) {
-		//TODO
+		//TODO: implement
 		return null;
 	}
 	
 	synchronized public String removeCar(String carId) {
-		//TODO
+		//TODO: implement
 		return null;
 	}
 	
@@ -59,7 +65,7 @@ public class ParkingLotOperations extends ParkingLotInfo {
 				freePlacesMap.remove(locationIndex);
 				break;
 			case PARKED:
-				//TODO
+				//TODO: implement
 				break;
 			case RESERVED:
 				parkingState.parkingStatus = ParkingStatus.BROKEN;
@@ -75,18 +81,47 @@ public class ParkingLotOperations extends ParkingLotInfo {
 		}
 	}
 	
+	synchronized public void unSetBrokenPlace(int locationIndex) throws IndexOutOfBoundsException {
+		//TODO: implement
+	}
+	
+	synchronized public boolean reservePlace(Date date) {
+		//TODO: implement
+		return true;
+	}
+	
+	synchronized public void unReservePlace() {
+		//TODO: implement
+	}
+	
+	/************************************** Private Methods **************************************/
+	
+	private void shiftCarsLeft(int index) {
+		//TODO: implement
+	}
+	
+	private int findCar(String carID) {
+		//TODO: implement
+		return -1;
+	}
+	
+	private int findPlaceForCar(long leaveTime) {
+		//TODO: implement
+		return -1;
+	}
+	
+	private void calculateStateAfterInsertion(int carLocation) {
+		//TODO: implement
+	}
+	
+	private void calculateStateAfterRemoval(int carLocation) {
+		//TODO: implement
+	}
+
 	
 	
 	
-	/*
-Bool reserveParkingForCustomer();
-int[3] findCar(int carID);
-int[3] findPlaceForCar(int leaveTime);
-ParkingPositioning calculateStatusAfterPositioning(int carLocation, bool forInsertion);
-	 */
-	
-	
-	// TODO: check if we need this constructor
+	// TODO: remove this constructor if we don't need it
 	/*
 	public ParkingLotInfo(int lotId, int floors, int rows, int cols) throws SQLException {
 		this.lotId = lotId;
