@@ -15,9 +15,10 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import server.db.dbAPI.RegularDBAPI;
 
-public class ParkingLot extends ParkingLotInfo {
+public class ParkingLot {
 	/**************************************** Properties ****************************************/
 	
+	private ParkingLotInfo info;
 	// the keys and the values of these maps are indexes of parkingMap
 	private TreeMap<Integer, Integer> parkedPlacesMap;
 	private TreeMap<Integer, Integer> freePlacesMap;
@@ -32,14 +33,12 @@ public class ParkingLot extends ParkingLotInfo {
 	
 	// used only when adding new parking lot to the system
 	public ParkingLot(int lotId, int floors, int rows, int cols) {
-		super(lotId, floors, rows, cols);
-		int size = floors * rows * cols;
-		parkingMap = new ArrayList<ParkingState>(size);
+		info = new ParkingLotInfo(lotId, floors, rows, cols);
+		int size = info.parkingMap.size();
 		parkedPlacesMap = new TreeMap<Integer, Integer>();
 		freePlacesMap = new TreeMap<Integer, Integer>();
 		reservedPlacesMap = new TreeMap<Integer, Integer>();
 		for (int i = 0; i < size; i++) {
-			parkingMap.add(new ParkingState(ParkingStatus.FREE));
 			freePlacesMap.put(i, i);
 		}	
 	}
@@ -55,7 +54,7 @@ public class ParkingLot extends ParkingLotInfo {
 	}
 	
 	synchronized public void setBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
-		ParkingState parkingState = parkingMap.get(placeIndex);
+		ParkingState parkingState = info.parkingMap.get(placeIndex);
 		if (freePlacesMap.isEmpty()) {
 			brokenPlacesQueue.add(placeIndex);
 		} else {
@@ -71,7 +70,7 @@ public class ParkingLot extends ParkingLotInfo {
 				parkingState.parkingStatus = ParkingStatus.BROKEN;
 				reservedPlacesMap.remove(placeIndex);
 				int lastFreeIndex = freePlacesMap.lastKey();
-				parkingMap.get(lastFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+				info.parkingMap.get(lastFreeIndex).parkingStatus = ParkingStatus.RESERVED;
 				freePlacesMap.remove(lastFreeIndex);
 				reservedPlacesMap.put(lastFreeIndex, lastFreeIndex);
 				break;
