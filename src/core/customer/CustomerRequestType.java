@@ -18,4 +18,7 @@ public enum CustomerRequestType {
 	
 	// used only for sending messages from the server to the client
 	FULL_PARKING_LOT,
+	PARKING_LOT_NAMES,
+	
+	BAD_REQUEST, // Used only for responses. The client should not send this request
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.requests.CancelCustomerOrderRequest;
-import core.worker.responses.BaseResponse;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
 import server.workerServer.WorkerResponseFactory;
 
@@ -30,7 +30,7 @@ public class CancelRequestsHandler extends BaseRequestsHandler {
 			double refund = 0.0; // TODO calculate refund
 			// if cancelTime <
 			regularDBAPI.cancelOrder(cancelRequest.orderId, refund);
-			BaseResponse response = WorkerResponseFactory.CreateCancelResponse(refund);
+			WorkerBaseResponse response = WorkerResponseFactory.CreateCancelResponse(refund);
 			return CreateWorkerResponse(response);
 		}
 	}
