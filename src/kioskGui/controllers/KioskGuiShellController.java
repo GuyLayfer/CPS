@@ -2,22 +2,22 @@ package kioskGui.controllers;
 
 import org.controlsfx.control.BreadCrumbBar;
 import org.controlsfx.control.BreadCrumbBar.BreadCrumbActionEvent;
-import org.controlsfx.control.Notifications;
 
-import core.guiUtilities.ServerMessageHandler;
+import core.customer.CustomerRequestType;
+import core.customer.responses.BadCustomerResponse;
+import core.customer.responses.CustomerBaseResponse;
+import core.customer.responses.CustomerNotificationResponse;
+import core.customer.responses.IdPricePairResponse;
+import core.guiUtilities.IServerResponseHandler;
 import core.guiUtilities.UriDictionary;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.UriToString;
 
-public class KioskGuiShellController extends KioskClientController implements ServerMessageHandler {
+public class KioskGuiShellController extends KioskClientController implements IServerResponseHandler<CustomerBaseResponse> {
 	private KioskConnectionManager connectionManager;
 
 	public KioskGuiShellController() {
@@ -47,21 +47,22 @@ public class KioskGuiShellController extends KioskClientController implements Se
 	}
 
 	@Override
-	public void handleServerMessage(String msg) {
-		Platform.runLater(() -> {
-			Notifications notificationBuilder = Notifications.create()
-				.title("Message from server:")
-				.text(msg)
-				.hideAfter(Duration.seconds(10))
-				.position(Pos.BOTTOM_RIGHT)
-				.onAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent arg0) {
-						
-					}
-				});
+	public void handleServerResponse(CustomerBaseResponse response) {
+		if (response instanceof CustomerNotificationResponse) {
+			CustomerNotificationResponse notificationResponse = (CustomerNotificationResponse)response;
+			showNotification(notificationResponse.message);
+			return;
+		}
+
+		if (response.requestType == CustomerRequestType.BAD_REQUEST) {
+			BadCustomerResponse badResponse = (BadCustomerResponse) response;
+			showNotification(badResponse.toString());
+			return;
+		}
 		
-		notificationBuilder.showInformation();
-		});
+		if (response instanceof IdPricePairResponse) {
+			IdPricePairResponse idPricePair = (IdPricePairResponse) response;
+			showNotification(idPricePair.toString());
+		}
 	}
 }

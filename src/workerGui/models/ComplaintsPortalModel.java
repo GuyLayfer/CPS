@@ -6,14 +6,14 @@ import core.guiUtilities.IServerResponseHandler;
 import core.worker.Complaint;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
-import core.worker.responses.BaseResponse;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.ComplaintsForReviewResponse;
 import workerGui.controllers.IAddItemsToTable;
 import workerGui.util.ComplaintUiElement;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerRequestsFactory;
 
-public class ComplaintsPortalModel implements IServerResponseHandler{
+public class ComplaintsPortalModel implements IServerResponseHandler<WorkerBaseResponse> {
 	private WorkerConnectionManager connectionManager;
 	private IAddItemsToTable<ComplaintUiElement> controller;
 
@@ -45,7 +45,7 @@ public class ComplaintsPortalModel implements IServerResponseHandler{
 	}
 
 	@Override
-	public void handleServerResponse(BaseResponse response) {
+	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.REQUEST_COMPLAINTS_FOR_REVIEW) {
 			ComplaintsForReviewResponse specificResponse = (ComplaintsForReviewResponse) response;
 			controller.AddToTable(
