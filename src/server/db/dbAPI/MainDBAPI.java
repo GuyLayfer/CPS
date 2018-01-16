@@ -17,7 +17,7 @@ public class MainDBAPI {
 	public static void main(String[] args) {
 		// TODO: Who uses this code? Why there's main here?
 
-		
+/*
 		RegularDBAPI regularDBAPIInst = RegularDBAPI.getInstance();
 		int lot1Size = 36;
 		int lotId = 1;
@@ -41,7 +41,7 @@ public class MainDBAPI {
 			parkingMapArrForInsertQuery[i] = DBConstants.ParkingMap.FREE.getValue();
 
 		}
-
+*/
 		
 		
 		
