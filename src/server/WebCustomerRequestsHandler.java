@@ -50,7 +50,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		double price = 0.0;
 		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
 		//TODO: update parking lots info
-		return createWorkerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
+		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
 	
 	protected String cancelOrder(CustomerRequest request) throws SQLException {
@@ -83,7 +83,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			response.parkingLotID = (Integer) result.get(SqlColumns.ParkingTonnage.LOT_ID);
 			response.arrivalTime = (Date)result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
 			response.estimatedDepartureTime = (Date)result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
-			return createWorkerResponse(request.requestType, response);
+			return createCustomerResponse(request.requestType, response);
 		}
 	}
 	
@@ -203,7 +203,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}
 
-	protected String createWorkerResponse(CustomerRequestType requestType, CustomerBaseResponse response) {
+	protected String createCustomerResponse(CustomerRequestType requestType, CustomerBaseResponse response) {
 		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}
 }

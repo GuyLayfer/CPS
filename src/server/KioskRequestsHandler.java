@@ -7,11 +7,7 @@ import com.google.gson.JsonSyntaxException;
 
 import core.ResponseStatus;
 import core.customer.CustomerRequest;
-import core.customer.CustomerRequestType;
 import core.customer.responses.BadCustomerResponse;
-import core.customer.responses.CustomerBaseResponse;
-import core.customer.responses.CustomerNotificationResponse;
-import core.customer.responses.CustomerResponse;
 import ocsf.server.ConnectionToClient;
 
 public class KioskRequestsHandler extends WebCustomerRequestsHandler {
@@ -58,24 +54,5 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 	@Override
 	protected void serverStopped() {
 		System.out.println("Kiosk Server has stopped listening for connections.");
-	}
-
-	protected String createUnsupportedFeatureResponse(CustomerRequestType requestType) {
-		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.UNSUPPORTED_FEATURE, requestType + " request type isn't supported yet");
-		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
-	}
-
-	protected String createRequestDeniedResponse(CustomerRequestType requestType, String refusalReason) {
-		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.REQUEST_DENIED, refusalReason);
-		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
-	}
-
-	protected String createNotificationResponse(CustomerRequestType requestType, String message) {
-		CustomerNotificationResponse response = new CustomerNotificationResponse(requestType, message);
-		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
-	}
-
-	protected String createWorkerResponse(CustomerRequestType requestType, CustomerBaseResponse response) {
-		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}
 }
