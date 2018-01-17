@@ -14,7 +14,7 @@ import core.worker.requests.*;
 import server.workerServer.workerRequestsHandlers.*;
 
 public class WorkerRequestsTypesMapper {
-	private static Gson gson = new CpsGson().GetGson();
+	private static Gson gson = CpsGson.GetGson();
 
 	public static Map<WorkerRequestType, Function<String, BaseRequest>> CreateRequestsConverterMap() {
 		Map<WorkerRequestType, Function<String, BaseRequest>> converterMap = new HashMap<WorkerRequestType, Function<String, BaseRequest>>();

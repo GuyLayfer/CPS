@@ -15,7 +15,7 @@ import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.customer.responses.TrackOrderResponse;
 
 public class CustomerResponsesTypesMapper {
-	private static final Gson gson = new CpsGson().GetGson();
+	private static final Gson gson = CpsGson.GetGson();
 	
 	public static Map<CustomerRequestType, Function<String, CustomerBaseResponse>> CreateResponseConverterMap() {
 		Map<CustomerRequestType, Function<String, CustomerBaseResponse>> converterMap = new HashMap<CustomerRequestType, Function<String, CustomerBaseResponse>>();

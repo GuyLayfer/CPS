@@ -23,7 +23,7 @@ public class WorkerConnectionManager extends AbstractClient {
 	private static WorkerConnectionManager instance;
 	final private static int DEFAULT_PORT = ServerPorts.WORKER_PORT;
 	final private static String DEFAULT_HOST = "localhost";
-	final private Gson gson = new CpsGson().GetGson();
+	final private Gson gson = CpsGson.GetGson();
 	private List<IServerResponseHandler<WorkerBaseResponse>> listeners = new ArrayList<IServerResponseHandler<WorkerBaseResponse>>();
 	private Map<WorkerRequestType, Function<String, WorkerBaseResponse>> responseConverterMap;
 	public static String alternativeHostAddress = null;

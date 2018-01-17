@@ -23,7 +23,7 @@ public class KioskConnectionManager extends AbstractClient {
 	private static KioskConnectionManager instance;
 	final private static int DEFAULT_PORT = ServerPorts.KIOSK_PORT;
 	final private static String DEFAULT_HOST = "localhost";
-	final private Gson gson = new CpsGson().GetGson();
+	final private Gson gson = CpsGson.GetGson();
 	private List<IServerResponseHandler<CustomerBaseResponse>> listeners = new CopyOnWriteArrayList<IServerResponseHandler<CustomerBaseResponse>>();
 	private Map<CustomerRequestType, Function<String, CustomerBaseResponse>> responseConverterMap;
 	public static String alternativeHostAddress = null;

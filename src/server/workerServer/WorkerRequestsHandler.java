@@ -21,7 +21,7 @@ import ocsf.server.ConnectionToClient;
 import server.workerServer.workerRequestsHandlers.IRequestsHandler;
 
 public class WorkerRequestsHandler extends AbstractServer {
-	private Gson gson = new CpsGson().GetGson();
+	private Gson gson = CpsGson.GetGson();
 	private Map<WorkerRequestType, Function<String, BaseRequest>> responseConverterMap;
 	Set<IRequestsHandler> requestsHandlers;
 
