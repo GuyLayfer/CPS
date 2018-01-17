@@ -21,7 +21,7 @@ public class RatesManager {
 	
 	private RatesManager() throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		//workersDBAPI.selectAllLotsRates(false, resultList);
+		/*//workersDBAPI.selectAllLotsRates(false, resultList);
 		for (int i = 0; i < resultList.size(); i++) {
 			int lotId = resultList.get(i).get(SqlColumns.Rates.LOT_ID);
 			double occasional = resultList.get(i).get(SqlColumns.Rates.OCCASIONAL);
@@ -30,7 +30,7 @@ public class RatesManager {
 			// TODO: double monthlyMultipleCars = resultList.get(i).get(SqlColumns.Rates.SOMTHING);
 			LotRates newLotRates = new LotRates(occasional, preOrdered, monthly, monthlyMultipleCars);
 			this.ratesMap.put(lotId, newLotRates);
-		}
+		}*/
 	}
 	
 	/**
