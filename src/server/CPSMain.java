@@ -15,6 +15,7 @@ public class CPSMain {
 			//TODO: add RatesManager and PriceCalculator
 			
 			ParkingLotsManager.initialize();
+			RatesManager.initialize();
 			
 			WebCustomerRequestsHandler webCustomerRequestsHandler = 
 					new WebCustomerRequestsHandler(ServerPorts.WEB_CUSTOMER_PORT);
