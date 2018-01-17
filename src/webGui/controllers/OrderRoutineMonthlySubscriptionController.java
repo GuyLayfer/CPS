@@ -14,7 +14,6 @@ import com.jfoenix.controls.JFXTimePicker;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -25,14 +24,14 @@ import webGui.models.OrderRoutineMonthlySubscriptionModel;
 import webGui.util.LocalTimeConverter;
 import webGui.util.MultipleCarsDialog;
 
-public class OrderRoutineMonthlySubscriptionController implements ServerMessageHandler {
+public class OrderRoutineMonthlySubscriptionController {
 	private OrderRoutineMonthlySubscriptionModel model;
 	private ValidationSupport validation = new ValidationSupport();
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 	private List<String> carsLiscencePlates = new ArrayList<String>();
 
 	public OrderRoutineMonthlySubscriptionController() {
-		model = new OrderRoutineMonthlySubscriptionModel(this);
+		model = new OrderRoutineMonthlySubscriptionModel();
 	}
 
 	@FXML
@@ -96,7 +95,6 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 
 	@FXML
 	public void CreateSubscription(ActionEvent event) {
-		// TODO: change liscencePlateTF to String when Raz changes it in the DB
 		model.SendOrderRoutineMonthlySubscriptionRequestToServer(
 				customerIDTF.getNumber(),
 				carsLiscencePlates, emailTF.getText(),
@@ -110,11 +108,6 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 		MultipleCarsDialog dialog = new MultipleCarsDialog(carsLiscencePlates);
 		carsLiscencePlates = dialog.showAndWait().get();
 		liscencePlateTF.setText(carsLiscencePlates.isEmpty() ? "" : carsLiscencePlates.toString());
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 
 	public void ValidateTimePickerHelper(ActionEvent event) {

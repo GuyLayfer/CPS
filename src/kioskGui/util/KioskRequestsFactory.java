@@ -11,8 +11,7 @@ public class KioskRequestsFactory {
 		CustomerRequest occasionalParkingRequest = new CustomerRequest();
 		occasionalParkingRequest.requestType = CustomerRequestType.OCCASIONAL_PARKING;
 		occasionalParkingRequest.customerID = customerID;
-//		occasionalParkingRequest.carID = licensePlate;
-//		Uncomment when carID will become string
+		occasionalParkingRequest.carID = licensePlate;
 		occasionalParkingRequest.estimatedDepartureTime = estimatedDepartureTime;
 		occasionalParkingRequest.email = email;
 //		occasionalParkingRequest.parkingLotID = parkingLotID;
@@ -23,8 +22,7 @@ public class KioskRequestsFactory {
 	public static CustomerRequest CreatePreOrderedEntranceRequest(String licensePlate){
 		CustomerRequest preOrderedEntranceRequest = new CustomerRequest();
 		preOrderedEntranceRequest.requestType = CustomerRequestType.ENTER_PARKING_PRE_ORDERED;
-//		preOrderedEntranceRequest.carID = licensePlate;
-//		Uncomment when carID will become string
+		preOrderedEntranceRequest.carID = licensePlate;
 //		occasionalParkingRequest.parkingLotID = parkingLotID;
 //		Need to get current parking lot ID
 		return preOrderedEntranceRequest;
@@ -33,12 +31,8 @@ public class KioskRequestsFactory {
 	public static CustomerRequest CreateSubscriberEntranceRequest(String licensePlate, int subscriptionId){
 		CustomerRequest subscriberEntranceRequest = new CustomerRequest();
 		subscriberEntranceRequest.requestType = CustomerRequestType.ENTER_PARKING_SUBSCRIBER;
-		
-//		subscriberEntranceRequest.carID = licensePlate;
-//		Uncomment when carID will become string
-		
+		subscriberEntranceRequest.carID = licensePlate;
 		subscriberEntranceRequest.subscriptionID = subscriptionId;
-		
 //		occasionalParkingRequest.parkingLotID = parkingLotID;
 //		Need to get current parking lot ID
 		
@@ -48,10 +42,7 @@ public class KioskRequestsFactory {
 	public static CustomerRequest CreateParkingLotExitRequest(String licensePlate){
 		CustomerRequest parkingLotExitRequest = new CustomerRequest();
 		parkingLotExitRequest.requestType = CustomerRequestType.EXIT_PARKING;
-		
-//		parkingLotExitRequest.carID = licensePlate;
-//		Uncomment when carID will become string
-		
+		parkingLotExitRequest.carID = licensePlate;
 //		parkingLotExitRequest.parkingLotID = parkingLotID;
 //		Need to get current parking lot ID
 		

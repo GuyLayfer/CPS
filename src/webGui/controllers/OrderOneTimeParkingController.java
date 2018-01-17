@@ -12,7 +12,6 @@ import org.controlsfx.validation.Validator;
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.LicencePlateTextField;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,13 +20,13 @@ import javafx.scene.control.TextField;
 import tornadofx.control.DateTimePicker;
 import webGui.models.OrderOneTimeParkingModel;
 
-public class OrderOneTimeParkingController implements ServerMessageHandler{
+public class OrderOneTimeParkingController {
 	private OrderOneTimeParkingModel model;
 	private ValidationSupport validation = new ValidationSupport();
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 	
 	public OrderOneTimeParkingController() {
-		model = new OrderOneTimeParkingModel(this);
+		model = new OrderOneTimeParkingModel();
 	}
 	
     @FXML
@@ -93,11 +92,6 @@ public class OrderOneTimeParkingController implements ServerMessageHandler{
     			parkingLotIDTF.getNumber(),
     			Date.from(arrivalTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()), 
     			Date.from(estimatedDepartureTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()));
-    }
-    
-    @Override
-	public void handleServerMessage(String msg) {
-
     }
     
 //	Doesn't work well. Need to validate both fields at same time

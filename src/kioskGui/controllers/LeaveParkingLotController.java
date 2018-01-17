@@ -7,20 +7,18 @@ import org.controlsfx.validation.Validator;
 import core.customer.CustomerRequest;
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.LicencePlateTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.KioskRequestsFactory;
 
-public class LeaveParkingLotController implements ServerMessageHandler {
+public class LeaveParkingLotController {
 	private ValidationSupport validation = new ValidationSupport();
 	private KioskConnectionManager connectionManager;
 
 	public LeaveParkingLotController() {
 		connectionManager = KioskConnectionManager.getInstance();
-		connectionManager.addServerMessageListener(this);
 	}
 
 	@FXML
@@ -39,10 +37,5 @@ public class LeaveParkingLotController implements ServerMessageHandler {
 	void SubmitLeaveRequest(ActionEvent event) {
 		CustomerRequest parkingLotExitRequest = KioskRequestsFactory.CreateParkingLotExitRequest(CarIdField.getText());
 		connectionManager.sendMessageToServer(parkingLotExitRequest);
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 }

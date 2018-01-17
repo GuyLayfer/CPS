@@ -8,7 +8,7 @@ import core.guiUtilities.UriDictionary;
 import core.worker.WorkerOperations;
 import core.worker.WorkerRequestType;
 import core.worker.responses.BadResponse;
-import core.worker.responses.BaseResponse;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.NotificationResponse;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ import workerGui.util.WorkerAccountManager;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerGuiController;
 
-public class WorkerGuiShellController extends WorkerGuiController implements IServerResponseHandler, ICareAboutLoginState {
+public class WorkerGuiShellController extends WorkerGuiController implements IServerResponseHandler<WorkerBaseResponse>, ICareAboutLoginState {
 	private static final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent;";
 	private static final String HOVERED_BUTTON_STYLE = "-fx-background-color: #0096C9";
 	private WorkerAccountManager workerAccountManager;
@@ -46,7 +46,7 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 	}
 
 	@Override
-	public void handleServerResponse(BaseResponse response) {
+	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response instanceof NotificationResponse) {
 			NotificationResponse notificationResponse = (NotificationResponse) response;
 			showNotification(notificationResponse.message);

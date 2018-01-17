@@ -14,7 +14,7 @@ import core.guiUtilities.IServerResponseHandler;
 import core.worker.requests.BaseRequest;
 import core.worker.requests.WorkerRequest;
 import core.worker.WorkerRequestType;
-import core.worker.responses.BaseResponse;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
 import ocsf.client.AbstractClient;
 
@@ -24,8 +24,8 @@ public class WorkerConnectionManager extends AbstractClient {
 	final private static int DEFAULT_PORT = ServerPorts.WORKER_PORT;
 	final private static String DEFAULT_HOST = "localhost";
 	final private Gson gson = new CpsGson().GetGson();
-	private List<IServerResponseHandler> listeners = new ArrayList<IServerResponseHandler>();
-	private Map<WorkerRequestType, Function<String, BaseResponse>> responseConverterMap;
+	private List<IServerResponseHandler<WorkerBaseResponse>> listeners = new ArrayList<IServerResponseHandler<WorkerBaseResponse>>();
+	private Map<WorkerRequestType, Function<String, WorkerBaseResponse>> responseConverterMap;
 	public static String alternativeHostAddress = null;
 
 	private WorkerConnectionManager(String hostAddress) throws IOException {
@@ -47,7 +47,7 @@ public class WorkerConnectionManager extends AbstractClient {
 		return instance;
 	}
 
-	public void addServerMessageListener(IServerResponseHandler listner) {
+	public void addServerMessageListener(IServerResponseHandler<WorkerBaseResponse> listner) {
 		listeners.add(listner);
 	}
 
@@ -68,7 +68,7 @@ public class WorkerConnectionManager extends AbstractClient {
 	protected void handleMessageFromServer(Object arg0) {
 		WorkerResponse response = gson.fromJson((String) arg0, WorkerResponse.class);
 
-		BaseResponse specificResponse = responseConverterMap.get(response.requestType).apply(response.jsonData);
+		WorkerBaseResponse specificResponse = responseConverterMap.get(response.requestType).apply(response.jsonData);
 		notifyListeners(specificResponse);
 	}
 
@@ -82,8 +82,8 @@ public class WorkerConnectionManager extends AbstractClient {
 		System.exit(0);
 	}
 
-	private void notifyListeners(BaseResponse message) {
-		for (IServerResponseHandler listener : listeners) {
+	private void notifyListeners(WorkerBaseResponse message) {
+		for (IServerResponseHandler<WorkerBaseResponse> listener : listeners) {
 			listener.handleServerResponse(message);
 		}
 	}

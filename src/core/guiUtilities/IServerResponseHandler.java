@@ -1,8 +1,6 @@
 package core.guiUtilities;
 
-import core.worker.responses.BaseResponse;
-
-public interface IServerResponseHandler {
+public interface IServerResponseHandler<RT> {
 	
-	public void handleServerResponse(BaseResponse response);
+	public void handleServerResponse(RT response);
 }

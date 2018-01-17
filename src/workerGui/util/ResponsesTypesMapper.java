@@ -13,8 +13,8 @@ import core.worker.responses.*;
 public class ResponsesTypesMapper {
 private static Gson gson = new CpsGson().GetGson();
 	
-	public static Map<WorkerRequestType, Function<String, BaseResponse>> CreateResponsesConverterMap() {
-		Map<WorkerRequestType, Function<String, BaseResponse>> converterMap = new HashMap<WorkerRequestType, Function<String, BaseResponse>>();
+	public static Map<WorkerRequestType, Function<String, WorkerBaseResponse>> CreateResponsesConverterMap() {
+		Map<WorkerRequestType, Function<String, WorkerBaseResponse>> converterMap = new HashMap<WorkerRequestType, Function<String, WorkerBaseResponse>>();
 		converterMap.put(WorkerRequestType.ACQUIT_OR_CHARGE_ACCOUNT, (gsonString) -> {
 			return gson.fromJson((String) gsonString, NotificationResponse.class);
 		});

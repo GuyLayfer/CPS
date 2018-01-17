@@ -7,19 +7,18 @@ import org.controlsfx.validation.Validator;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import webGui.models.OpenComplaintModel;
 
-public class OpenComplaintController implements ServerMessageHandler {
+public class OpenComplaintController {
 	private OpenComplaintModel model;
 	private ValidationSupport validation = new ValidationSupport();
 
 	public OpenComplaintController() {
-		model = new OpenComplaintModel(this);
+		model = new OpenComplaintModel();
 	}
 
 	@FXML
@@ -41,10 +40,5 @@ public class OpenComplaintController implements ServerMessageHandler {
 	@FXML
 	void openComplaintT(ActionEvent event) {
 		model.SendOpenComplaintRequestToServer(openComplaintTextArea.getText(), customerIfTextField.getNumber());
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 }

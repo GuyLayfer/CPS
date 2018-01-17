@@ -7,18 +7,17 @@ import org.controlsfx.validation.Validator;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import webGui.models.RenewSubscriptionModel;
 
-public class RenewSubscriptionController implements ServerMessageHandler {
+public class RenewSubscriptionController {
 	private RenewSubscriptionModel model;
 	private ValidationSupport validation = new ValidationSupport();
 
 	public RenewSubscriptionController() {
-		model = new RenewSubscriptionModel(this);
+		model = new RenewSubscriptionModel();
 	}
 
 	@FXML
@@ -41,10 +40,5 @@ public class RenewSubscriptionController implements ServerMessageHandler {
 	@FXML
 	public void RenewSubscription(ActionEvent event) {
 		model.SendRenewSubscriptionRequestToServer(customerIDTF.getNumber(), subscriptionIDTF.getNumber());
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 }

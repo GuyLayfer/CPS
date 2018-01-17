@@ -12,7 +12,6 @@ import org.controlsfx.validation.Validator;
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.LicencePlateTextField;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,13 +20,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import webGui.models.OrderFullMonthlySubscriptionModel;
 
-public class OrderFullMonthlySubscriptionController implements ServerMessageHandler {
+public class OrderFullMonthlySubscriptionController {
 	private OrderFullMonthlySubscriptionModel model;
 	private ValidationSupport validation = new ValidationSupport();
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 
 	public OrderFullMonthlySubscriptionController() {
-		model = new OrderFullMonthlySubscriptionModel(this);
+		model = new OrderFullMonthlySubscriptionModel();
 	}
 
 	@FXML
@@ -76,10 +75,5 @@ public class OrderFullMonthlySubscriptionController implements ServerMessageHand
 				liscencePlateTF.getText(),
 				emailTF.getText(),
 				Date.from(startingDateTF.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()));
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 }

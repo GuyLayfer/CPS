@@ -7,18 +7,17 @@ import org.controlsfx.validation.Validator;
 
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import webGui.models.CancelOrderModel;
 
-public class CancelOrderController implements ServerMessageHandler {
+public class CancelOrderController {
 	private CancelOrderModel model;
 	private ValidationSupport validation = new ValidationSupport();
 
 	public CancelOrderController() {
-		model = new CancelOrderModel(this);
+		model = new CancelOrderModel();
 	}
 
 	@FXML
@@ -41,10 +40,5 @@ public class CancelOrderController implements ServerMessageHandler {
 	@FXML
 	void cancelOrder(ActionEvent event) {
 		model.SendCancelRequestToServer(orderIDTF.getNumber());
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 }

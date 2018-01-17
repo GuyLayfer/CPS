@@ -7,20 +7,18 @@ import org.controlsfx.validation.Validator;
 import core.customer.CustomerRequest;
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.LicencePlateTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.KioskRequestsFactory;
 
-public class PreOrderedParkingLoginController implements ServerMessageHandler {
+public class PreOrderedParkingLoginController {
 	private ValidationSupport validation = new ValidationSupport();
 	private KioskConnectionManager connectionManager;
 
 	public PreOrderedParkingLoginController() {
 		connectionManager = KioskConnectionManager.getInstance();
-		connectionManager.addServerMessageListener(this);
 	}
 
 	@FXML
@@ -39,10 +37,5 @@ public class PreOrderedParkingLoginController implements ServerMessageHandler {
 	void SubmitPreOrdered(ActionEvent event) {
 		CustomerRequest preOrderedEntranceRequest = KioskRequestsFactory.CreatePreOrderedEntranceRequest(CarIdField.getText());
 		connectionManager.sendMessageToServer(preOrderedEntranceRequest);
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 }
