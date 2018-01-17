@@ -134,7 +134,7 @@ PRIMARY KEY (lot_id)
 
 
 CREATE TABLE rates (
-lot_id int, /*-1 for default*/
+lot_id int, 
 subscription_regular double,
 subscription_full double,
 order_one_time double,
@@ -142,6 +142,15 @@ order_regular double,
 UNIQUE(lot_id),
 PRIMARY KEY (lot_id)
 );
+
+CREATE TABLE rates_pending (
+lot_id int, 
+subscription_regular double,
+subscription_full double,
+order_one_time double,
+order_regular double
+);
+
 
 
 CREATE TABLE parking_map(
