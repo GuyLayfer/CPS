@@ -29,8 +29,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = new CpsGson().GetGson();
 	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	final protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
-	final protected RatesManager ratesManager = RatesManager.getInstance();
-	
+	final protected PriceCalculator priceCalculator = PriceCalculator.getInstance();
 	
 	public WebCustomerRequestsHandler(int port) {
 		super(port);

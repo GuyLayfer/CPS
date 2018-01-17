@@ -57,7 +57,7 @@ public class SqlColumns {
 		public static final String LOT_ID = "lot_id"; //int(11) PK
 		public static final String SUBSCRIPTION = "subscription_regular"; //double
 		public static final String SUBSCRIPTION_FULL = "subscription_full"; //double
-		public static final String ONE_TIME = "order_one_time"; //double
+		public static final String OCCASIONAL = "order_one_time"; //double
 		public static final String PRE_ORDERED = "order_regular"; //double
 	}
 	

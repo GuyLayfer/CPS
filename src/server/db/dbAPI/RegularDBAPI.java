@@ -109,16 +109,6 @@ public class RegularDBAPI extends DBAPI{
 	public void deleteParkingLot(int lotId) throws SQLException {
 		//TODO: implement
 	}
-
-	/**
-	 * Selects all Rate json-string representations in the DB and stores them in a result map.
-	 *
-	 * @param resultMap - the keys are lotIds and the values are json-string representations of Rate objects
-	 * @throws SQLException the SQL exception
-	 */
-	public void selectAllRates(Map<Integer, String> resultMap) throws SQLException {
-		//TODO: implement
-	}
 	
 /*************************************** End Of TODO Section **************************************/
 

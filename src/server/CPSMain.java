@@ -12,10 +12,10 @@ public class CPSMain {
 	
 	public static void main(String[] args) {
 		try {
-			//TODO: add RatesManager and PriceCalculator
 			
 			ParkingLotsManager.initialize();
 			RatesManager.initialize();
+			PriceCalculator.initialize();
 			
 			WebCustomerRequestsHandler webCustomerRequestsHandler = 
 					new WebCustomerRequestsHandler(ServerPorts.WEB_CUSTOMER_PORT);
