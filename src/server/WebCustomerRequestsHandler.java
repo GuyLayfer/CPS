@@ -31,7 +31,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = new CpsGson().GetGson();
 	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	final protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
-	
+	final protected PriceCalculator priceCalculator = PriceCalculator.getInstance();
 	
 	public WebCustomerRequestsHandler(int port) {
 		super(port);
@@ -68,7 +68,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	
 	protected String trackOrderStatus(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		RegularDBAPI.getInstance().selectOrderStatus(request.orderID, resultList);
+		regularDBAPI.selectOrderStatus(request.orderID, resultList);
 
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
@@ -97,7 +97,17 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//routineDepartureTime
 		
 		//first check if there is a customerID already
-		
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
+		if (resultList.isEmpty()) {
+			//if there is no customerID, create new one and add monthly subscription
+			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
+			//TODO add subscription to the new account
+		}
+		else {
+			//else, add monthly subscription to the existing one
+			//TODO add subscription to the new account
+		}
 		double price = 0.0; // TODO calculate price
 		int subscriptionID = 1234567; //TODO calculate subscriptionID
 		return createUnsupportedFeatureResponse(request.requestType);
