@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import webGui.util.MockWebClientConnectionManager;
 
 public class MockWebClientApplicationStarter extends Application {
 
@@ -46,6 +47,7 @@ public class MockWebClientApplicationStarter extends Application {
 				exitDialog.getDialogPane().setHeaderText("Are you sure you want to exit?");
 				ButtonType result = exitDialog.showAndWait().get();
 				if (result == ButtonType.OK) {
+					MockWebClientConnectionManager.getInstance().closeServerConnection();
 					System.exit(0);
 				} else if (result == ButtonType.CANCEL) {
 					event.consume();

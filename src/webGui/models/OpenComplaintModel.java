@@ -12,7 +12,7 @@ public class OpenComplaintModel {
 		}
 		
 		public void SendOpenComplaintRequestToServer(String complaint, int customerId){
-			CustomerRequest request = CustomerRequestFactory.CreateOpenComplaintRequest(complaint, customerId);
+			CustomerRequest request = CustomerRequestFactory.createOpenComplaintRequest(complaint, customerId);
 			connectionManager.sendMessageToServer(request);
 		}
 

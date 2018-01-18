@@ -2,9 +2,12 @@
 
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import org.controlsfx.control.BreadCrumbBar?>
+<?import org.controlsfx.control.*?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kioskGui.controllers.KioskGuiShellController">
 	<children>
@@ -12,9 +15,16 @@
 			<ToolBar prefHeight="30" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 				<items>
 					<BreadCrumbBar fx:id="breadCrumbBar" />
+					<Pane mouseTransparent="true" HBox.hgrow="ALWAYS" />
+					<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lot ID:" />
+					<ComboBox fx:id="parkingLotIdComboBox" prefHeight="25.0" prefWidth="120.0" />
 				</items>
 			</ToolBar>
 		</AnchorPane>
-		<AnchorPane fx:id="kisokMainViewRegion" />
+		<VBox alignment="CENTER" prefHeight="350.0" prefWidth="500.0">
+			<HBox alignment="CENTER">
+				<AnchorPane fx:id="kisokMainViewRegion" />
+			</HBox>
+		</VBox>
 	</children>
 </VBox>

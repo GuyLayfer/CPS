@@ -47,23 +47,31 @@ public abstract class BaseController {
 		scene.getWindow().sizeToScene();
 		scene.getWindow().centerOnScreen();
 	}
-	
+
 	protected void showNotification(String msg) {
 		Platform.runLater(() -> {
-			Notifications notificationBuilder = Notifications.create()
-				.title("Message from server:")
-				.text(msg)
+			buildNotification("Message from server:", msg).showInformation();
+		});
+	}
+
+	protected void showError(String msg) {
+		Platform.runLater(() -> {
+			buildNotification("Error from server:", msg).showError();
+		});
+	}
+
+	private Notifications buildNotification(String title, String message) {
+		return Notifications.create()
+				.title(title)
+				.text(message)
 				.hideAfter(Duration.seconds(10))
 				.position(Pos.BOTTOM_RIGHT)
 				.onAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent arg0) {
-						
+
 					}
 				});
-		
-		notificationBuilder.showInformation();
-		});
 	}
 
 	private void transitionVisible(Node region) {

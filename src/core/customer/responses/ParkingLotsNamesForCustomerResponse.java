@@ -4,5 +4,5 @@ import java.util.List;
 
 public class ParkingLotsNamesForCustomerResponse extends CustomerBaseResponse {
 	
-	public List<String> lotNames;
+	public List<Integer> lotNames;
 }

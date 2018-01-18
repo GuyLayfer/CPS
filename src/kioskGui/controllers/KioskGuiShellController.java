@@ -8,13 +8,19 @@ import core.customer.responses.BadCustomerResponse;
 import core.customer.responses.CustomerBaseResponse;
 import core.customer.responses.CustomerNotificationResponse;
 import core.customer.responses.IdPricePairResponse;
+import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.guiUtilities.IServerResponseHandler;
 import core.guiUtilities.UriDictionary;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.AnchorPane;
 import kioskGui.util.KioskConnectionManager;
+import kioskGui.util.KioskRequestsFactory;
 import kioskGui.util.UriToString;
 
 public class KioskGuiShellController extends KioskClientController implements IServerResponseHandler<CustomerBaseResponse> {
@@ -23,10 +29,14 @@ public class KioskGuiShellController extends KioskClientController implements IS
 	public KioskGuiShellController() {
 		connectionManager = KioskConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(this);
+		connectionManager.sendMessageToServer(KioskRequestsFactory.CreateParkingLotNamesRequest());
 	}
 
 	@FXML
 	private BreadCrumbBar<UriToString> breadCrumbBar;
+
+	@FXML
+	private ComboBox<Integer> parkingLotIdComboBox;
 
 	@FXML
 	private AnchorPane kisokMainViewRegion;
@@ -44,22 +54,41 @@ public class KioskGuiShellController extends KioskClientController implements IS
 				NavigateTo(breadCrumbBar.getScene(), selectedCrumb.getValue().Uri);
 			}
 		});
+
+		parkingLotIdComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				KioskRequestsFactory.currentLotId = newValue;
+			}
+		});
 	}
 
 	@Override
 	public void handleServerResponse(CustomerBaseResponse response) {
 		if (response instanceof CustomerNotificationResponse) {
-			CustomerNotificationResponse notificationResponse = (CustomerNotificationResponse)response;
+			CustomerNotificationResponse notificationResponse = (CustomerNotificationResponse) response;
 			showNotification(notificationResponse.message);
 			return;
 		}
 
 		if (response.requestType == CustomerRequestType.BAD_REQUEST) {
 			BadCustomerResponse badResponse = (BadCustomerResponse) response;
-			showNotification(badResponse.toString());
+			showError(badResponse.toString());
 			return;
 		}
-		
+
+		if (response.requestType == CustomerRequestType.PARKING_LOT_NAMES) {
+			Platform.runLater(() -> {
+				ParkingLotsNamesForCustomerResponse parkingLotNames = (ParkingLotsNamesForCustomerResponse) response;
+				parkingLotIdComboBox.getItems().clear();
+				parkingLotIdComboBox.getItems().addAll(parkingLotNames.lotNames);
+				if (!parkingLotNames.lotNames.isEmpty()) {
+					parkingLotIdComboBox.setValue(parkingLotNames.lotNames.get(0));
+				}
+			});
+			return;
+		}
+
 		if (response instanceof IdPricePairResponse) {
 			IdPricePairResponse idPricePair = (IdPricePairResponse) response;
 			showNotification(idPricePair.toString());

@@ -54,7 +54,7 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 
 		if (response.requestType == WorkerRequestType.BAD_REQUEST) {
 			BadResponse badResponse = (BadResponse) response;
-			showNotification(badResponse.toString());
+			showError(badResponse.toString());
 		}
 	}
 

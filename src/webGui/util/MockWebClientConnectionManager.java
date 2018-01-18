@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
+import org.controlsfx.control.Notifications;
+
 import com.google.gson.Gson;
 
 import core.*;
@@ -15,6 +17,11 @@ import core.customer.CustomerResponsesTypesMapper;
 import core.customer.responses.CustomerBaseResponse;
 import core.customer.responses.CustomerResponse;
 import core.guiUtilities.IServerResponseHandler;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.util.Duration;
 import ocsf.client.AbstractClient;
 
 public class MockWebClientConnectionManager extends AbstractClient {
@@ -38,6 +45,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 				instance = new MockWebClientConnectionManager(alternativeHostAddress);
 				return instance;
 			} catch (IOException e) {
+				showNotification("Could not connect to server.");
 				e.printStackTrace();
 			}
 		}
@@ -53,9 +61,8 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		try {
 			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
-			System.out.println("Could not send message to server.\n" + e.getMessage() + "\nTerminating client.");
+			showNotification("Could not send message to server.\n" + e.getMessage());
 			e.printStackTrace();
-			quit();
 		}
 	}
 
@@ -66,19 +73,35 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		notifyListeners(specificResponse);
 	}
 
-	private void quit() {
+	public void closeServerConnection() {
 		try {
 			closeConnection();
 		} catch (IOException e) {
 
 		}
-
-		System.exit(0);
 	}
 
 	private void notifyListeners(CustomerBaseResponse message) {
 		for (IServerResponseHandler<CustomerBaseResponse> listener : listeners) {
 			listener.handleServerResponse(message);
 		}
+	}
+	
+	private static void showNotification(String msg) {
+		Platform.runLater(() -> {
+			Notifications notificationBuilder = Notifications.create()
+				.title("Connection Error:")
+				.text(msg)
+				.hideAfter(Duration.seconds(10))
+				.position(Pos.BOTTOM_RIGHT)
+				.onAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent arg0) {
+						
+					}
+				});
+		
+		notificationBuilder.showError();
+		});
 	}
 }

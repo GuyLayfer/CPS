@@ -9,7 +9,7 @@
 <?import core.guiUtilities.LicencePlateTextField?>
 <?import tornadofx.control.*?>
 
-<AnchorPane prefHeight="298.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="kioskGui.controllers.OrderOccasionalParkingController">
 	<children>
 		<Button fx:id="orderBTN" layoutX="174.0" layoutY="235.0" mnemonicParsing="false" onAction="#orderOccasionalParking" text="Order" />

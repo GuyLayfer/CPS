@@ -73,7 +73,8 @@ public class DBAPITest {
 		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", entranceId, lotId, laterDate/*complaintDate*/);
 
 		regularDBAPIInst.selectComplaintDetails(complaintId, resultList);
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
 				System.out.println(column.getKey() + "/" + column.getValue());
@@ -91,7 +92,8 @@ public class DBAPITest {
 		int subscriptionId = subscriptionsDBAPIInst.insertNewSubscription(accountId, lotId, TrueFalse.TRUE/*full*/, laterDate/*expiredDate*/, cars);
 
 		subscriptionsDBAPIInst.selectSubscriptionDetails(subscriptionId, resultList);
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
 				System.out.println(column.getKey() + "/" + column.getValue());
@@ -99,16 +101,16 @@ public class DBAPITest {
 		}
 		System.out.println("cars of this subscription");
 		resultList.clear();
-		subscriptionsDBAPIInst.selectCarsOfSubscriptionId(subscriptionId,resultList);
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
-			Map<String, Object> row = (Map<String, Object>) iterator.next();
+		subscriptionsDBAPIInst.selectCarsOfSubscriptionId(subscriptionId, resultList);
+		Iterator<Map<String, Object>> iteratorTwo = resultList.iterator();
+		while (iteratorTwo.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iteratorTwo.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
 				System.out.println(column.getKey() + "/" + column.getValue());
 			}
 		}
-		
-	}
 
+	}
 
 	@Test
 	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
