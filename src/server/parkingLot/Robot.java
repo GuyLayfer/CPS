@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import core.parkingLot.ParkingState;
 
 public class Robot {
-	public boolean insertCar(int locationIndex, ArrayList<ParkingState> newParkingMap) {
-		return true;
+	public void insertCar(int locationIndex, ArrayList<ParkingState> newParkingMap) throws RobotFailureException {
+		
 	}
 	
-	public boolean removeCar(int carLocationIndex, ArrayList<ParkingState> newParkingMap) {
-		return true;
+	public void removeCar(int locationIndex, ArrayList<ParkingState> newParkingMap) throws RobotFailureException {
+		
 	}
 }
+
+class RobotFailureException extends Exception {}

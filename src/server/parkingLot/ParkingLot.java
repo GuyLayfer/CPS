@@ -38,10 +38,14 @@ public class ParkingLot {
 	// used only when adding new parking lot to the system
 	public ParkingLot(int lotId, int floors, int rows, int cols) {
 		info = new ParkingLotInfo(lotId, floors, rows, cols);
-		int size = info.parkingMap.size();
 		parkedPlacesMap = new TreeMap<Integer, Integer>();
 		freePlacesMap = new TreeMap<Integer, Integer>();
 		reservedPlacesMap = new TreeMap<Integer, Integer>();
+		robot = new Robot();
+		pendingBrokenPlaces = new LinkedList<Integer>();
+		reservations = new HashMap<String, reservationInfo>();
+		
+		int size = info.parkingMap.size();
 		for (int i = 0; i < size; i++) {
 			freePlacesMap.put(i, i);
 		}	
@@ -51,19 +55,51 @@ public class ParkingLot {
 		return (freePlacesMap.size() == 0) ? true : false;
 	}
 	
-	synchronized public String insertCar(String carId, long leaveTime) {
-		//TODO: implement
+	synchronized public String insertCar(String carId, long leaveTime, boolean withSubscription) throws RobotFailureException {
+		reservationInfo reservationInfo = reservations.get(carId);
+		if (reservationInfo == null) {
+			return "Access denied.\nPlease make an order before entering the parking lot.";
+		} 
+		// reservationInfo != null
+		if (withSubscription) {
+			if (!reservationInfo.hasSubscription) {
+				return "Access denied.\nYou don't have a subscription for this parking lot.";
+			} else if (reservationInfo.enteredTodayWithSubscription) {
+				return "Access denied.\nYou have already entered today with this subscription.";
+			} else {
+				reservationInfo.enteredTodayWithSubscription = true;
+			}
+		} else { // withSubscription == false
+			if (reservationInfo.numberOfOrdersForNext24Hours == 0) {
+				return "Access denied.\nPlease make an order before entering the parking lot" + 
+						"or try to enter with your subscription";
+			} else {
+				reservationInfo.numberOfOrdersForNext24Hours--;
+				if (!reservationInfo.hasSubscription && reservationInfo.numberOfOrdersForNext24Hours == 0) {
+					reservations.remove(carId);
+				}
+			}
+		}
+		
+		int locationIndex = findPlaceForCar(leaveTime);
+		calculateStateAfterInsertion(locationIndex);
+		robot.insertCar(locationIndex, info.parkingMap);
 		return null;
 	}
 	
-	synchronized public String removeCar(String carId) {
-		//TODO: implement
+	synchronized public String removeCar(String carId) throws RobotFailureException {
+		int carLocation = findCar(carId);
+		if (carLocation == -1) {
+			return "Your car is not inside this parking lot.";
+		}
+		calculateStateAfterRemoval(carLocation);
+		robot.removeCar(carLocation, info.parkingMap);
 		return null;
 	}
 	
 	synchronized public void setBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
 		ParkingState parkingState = info.parkingMap.get(placeIndex);
-		if (freePlacesMap.isEmpty()) {
+		if (freePlacesMap.isEmpty() && reservedPlacesMap.isEmpty()) {
 			pendingBrokenPlaces.add(placeIndex);
 		} else {
 			switch (parkingState.parkingStatus) {
@@ -77,10 +113,14 @@ public class ParkingLot {
 			case RESERVED:
 				parkingState.parkingStatus = ParkingStatus.BROKEN;
 				reservedPlacesMap.remove(placeIndex);
-				int lastFreeIndex = freePlacesMap.lastKey();
-				info.parkingMap.get(lastFreeIndex).parkingStatus = ParkingStatus.RESERVED;
-				freePlacesMap.remove(lastFreeIndex);
-				reservedPlacesMap.put(lastFreeIndex, lastFreeIndex);
+				if (freePlacesMap.isEmpty()) {
+					pendingReservedPlaces++;
+				} else {
+					int firstFreeIndex = freePlacesMap.firstKey();
+					info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+					freePlacesMap.remove(firstFreeIndex);
+					reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
+				}
 				break;
 			default: // if it's already BROKEN, do nothing. 
 				break;
@@ -112,6 +152,10 @@ public class ParkingLot {
 	/************************************** Private Methods **************************************/
 	
 	private void shiftCarsLeft(int index) {
+		//TODO: implement
+	}
+	
+	private void shiftCarsRight(int index) {
 		//TODO: implement
 	}
 	

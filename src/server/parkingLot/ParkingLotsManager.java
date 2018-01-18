@@ -109,7 +109,7 @@ public class ParkingLotsManager {
 	}
 	
 	/**
-	 * Inserts a car into a parking lot.
+	 * Inserts a car into a parking lot (only after reserving a place for that car).
 	 *
 	 * @param lotId the lot id
 	 * @param carId the car id
@@ -121,8 +121,13 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public String insertCar(int lotId, String carId, long leaveTime, boolean withSubscription) throws LotIdDoesntExistException, SQLException {
-		//TODO: implement
-		return null;
+		try {
+			return getLot(lotId).insertCar(carId, leaveTime, withSubscription);
+		} catch (RobotFailureException e) {
+			// TODO: handle exception - restore the previous ParkingLot state from the DB.
+			return "The insertion of the car didn't succeed due to a Robot failure.\n" +
+					"Please open a complaint.";
+		}
 	}
 	
 	/**
