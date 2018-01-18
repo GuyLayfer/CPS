@@ -42,27 +42,28 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		// TODO: implement
 	}
 	
-	protected String orderOneTimeParking(CustomerRequest request) throws SQLException {
-
+	protected String orderPreOrderedParking(CustomerRequest request) throws SQLException {
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				OrderType.ONE_TIME);
-		//TODO: calculate order price and update the account balance
-		double price = 0.0;
+				OrderType.ORDER);
 		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
+		//calculate order price and update the account balance
+		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);
+		regularDBAPI.updateCustomerBalance(request.customerID, price);
 		//TODO: update parking lots info
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
-	
+
 	protected String cancelOrder(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectOrderStatus(request.orderID, resultList);
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
-			double refund = 0.0; // TODO calculate refund
-			//if cancelTime < 
-			regularDBAPI.cancelOrder(request.orderID ,refund);
+			Map<String, Object> result = resultList.iterator().next();
+			double refund = priceCalculator.calculateCancelRefund(((int) result.get(SqlColumns.ParkingTonnage.LOT_ID)),
+					((Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)), ((Date) result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION)));
+			regularDBAPI.cancelOrder(request.orderID, -refund);
 			return createNotificationResponse(request.requestType, "You are acquited with " + refund + "NIS.");
 		}
 	}
@@ -152,8 +153,8 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	// returns the response json string
 	protected String handleWebCustomerRequest(CustomerRequest request) throws SQLException {
 		switch (request.requestType) {
-		case ORDER_ONE_TIME_PARKING:
-			return orderOneTimeParking(request);
+		case PRE_ORDERED_PARKING:
+			return orderPreOrderedParking(request);
 		case CANCEL_ORDER: // TODO: implement
 			return cancelOrder(request);
 		case TRACK_ORDER_STATUS:
