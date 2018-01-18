@@ -109,7 +109,7 @@ public class RegularDBAPI extends DBAPI{
 	public void deleteParkingLot(int lotId) throws SQLException {
 		//TODO: implement
 	}
-
+	
 /*************************************** End Of TODO Section **************************************/
 
 
