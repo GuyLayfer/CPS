@@ -1,7 +1,12 @@
 package server;
 
 import core.ServerPorts;
-import server.workerServer.WorkerRequestsHandler;
+import server.parkingLot.ParkingLotsManager;
+import server.rates.PriceCalculator;
+import server.rates.RatesManager;
+import server.requestHandlers.KioskRequestsHandler;
+import server.requestHandlers.WebCustomerRequestsHandler;
+import server.requestHandlers.worker.WorkerRequestsHandler;
 
 import java.sql.SQLException;
 
