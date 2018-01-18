@@ -29,7 +29,7 @@ import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.customer.responses.TrackOrderResponse;
 
 public class WebCustomerRequestsHandler extends AbstractServer {
-	final protected Gson gson = new CpsGson().GetGson();
+	final protected Gson gson = CpsGson.GetGson();
 	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	final protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
 	final protected PriceCalculator priceCalculator = PriceCalculator.getInstance();

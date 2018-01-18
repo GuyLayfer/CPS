@@ -15,17 +15,17 @@ import server.db.dbAPI.RegularDBAPI;
  *  A Singleton which provides all the required functions for managing and operating the parking lots.
  */
 public class ParkingLotsManager {
+	
+	/**************************************** Properties ****************************************/
+	
 	private static volatile ParkingLotsManager instance = null;
 	
 	private ConcurrentHashMap<Integer, ParkingLot> parkingLots; // synchronized map
 	private Vector<Integer> lotIds; // Vector is synchronized
+	
 	final private RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	
-	private ParkingLotsManager() throws SQLException {
-		HashMap<Integer, String> parkingLotJsons = new HashMap<Integer, String>();
-		regularDBAPI.selectAllParkingLots(parkingLotJsons);
-		//TODO: implement
-	}
+	/************************************** Public Methods **************************************/
 	
 	/**
 	 * Initializer - used only once in CPSMain.
@@ -92,9 +92,20 @@ public class ParkingLotsManager {
 	 * @return the json representation of a ParkingLotInfo object which related to lotId
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 */
-	public String getJsonOfParkingLotInfo(int lotId) throws LotIdDoesntExistException {
+	public String parkingLotInfoToJson(int lotId) throws LotIdDoesntExistException {
 		//TODO: implement
 		return null;
+	}
+	
+	/**
+	 * Checks if a parking lot is full.
+	 *
+	 * @param lotId the lot id
+	 * @return true, if the parking lot is full
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 */
+	public boolean isParkingLotFull(int lotId) throws LotIdDoesntExistException {
+		return getLot(lotId).isFull();
 	}
 	
 	/**
@@ -103,12 +114,13 @@ public class ParkingLotsManager {
 	 * @param lotId the lot id
 	 * @param carId the car id
 	 * @param leaveTime the leave time
+	 * @param withSubscription should be true, if this car is entering with a subscription
 	 * @return if the insertion succeeded, returns null.
 	 * 		   otherwise, returns a message which explains what went wrong 
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 * @throws SQLException the SQL exception
 	 */
-	public String insertCar(int lotId, String carId, long leaveTime) throws LotIdDoesntExistException, SQLException {
+	public String insertCar(int lotId, String carId, long leaveTime, boolean withSubscription) throws LotIdDoesntExistException, SQLException {
 		//TODO: implement
 		return null;
 	}
@@ -155,16 +167,19 @@ public class ParkingLotsManager {
 	}
 	
 	/**
-	 * Reserves a parking place inside a specific parking lot.
+	 * Reserves a parking place inside a specific parking lot for one time order 
+	 * with estimatedArrivalTime within the next 24 hours.
+	 * Don't use this function for reservations with estimatedArrivalTime after that, just update the DB. 
 	 *
 	 * @param lotId the lot id
-	 * @param estimatedArrivalTime the estimated arrival time
+	 * @param carId the car id
+	 * @param estimatedArrivalTime the estimated arrival time (should be within the next 24 hours)
 	 * @return true,  if successful.
-	 * 		   false, if the parking lot is full and the reservation is within the next 24 hours 
+	 * 		   false, if the parking lot is full 
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 * @throws SQLException the SQL exception
 	 */
-	public boolean reservePlace(int lotId, Date estimatedArrivalTime) throws LotIdDoesntExistException, SQLException {
+	public boolean reservePlace(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, SQLException {
 		//TODO: implement
 		return true;
 	}
@@ -173,12 +188,29 @@ public class ParkingLotsManager {
 	 * Cancel reservation of a parking place.
 	 *
 	 * @param lotId the lot id
-	 * @param estimatedArrivalTime the estimated arrival time (TODO: check if it's required)
+	 * @param carId the car id
+	 * @param estimatedArrivalTime the estimated arrival time ()
 	 * @throws LotIdDoesntExistException the lot id doesn't exist exception
 	 * @throws SQLException the SQL exception
 	 */
-	public void cancelReservation(int lotId, Date estimatedArrivalTime) throws LotIdDoesntExistException, SQLException {
+	public void cancelReservation(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, SQLException {
 		//TODO: implement
+	}
+	
+	/************************************** Private Methods **************************************/
+	
+	private ParkingLotsManager() throws SQLException {
+		HashMap<Integer, String> parkingLotJsons = new HashMap<Integer, String>();
+		regularDBAPI.selectAllParkingLots(parkingLotJsons);
+		//TODO: implement
+	}
+	
+	private ParkingLot getLot(int lotId) throws LotIdDoesntExistException {
+		ParkingLot parkingLot = parkingLots.get(lotId);
+		if (parkingLot == null) {
+			throw new LotIdDoesntExistException();
+		}
+		return parkingLot;
 	}
 }
 
