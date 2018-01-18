@@ -12,7 +12,6 @@ import core.customer.CustomerRequest;
 import core.guiUtilities.CpsRegEx;
 import core.guiUtilities.LicencePlateTextField;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,14 +20,13 @@ import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.KioskRequestsFactory;
 import tornadofx.control.DateTimePicker;
 
-public class OrderOccasionalParkingController implements ServerMessageHandler {
+public class OrderOccasionalParkingController {
 	private ValidationSupport validation = new ValidationSupport();
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 	private KioskConnectionManager connectionManager;
 	
 	public OrderOccasionalParkingController() {
 		connectionManager = KioskConnectionManager.getInstance();
-		connectionManager.addServerMessageListener(this);
 	}
 
 	@FXML
@@ -65,10 +63,4 @@ public class OrderOccasionalParkingController implements ServerMessageHandler {
 		
 		connectionManager.sendMessageToServer(occasionalParkingRequest);
 	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-		
-	}
-
 }

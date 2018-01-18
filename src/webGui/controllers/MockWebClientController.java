@@ -1,21 +1,19 @@
 package webGui.controllers;
 
-import org.controlsfx.control.Notifications;
-
-import core.guiUtilities.ServerMessageHandler;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import core.customer.CustomerRequestType;
+import core.customer.responses.BadCustomerResponse;
+import core.customer.responses.CustomerBaseResponse;
+import core.customer.responses.CustomerNotificationResponse;
+import core.customer.responses.IdPricePairResponse;
+import core.guiUtilities.IServerResponseHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
-import javafx.util.Duration;
 import webGui.util.MockWebClientConnectionManager;
 import webGui.util.WebGuiController;
 
-public class MockWebClientController extends WebGuiController implements ServerMessageHandler{
+public class MockWebClientController extends WebGuiController implements IServerResponseHandler<CustomerBaseResponse>{
 	private MockWebClientConnectionManager connectionManager;
 	
 	public MockWebClientController() {
@@ -66,23 +64,22 @@ public class MockWebClientController extends WebGuiController implements ServerM
 	private OrderOneTimeParkingController orderOneTimeParkingController;
 	
 	@Override
-	public void handleServerMessage(String msg) {
-		responseTextArea.setText(msg);
-		Platform.runLater(() -> {
-			Notifications notificationBuilder = Notifications.create()
-				.title("Message from server:")
-				.text(msg)
-				.hideAfter(Duration.seconds(10))
-				.position(Pos.BOTTOM_RIGHT)
-				.onAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent arg0) {
-						
-					}
-				});
-		
-		notificationBuilder.showInformation();
-		});
-	}
+	public void handleServerResponse(CustomerBaseResponse response) {
+		if (response instanceof CustomerNotificationResponse) {
+			CustomerNotificationResponse notificationResponse = (CustomerNotificationResponse)response;
+			showNotification(notificationResponse.message);
+			return;
+		}
 
+		if (response.requestType == CustomerRequestType.BAD_REQUEST) {
+			BadCustomerResponse badResponse = (BadCustomerResponse) response;
+			showError(badResponse.toString());
+			return;
+		}
+		
+		if (response instanceof IdPricePairResponse) {
+			IdPricePairResponse idPricePair = (IdPricePairResponse) response;
+			showNotification(idPricePair.toString());
+		}
+	}
 }

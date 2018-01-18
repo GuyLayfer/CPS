@@ -1,8 +1,10 @@
 package server;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,7 +53,10 @@ public class ParkingLotsManager {
 	 * @return the ids of all the parking lots in CPS
 	 */
 	public Vector<Integer> getAllIds() {
-		//TODO: implement
+		//TODO: implement and delete mock lot IDs.
+		Vector<Integer> lotIds = new Vector<Integer>();
+		lotIds.add(1);
+		lotIds.add(5);
 		return lotIds; // change it later to a deep copy of that Vector
 	}
 	

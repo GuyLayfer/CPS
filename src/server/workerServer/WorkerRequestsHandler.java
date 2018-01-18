@@ -11,10 +11,10 @@ import com.google.gson.JsonSyntaxException;
 
 import core.CpsGson;
 import core.ResponseStatus;
-import core.customer.CustomerResponse;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.requests.WorkerRequest;
+import core.worker.responses.BadResponse;
 import core.worker.responses.WorkerResponse;
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
@@ -47,10 +47,10 @@ public class WorkerRequestsHandler extends AbstractServer {
 				client.sendToClient(gson.toJson(response));
 
 			} catch (JsonSyntaxException e) {
-				client.sendToClient(gson.toJson(new CustomerResponse(ResponseStatus.BAD_REQUEST, "Json Syntax Exception. This feature might not be implemented.")));
+				client.sendToClient(gson.toJson(new BadResponse(ResponseStatus.BAD_REQUEST, "Json Syntax Exception. This feature might not be implemented.")));
 				e.printStackTrace();
 			} catch (SQLException e) {
-				client.sendToClient(gson.toJson(new CustomerResponse(ResponseStatus.SERVER_FAILLURE, "Server Failure")));
+				client.sendToClient(gson.toJson(new BadResponse(ResponseStatus.SERVER_FAILLURE, "Server Failure")));
 				e.printStackTrace();
 			}
 		} catch (IOException e) {

@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Queue;
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
-import server.db.DBConstants.SqlTables;
 import server.db.DBConstants.TrueFalse;
 import server.db.queries.SubscriptionsQueries;
 
@@ -161,7 +160,8 @@ public class SubscriptionsDBAPI extends DBAPI{
 		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
 		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription, params, paramTypes);
 		//insert each car in this subscription to cars 
-		for (Iterator iterator = listOfCarsForThisSubscription.iterator(); iterator.hasNext();) {
+		Iterator<String> iterator = listOfCarsForThisSubscription.iterator();
+		while (iterator.hasNext()) {
 			String curCarId = (String) iterator.next();
 			insertCarToCarsTable(curCarId, customerId, subscriptionId);
 		}

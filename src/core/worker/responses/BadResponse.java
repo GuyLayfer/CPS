@@ -3,7 +3,7 @@ package core.worker.responses;
 import core.ResponseStatus;
 import core.worker.WorkerRequestType;
 
-public class BadResponse extends BaseResponse{
+public class BadResponse extends WorkerBaseResponse{
 
 	public ResponseStatus status;
 

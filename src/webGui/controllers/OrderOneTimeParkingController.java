@@ -9,103 +9,98 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
+import core.customer.CustomerRequest;
+import core.customer.CustomerRequestType;
+import core.customer.responses.CustomerBaseResponse;
+import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.guiUtilities.CpsRegEx;
+import core.guiUtilities.IServerResponseHandler;
 import core.guiUtilities.LicencePlateTextField;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import tornadofx.control.DateTimePicker;
-import webGui.models.OrderOneTimeParkingModel;
+import webGui.util.CustomerRequestFactory;
+import webGui.util.MockWebClientConnectionManager;
 
-public class OrderOneTimeParkingController implements ServerMessageHandler{
-	private OrderOneTimeParkingModel model;
+public class OrderOneTimeParkingController implements IServerResponseHandler<CustomerBaseResponse> {
 	private ValidationSupport validation = new ValidationSupport();
 	private EmailValidator emailValidator = EmailValidator.getInstance();
-	
+	private MockWebClientConnectionManager connectionManager;
+
 	public OrderOneTimeParkingController() {
-		model = new OrderOneTimeParkingModel(this);
+		connectionManager = MockWebClientConnectionManager.getInstance();
+		connectionManager.addServerMessageListener(this);
 	}
-	
-    @FXML
-    protected void initialize() {
+
+	@FXML
+	protected void initialize() {
 		OrderOneTimeParkingBTN.disableProperty().bind(validation.invalidProperty());
-		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String)email), "Email is not valid"));
-		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
+		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String) email), "Email is not valid"));
+		validation.registerValidator(parkingLotIdComboBox, Validator.createEmptyValidator("Parking lot ID is Required"));
 		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 		validation.registerValidator(liscencePlateTF, Validator.createRegexValidator("Liscence plate is Required", CpsRegEx.LicencePlateLength, Severity.ERROR));
 		validation.registerValidator(estimatedDepartureTimeTF, Validator.createEmptyValidator("Departure time is Required"));
 		validation.registerValidator(arrivalTimeTF, Validator.createEmptyValidator("Arrival time is Required"));
-//		validation.registerValidator(arrivalTimeTF, Validator.createPredicateValidator((nothing) -> CheckDate(), "Departure time should be later than Arrival"));
+		connectionManager.sendMessageToServer(CustomerRequestFactory.createParkingLotNamesRequest());
+		// validation.registerValidator(arrivalTimeTF, Validator.createPredicateValidator((nothing) -> CheckDate(), "Departure time should be later than
+		// Arrival"));
 	}
 
-    @FXML // fx:id="EmailLBL"
-    private Label EmailLBL; // Value injected by FXMLLoader
+	@FXML // fx:id="estimatedDepartureTimeTF"
+	private DateTimePicker estimatedDepartureTimeTF; // Value injected by FXMLLoader
 
-    @FXML // fx:id="estimatedDepartureTimeTF"
-    private DateTimePicker estimatedDepartureTimeTF; // Value injected by FXMLLoader
+	@FXML // fx:id="OrderOneTimeParkingBTN"
+	private Button OrderOneTimeParkingBTN; // Value injected by FXMLLoader
 
-    @FXML // fx:id="OrderOneTimeParkingBTN"
-    private Button OrderOneTimeParkingBTN; // Value injected by FXMLLoader
+	@FXML // fx:id="liscencePlateTF"
+	private LicencePlateTextField liscencePlateTF; // Value injected by FXMLLoader
 
-    @FXML // fx:id="LiscencePlateLBL"
-    private Label LiscencePlateLBL; // Value injected by FXMLLoader
+	@FXML // fx:id="parkingLotIDTF"
+	private ComboBox<Integer> parkingLotIdComboBox; // Value injected by FXMLLoader
 
-    @FXML // fx:id="liscencePlateTF"
-    private LicencePlateTextField liscencePlateTF; // Value injected by FXMLLoader
+	@FXML // fx:id="customerIDTF"
+	private NumberTextField customerIDTF; // Value injected by FXMLLoader
 
-    @FXML // fx:id="EstimatedDepartureTimeLBL"
-    private Label EstimatedDepartureTimeLBL; // Value injected by FXMLLoader
+	@FXML // fx:id="emailTF"
+	private TextField emailTF; // Value injected by FXMLLoader
 
-    @FXML // fx:id="parkingLotIDTF"
-    private NumberTextField parkingLotIDTF; // Value injected by FXMLLoader
+	@FXML // fx:id="arrivalTimeTF"
+	private DateTimePicker arrivalTimeTF; // Value injected by FXMLLoader
 
-    @FXML // fx:id="customerIDTF"
-    private NumberTextField customerIDTF; // Value injected by FXMLLoader
+	@FXML
+	public void OrderOneTimeParking(ActionEvent event) {
+		CustomerRequest request = CustomerRequestFactory.createOrderOneTimeParkingRequest
+				(customerIDTF.getNumber(),
+						liscencePlateTF.getText(),
+						emailTF.getText(),
+						parkingLotIdComboBox.getValue(),
+						Date.from(arrivalTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()),
+						Date.from(estimatedDepartureTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()));
+		connectionManager.sendMessageToServer(request);
+	}
 
-    @FXML // fx:id="ArrivalTimeLBL"
-    private Label ArrivalTimeLBL; // Value injected by FXMLLoader
+	@Override
+	public void handleServerResponse(CustomerBaseResponse response) {
+		if (response.requestType == CustomerRequestType.PARKING_LOT_NAMES) {
+			Platform.runLater(() -> {
+				ParkingLotsNamesForCustomerResponse parkingLotNames = (ParkingLotsNamesForCustomerResponse) response;
+				parkingLotIdComboBox.getItems().clear();
+				parkingLotIdComboBox.getItems().addAll(parkingLotNames.lotNames);
+			});
+		}
+	}
 
-    @FXML // fx:id="customerIDLBL"
-    private Label customerIDLBL; // Value injected by FXMLLoader
-
-    @FXML // fx:id="emailTF"
-    private TextField emailTF; // Value injected by FXMLLoader
-
-    @FXML // fx:id="arrivalTimeTF"
-    private DateTimePicker arrivalTimeTF; // Value injected by FXMLLoader
-
-    @FXML // fx:id="orderOneTimeParkingLBL"
-    private Label orderOneTimeParkingLBL; // Value injected by FXMLLoader
-
-    @FXML // fx:id="ParkingLotIDLBL"
-    private Label ParkingLotIDLBL; // Value injected by FXMLLoader
-
-    @FXML
-    public void OrderOneTimeParking(ActionEvent event) {
-    	model.SendOrderOneTimeParkingRequestToServer(
-    			customerIDTF.getNumber(),
-    			liscencePlateTF.getText(),
-    			emailTF.getText(),
-    			parkingLotIDTF.getNumber(),
-    			Date.from(arrivalTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()), 
-    			Date.from(estimatedDepartureTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()));
-    }
-    
-    @Override
-	public void handleServerMessage(String msg) {
-
-    }
-    
-//	Doesn't work well. Need to validate both fields at same time
-//    private Boolean CheckDate(){
-//    	if(arrivalTimeTF.getDateTimeValue() == null || estimatedDepartureTimeTF.getDateTimeValue() == null){
-//    		return false;
-//    	}
-//    	
-//    	return arrivalTimeTF.getDateTimeValue().isBefore(estimatedDepartureTimeTF.getDateTimeValue());
-//    }
+	// Doesn't work well. Need to validate both fields at same time
+	// private Boolean CheckDate(){
+	// if(arrivalTimeTF.getDateTimeValue() == null || estimatedDepartureTimeTF.getDateTimeValue() == null){
+	// return false;
+	// }
+	//
+	// return arrivalTimeTF.getDateTimeValue().isBefore(estimatedDepartureTimeTF.getDateTimeValue());
+	// }
 }

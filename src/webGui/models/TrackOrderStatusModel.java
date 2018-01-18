@@ -1,20 +1,21 @@
 package webGui.models;
 
 import core.customer.CustomerRequest;
-import core.guiUtilities.ServerMessageHandler;
+import core.customer.responses.CustomerBaseResponse;
+import core.guiUtilities.IServerResponseHandler;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
 
 public class TrackOrderStatusModel {
 private MockWebClientConnectionManager connectionManager;
 	
-	public TrackOrderStatusModel(ServerMessageHandler controller) {
+	public TrackOrderStatusModel(IServerResponseHandler<CustomerBaseResponse> controller) {
 		connectionManager = MockWebClientConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(controller);
 	}
 	
 	public void SendTrackOrderStatusRequestToServer(int orderId){
-		CustomerRequest request = CustomerRequestFactory.CreateTrackOrderStatusRequest(orderId);
+		CustomerRequest request = CustomerRequestFactory.createTrackOrderStatusRequest(orderId);
 		connectionManager.sendMessageToServer(request);
 	}
 }

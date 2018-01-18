@@ -16,14 +16,17 @@ import java.util.Date;
 import java.util.Map;
 
 import core.CpsGson;
-import core.IdPricePair;
 import core.ResponseStatus;
 import core.ServerPorts;
 import core.customer.CustomerRequest;
 import core.customer.CustomerRequestType;
-import core.customer.CustomerResponse;
-import core.customer.TrackOrderResponseData;
-
+import core.customer.responses.BadCustomerResponse;
+import core.customer.responses.CustomerBaseResponse;
+import core.customer.responses.CustomerNotificationResponse;
+import core.customer.responses.CustomerResponse;
+import core.customer.responses.IdPricePairResponse;
+import core.customer.responses.ParkingLotsNamesForCustomerResponse;
+import core.customer.responses.TrackOrderResponse;
 
 public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = new CpsGson().GetGson();
@@ -48,20 +51,20 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);
 		regularDBAPI.updateCustomerBalance(request.customerID, price);
 		//TODO: update parking lots info
-		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceID, price)));
+		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
-	
+
 	protected String cancelOrder(CustomerRequest request) throws SQLException {
-		// get order details from DB
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectOrderStatus(request.orderID, resultList);
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
 			Map<String, Object> result = resultList.iterator().next();
-			double refund = priceCalculator.calculateCancelRefund(((int)result.get(SqlColumns.ParkingTonnage.LOT_ID)), ((Date)result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)), ((Date)result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION)));
-			regularDBAPI.cancelOrder(request.orderID ,-refund);
-			return createOkResponse(request.requestType, gson.toJson(refund));
+			double refund = priceCalculator.calculateCancelRefund(((int) result.get(SqlColumns.ParkingTonnage.LOT_ID)),
+					((Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)), ((Date) result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION)));
+			regularDBAPI.cancelOrder(request.orderID, -refund);
+			return createNotificationResponse(request.requestType, "You are acquited with " + refund + "NIS.");
 		}
 	}
 	
@@ -73,15 +76,16 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
 			Map<String, Object> result = resultList.iterator().next();
-			TrackOrderResponseData response = new TrackOrderResponseData();
+			TrackOrderResponse response = new TrackOrderResponse();
 
+			response.requestType = CustomerRequestType.TRACK_ORDER_STATUS;
 			response.orderID = (Integer) result.get(SqlColumns.ParkingTonnage.ENTRANCE_ID);
 			response.customerID = (Integer) result.get(SqlColumns.ParkingTonnage.ACCOUNT_ID);
 			response.carID = result.get(SqlColumns.ParkingTonnage.CAR_ID).toString();
 			response.parkingLotID = (Integer) result.get(SqlColumns.ParkingTonnage.LOT_ID);
 			response.arrivalTime = (Date)result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
 			response.estimatedDepartureTime = (Date)result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
-			return createOkResponse(request.requestType, gson.toJson(response));
+			return createCustomerResponse(request.requestType, response);
 		}
 	}
 	
@@ -139,6 +143,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//return createOkResponse(request.requestType, gson.toJson(complaintID));
 	}
 	
+	protected String parkingLotNames(CustomerRequest request) throws SQLException {
+		ParkingLotsNamesForCustomerResponse response = new ParkingLotsNamesForCustomerResponse();
+		response.requestType = CustomerRequestType.PARKING_LOT_NAMES;
+		response.lotNames = parkingLotsManager.getAllIds();
+		return createCustomerResponse(CustomerRequestType.PARKING_LOT_NAMES, response);
+	}
+	
 	// returns the response json string
 	protected String handleWebCustomerRequest(CustomerRequest request) throws SQLException {
 		switch (request.requestType) {
@@ -156,12 +167,14 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			return subscriptionRenweal(request);
 		case OPEN_COMPLAINT: // TODO: implement
 			return openComplaint(request);
+		case PARKING_LOT_NAMES:
+			return parkingLotNames(request);
 		default:
 			if (getPort() == ServerPorts.WEB_CUSTOMER_PORT) {
-				return gson.toJson(new CustomerResponse(ResponseStatus.BAD_REQUEST, 
+				return gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, 
 						request.requestType + " is illegal Web CustomerRequestType"));
 			} else {
-				return gson.toJson(new CustomerResponse(ResponseStatus.BAD_REQUEST, 
+				return gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, 
 						request.requestType + " is illegal CustomerRequestType"));
 			}
 		}
@@ -170,24 +183,18 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
-			client.sendToClient(handleWebCustomerRequest(gson.fromJson((String)msg, CustomerRequest.class)));
-		} catch (JsonSyntaxException e) {
 			try {
-				client.sendToClient(gson.toJson(new CustomerResponse(ResponseStatus.BAD_REQUEST, "JsonSyntaxException")));
+				client.sendToClient(handleWebCustomerRequest(gson.fromJson((String) msg, CustomerRequest.class)));
+				
+			} catch (JsonSyntaxException e) {
+				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, "JsonSyntaxException")));
 				e.printStackTrace();
-			} catch (IOException e2) {
-				e2.printStackTrace();
-			}
-			e.printStackTrace();
-		} catch (SQLException e) {
-			try {
-				client.sendToClient(gson.toJson(new CustomerResponse(ResponseStatus.SERVER_FAILLURE, "Server Failure")));
+			} catch (SQLException e) {
+				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.SERVER_FAILLURE, "Server Failure")));
 				e.printStackTrace();
-			} catch (IOException e2) {
-				e2.printStackTrace();
 			}
-			e.printStackTrace();
 		} catch (IOException e) {
+			System.out.println("Could not send message to client.\nPlease check your connection.");
 			e.printStackTrace();
 		}
 	}
@@ -202,17 +209,22 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		System.out.println("WebCustomer Server has stopped listening for connections.");
 	}
 
-	
-	protected String createUnsupportedFeatureResponse(CustomerRequestType requestType){
-		return gson.toJson(new CustomerResponse(ResponseStatus.UNSUPPORTED_FEATURE, 
-				requestType + " request type isn't supported yet", requestType, null));
+	protected String createUnsupportedFeatureResponse(CustomerRequestType requestType) {
+		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.UNSUPPORTED_FEATURE, requestType + " request type isn't supported yet");
+		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
 	}
-	
-	protected String createOkResponse(CustomerRequestType requestType, String responseData){
-		return gson.toJson(new CustomerResponse(requestType, responseData));
+
+	protected String createRequestDeniedResponse(CustomerRequestType requestType, String refusalReason) {
+		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.REQUEST_DENIED, refusalReason);
+		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
 	}
-	
-	protected String createRequestDeniedResponse(CustomerRequestType requestType, String refusalReason){
-		return gson.toJson(new CustomerResponse(ResponseStatus.REQUEST_DENIED, refusalReason, requestType, null));
+
+	protected String createNotificationResponse(CustomerRequestType requestType, String message) {
+		CustomerNotificationResponse response = new CustomerNotificationResponse(requestType, message);
+		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
+	}
+
+	protected String createCustomerResponse(CustomerRequestType requestType, CustomerBaseResponse response) {
+		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}
 }

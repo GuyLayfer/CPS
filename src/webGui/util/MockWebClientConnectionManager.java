@@ -1,20 +1,27 @@
 package webGui.util;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
+
+import org.controlsfx.control.Notifications;
 
 import com.google.gson.Gson;
 
 import core.*;
 import core.customer.CustomerRequest;
 import core.customer.CustomerRequestType;
-import core.customer.CustomerResponse;
-import core.customer.TrackOrderResponseData;
-import core.guiUtilities.ServerMessageHandler;
+import core.customer.CustomerResponsesTypesMapper;
+import core.customer.responses.CustomerBaseResponse;
+import core.customer.responses.CustomerResponse;
+import core.guiUtilities.IServerResponseHandler;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.util.Duration;
 import ocsf.client.AbstractClient;
 
 public class MockWebClientConnectionManager extends AbstractClient {
@@ -22,14 +29,14 @@ public class MockWebClientConnectionManager extends AbstractClient {
 	final private static int DEFAULT_PORT = ServerPorts.WEB_CUSTOMER_PORT;
 	final private static String DEFAULT_HOST = "localhost";
 	final private Gson gson = new CpsGson().GetGson();
-	private List<ServerMessageHandler> listeners = new CopyOnWriteArrayList<ServerMessageHandler>();
-	private Map<CustomerRequestType, Function<String, Object>> responseConverterMap;
+	private List<IServerResponseHandler<CustomerBaseResponse>> listeners = new CopyOnWriteArrayList<IServerResponseHandler<CustomerBaseResponse>>();
+	private Map<CustomerRequestType, Function<String, CustomerBaseResponse>> responseConverterMap;
 	public static String alternativeHostAddress = null;
 
 	private MockWebClientConnectionManager(String hostAddress) throws IOException {
 		super(hostAddress == null ? DEFAULT_HOST : hostAddress, DEFAULT_PORT);
 		openConnection();
-		responseConverterMap = CreateResponseConverterMap();
+		responseConverterMap = CustomerResponsesTypesMapper.CreateResponseConverterMap();
 	}
 
 	public static MockWebClientConnectionManager getInstance() {
@@ -38,6 +45,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 				instance = new MockWebClientConnectionManager(alternativeHostAddress);
 				return instance;
 			} catch (IOException e) {
+				showNotification("Could not connect to server.");
 				e.printStackTrace();
 			}
 		}
@@ -45,8 +53,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		return instance;
 	}
 
-	// Observer pattern
-	public void addServerMessageListener(ServerMessageHandler listner) {
+	public void addServerMessageListener(IServerResponseHandler<CustomerBaseResponse> listner) {
 		listeners.add(listner);
 	}
 
@@ -54,63 +61,47 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		try {
 			sendToServer(gson.toJson(order));
 		} catch (IOException e) {
-			System.out.println("Could not send message to server.\n" + e.getMessage() +  "\nTerminating client.");
-			quit();
+			showNotification("Could not send message to server.\n" + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	protected void handleMessageFromServer(Object arg0) {
 		CustomerResponse response = gson.fromJson((String) arg0, CustomerResponse.class);
-		if (response.status == ResponseStatus.OK) {
-			String stringResponse = responseConverterMap.get(response.requestType).apply(response.jsonData).toString();
-			notifyListeners(stringResponse);
-		} else {
-			notifyListeners(response.toString());
-		}
+		CustomerBaseResponse specificResponse = responseConverterMap.get(response.requestType).apply(response.jsonData);
+		notifyListeners(specificResponse);
 	}
 
-	private void quit() {
+	public void closeServerConnection() {
 		try {
 			closeConnection();
 		} catch (IOException e) {
 
 		}
-
-		System.exit(0);
 	}
 
-	private void notifyListeners(String message) {
-		// Observer pattern.
-		for (ServerMessageHandler listener : listeners) {
-			listener.handleServerMessage(message);
+	private void notifyListeners(CustomerBaseResponse message) {
+		for (IServerResponseHandler<CustomerBaseResponse> listener : listeners) {
+			listener.handleServerResponse(message);
 		}
 	}
-
-	private Map<CustomerRequestType, Function<String, Object>> CreateResponseConverterMap() {
-		Map<CustomerRequestType, Function<String, Object>> converterMap = new HashMap<CustomerRequestType, Function<String, Object>>();
-		converterMap.put(CustomerRequestType.PRE_ORDERED_PARKING, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
+	
+	private static void showNotification(String msg) {
+		Platform.runLater(() -> {
+			Notifications notificationBuilder = Notifications.create()
+				.title("Connection Error:")
+				.text(msg)
+				.hideAfter(Duration.seconds(10))
+				.position(Pos.BOTTOM_RIGHT)
+				.onAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent arg0) {
+						
+					}
+				});
+		
+		notificationBuilder.showError();
 		});
-		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.TRACK_ORDER_STATUS, (gsonString) -> {
-			return gson.fromJson((String) gsonString, TrackOrderResponseData.class);
-		});
-		converterMap.put(CustomerRequestType.ORDER_ROUTINE_MONTHLY_SUBSCRIPTION, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.ORDER_FULL_MONTHLY_SUBSCRIPTION, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.SUBSCRIPTION_RENEWAL, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-		converterMap.put(CustomerRequestType.OPEN_COMPLAINT, (gsonString) -> {
-			return gson.fromJson((String) gsonString, CustomerResponse.class);
-		});
-
-		return converterMap;
-	};
+	}
 }

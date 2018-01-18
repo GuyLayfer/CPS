@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import kioskGui.util.KioskConnectionManager;
 
 public class KioskClientApplicationStarter extends Application {
 	public static void main(String[] args) {
@@ -41,6 +42,7 @@ public class KioskClientApplicationStarter extends Application {
 				exitDialog.getDialogPane().setHeaderText("Are you sure you want to exit?");
 				ButtonType result = exitDialog.showAndWait().get();
 				if (result == ButtonType.OK) {
+					KioskConnectionManager.getInstance().closeServerConnection();
 					System.exit(0);
 				} else if (result == ButtonType.CANCEL) {
 					event.consume();

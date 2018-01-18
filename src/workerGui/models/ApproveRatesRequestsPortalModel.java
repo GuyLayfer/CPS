@@ -6,14 +6,14 @@ import core.guiUtilities.IServerResponseHandler;
 import core.worker.Rates;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
-import core.worker.responses.BaseResponse;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.RatesForReviewResponse;
 import workerGui.controllers.IAddItemsToTable;
 import workerGui.util.RatesUiElement;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerRequestsFactory;
 
-public class ApproveRatesRequestsPortalModel implements IServerResponseHandler {
+public class ApproveRatesRequestsPortalModel implements IServerResponseHandler<WorkerBaseResponse> {
 	private WorkerConnectionManager connectionManager;
 	private IAddItemsToTable<RatesUiElement> controller;
 
@@ -42,7 +42,7 @@ public class ApproveRatesRequestsPortalModel implements IServerResponseHandler {
 	}
 
 	@Override
-	public void handleServerResponse(BaseResponse response) {
+	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.REQUEST_RATES_FOR_REVIEW) {
 			RatesForReviewResponse specificResponse = (RatesForReviewResponse) response;
 			controller.AddToTable(

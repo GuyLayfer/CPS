@@ -3,7 +3,7 @@ package core.worker.responses;
 import core.worker.Permissions;
 import core.worker.WorkerRole;
 
-public class PermissionsResponse extends BaseResponse {
+public class PermissionsResponse extends WorkerBaseResponse {
 	
 	public Permissions permissions;
 	

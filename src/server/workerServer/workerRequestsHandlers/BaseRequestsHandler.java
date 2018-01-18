@@ -9,7 +9,7 @@ import core.ResponseStatus;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.responses.BadResponse;
-import core.worker.responses.BaseResponse;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.WorkersDBAPI;
@@ -32,7 +32,7 @@ public abstract class BaseRequestsHandler implements IRequestsHandler {
 	
 	protected abstract WorkerResponse HandleSpecificRequest(BaseRequest specificRequest) throws SQLException;
 
-	protected WorkerResponse CreateWorkerResponse(BaseResponse response) {
+	protected WorkerResponse CreateWorkerResponse(WorkerBaseResponse response) {
 		return new WorkerResponse(getHandlerRequestsType(), gson.toJson(response));
 	}
 	

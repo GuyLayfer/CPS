@@ -2,7 +2,7 @@ package core.worker.responses;
 
 import core.worker.WorkerRequestType;
 
-public class BaseResponse {
+public class WorkerBaseResponse {
 
 	public WorkerRequestType requestType;
 }

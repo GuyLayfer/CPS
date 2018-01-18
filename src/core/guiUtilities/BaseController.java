@@ -3,8 +3,13 @@ package core.guiUtilities;
 import java.io.IOException;
 import java.net.URL;
 
+import org.controlsfx.control.Notifications;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -19,6 +24,8 @@ public abstract class BaseController {
 	protected void NavigateTo(Scene scene, String page) {
 		NavigateTo(scene, page, GetMainViewRegion());
 	}
+	
+	protected abstract String GetMainViewRegion();
 
 	protected void NavigateTo(Scene scene, String page, String mainView) {
 		Pane mainViewRegion = (Pane) scene.lookup(mainView);
@@ -41,7 +48,31 @@ public abstract class BaseController {
 		scene.getWindow().centerOnScreen();
 	}
 
-	protected abstract String GetMainViewRegion();
+	protected void showNotification(String msg) {
+		Platform.runLater(() -> {
+			buildNotification("Message from server:", msg).showInformation();
+		});
+	}
+
+	protected void showError(String msg) {
+		Platform.runLater(() -> {
+			buildNotification("Error from server:", msg).showError();
+		});
+	}
+
+	private Notifications buildNotification(String title, String message) {
+		return Notifications.create()
+				.title(title)
+				.text(message)
+				.hideAfter(Duration.seconds(10))
+				.position(Pos.BOTTOM_RIGHT)
+				.onAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent arg0) {
+
+					}
+				});
+	}
 
 	private void transitionVisible(Node region) {
 		FadeTransition fadeTransition = new FadeTransition(new Duration(350), region);

@@ -12,27 +12,36 @@ import org.controlsfx.validation.Validator;
 
 import com.jfoenix.controls.JFXTimePicker;
 
+import core.customer.CustomerRequest;
+import core.customer.CustomerRequestType;
+import core.customer.responses.CustomerBaseResponse;
+import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.guiUtilities.CpsRegEx;
+import core.guiUtilities.IServerResponseHandler;
 import core.guiUtilities.NumberTextField;
-import core.guiUtilities.ServerMessageHandler;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import webGui.models.OrderRoutineMonthlySubscriptionModel;
+import webGui.util.CustomerRequestFactory;
 import webGui.util.LocalTimeConverter;
+import webGui.util.MockWebClientConnectionManager;
 import webGui.util.MultipleCarsDialog;
 
-public class OrderRoutineMonthlySubscriptionController implements ServerMessageHandler {
-	private OrderRoutineMonthlySubscriptionModel model;
+public class OrderRoutineMonthlySubscriptionController implements IServerResponseHandler<CustomerBaseResponse>{
 	private ValidationSupport validation = new ValidationSupport();
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 	private List<String> carsLiscencePlates = new ArrayList<String>();
+	private MockWebClientConnectionManager connectionManager;
 
 	public OrderRoutineMonthlySubscriptionController() {
-		model = new OrderRoutineMonthlySubscriptionModel(this);
+		connectionManager = MockWebClientConnectionManager.getInstance();
+		connectionManager.addServerMessageListener(this);
+		connectionManager.sendMessageToServer(CustomerRequestFactory.createParkingLotNamesRequest());
 	}
 
 	@FXML
@@ -40,7 +49,7 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 		SetupClockField();
 		liscencePlateTF.setEditable(false);
 		validation.registerValidator(emailTF, Validator.createPredicateValidator((email) -> emailValidator.isValid((String) email), "Email is not valid"));
-		validation.registerValidator(parkingLotIDTF, Validator.createRegexValidator("Parking lot ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
+		validation.registerValidator(parkingLotIdComboBox, Validator.createEmptyValidator("Parking lot ID is Required"));
 		validation.registerValidator(customerIDTF, Validator.createRegexValidator("Customer ID is Required", CpsRegEx.IntegerBetweenMinAndMaxLength, Severity.ERROR));
 		validation.registerValidator(liscencePlateTF, Validator.createEmptyValidator("Liscence plate is Required"));
 		validation.registerValidator(TimePickerHelper, Validator.createEmptyValidator("Departure time is Required"));
@@ -63,7 +72,7 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 	private Label RoutineDepartureTimeLBL; // Value injected by FXMLLoader
 
 	@FXML // fx:id="parkingLotIDTF"
-	private NumberTextField parkingLotIDTF; // Value injected by FXMLLoader
+	private ComboBox<Integer> parkingLotIdComboBox; // Value injected by FXMLLoader
 
 	@FXML // fx:id="customerIDTF"
 	private NumberTextField customerIDTF; // Value injected by FXMLLoader
@@ -96,13 +105,13 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 
 	@FXML
 	public void CreateSubscription(ActionEvent event) {
-		// TODO: change liscencePlateTF to String when Raz changes it in the DB
-		model.SendOrderRoutineMonthlySubscriptionRequestToServer(
+		CustomerRequest request = CustomerRequestFactory.createOrderRoutineMonthlySubscriptionRequest(
 				customerIDTF.getNumber(),
 				carsLiscencePlates, emailTF.getText(),
-				parkingLotIDTF.getNumber(),
+				parkingLotIdComboBox.getValue(),
 				java.sql.Date.valueOf(startingDateTF.getValue()),
 				routineDepartureTimeTF.getValue());
+		connectionManager.sendMessageToServer(request);
 	}
 
 	@FXML
@@ -110,11 +119,6 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 		MultipleCarsDialog dialog = new MultipleCarsDialog(carsLiscencePlates);
 		carsLiscencePlates = dialog.showAndWait().get();
 		liscencePlateTF.setText(carsLiscencePlates.isEmpty() ? "" : carsLiscencePlates.toString());
-	}
-
-	@Override
-	public void handleServerMessage(String msg) {
-
 	}
 
 	public void ValidateTimePickerHelper(ActionEvent event) {
@@ -128,5 +132,16 @@ public class OrderRoutineMonthlySubscriptionController implements ServerMessageH
 		routineDepartureTimeTF.setConverter(new LocalTimeConverter());
 		routineDepartureTimeTF.setValue(LocalTime.of(0, 0));
 		createSubscriptionBTN.disableProperty().bind(validation.invalidProperty());
+	}
+
+	@Override
+	public void handleServerResponse(CustomerBaseResponse response) {
+		if (response.requestType == CustomerRequestType.PARKING_LOT_NAMES) {
+			Platform.runLater(() -> {
+				ParkingLotsNamesForCustomerResponse parkingLotNames = (ParkingLotsNamesForCustomerResponse) response;
+				parkingLotIdComboBox.getItems().clear();
+				parkingLotIdComboBox.getItems().addAll(parkingLotNames.lotNames);
+			});
+		}
 	}
 }

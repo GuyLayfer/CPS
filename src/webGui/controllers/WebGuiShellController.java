@@ -1,17 +1,11 @@
 package webGui.controllers;
 
-import core.guiUtilities.ServerMessageHandler;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import webGui.util.WebGuiController;
 
-public class WebGuiShellController extends WebGuiController implements ServerMessageHandler {
+public class WebGuiShellController extends WebGuiController {
 
 	@FXML
 	private AnchorPane webGuiMainViewRegion;
-
-	@Override
-	public void handleServerMessage(String msg) {
-
-	}
 }
