@@ -89,7 +89,7 @@ public class MockWebClientConnectionManager extends AbstractClient {
 
 	private Map<CustomerRequestType, Function<String, Object>> CreateResponseConverterMap() {
 		Map<CustomerRequestType, Function<String, Object>> converterMap = new HashMap<CustomerRequestType, Function<String, Object>>();
-		converterMap.put(CustomerRequestType.ORDER_ONE_TIME_PARKING, (gsonString) -> {
+		converterMap.put(CustomerRequestType.PRE_ORDERED_PARKING, (gsonString) -> {
 			return gson.fromJson((String) gsonString, CustomerResponse.class);
 		});
 		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> {

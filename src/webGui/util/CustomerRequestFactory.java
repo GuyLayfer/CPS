@@ -12,7 +12,7 @@ public class CustomerRequestFactory {
 	public static CustomerRequest CreateOrderOneTimeParkingRequest(int customerID, String licensePlate, String email, int parkingLotID, Date arrivalTime, 
 			Date estimatedDepartureTime){
 		CustomerRequest OrderOneTimeParkingRequest = new CustomerRequest();
-		OrderOneTimeParkingRequest.requestType = CustomerRequestType.ORDER_ONE_TIME_PARKING;
+		OrderOneTimeParkingRequest.requestType = CustomerRequestType.PRE_ORDERED_PARKING;
 		OrderOneTimeParkingRequest.customerID = customerID;
 		OrderOneTimeParkingRequest.carID = licensePlate;
 		OrderOneTimeParkingRequest.email = email;
