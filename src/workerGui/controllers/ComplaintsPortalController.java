@@ -111,9 +111,9 @@ public class ComplaintsPortalController extends WorkerGuiController implements I
 
 	private ArrayList<ComplaintUiElement> getExample() {
 		ArrayList<ComplaintUiElement> list = new ArrayList<ComplaintUiElement>();
-		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum1(), 1, new Date())));
-		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum2(), 18, new Date())));
-		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum3(), 42, new Date())));
+		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum1(), 1, new Date(), 1)));
+		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum2(), 18, new Date(), 2)));
+		list.add(new ComplaintUiElement(new Complaint(GetLoremIpsum3(), 42, new Date(), 3)));
 		return list;
 	}
 
