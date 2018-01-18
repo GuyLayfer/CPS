@@ -11,7 +11,7 @@ import core.worker.WorkerRequestType;
 import core.worker.responses.*;
 
 public class ResponsesTypesMapper {
-private static Gson gson = new CpsGson().GetGson();
+private static Gson gson = CpsGson.GetGson();
 	
 	public static Map<WorkerRequestType, Function<String, WorkerBaseResponse>> CreateResponsesConverterMap() {
 		Map<WorkerRequestType, Function<String, WorkerBaseResponse>> converterMap = new HashMap<WorkerRequestType, Function<String, WorkerBaseResponse>>();

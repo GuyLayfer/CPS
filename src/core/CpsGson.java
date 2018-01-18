@@ -7,7 +7,7 @@ import com.google.gson.GsonBuilder;
 
 public class CpsGson {
 	
-	public Gson GetGson(){
+	public static Gson GetGson(){
 		return new GsonBuilder().setDateFormat(DateFormat.FULL, DateFormat.FULL).create();
 	}
 }

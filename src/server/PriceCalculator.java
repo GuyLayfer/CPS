@@ -1,8 +1,10 @@
 package server;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import server.RatesManager;
+import server.db.DBConstants.OrderType;
 
 public class PriceCalculator {
 	
@@ -32,5 +34,38 @@ public class PriceCalculator {
 	 */
 	public static PriceCalculator getInstance() {
 		return instance;
+	}
+	
+	public double calculatePreOrdered(int lotId, Date arrivalTime, Date estimatedDepartureTime) {
+		double rate = ratesManager.getPreOrderedParkingRate(lotId);
+		// parkTimeInMilli / parkTimeInHours is the total estimated parking time
+		long parkTimeInMilli = estimatedDepartureTime.getTime() - arrivalTime.getTime();
+		double parkTimeInHours = (parkTimeInMilli / 60000) / 60;
+		return rate*parkTimeInHours;
+	}
+	public double calculateCancelRefund(int lotId, Date estimatedArrivalTime, Date estimatedDepartureTime) {
+		// Only for preOrdered parking!!
+		double rate = ratesManager.getPreOrderedParkingRate(lotId);
+		// parkTimeInMilli / parkTimeInHours is the total estimated parking time
+		long parkTimeInMilli = estimatedDepartureTime.getTime() - estimatedArrivalTime.getTime();
+		double parkTimeInHours = (parkTimeInMilli / 60000) / 60;
+		double originalPrice = rate*parkTimeInHours;
+		Date rightNow = new Date();
+		long timeFromArrivalInMilli = estimatedArrivalTime.getTime() - rightNow.getTime();
+		double timeFromArrivalInHours = (timeFromArrivalInMilli / 60000) / 60;
+		// in case that more than 3 hours before parking - 90% refund
+		if (timeFromArrivalInHours > 3) {
+			return originalPrice*0.9;
+		}
+		// in case that more than 1 hour before parking - 50% refund
+		if (timeFromArrivalInHours > 1) {
+			return originalPrice*0.5;
+		}
+		// less than 1 hour before parking - no refund!
+		return 0;
+	}
+	public double calculateExit() {
+		// TODO
+		return 0.0;
 	}
 }

@@ -15,7 +15,7 @@ import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.WorkersDBAPI;
 
 public abstract class BaseRequestsHandler implements IRequestsHandler {
-	protected Gson gson = new CpsGson().GetGson();
+	protected Gson gson = CpsGson.GetGson();
 	protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	protected WorkersDBAPI workersDBAPI = WorkersDBAPI.getInstance();
 

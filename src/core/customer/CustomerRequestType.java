@@ -2,7 +2,7 @@ package core.customer;
 
 // Used also as response type
 public enum CustomerRequestType {
-	ORDER_ONE_TIME_PARKING,
+	PRE_ORDERED_PARKING,
 	CANCEL_ORDER,
 	TRACK_ORDER_STATUS,
 	ORDER_ROUTINE_MONTHLY_SUBSCRIPTION,

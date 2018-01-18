@@ -2,20 +2,18 @@ package server;
 
 import core.ParkingState;
 import core.ParkingStatus;
+import core.CpsGson;
 import core.ParkingLotInfo;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
-
-// TODO: remove these imports if they are not required
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.stream.Collectors;
+import com.google.gson.Gson;
 import server.db.dbAPI.RegularDBAPI;
 
 public class ParkingLot {
+	
 	/**************************************** Properties ****************************************/
 	
 	private ParkingLotInfo info;
@@ -25,9 +23,13 @@ public class ParkingLot {
 	private TreeMap<Integer, Integer> reservedPlacesMap;
 	private Robot robot;
 	// a queue of broken place indexes which the system hasn't updated yet
-	private LinkedList<Integer> brokenPlacesQueue; 
-	// a queue of reserved place indexes which the system hasn't updated yet
-	private LinkedList<Integer> reservedPlacesQueue; 
+	private LinkedList<Integer> pendingBrokenPlaces; 
+	// number of reserved places which the system hasn't updated yet
+	private int pendingReservedPlaces;
+	
+	private HashMap<String, reservationInfo> reservations;
+	
+	final private static Gson gson = CpsGson.GetGson();
 	
 	/************************************** Public Methods **************************************/
 	
@@ -43,6 +45,10 @@ public class ParkingLot {
 		}	
 	}
 	
+	synchronized public boolean isFull() {
+		return (freePlacesMap.size() == 0) ? true : false;
+	}
+	
 	synchronized public String insertCar(String carId, long leaveTime) {
 		//TODO: implement
 		return null;
@@ -56,7 +62,7 @@ public class ParkingLot {
 	synchronized public void setBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
 		ParkingState parkingState = info.parkingMap.get(placeIndex);
 		if (freePlacesMap.isEmpty()) {
-			brokenPlacesQueue.add(placeIndex);
+			pendingBrokenPlaces.add(placeIndex);
 		} else {
 			switch (parkingState.parkingStatus) {
 			case FREE:
@@ -93,6 +99,14 @@ public class ParkingLot {
 		//TODO: implement
 	}
 	
+	synchronized public String toJson() {
+		return gson.toJson(this);
+	}
+	
+	synchronized public String infoToJson() {
+		return gson.toJson(info);
+	}
+	
 	/************************************** Private Methods **************************************/
 	
 	private void shiftCarsLeft(int index) {
@@ -116,22 +130,10 @@ public class ParkingLot {
 	private void calculateStateAfterRemoval(int carLocation) {
 		//TODO: implement
 	}
+}
 
-	
-	
-	
-	// TODO: remove this constructor if we don't need it
-	/*
-	public ParkingLotInfo(int lotId, int floors, int rows, int cols) throws SQLException {
-		this.lotId = lotId;
-		this.floors = floors;
-		this.rows = rows;
-		this.cols = cols;
-		String [] parkingMapArrForSelectQuery = new String[floors * rows * cols];
-		RegularDBAPI.getInstance().selectParkingMapByLotId(lotId, parkingMapArrForSelectQuery);
-		parkingMap = (ArrayList<ParkingState>) Arrays.stream(parkingMapArrForSelectQuery)
-				.map(lotStatus -> new ParkingState(ParkingStatus.convertStringToParkingMapEnum(lotStatus), ""))
-				.collect(Collectors.toList());
-	}
-	*/
+class reservationInfo {
+	public boolean hasSubscription;
+	public boolean enteredTodayWithSubscription;
+	public int numberOfOrdersForNext24Hours;
 }
