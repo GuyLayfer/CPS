@@ -63,6 +63,15 @@ public class PriceCalculator {
 		// less than 1 hour before parking - no refund!
 		return 0;
 	}
+	public double calculateMonthly(int lotId) {
+		return ratesManager.getRoutineMonthlySubscription(lotId);
+	}
+	public double calculateMonthlyMultipleCars(int lotId, int carsNum) {
+		return ratesManager.getRoutineMonthlySubscriptionMultipleCars(lotId) * carsNum;
+	}
+	public double calculateFullMonthly() {
+		return ratesManager.getFullMonthlySubscription();
+	}
 	public double calculateExit() {
 		// TODO
 		return 0.0;

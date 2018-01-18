@@ -8,16 +8,18 @@ public class LotRates {
 	private double routineMonthlySubscriptionMultipleCars;
 	private static Double fullMonthlySubscription;
 	
-	final public double DEFAULT_OCCASIONAL_RATE = 5;
-	final public double DEFAULT_ONE_TIME_RATE = 4;
-	final public double DEFAULT_ROUTINE_MONTHLY_RATE = 0;
-	final public double DEFAULT_ROUTINE_MONTHLY_MULTIPLE_CARS_RATE = 0;
+	final public double DEFAULT_OCCASIONAL_RATE = 5.0;
+	final public double DEFAULT_ONE_TIME_RATE = 4.0;
+	final public double DEFAULT_ROUTINE_MONTHLY_RATE = 240.0;
+	final public double DEFAULT_ROUTINE_MONTHLY_MULTIPLE_CARS_RATE = 216.0;
+	final public double DEFAULT_FULL_MONTHLY_RATE = 288.0;
 	
 	public LotRates() {
 		this.occasionalParkingRate = DEFAULT_OCCASIONAL_RATE;
 		this.preOrderedParkingRate = DEFAULT_ONE_TIME_RATE;
 		this.routineMonthlySubscription = DEFAULT_ROUTINE_MONTHLY_RATE;
 		this.routineMonthlySubscriptionMultipleCars = DEFAULT_ROUTINE_MONTHLY_MULTIPLE_CARS_RATE;
+		this.fullMonthlySubscription = (Double)DEFAULT_FULL_MONTHLY_RATE;
 	}
 	public LotRates(Rates rates) {
 		this.occasionalParkingRate = rates.occasionalParkingRate;
@@ -25,11 +27,11 @@ public class LotRates {
 		this.routineMonthlySubscription = rates.routineMonthlySubscription;
 		this.routineMonthlySubscriptionMultipleCars = rates.routineMonthlySubscriptionMultipleCars;
 	}
-	public LotRates(double occasional, double preOrdered, double monthly, double monthlyMultipleCars) {
+	public LotRates(double occasional, double preOrdered, double monthly/*, double monthlyMultipleCars*/) {
 		this.occasionalParkingRate = occasional;
 		this.preOrderedParkingRate = preOrdered;
 		this.routineMonthlySubscription = monthly;
-		this.routineMonthlySubscriptionMultipleCars = monthlyMultipleCars;
+		//this.routineMonthlySubscriptionMultipleCars = monthlyMultipleCars;
 	}
 	
 	synchronized public double getOccasionalParkingRate() {
