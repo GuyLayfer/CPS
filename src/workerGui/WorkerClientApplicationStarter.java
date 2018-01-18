@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import workerGui.util.WorkerConnectionManager;
 
 public class WorkerClientApplicationStarter extends Application {
 	public static void main(String[] args) {
@@ -41,6 +42,7 @@ public class WorkerClientApplicationStarter extends Application {
 				exitDialog.getDialogPane().setHeaderText("Are you sure you want to exit?");
 				ButtonType result = exitDialog.showAndWait().get();
 				if (result == ButtonType.OK) {
+					WorkerConnectionManager.getInstance().closeServerConnection();
 					System.exit(0);
 				} else if (result == ButtonType.CANCEL) {
 					event.consume();

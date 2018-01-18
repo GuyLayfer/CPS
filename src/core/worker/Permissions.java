@@ -46,7 +46,7 @@ public class Permissions {
 		permissionsForOperation.put(WorkerOperations.PARKING_LOT_FULL, 
 				permissionsForRole.get(WorkerRole.LOT_WORKER) || permissionsForRole.get(WorkerRole.LOT_MANAGER)
 				|| permissionsForRole.get(WorkerRole.FIRM_MANAGER));
-		permissionsForOperation.put(WorkerOperations.RESERVE_PARKING_SPACE, 
+		permissionsForOperation.put(WorkerOperations.CHANGE_PARKING_LOT, 
 				permissionsForRole.get(WorkerRole.CUSTOMER_SERVICE) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
 		permissionsForOperation.put(WorkerOperations.RESERVE_PARKING_SPACE, 
 				permissionsForRole.get(WorkerRole.CUSTOMER_SERVICE) || permissionsForRole.get(WorkerRole.LOT_MANAGER)

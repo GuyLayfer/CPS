@@ -12,7 +12,7 @@ public class CancelOrderModel {
 	}
 	
 	public void SendCancelRequestToServer(int orderId){
-		CustomerRequest request = CustomerRequestFactory.CreateCancelRequest(orderId);
+		CustomerRequest request = CustomerRequestFactory.createCancelRequest(orderId);
 		connectionManager.sendMessageToServer(request);
 	}
 }

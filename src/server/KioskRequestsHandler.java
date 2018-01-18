@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import com.google.gson.JsonSyntaxException;
 
 import core.ResponseStatus;
+import core.ServerPorts;
 import core.customer.CustomerRequest;
 import core.customer.responses.BadCustomerResponse;
 import ocsf.server.ConnectionToClient;
@@ -15,24 +16,34 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 	public KioskRequestsHandler(int port) {
 		super(port);
 	}
-	
+
+	private String handleKioskRequest(CustomerRequest request) throws SQLException {
+		switch (request.requestType) {
+		case OCCASIONAL_PARKING: // TODO: implement
+			return createUnsupportedFeatureResponse(request.requestType);
+		case ENTER_PARKING_PRE_ORDERED: // TODO: implement
+			return createUnsupportedFeatureResponse(request.requestType);
+		case ENTER_PARKING_SUBSCRIBER: // TODO: implement
+			return createUnsupportedFeatureResponse(request.requestType);
+		case EXIT_PARKING: // TODO: implement
+			return createUnsupportedFeatureResponse(request.requestType);
+		case PARKING_LOT_NAMES:
+			return parkingLotNames(request);
+		default:
+			if (getPort() == ServerPorts.KIOSK_PORT) {
+				return gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, request.requestType + " is illegal Web CustomerRequestType"));
+			} else {
+				return gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, request.requestType + " is illegal CustomerRequestType"));
+			}
+		}
+	}
+
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
 			try {
-				CustomerRequest request = gson.fromJson((String) msg, CustomerRequest.class);
-				switch (request.requestType) {
-				case OCCASIONAL_PARKING: // TODO: implement
-					client.sendToClient(createUnsupportedFeatureResponse(request.requestType));
-				case ENTER_PARKING_PRE_ORDERED: // TODO: implement
-					client.sendToClient(createUnsupportedFeatureResponse(request.requestType));
-				case ENTER_PARKING_SUBSCRIBER: // TODO: implement
-					client.sendToClient(createUnsupportedFeatureResponse(request.requestType));
-				case EXIT_PARKING: // TODO: implement
-					client.sendToClient(createUnsupportedFeatureResponse(request.requestType));
-				default:
-					client.sendToClient(handleWebCustomerRequest(request));
-				}
+				client.sendToClient(handleKioskRequest(gson.fromJson((String) msg, CustomerRequest.class)));
+
 			} catch (JsonSyntaxException e) {
 				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, "JsonSyntaxException")));
 				e.printStackTrace();

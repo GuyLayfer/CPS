@@ -1,9 +1,7 @@
 package server.db.queries;
 
-import server.db.DBConnection.sqlTypeKind;
 import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
-import server.db.DBConstants.TrueFalse;
 
 
 

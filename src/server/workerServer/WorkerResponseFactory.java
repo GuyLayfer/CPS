@@ -84,7 +84,7 @@ public class WorkerResponseFactory {
 		return CreateNotificationResponse(WorkerRequestType.DECIDE_ON_COMPLAINTS, message);
 	}
 
-	public static WorkerBaseResponse CreateParkingLotNamesResponse(List<String> lotNames) {
+	public static WorkerBaseResponse CreateParkingLotNamesResponse(List<Integer> lotNames) {
 		ParkingLotsNamesResponse response = new ParkingLotsNamesResponse();
 		response.requestType = WorkerRequestType.PARKING_LOT_NAMES;
 		response.lotNames = lotNames;

@@ -15,7 +15,7 @@ private MockWebClientConnectionManager connectionManager;
 	}
 	
 	public void SendTrackOrderStatusRequestToServer(int orderId){
-		CustomerRequest request = CustomerRequestFactory.CreateTrackOrderStatusRequest(orderId);
+		CustomerRequest request = CustomerRequestFactory.createTrackOrderStatusRequest(orderId);
 		connectionManager.sendMessageToServer(request);
 	}
 }

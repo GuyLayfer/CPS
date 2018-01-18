@@ -73,7 +73,7 @@ public class MockWebClientController extends WebGuiController implements IServer
 
 		if (response.requestType == CustomerRequestType.BAD_REQUEST) {
 			BadCustomerResponse badResponse = (BadCustomerResponse) response;
-			showNotification(badResponse.toString());
+			showError(badResponse.toString());
 			return;
 		}
 		

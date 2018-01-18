@@ -4,9 +4,13 @@ import java.sql.SQLException;
 
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
+import server.ParkingLotsManager;
+import server.workerServer.WorkerResponseFactory;
 
 public class ParkingLotNamesRequestsHandler extends BaseRequestsHandler {
+	private ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
 
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
@@ -15,8 +19,7 @@ public class ParkingLotNamesRequestsHandler extends BaseRequestsHandler {
 
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest) throws SQLException {
-		return createUnsupportedFeatureResponse();
-//		BaseResponse response = WorkerResponseFactory.CreateParkingLotFullResponse(parkingLotIsFullState, lotId);
-//		return CreateWorkerResponse(response);
+		WorkerBaseResponse response = WorkerResponseFactory.CreateParkingLotNamesResponse(parkingLotsManager.getAllIds());
+		return CreateWorkerResponse(response);
 	}
 }

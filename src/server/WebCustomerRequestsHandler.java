@@ -25,6 +25,7 @@ import core.customer.responses.CustomerBaseResponse;
 import core.customer.responses.CustomerNotificationResponse;
 import core.customer.responses.CustomerResponse;
 import core.customer.responses.IdPricePairResponse;
+import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.customer.responses.TrackOrderResponse;
 
 public class WebCustomerRequestsHandler extends AbstractServer {
@@ -131,6 +132,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//return createOkResponse(request.requestType, gson.toJson(complaintID));
 	}
 	
+	protected String parkingLotNames(CustomerRequest request) throws SQLException {
+		ParkingLotsNamesForCustomerResponse response = new ParkingLotsNamesForCustomerResponse();
+		response.requestType = CustomerRequestType.PARKING_LOT_NAMES;
+		response.lotNames = parkingLotsManager.getAllIds();
+		return createCustomerResponse(CustomerRequestType.PARKING_LOT_NAMES, response);
+	}
+	
 	// returns the response json string
 	protected String handleWebCustomerRequest(CustomerRequest request) throws SQLException {
 		switch (request.requestType) {
@@ -148,6 +156,8 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			return subscriptionRenweal(request);
 		case OPEN_COMPLAINT: // TODO: implement
 			return openComplaint(request);
+		case PARKING_LOT_NAMES:
+			return parkingLotNames(request);
 		default:
 			if (getPort() == ServerPorts.WEB_CUSTOMER_PORT) {
 				return gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, 

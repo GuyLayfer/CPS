@@ -15,7 +15,7 @@ public class OrderFullMonthlySubscriptionModel {
 	}
 	
 	public void SendFullMonthlySubcriptionRequestToServer(int customerID, String liscencePlate, String email, Date startingDate){
-		CustomerRequest request = CustomerRequestFactory.CreateOrderFullMonthlySubscriptionRequest(customerID, liscencePlate, email, startingDate);
+		CustomerRequest request = CustomerRequestFactory.createOrderFullMonthlySubscriptionRequest(customerID, liscencePlate, email, startingDate);
 		connectionManager.sendMessageToServer(request);
 	}
 }

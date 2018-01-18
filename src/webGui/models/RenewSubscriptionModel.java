@@ -13,7 +13,7 @@ public class RenewSubscriptionModel {
 	}
 	
 	public void SendRenewSubscriptionRequestToServer(int customerId, int subscriptionId){
-		CustomerRequest request = CustomerRequestFactory.CreateSubscriptionRenewalRequest(customerId, subscriptionId);
+		CustomerRequest request = CustomerRequestFactory.createSubscriptionRenewalRequest(customerId, subscriptionId);
 		connectionManager.sendMessageToServer(request);
 	}
 }
