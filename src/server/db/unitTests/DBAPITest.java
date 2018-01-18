@@ -92,7 +92,8 @@ public class DBAPITest {
 		workersDBAPIInst.insertRatesOfLotId(false, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice);
 
 		workersDBAPIInst.selectAllLotsRates(false, resultList);
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
 				System.out.println(column.getKey() + "/" + column.getValue());
