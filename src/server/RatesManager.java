@@ -32,7 +32,6 @@ public class RatesManager {
 			this.ratesMap.put(lotId, newLotRates);
 		}*/
 	}
-	
 	/**
 	 * Initializer - used only once in CPSMain.
 	 *
@@ -52,9 +51,6 @@ public class RatesManager {
 	public static RatesManager getInstance() {
 		return instance;
 	}
-	//public LotRates convertRatesToLotRates(Rates toBeConverted) {
-	//	LotRates newLotRates = new LotRates
-	//}
 	/**
 	 * Gets a specific Rate object according to the LotId. 
 	 *

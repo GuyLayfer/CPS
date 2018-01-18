@@ -152,7 +152,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	// returns the response json string
 	protected String handleWebCustomerRequest(CustomerRequest request) throws SQLException {
 		switch (request.requestType) {
-		case ORDER_ONE_TIME_PARKING:
+		case PRE_ORDERED_PARKING:
 			return orderOneTimeParking(request);
 		case CANCEL_ORDER: // TODO: implement
 			return cancelOrder(request);

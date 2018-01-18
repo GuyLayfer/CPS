@@ -19,7 +19,7 @@ public class CustomerResponsesTypesMapper {
 	
 	public static Map<CustomerRequestType, Function<String, CustomerBaseResponse>> CreateResponseConverterMap() {
 		Map<CustomerRequestType, Function<String, CustomerBaseResponse>> converterMap = new HashMap<CustomerRequestType, Function<String, CustomerBaseResponse>>();
-		converterMap.put(CustomerRequestType.ORDER_ONE_TIME_PARKING, (gsonString) -> {
+		converterMap.put(CustomerRequestType.PRE_ORDERED_PARKING, (gsonString) -> {
 			return gson.fromJson((String) gsonString, IdPricePairResponse.class);
 		});
 		converterMap.put(CustomerRequestType.CANCEL_ORDER, (gsonString) -> {
