@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import core.ParkingState;
-import core.ParkingStatus;
+import core.parkingLot.ParkingState;
+import core.parkingLot.ParkingStatus;
 import server.db.DBConstants;
 
 public class MainDBAPI {
