@@ -88,16 +88,16 @@ public class ParkingLot {
 		}
 	}
 	
-	synchronized public void unSetBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
+	synchronized public void cancelBrokenPlaceSetting(int placeIndex) throws IndexOutOfBoundsException {
 		//TODO: implement
 	}
 	
-	synchronized public boolean reservePlace(Date date) {
+	synchronized public boolean reservePlace(String carId, Date estimatedArrivalTime) {
 		//TODO: implement
 		return true;
 	}
 	
-	synchronized public void unReservePlace(Date date) {
+	synchronized public void cancelReservation(String carId, Date estimatedArrivalTime) {
 		//TODO: implement
 	}
 	

@@ -185,11 +185,13 @@ public class ParkingLotsManager {
 	}
 	
 	/**
-	 * Cancel reservation of a parking place.
+	 * Cancel reservation of a parking place inside a specific parking lot for one time order 
+	 * with estimatedArrivalTime within the next 24 hours.
+	 * Don't use this function to cancel reservations with estimatedArrivalTime after that, just update the DB.
 	 *
 	 * @param lotId the lot id
 	 * @param carId the car id
-	 * @param estimatedArrivalTime the estimated arrival time ()
+	 * @param estimatedArrivalTime the estimated arrival time (should be within the next 24 hours)
 	 * @throws LotIdDoesntExistException the lot id doesn't exist exception
 	 * @throws SQLException the SQL exception
 	 */
