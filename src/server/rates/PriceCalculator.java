@@ -34,7 +34,13 @@ public class PriceCalculator {
 	public static PriceCalculator getInstance() {
 		return instance;
 	}
-	
+	public double calculateOccasional(int lotId, Date arrivalTime, Date estimatedDepartureTime) {
+		double rate = ratesManager.getOccasionalParkingRate(lotId);
+		// parkTimeInMilli / parkTimeInHours is the total estimated parking time
+		long parkTimeInMilli = estimatedDepartureTime.getTime() - arrivalTime.getTime();
+		double parkTimeInHours = (parkTimeInMilli / 60000) / 60;
+		return rate*parkTimeInHours;
+	}
 	public double calculatePreOrdered(int lotId, Date arrivalTime, Date estimatedDepartureTime) {
 		double rate = ratesManager.getPreOrderedParkingRate(lotId);
 		// parkTimeInMilli / parkTimeInHours is the total estimated parking time
@@ -62,6 +68,15 @@ public class PriceCalculator {
 		}
 		// less than 1 hour before parking - no refund!
 		return 0;
+	}
+	public double calculateMonthly(int lotId) {
+		return ratesManager.getRoutineMonthlySubscription(lotId);
+	}
+	public double calculateMonthlyMultipleCars(int lotId, int carsNum) {
+		return ratesManager.getRoutineMonthlySubscriptionMultipleCars(lotId) * carsNum;
+	}
+	public double calculateFullMonthly() {
+		return ratesManager.getFullMonthlySubscription();
 	}
 	public double calculateExit() {
 		// TODO

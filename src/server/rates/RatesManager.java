@@ -21,16 +21,16 @@ public class RatesManager {
 	
 	private RatesManager() throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		/*//workersDBAPI.selectAllLotsRates(false, resultList);
+		workersDBAPI.selectAllLotsRates(false, resultList);
 		for (int i = 0; i < resultList.size(); i++) {
-			int lotId = resultList.get(i).get(SqlColumns.Rates.LOT_ID);
-			double occasional = resultList.get(i).get(SqlColumns.Rates.OCCASIONAL);
-			double preOrdered = resultList.get(i).get(SqlColumns.Rates.PRE_ORDERED);
-			double monthly = resultList.get(i).get(SqlColumns.Rates.SUBSCRIPTION);
+			int lotId = (int)resultList.get(i).get(SqlColumns.Rates.LOT_ID);
+			double occasional = (double)resultList.get(i).get(SqlColumns.Rates.OCCASIONAL);
+			double preOrdered = (double)resultList.get(i).get(SqlColumns.Rates.PRE_ORDERED);
+			double monthly = (double)resultList.get(i).get(SqlColumns.Rates.SUBSCRIPTION);
 			// TODO: double monthlyMultipleCars = resultList.get(i).get(SqlColumns.Rates.SOMTHING);
-			LotRates newLotRates = new LotRates(occasional, preOrdered, monthly, monthlyMultipleCars);
+			LotRates newLotRates = new LotRates(occasional, preOrdered, monthly/*, monthlyMultipleCars*/);
 			this.ratesMap.put(lotId, newLotRates);
-		}*/
+		}
 	}
 	/**
 	 * Initializer - used only once in CPSMain.

@@ -94,26 +94,33 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	protected String orderRoutineMonthlySubscription(CustomerRequest request) throws SQLException {
 		// the request contains:
 		//customerID
-		//carID
+		//List<String> liscencePlates
 		//email
 		//parkingLotID
 		//startingDate
 		//routineDepartureTime
 		
-		//first check if there is a customerID already
+		//calculate price (check if there are multiple cars or just one)
+		double price;
+		if (request.liscencePlates.size() == 1)
+			price = priceCalculator.calculateMonthly(request.parkingLotID);
+		else
+			price = priceCalculator.calculateMonthlyMultipleCars(request.parkingLotID, request.liscencePlates.size());
+		
+		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
 		if (resultList.isEmpty()) {
-			//if there is no customerID, create new one and add monthly subscription
+			//if there is no customerID, create new one and add the subscription
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
 			//TODO add subscription to the new account
+			//TODO subscriptionID = something from DB
 		}
 		else {
 			//else, add monthly subscription to the existing one
 			//TODO add subscription to the new account
+			//TODO subscriptionID = something from DB
 		}
-		double price = 0.0; // TODO calculate price
-		int subscriptionID = 1234567; //TODO calculate subscriptionID
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
@@ -124,16 +131,35 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//carID
 		//email
 		//startingDate
-		double price = 0.0; // TODO calculate price
-		int subscriptionID = 1234567; //TODO calculate subscriptionID
+		
+		//calculate price
+		double price = priceCalculator.calculateFullMonthly();
+		
+		//check if the customerID exists already
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
+		if (resultList.isEmpty()) {
+			//if there is no customerID, create new one and add the subscription
+			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
+			//TODO add subscription to the new account
+			//TODO subscriptionID = something from DB
+		}
+		else {
+			//else, add monthly subscription to the existing one
+			//TODO add subscription to the new account
+			//TODO subscriptionID = something from DB
+		}
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
 	
 	protected String subscriptionRenweal(CustomerRequest request) throws SQLException {
-		int subscriptionID = request.subscriptionID;
+		//int customerID
+		//int subscriptionId -> request.subscriptionID;
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
 		// TODO what function should I use to renew the subscription?
-		double price = 0.0; // TODO calculate price
+		double price = 0.0; // TODO calculate price (don't know how to get subscription type with subscriptionID)
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
@@ -157,17 +183,17 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		switch (request.requestType) {
 		case PRE_ORDERED_PARKING:
 			return orderPreOrderedParking(request);
-		case CANCEL_ORDER: // TODO: implement
+		case CANCEL_ORDER:
 			return cancelOrder(request);
 		case TRACK_ORDER_STATUS:
 			return trackOrderStatus(request);
-		case ORDER_ROUTINE_MONTHLY_SUBSCRIPTION: // TODO: implement
+		case ORDER_ROUTINE_MONTHLY_SUBSCRIPTION:
 			return orderRoutineMonthlySubscription(request);
-		case ORDER_FULL_MONTHLY_SUBSCRIPTION: // TODO: implement
+		case ORDER_FULL_MONTHLY_SUBSCRIPTION:
 			return orderFullMonthlySubscription(request);
-		case SUBSCRIPTION_RENEWAL: // TODO: implement
+		case SUBSCRIPTION_RENEWAL:
 			return subscriptionRenweal(request);
-		case OPEN_COMPLAINT: // TODO: implement
+		case OPEN_COMPLAINT:
 			return openComplaint(request);
 		case PARKING_LOT_NAMES:
 			return parkingLotNames(request);
