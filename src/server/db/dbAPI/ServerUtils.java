@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import server.db.DBConstants;
@@ -129,6 +130,19 @@ public class ServerUtils {
         return dateFormat.format(yesterday());
 }
 	
+	
+	
+	public  static void printAllInResultSet(ArrayList<Map<String, Object>> resultList) {
+		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+			while (iterator.hasNext()) {
+				Map<String, Object> row = (Map<String, Object>) iterator.next();
+				for (Map.Entry<String, Object> column : row.entrySet()) {
+					System.out.println(column.getKey() + "/" + column.getValue());
+				}
+			}
+		}
+		
+	}
 
 	
 }
