@@ -148,6 +148,7 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 */
 	//TODO: needs to get also 'startingDate' and 'routineDepartureTime' basically the 'expiredDate' is 'startingDate' + 28 days...
 	//TODO: also for FullMonthy subscription there is no need for 'routineDepartureTime'.
+	//TODO: subscriptionType is required!
 	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, List<String> listOfCarsForThisSubscription) throws SQLException {
 		
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
