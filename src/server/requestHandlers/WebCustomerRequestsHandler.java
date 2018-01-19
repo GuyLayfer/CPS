@@ -224,13 +224,16 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		switch (type) {
 		case FULL:
 			price = priceCalculator.calculateFullMonthly();
+			break;
 		case ROUTINE:
 			int lotId = (int)resultList3.get(0).get(SqlColumns.Subscriptions.LOT_ID);
 			price = priceCalculator.calculateMonthly(lotId);
+			break;
 		case ROUTINE_MULTIPLE_CARS:
 			int lotId1 = (int)resultList3.get(0).get(SqlColumns.Subscriptions.LOT_ID);
 			int carsNum = (int)resultList3.get(0).get(SqlColumns.Subscriptions.CARS_NUM);
 			price = priceCalculator.calculateMonthlyMultipleCars(lotId1, carsNum);
+			break;
 		}
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(request.subscriptionID, price));
 	}
