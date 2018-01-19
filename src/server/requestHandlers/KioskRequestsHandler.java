@@ -31,7 +31,6 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculateOccasional(request.parkingLotID, rightNow, request.estimatedDepartureTime);
-		regularDBAPI.updateCustomerBalance(request.customerID, price);
 		//TODO: update parking lots info
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}

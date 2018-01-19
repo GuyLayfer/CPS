@@ -149,6 +149,18 @@ public class RegularDBAPI extends DBAPI{
 	public void addFullMonthlySubscriptionToAccount(int accountId, int lotId, String carId) throws SQLException {
 		//TODO: implement
 	}
+	
+	/**
+	 * select order details 
+	 *
+	 * @param accountId the account id
+	 * @param lotId the lot id
+	 * @param carId the car id
+	 * @throws SQLException the SQL exception
+	 */
+	public void selectOrderByCarIdAndLotIdAndTime(String carId, int lotId, Date rightNow) throws SQLException {
+		//TODO: implement
+	}
 /*************************************** End Of TODO Section **************************************/
 
 

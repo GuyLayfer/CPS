@@ -6,6 +6,7 @@ import server.db.DBConstants.OrderType;
 import server.db.DBConstants.TrueFalse;
 import server.db.SqlColumns;
 import server.db.dbAPI.RegularDBAPI;
+import server.db.dbAPI.SubscriptionsDBAPI;
 import server.parkingLot.ParkingLotsManager;
 import server.rates.PriceCalculator;
 
@@ -33,6 +34,7 @@ import core.customer.responses.TrackOrderResponse;
 public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = CpsGson.GetGson();
 	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
+	final protected SubscriptionsDBAPI subscriptionsDBAPI = SubscriptionsDBAPI.getInstance();
 	final protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
 	final protected PriceCalculator priceCalculator = PriceCalculator.getInstance();
 	
@@ -51,7 +53,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);
-		regularDBAPI.updateCustomerBalance(request.customerID, price);
+		//TODO check if there is 'balance' in the customers account then update price.
 		//TODO: update parking lots info
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
@@ -65,7 +67,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			Map<String, Object> result = resultList.iterator().next();
 			double refund = priceCalculator.calculateCancelRefund(((int) result.get(SqlColumns.ParkingTonnage.LOT_ID)),
 					((Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)), ((Date) result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION)));
-			regularDBAPI.cancelOrder(request.orderID, -refund);
+			regularDBAPI.cancelOrder(request.orderID, refund);
 			return createNotificationResponse(request.requestType, "You are acquited with " + refund + "NIS.");
 		}
 	}
@@ -102,6 +104,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		
 		//calculate price (check if there are multiple cars or just one)
 		double price;
+		int subscriptionID;
 		if (request.liscencePlates.size() == 1)
 			price = priceCalculator.calculateMonthly(request.parkingLotID);
 		else
@@ -110,23 +113,18 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
-		if (resultList.isEmpty()) {
-			//if there is no customerID, create new one and add the subscription
-			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
-			//TODO add subscription to the new account
-			//TODO subscriptionID = something from DB
-		}
-		else {
-			//else, add monthly subscription to the existing one
-			//TODO add subscription to the new account
-			//TODO subscriptionID = something from DB
-		}
+		//if there is no customerID, create new one
+		if (resultList.isEmpty())
+			regularDBAPI.insertNewAccount(request.customerID, request.email, request.liscencePlates.get(0), TrueFalse.TRUE);
+		
+		//TODO insertNewSubscription needs to have a startingDate and routineDepartureTime for routineMontly subscription.
+		//subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TrueFalse.FALSE, /*** expiredDate ***/, request.liscencePlates);
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
 	
 	protected String orderFullMonthlySubscription(CustomerRequest request) throws SQLException {
-		// the request contains:
+		//the request contains:
 		//customerID
 		//carID
 		//email
@@ -138,17 +136,12 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
-		if (resultList.isEmpty()) {
-			//if there is no customerID, create new one and add the subscription
+		//if there is no customerID, create new one
+		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
-			//TODO add subscription to the new account
-			//TODO subscriptionID = something from DB
-		}
-		else {
-			//else, add monthly subscription to the existing one
-			//TODO add subscription to the new account
-			//TODO subscriptionID = something from DB
-		}
+
+		//TODO insertNewSubscription needs to have a starting date for fullMonthly subscription.
+		//subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TrueFalse.FALSE, /*** expiredDate ***/, request.liscencePlates);
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
@@ -156,14 +149,25 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	protected String subscriptionRenweal(CustomerRequest request) throws SQLException {
 		//int customerID
 		//int subscriptionId -> request.subscriptionID;
+		// check if customer exists.
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
-		// TODO what function should I use to renew the subscription?
+		if (resultList.isEmpty())
+			return createRequestDeniedResponse(request.requestType, "Wrong Customer ID");
+		// check if subscription exists.
+		ArrayList<Map<String, Object>> resultList2 = new ArrayList<Map<String, Object>>();
+		subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList2);
+		if (resultList.isEmpty())
+			return createRequestDeniedResponse(request.requestType, "Wrong Subscription ID");
+		// update subscriptions expiration date
+		Date rightNow = new Date();
+		//TODO rightNow + 28, (also in subscriptionDB uses java.sql.Date and not java.util.date) 
+		//subscriptionsDBAPI.updateSubscriptionExpiredDate(request.subscriptionID, rightNow);
 		double price = 0.0; // TODO calculate price (don't know how to get subscription type with subscriptionID)
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
-	
+
 	protected String openComplaint(CustomerRequest request) throws SQLException {
 		int complaintID = 1234567; //TODO calculate complaintID
 		// TODO What function should I use to open complaint
