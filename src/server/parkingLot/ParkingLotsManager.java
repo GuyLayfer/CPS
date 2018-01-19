@@ -24,6 +24,7 @@ public class ParkingLotsManager {
 	private Vector<Integer> lotIds; // Vector is synchronized
 	
 	final private RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
+	final private static long numOfMillisIn24Hours = 24*60*60*1000;
 	
 	/************************************** Public Methods **************************************/
 	
@@ -104,8 +105,8 @@ public class ParkingLotsManager {
 	 * @return true, if the parking lot is full
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 */
-	public boolean isParkingLotFull(int lotId) throws LotIdDoesntExistException {
-		return getLot(lotId).isFull();
+	public boolean parkingLotIsFull(int lotId) throws LotIdDoesntExistException {
+		return getLot(lotId).parkingLotIsFull();
 	}
 	
 	/**
@@ -120,9 +121,9 @@ public class ParkingLotsManager {
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 * @throws SQLException the SQL exception
 	 */
-	public String insertCar(int lotId, String carId, long leaveTime, boolean withSubscription) throws LotIdDoesntExistException, SQLException {
+	public String insertCar(int lotId, String carId, Date leaveTime, boolean withSubscription) throws LotIdDoesntExistException, SQLException {
 		try {
-			return getLot(lotId).insertCar(carId, leaveTime, withSubscription);
+			return getLot(lotId).insertCar(carId, leaveTime.getTime(), withSubscription);
 		} catch (RobotFailureException e) {
 			// TODO: handle exception - restore the previous ParkingLot state from the DB.
 			return "The insertion of the car didn't succeed due to a Robot failure.\n" +
@@ -183,10 +184,13 @@ public class ParkingLotsManager {
 	 * 		   false, if the parking lot is full 
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 * @throws SQLException the SQL exception
+	 * @throws DateIsNotWithinTheNext24Hours 
 	 */
-	public boolean reservePlace(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, SQLException {
-		//TODO: implement
-		return true;
+	public boolean reservePlace(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
+		long arrivalTime = estimatedArrivalTime.getTime();
+		assertDateIsWithinTheNext24Hours(arrivalTime);
+		//TODO: check if this function is complete
+		return getLot(lotId).reservePlaceWithinTheNext24Hours(carId);
 	}
 	
 	/**
@@ -198,10 +202,14 @@ public class ParkingLotsManager {
 	 * @param carId the car id
 	 * @param estimatedArrivalTime the estimated arrival time (should be within the next 24 hours)
 	 * @throws LotIdDoesntExistException the lot id doesn't exist exception
+	 * @throws DateIsNotWithinTheNext24Hours 
 	 * @throws SQLException the SQL exception
 	 */
-	public void cancelReservation(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, SQLException {
-		//TODO: implement
+	public void cancelReservation(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
+		long arrivalTime = estimatedArrivalTime.getTime();
+		assertDateIsWithinTheNext24Hours(arrivalTime);
+		//TODO: check if this function is complete
+		getLot(lotId).cancelReservation(carId, arrivalTime);
 	}
 	
 	/************************************** Private Methods **************************************/
@@ -219,9 +227,22 @@ public class ParkingLotsManager {
 		}
 		return parkingLot;
 	}
+	
+	private static void assertDateIsWithinTheNext24Hours(long date) throws DateIsNotWithinTheNext24Hours {
+		long now = new Date().getTime();
+		if (date > now + numOfMillisIn24Hours) {
+			throw new DateIsNotWithinTheNext24Hours();
+		}
+	}
 }
 
 
+
 class LotIdDoesntExistException extends Exception {
-	
+
+	private static final long serialVersionUID = 1L;
+}
+
+class DateIsNotWithinTheNext24Hours extends Exception {
+	private static final long serialVersionUID = 1L;
 }
