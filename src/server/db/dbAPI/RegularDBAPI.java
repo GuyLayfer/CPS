@@ -88,11 +88,6 @@ public class RegularDBAPI extends DBAPI{
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
 		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
-			System.out.println(DbSqlColumns.LOT_ID.getName());
-			System.out.println(row.get(DbSqlColumns.LOT_ID.getName()));
-//			System.out.println(row.get(DbSqlColumns.LOT_ID.getName()));
-			System.out.println(DbSqlColumns.INFO.getName());
-			System.out.println((String)row.get(DbSqlColumns.INFO.getName()));
 			resultMap.put((Integer) row.get(DbSqlColumns.LOT_ID.getName()), (String)row.get(DbSqlColumns.INFO.getName()));
 		}
 	}

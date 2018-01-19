@@ -76,7 +76,6 @@ CREATE TABLE workers(
 worker_id  int,
 password varchar(255),
 role_type ENUM('LOT_WORKER','LOT_MANAGER','CUSTOMER_SERVICE', 'FIRM_MANAGER'),
-customer_service_response text,
 lot_id int,
 UNIQUE(worker_id),
 PRIMARY KEY (worker_id)
@@ -186,4 +185,8 @@ UNIQUE(lot_id),
 PRIMARY KEY (lot_id)
 );
 
+INSERT INTO `workers` (`worker_id`, `password`, `role_type`) VALUES ('1', '1', 'FIRM_MANAGER');
+INSERT INTO `workers` (`worker_id`, `password`, `role_type`, `lot_id`) VALUES ('111', '111', 'LOT_WORKER', '1');
+INSERT INTO `workers` (`worker_id`, `password`, `role_type`) VALUES ('222', '222', 'CUSTOMER_SERVICE');
+INSERT INTO `workers` (`worker_id`, `password`, `role_type`, `lot_id`) VALUES ('333', '333', 'LOT_MANAGER', '1');
 

@@ -2,9 +2,12 @@ package server.requestHandlers.worker;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -20,7 +23,7 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import server.requestHandlers.worker.handlers.IRequestsHandler;
 
-public class WorkerRequestsHandler extends AbstractServer {
+public class WorkerRequestsHandler extends AbstractServer implements IProvideConnectionsToClient {
 	private Gson gson = CpsGson.GetGson();
 	private Map<WorkerRequestType, Function<String, BaseRequest>> responseConverterMap;
 	Set<IRequestsHandler> requestsHandlers;
@@ -28,7 +31,7 @@ public class WorkerRequestsHandler extends AbstractServer {
 	public WorkerRequestsHandler(int port) {
 		super(port);
 		responseConverterMap = WorkerRequestsTypesMapper.CreateRequestsConverterMap();
-		requestsHandlers = WorkerRequestsTypesMapper.CreateRequestsHandlers();
+		requestsHandlers = WorkerRequestsTypesMapper.CreateRequestsHandlers(this);
 	}
 
 	@Override
@@ -40,7 +43,7 @@ public class WorkerRequestsHandler extends AbstractServer {
 				WorkerResponse response = null;
 				// Iterate through all the response handlers. The one that care about the response should handle it.
 				for (IRequestsHandler handler : requestsHandlers) {
-					WorkerResponse handlerResponse = handler.HandleRequest(specificRequest);
+					WorkerResponse handlerResponse = handler.HandleRequest(specificRequest, client);
 					response = handlerResponse == null ? response : handlerResponse;
 				}
 
@@ -69,4 +72,8 @@ public class WorkerRequestsHandler extends AbstractServer {
 		System.out.println("Worker Server has stopped listening for connections.");
 	}
 
+	@Override
+	public List<ConnectionToClient> getConnections() {
+		return Arrays.stream(this.getClientConnections()).map(x -> (ConnectionToClient)x).collect(Collectors.toList());
+	}
 }

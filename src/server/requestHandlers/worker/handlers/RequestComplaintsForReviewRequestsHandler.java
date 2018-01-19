@@ -11,19 +11,25 @@ import core.worker.Complaint;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.responses.WorkerResponse;
+import ocsf.server.ConnectionToClient;
+import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
 import core.worker.responses.WorkerBaseResponse;
 import server.db.SqlColumns;
 
 public class RequestComplaintsForReviewRequestsHandler extends BaseRequestsHandler {
 
+	public RequestComplaintsForReviewRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
+		super(connectionsToClientProvider);
+	}
+	
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.REQUEST_COMPLAINTS_FOR_REVIEW;
 	}
 
 	@Override
-	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest) throws SQLException {
+	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectAllOpenedComplaints(resultList);
 		WorkerBaseResponse response = WorkerResponseFactory

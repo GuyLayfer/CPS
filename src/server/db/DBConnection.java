@@ -29,11 +29,8 @@ public class DBConnection {
 			Object curParam = params.remove();
 			sqlTypeKind curType = types.remove();
 
-			System.out.println(curParam);
-			System.out.println(curType);
 			switch(curType) {
 			case INT:
-				System.out.println();
 				ps.setInt(i,  ((Integer) curParam).intValue());
 				break;
 			case DOUBLE:
@@ -81,7 +78,6 @@ public class DBConnection {
 			Connection conn =
 					DriverManager.getConnection("jdbc:mysql://softengproject.cspvcqknb3vj.eu-central-1.rds.amazonaws.com/short_tailed_bat_schema",
 							"short_tailed_bat","9(QxN\"&c7.52(jTS");
-			System.out.println("SQL connection succeed");
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString);
 				preparePSParams(stmtString, ps, params, types);
@@ -124,7 +120,6 @@ public class DBConnection {
 			Connection conn =
 					DriverManager.getConnection("jdbc:mysql://softengproject.cspvcqknb3vj.eu-central-1.rds.amazonaws.com/short_tailed_bat_schema",
 							"short_tailed_bat","9(QxN\"&c7.52(jTS");
-			System.out.println("SQL connection succeed");
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString, Statement.RETURN_GENERATED_KEYS);
 				preparePSParams(stmtString, ps, params, types);
