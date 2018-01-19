@@ -3,6 +3,7 @@ package server.db.dbAPI;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -145,8 +146,10 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 * @return the subscription ID.
 	 * @throws SQLException 
 	 */
-	//TODO: implement
-	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, ArrayList<String> listOfCarsForThisSubscription) throws SQLException {
+	//TODO: needs to get also 'startingDate' and 'routineDepartureTime' basically the 'expiredDate' is 'startingDate' + 28 days...
+	//TODO: also for FullMonthy subscription there is no need for 'routineDepartureTime'.
+	//TODO: subscriptionType is required!
+	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, List<String> listOfCarsForThisSubscription) throws SQLException {
 		
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL

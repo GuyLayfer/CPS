@@ -26,12 +26,11 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 	protected String orderOccasionalParking(CustomerRequest request) throws SQLException {
 		Date rightNow = new Date();
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
-				rightNow, request.estimatedDepartureTime, new Date(0), new Date(0), 
+				rightNow, request.estimatedDepartureTime, rightNow, new Date(0), 
 				OrderType.ONE_TIME);
 		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculateOccasional(request.parkingLotID, rightNow, request.estimatedDepartureTime);
-		regularDBAPI.updateCustomerBalance(request.customerID, price);
 		//TODO: update parking lots info
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
@@ -46,6 +45,7 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		//subscriptionID
 		//parkingLotID
 		Date rightNow = new Date();
+		//server.db.dbAPI.SubscriptionsDBAPI.selectSubscriptionDetails(int, ArrayList<Map<String, Object>>)
 		
 	}
 	protected void exitParking(CustomerRequest request) {

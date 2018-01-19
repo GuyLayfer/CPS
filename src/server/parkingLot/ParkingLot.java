@@ -29,7 +29,7 @@ public class ParkingLot {
 	// number of reserved places which the system hasn't updated yet
 	private int pendingReservedPlaces;
 	
-	private HashMap<String, reservationInfo> reservations;
+	private HashMap<String, ReservationInfo> reservations;
 	
 	final private static Gson gson = CpsGson.GetGson();
 	
@@ -43,7 +43,7 @@ public class ParkingLot {
 		reservedPlacesMap = new TreeMap<Integer, Integer>();
 		robot = new Robot();
 		pendingBrokenPlaces = new LinkedList<Integer>();
-		reservations = new HashMap<String, reservationInfo>();
+		reservations = new HashMap<String, ReservationInfo>();
 		
 		int size = info.parkingMap.size();
 		for (int i = 0; i < size; i++) {
@@ -51,12 +51,12 @@ public class ParkingLot {
 		}	
 	}
 	
-	synchronized public boolean isFull() {
+	synchronized public boolean parkingLotIsFull() {
 		return (freePlacesMap.size() == 0) ? true : false;
 	}
 	
 	synchronized public String insertCar(String carId, long leaveTime, boolean withSubscription) throws RobotFailureException {
-		reservationInfo reservationInfo = reservations.get(carId);
+		ReservationInfo reservationInfo = reservations.get(carId);
 		if (reservationInfo == null) {
 			return "Access denied.\nPlease make an order before entering the parking lot.";
 		} 
@@ -108,11 +108,25 @@ public class ParkingLot {
 				freePlacesMap.remove(placeIndex);
 				break;
 			case PARKED:
-				//TODO: implement
+				shiftCarsLeft(placeIndex);
+				parkingState = info.parkingMap.get(placeIndex);
+				if (parkingState.parkingStatus == ParkingStatus.RESERVED) {
+					// TODO: handle code duplicates
+					if (freePlacesMap.isEmpty()) {
+						pendingReservedPlaces++;
+					} else {
+						int firstFreeIndex = freePlacesMap.firstKey();
+						info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+						freePlacesMap.remove(firstFreeIndex);
+						reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
+					}
+				}
+				parkingState.parkingStatus = ParkingStatus.BROKEN;
 				break;
 			case RESERVED:
 				parkingState.parkingStatus = ParkingStatus.BROKEN;
 				reservedPlacesMap.remove(placeIndex);
+				// TODO: handle code duplicates
 				if (freePlacesMap.isEmpty()) {
 					pendingReservedPlaces++;
 				} else {
@@ -129,15 +143,28 @@ public class ParkingLot {
 	}
 	
 	synchronized public void cancelBrokenPlaceSetting(int placeIndex) throws IndexOutOfBoundsException {
-		//TODO: implement
+		//TODO: implement after implementing all the other functions
 	}
 	
-	synchronized public boolean reservePlace(String carId, Date estimatedArrivalTime) {
-		//TODO: implement
+	synchronized public boolean reservePlaceWithinTheNext24Hours(String carId) {
+		if (freePlacesMap.isEmpty()) {
+			return false;
+		}
+		reservePlace(carId, false);
+		//TODO: check if this function is complete
 		return true;
 	}
 	
-	synchronized public void cancelReservation(String carId, Date estimatedArrivalTime) {
+	synchronized public void reservePlace(String carId, boolean forSubscription) {
+		ReservationInfo reservationInfo = reservations.get(carId);
+		if (reservationInfo == null) {
+			//reservations.
+		} else {
+			
+		}
+	}
+	
+	synchronized public void cancelReservation(String carId, long estimatedArrivalTime) {
 		//TODO: implement
 	}
 	
@@ -150,14 +177,6 @@ public class ParkingLot {
 	}
 	
 	/************************************** Private Methods **************************************/
-	
-	private void shiftCarsLeft(int index) {
-		//TODO: implement
-	}
-	
-	private void shiftCarsRight(int index) {
-		//TODO: implement
-	}
 	
 	private int findCar(String carID) {
 		//TODO: implement
@@ -176,9 +195,18 @@ public class ParkingLot {
 	private void calculateStateAfterRemoval(int carLocation) {
 		//TODO: implement
 	}
+	
+	private void shiftCarsLeft(int index) {
+		//TODO: implement
+	}
+	
+	private void shiftCarsRight(int index) {
+		//TODO: implement
+	}
+	
 }
 
-class reservationInfo {
+class ReservationInfo {
 	public boolean hasSubscription;
 	public boolean enteredTodayWithSubscription;
 	public int numberOfOrdersForNext24Hours;
