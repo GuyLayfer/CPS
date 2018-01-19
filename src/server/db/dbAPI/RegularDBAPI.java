@@ -207,8 +207,6 @@ public class RegularDBAPI extends DBAPI{
 		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
 		paramsValues.add(accountId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		//		paramsValues.add(entranceId);
-		//		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		paramsValues.add(lotId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		paramsValues.add(orderType.getValue());
@@ -594,6 +592,57 @@ public class RegularDBAPI extends DBAPI{
 		paramTypes.add(sqlTypeKind.INT);
 		DBConnection.updateSql(parkingMapQueriesInst.delete_parking_map_of_lot_id, paramsValues, paramTypes);
 	}
-/*END ****************************************************************************************************************************************************/
+	
+	/**
+	 * Insert new complaint.
+	 *
+	 * @param customerId the customer id
+	 * @param complaintDescription the complaint description
+	 * @param entranceId the entrance id
+	 * @param lotId the lot id
+	 * @param complaintTime the complaint time
+	 * @return the complaint ID
+	 * @throws SQLException the SQL exception
+	 */
+	public int insertComplaint(int customerId, String complaintDescription, Date complaintTime) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
+		
+		paramsValues.add(customerId);
+		paramTypes.add(sqlTypeKind.INT);		
+		paramsValues.add(complaintDescription);
+		paramTypes.add(sqlTypeKind.VARCHAR);		
+		paramsValues.add(TrueFalse.FALSE.getValue());
+		paramTypes.add(sqlTypeKind.VARCHAR);
+		paramsValues.add(complaintTime);
+		paramTypes.add(sqlTypeKind.TIMESTAMP);		
+		
+		int complaintId = DBConnection.updateSql(regularQueriesInst.insert_complaint, paramsValues, paramTypes);
+		return complaintId;
+	}
+	
+	
+	/**
+	 * Select last day complaints.
+	 *
+	 * @param resultList the result list - contains all the records of complaints of yesterday. each record is an entry in the ArrayList. 
+	 * each pair inside Map: ((Sring) columnName, (Object) value) is a column and it's value.
+	 * @throws SQLException the SQL exception
+	 */
+	public void selectAllOpenedComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException{
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>();
+	
+		DBConnection.selectSql(regularQueriesInst.get_all_opened_complains, paramsValues, paramTypes, resultList);
+	}
 
+    public void updateComplaint (Boolean complaint_Result,  ArrayList<Map<String, Object>> resultList) throws SQLException{
+    	Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
+	    paramsValues.add(complaint_Result);
+		paramTypes.add(sqlTypeKind.INT);	
+		DBConnection.updateSql(regularQueriesInst.update_complaint, paramsValues, paramTypes);
+    }
+
+/*END ****************************************************************************************************************************************************/
 }
