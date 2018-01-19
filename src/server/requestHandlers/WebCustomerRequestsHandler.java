@@ -176,7 +176,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		// check if subscription exists.
 		ArrayList<Map<String, Object>> resultList2 = new ArrayList<Map<String, Object>>();
 		subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList2);
-		if (resultList.isEmpty())
+		if (resultList2.isEmpty())
 			return createRequestDeniedResponse(request.requestType, "Wrong Subscription ID");
 		
 		Date rightNow = new Date();
@@ -185,10 +185,8 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		Calendar calendar = Calendar.getInstance();
 		// check if the subscription is active
 		if (subscriptionsDBAPI.isSubscriptionActive(request.subscriptionID)) {
-			ArrayList<Map<String, Object>> resultList3 = new ArrayList<Map<String, Object>>();
-			subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList3);
-			newStartDate = (Date)resultList3.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);//TODO: change to START_DATE
-			Date currentExpireDate = (Date)resultList3.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
+			newStartDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);//TODO: change to START_DATE
+			Date currentExpireDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
 			// add 28 days to newExpireDate
 	        calendar.setTime(currentExpireDate);
 	        calendar.add(Calendar.DATE, 28);
