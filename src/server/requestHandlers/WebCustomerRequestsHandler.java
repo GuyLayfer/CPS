@@ -182,18 +182,25 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		Date rightNow = new Date();
 		Date newExpireDate = new Date();
 		Date newStartDate = new Date();
+		Date currentStartDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.START_DATE);
+		Date currentExpireDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
 		Calendar calendar = Calendar.getInstance();
 		
-		newStartDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.START_DATE);
-		Date currentExpireDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
 		// check if the subscription is active
 		if (subscriptionsDBAPI.isSubscriptionActive(request.subscriptionID)) {
 			// add 28 days to newExpireDate
 	        calendar.setTime(currentExpireDate);
 	        calendar.add(Calendar.DATE, 28);
 	        newExpireDate = calendar.getTime();
+	        newStartDate = currentStartDate;
 		} else {
-			// subscription is not active but it is possible that there is a active subscription soon 
+			// subscription is not active but it is possible that there is a active subscription soon
+			if (rightNow.compareTo(currentStartDate) < 0) {
+				calendar.setTime(currentExpireDate);
+		        calendar.add(Calendar.DATE, 28);
+		        newExpireDate = calendar.getTime();
+		        newStartDate = currentStartDate;
+			} else {
 			calendar.setTime(rightNow);
 	        calendar.add(Calendar.DATE, 30);
 	        newExpireDate = calendar.getTime();
@@ -201,6 +208,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	        calendar.setTime(rightNow);
 	        calendar.add(Calendar.DATE, 2);
 	        newStartDate = calendar.getTime();
+			}
 		}
 		java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
 		java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
