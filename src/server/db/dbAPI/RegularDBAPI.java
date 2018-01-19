@@ -90,11 +90,6 @@ public class RegularDBAPI extends DBAPI{
 		selectAllParkingLotsAsObjects(resultList);
 		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
-			System.out.println(DbSqlColumns.LOT_ID.getName());
-			System.out.println(row.get(DbSqlColumns.LOT_ID.getName()));
-//			System.out.println(row.get(DbSqlColumns.LOT_ID.getName()));
-			System.out.println(DbSqlColumns.INFO.getName());
-			System.out.println((String)row.get(DbSqlColumns.INFO.getName()));
 			resultMap.put((Integer) row.get(DbSqlColumns.LOT_ID.getName()), (String)row.get(DbSqlColumns.INFO.getName()));
 		}
 	}
@@ -467,13 +462,12 @@ public class RegularDBAPI extends DBAPI{
 	 * @return the complaint ID
 	 * @throws SQLException the SQL exception
 	 */
-	public int insertComplaint(int customerId, String complaintDescription, int entranceId, int lotId, Date complaintTime) throws SQLException , Exception {
+	public int insertComplaint(int customerId, String complaintDescription, int lotId, Date complaintTime) throws SQLException , Exception {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		
 		paramsValues.add(customerId);
 		paramsValues.add(lotId);
 		paramsValues.add(complaintDescription);
-		paramsValues.add(entranceId);
 		paramsValues.add(TrueFalse.FALSE.getValue());
 		paramsValues.add(ServerUtils.getTimeStampOfDate(complaintTime));
 		

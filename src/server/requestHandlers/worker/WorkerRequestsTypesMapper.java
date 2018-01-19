@@ -61,21 +61,21 @@ public class WorkerRequestsTypesMapper {
 		return converterMap;
 	};
 
-	public static Set<IRequestsHandler> CreateRequestsHandlers() {
+	public static Set<IRequestsHandler> CreateRequestsHandlers(IProvideConnectionsToClient server) {
 		Set<IRequestsHandler> requestsHandlers = new HashSet<IRequestsHandler>();
-		requestsHandlers.add(new AcquitOrChargeAccountRequestsHandler());
-		requestsHandlers.add(new CancelRequestsHandler());
-		requestsHandlers.add(new DecideOnComplaintsRequestsHandler());
-		requestsHandlers.add(new DecideOnRatesRequestsHandler());
-		requestsHandlers.add(new InitializeParkingLotRequestsHandler());
-		requestsHandlers.add(new OutOfOrderRequestsHandler());
-		requestsHandlers.add(new ParkingLotFullRequestsHandler());
-		requestsHandlers.add(new ParkingLotNamesRequestsHandler());
-		requestsHandlers.add(new PermissionsRequestsHandler());
-		requestsHandlers.add(new RequestComplaintsForReviewRequestsHandler());
-		requestsHandlers.add(new RequestRatesForReviewRequestsHandler());
-		requestsHandlers.add(new ReserveParkingSpaceRequestsHandler());
-		requestsHandlers.add(new UpdateRatesRequestsHandler());
+		requestsHandlers.add(new AcquitOrChargeAccountRequestsHandler(server));
+		requestsHandlers.add(new CancelRequestsHandler(server));
+		requestsHandlers.add(new DecideOnComplaintsRequestsHandler(server));
+		requestsHandlers.add(new DecideOnRatesRequestsHandler(server));
+		requestsHandlers.add(new InitializeParkingLotRequestsHandler(server));
+		requestsHandlers.add(new OutOfOrderRequestsHandler(server));
+		requestsHandlers.add(new ParkingLotFullRequestsHandler(server));
+		requestsHandlers.add(new ParkingLotNamesRequestsHandler(server));
+		requestsHandlers.add(new PermissionsRequestsHandler(server));
+		requestsHandlers.add(new RequestComplaintsForReviewRequestsHandler(server));
+		requestsHandlers.add(new RequestRatesForReviewRequestsHandler(server));
+		requestsHandlers.add(new ReserveParkingSpaceRequestsHandler(server));
+		requestsHandlers.add(new UpdateRatesRequestsHandler(server));
 		// TODO: Add reports handlers
 		return requestsHandlers;
 	}

@@ -9,10 +9,17 @@ import core.worker.requests.BaseRequest;
 import core.worker.requests.DecideOnComplaintRequest;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
+import ocsf.server.ConnectionToClient;
+import server.requestHandlers.worker.IProvideConnectionsToClient;
+
 import server.requestHandlers.worker.WorkerResponseFactory;
 import server.db.dbAPI.WorkersDBAPI;
 import core.worker.requests.DecideOnRateRequest;
 public class DecideOnRatesRequestsHandler extends BaseRequestsHandler {
+
+	public DecideOnRatesRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
+		super(connectionsToClientProvider);
+	}
 
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
@@ -20,7 +27,7 @@ public class DecideOnRatesRequestsHandler extends BaseRequestsHandler {
 	}
 
 	@Override
-	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest) throws SQLException {
+	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 //		DecideOnRateRequest decideOnRatesRequest = (DecideOnRateRequest) specificRequest;
 //		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 //		if(decideOnRatesRequest.isNewRateApproved) {
@@ -40,5 +47,7 @@ public class DecideOnRatesRequestsHandler extends BaseRequestsHandler {
 ////		return CreateWorkerResponse(response);
 //	}
 		return createUnsupportedFeatureResponse();
+//		BaseResponse response = WorkerResponseFactory.CreateDecideOnRatesResponse();
+//		return CreateWorkerResponse(response);
 	}
 }
