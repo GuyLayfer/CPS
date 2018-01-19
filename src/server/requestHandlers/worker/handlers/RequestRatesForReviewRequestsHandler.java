@@ -11,18 +11,24 @@ import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
+import ocsf.server.ConnectionToClient;
+import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.db.SqlColumns;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
 public class RequestRatesForReviewRequestsHandler extends BaseRequestsHandler {
 
+	public RequestRatesForReviewRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
+		super(connectionsToClientProvider);
+	}
+	
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.REQUEST_RATES_FOR_REVIEW;
 	}
 
 	@Override
-	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest) throws SQLException {
+	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		workersDBAPI.selectAllLotsRates(true, resultList);
 		WorkerBaseResponse response = WorkerResponseFactory.CreateRequestRatesForReviewResponse(extractRates(resultList));		

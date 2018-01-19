@@ -11,26 +11,34 @@ import core.worker.requests.BaseRequest;
 import core.worker.responses.BadResponse;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
+import ocsf.server.ConnectionToClient;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.WorkersDBAPI;
+import server.requestHandlers.worker.IProvideConnectionsToClient;
 
 public abstract class BaseRequestsHandler implements IRequestsHandler {
+	protected String USER_NAME = "userName";
 	protected Gson gson = CpsGson.GetGson();
 	protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	protected WorkersDBAPI workersDBAPI = WorkersDBAPI.getInstance();
+	protected IProvideConnectionsToClient connectionsToClientProvider;
 
+	public BaseRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
+		this.connectionsToClientProvider = connectionsToClientProvider;
+	}
+	
 	@Override
-	public WorkerResponse HandleRequest(BaseRequest request) throws SQLException {
+	public WorkerResponse HandleRequest(BaseRequest request, ConnectionToClient client) throws SQLException {
 		if (request.requestType != getHandlerRequestsType()) {
 			return null;
 		}
 		
-		return HandleSpecificRequest(request);
+		return HandleSpecificRequest(request, client);
 	}
 	
 	protected abstract WorkerRequestType getHandlerRequestsType();
 	
-	protected abstract WorkerResponse HandleSpecificRequest(BaseRequest specificRequest) throws SQLException;
+	protected abstract WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException;
 
 	protected WorkerResponse CreateWorkerResponse(WorkerBaseResponse response) {
 		return new WorkerResponse(getHandlerRequestsType(), gson.toJson(response));

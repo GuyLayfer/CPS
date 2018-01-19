@@ -63,7 +63,6 @@ public class DBConnection {
 			Connection conn =
 					DriverManager.getConnection("jdbc:mysql://softengproject.cspvcqknb3vj.eu-central-1.rds.amazonaws.com/short_tailed_bat_schema",
 							"short_tailed_bat","9(QxN\"&c7.52(jTS");
-			System.out.println("SQL connection succeed");
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString);
 				preparePSParams(stmtString, ps, params);
@@ -106,7 +105,6 @@ public class DBConnection {
 			Connection conn =
 					DriverManager.getConnection("jdbc:mysql://softengproject.cspvcqknb3vj.eu-central-1.rds.amazonaws.com/short_tailed_bat_schema",
 							"short_tailed_bat","9(QxN\"&c7.52(jTS");
-			System.out.println("SQL connection succeed");
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString, Statement.RETURN_GENERATED_KEYS);
 				preparePSParams(stmtString, ps, params);
