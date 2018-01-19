@@ -59,6 +59,7 @@ public class SqlColumns {
 		public static final String SUBSCRIPTION_FULL = "subscription_full"; //double
 		public static final String OCCASIONAL = "order_one_time"; //double
 		public static final String PRE_ORDERED = "order_regular"; //double
+		public static final String SUBSCRIPTION_MULTIPLE_CARS= "Subscription_multiple_cars";
 	}
 	
 	public class Subscriptions{
