@@ -95,6 +95,7 @@ CREATE TABLE subscriptions(
 subscription_id int AUTO_INCREMENT,
 account_id int,
 lot_id int,
+cars_num int,
 subscription_type ENUM('routine', 'routine_muliple_cars', 'full' ),
 expired_date timestamp,
 start_date timestamp,

@@ -66,6 +66,7 @@ public class SqlColumns {
 		public static final String SUBSCRIPTION_ID = "subscription_id"; //int(11) PK
 		public static final String ACCOUNT_ID = "account_id"; //int(11)
 		public static final String CAR_ID = "car_id"; //varchar(10)
+		public static final String CARS_NUM = "cars_num"; //int
 		public static final String OCCASIONAL = "occasional"; //enum - true/false
 		public static final String CAME_IN_TODAY = "came_in_today"; //enum - true/false
 		public static final String LOT_ID = "lot_id"; //int(11)
