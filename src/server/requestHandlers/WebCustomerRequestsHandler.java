@@ -15,6 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
@@ -117,8 +118,24 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.liscencePlates.get(0), TrueFalse.TRUE);
 		
+		Date rightNow = new Date();
+		Date newExpireDate = new Date();
+		Date newStartDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.setTime(rightNow);
+        calendar.add(Calendar.DATE, 30);
+        newExpireDate = calendar.getTime();
+        
+        calendar.setTime(rightNow);
+        calendar.add(Calendar.DATE, 2);
+        newStartDate = calendar.getTime();
+        
+        java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
+        java.sql.Date sqlstarteDate = new java.sql.Date(newStartDate.getTime());
+        
 		//TODO insertNewSubscription needs to have a startingDate and routineDepartureTime for routineMontly subscription.
-		//subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TrueFalse.FALSE, /*** expiredDate ***/, request.liscencePlates);
+		subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TrueFalse.FALSE, sqlExpireDate, request.liscencePlates);
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
@@ -139,9 +156,10 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//if there is no customerID, create new one
 		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
-
+		
 		//TODO insertNewSubscription needs to have a starting date for fullMonthly subscription.
-		//subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TrueFalse.FALSE, /*** expiredDate ***/, request.liscencePlates);
+		// insertNewSubscription(int customerId, int lotId, subscriptionType type, Date startDate, Date expiredDate, Date routineDepartureTime, List<String> listOfCarsForThisSubscription)
+		//subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TYPETYPETYPE, newStartDate, newExpireDate, DATE_ZERO, request.liscencePlates);
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
 	}
@@ -149,6 +167,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	protected String subscriptionRenweal(CustomerRequest request) throws SQLException {
 		//int customerID
 		//int subscriptionId -> request.subscriptionID;
+		
 		// check if customer exists.
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
@@ -159,10 +178,33 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList2);
 		if (resultList.isEmpty())
 			return createRequestDeniedResponse(request.requestType, "Wrong Subscription ID");
-		// update subscriptions expiration date
+		
 		Date rightNow = new Date();
-		//TODO rightNow + 28, (also in subscriptionDB uses java.sql.Date and not java.util.date) 
-		//subscriptionsDBAPI.updateSubscriptionExpiredDate(request.subscriptionID, rightNow);
+		Date newExpireDate = new Date();
+		Date newStartDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		// check if the subscription is active
+		if (subscriptionsDBAPI.isSubscriptionActive(request.subscriptionID)) {
+			ArrayList<Map<String, Object>> resultList3 = new ArrayList<Map<String, Object>>();
+			subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList3);
+			newStartDate = (Date)resultList3.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);//TODO: change to START_DATE
+			Date currentExpireDate = (Date)resultList3.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
+			// add 28 days to newExpireDate
+	        calendar.setTime(currentExpireDate);
+	        calendar.add(Calendar.DATE, 28);
+	        newExpireDate = calendar.getTime();
+		} else {
+			calendar.setTime(rightNow);
+	        calendar.add(Calendar.DATE, 30);
+	        newExpireDate = calendar.getTime();
+	        
+	        calendar.setTime(rightNow);
+	        calendar.add(Calendar.DATE, 2);
+	        newStartDate = calendar.getTime();
+		}
+		java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
+		java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
+		subscriptionsDBAPI.updateSubscriptionExpiredDate(request.subscriptionID, sqlExpireDate);
 		double price = 0.0; // TODO calculate price (don't know how to get subscription type with subscriptionID)
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
