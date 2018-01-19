@@ -7,6 +7,7 @@ import core.worker.Rates;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.responses.WorkerBaseResponse;
+import javafx.application.Platform;
 import core.worker.responses.RatesForReviewResponse;
 import workerGui.controllers.IAddItemsToTable;
 import workerGui.util.RatesUiElement;
@@ -44,12 +45,14 @@ public class ApproveRatesRequestsPortalModel implements IServerResponseHandler<W
 	@Override
 	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.REQUEST_RATES_FOR_REVIEW) {
+			Platform.runLater(() -> {
 			RatesForReviewResponse specificResponse = (RatesForReviewResponse) response;
 			controller.AddToTable(
 					specificResponse.ratesForReview
 					.stream()
 					.map((rates) -> new RatesUiElement(rates))
 					.collect(Collectors.toList()));
+			});
 		}
 	}
 }

@@ -32,7 +32,7 @@ public class WorkersQueries extends DBAPI {
 	
 	public final String select_all_pending_lots_rates =
 			" SELECT *"
-					+ " FROM " + SqlTables.RATES.getName();
+					+ " FROM " + SqlTables.RATES_PENDING_FOR_APPROVAL.getName();
 
 
 	public final String selectWorkerBtNameAndPassword =
