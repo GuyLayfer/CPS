@@ -69,6 +69,9 @@ public class SqlColumns {
 		public static final String CAME_IN_TODAY = "came_in_today"; //enum - true/false
 		public static final String LOT_ID = "lot_id"; //int(11)
 		public static final String EXPIRED_DATE = "expired_date"; // timestamp
+		public static final String START_DATE = "start_date"; // timestamp
+		public static final String SUBSCRIPTION_TYPE = "subscription_type"; //enum - ROUTINE_MULTIPLE_CARS/ROUTINE/FULL
+		public static final String HAS_SUBSCRIPTION = "has_subscription"; //enum - true/false
 	}
 	
 	public class Workers{

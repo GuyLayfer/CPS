@@ -17,6 +17,7 @@ import core.customer.responses.CustomerBaseResponse;
 import core.customer.responses.CustomerNotificationResponse;
 import core.customer.responses.CustomerResponse;
 import core.customer.responses.IdPricePairResponse;
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import ocsf.server.ConnectionToClient;
 import server.db.SqlColumns;
 import server.db.DBConstants.OrderType;
@@ -44,39 +45,44 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 	protected void enterParkingPreOrdered(CustomerRequest request) throws SQLException {
 		//carID 
 		//parkingLotID
-		Date rightNow = new Date();
 		
+		Date rightNow = new Date();
+		//TODO: selectOrderByCarIdAndLotIdAndTime  -  get the order details and check if exists + time are correct
 	}
 	protected String enterParkingSubscriber(CustomerRequest request) throws SQLException {
 		//carID
 		//subscriptionID
 		//parkingLotID
+		
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList);
+		// check if subscription exists.
 		if (resultList.isEmpty())
 			return createRequestDeniedResponse(request.requestType, "Wrong Subscription ID");
+		// check if the subscription fits to the current lot.
 		if ( (int)resultList.get(0).get(SqlColumns.Subscriptions.LOT_ID) != request.parkingLotID )
 			return createRequestDeniedResponse(request.requestType, "Your subscription is not for this parking lot");
+		// check if the subscription fits the current time.
 		Date expireDate = (Date)resultList.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
-		// TODO: check if the subscription didn't start yet
-		//Date startDate = (Date)resultList.get(0).get(SqlColumns.Subscriptions.SOMETHING);
+		Date startDate = (Date)resultList.get(0).get(SqlColumns.Subscriptions.START_DATE);
 		Date rightNow = new Date();
-		if ( rightNow.compareTo(expireDate) > 0)
+		if (rightNow.compareTo(expireDate) > 0)
 			return createRequestDeniedResponse(request.requestType, "Your subscription has expired");
-		//if (rightNow.compareTo(startDate) < 0)
-		//	return createRequestDeniedResponse(request.requestType, "Your subscription has not started yet");
+		if (rightNow.compareTo(startDate) < 0)
+			return createRequestDeniedResponse(request.requestType, "Your subscription has not started yet");
 		
-		//TODO: use the function carEntered from DB!
-		
-		return "fuck that shit nigga!"; //TODO: remove this when finished
+		regularDBAPI.updateArriveTime(request.carID, rightNow);
+		return createNotificationResponse(request.requestType, "Welcome to our amazing parking lot!");
 	}
-	protected void exitParking(CustomerRequest request) throws SQLException {
+	protected String exitParking(CustomerRequest request) throws SQLException {
 		//carID
 		//parkingLotID
-		Date rightNow = new Date();
-		//TODO carLeftParking get entranceId not carID+parkingLotID
-		//regularDBAPI.carLeftParking(int entranceId, rightNow);
 		
+		Date rightNow = new Date();
+		//TODO: selectOrderByCarIdAndLotIdAndTime -  to compare the exit time with estimated exit time
+		// and fine if need
+		regularDBAPI.carLeftParkingByCarId(request.carID, request.parkingLotID, rightNow);
+		return createNotificationResponse(request.requestType, "Thank you, goodbye!");
 	}
 
 	private String handleKioskRequest(CustomerRequest request) throws SQLException {
