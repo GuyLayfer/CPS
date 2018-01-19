@@ -6,9 +6,11 @@ import core.parkingLot.ParkingStatus;
 import core.CpsGson;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.TreeMap;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import com.google.gson.Gson;
 
@@ -62,6 +64,11 @@ public class ParkingLot {
 		} 
 		// reservationInfo != null
 		if (withSubscription) {
+			Calendar myDate = Calendar.getInstance();
+			int dow = myDate.get(Calendar.DAY_OF_WEEK);
+			if ((dow == Calendar.FRIDAY) || (dow == Calendar.SATURDAY)) {
+				return "Access denied.\nYour subscription is valid only on Sundays through Thursdays.";
+			}
 			if (!reservationInfo.hasSubscription) {
 				return "Access denied.\nYou don't have a subscription for this parking lot.";
 			} else if (reservationInfo.enteredTodayWithSubscription) {
@@ -70,12 +77,12 @@ public class ParkingLot {
 				reservationInfo.enteredTodayWithSubscription = true;
 			}
 		} else { // withSubscription == false
-			if (reservationInfo.numberOfOrdersForNext24Hours == 0) {
+			if (reservationInfo.numberOfOrdersForNext24Hours < 1) {
 				return "Access denied.\nPlease make an order before entering the parking lot" + 
 						"or try to enter with your subscription";
 			} else {
 				reservationInfo.numberOfOrdersForNext24Hours--;
-				if (!reservationInfo.hasSubscription && reservationInfo.numberOfOrdersForNext24Hours == 0) {
+				if (!reservationInfo.hasSubscription && reservationInfo.numberOfOrdersForNext24Hours < 1) {
 					reservations.remove(carId);
 				}
 			}
@@ -146,7 +153,7 @@ public class ParkingLot {
 		//TODO: implement after implementing all the other functions
 	}
 	
-	synchronized public boolean reservePlaceWithinTheNext24Hours(String carId) {
+	synchronized public boolean reservePlaceForTheNext24Hours(String carId) {
 		if (freePlacesMap.isEmpty()) {
 			return false;
 		}
@@ -158,14 +165,47 @@ public class ParkingLot {
 	synchronized public void reservePlace(String carId, boolean forSubscription) {
 		ReservationInfo reservationInfo = reservations.get(carId);
 		if (reservationInfo == null) {
-			//reservations.
+			reservationInfo = new ReservationInfo();
+			reservations.put(carId, reservationInfo);
+		}
+		if (forSubscription) {
+			reservationInfo.hasSubscription = true;
 		} else {
-			
+			reservationInfo.numberOfOrdersForNext24Hours++;
+		}
+		// TODO: handle code duplicates
+		if (freePlacesMap.isEmpty()) {
+			pendingReservedPlaces++;
+		} else {
+			int firstFreeIndex = freePlacesMap.firstKey();
+			info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+			freePlacesMap.remove(firstFreeIndex);
+			reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
 		}
 	}
 	
-	synchronized public void cancelReservation(String carId, long estimatedArrivalTime) {
-		//TODO: implement
+	synchronized public void cancelReservation(String carId, boolean forSubscription) {
+		ReservationInfo reservationInfo = reservations.get(carId);
+		if (reservationInfo == null) {
+			return;
+		}
+		if (forSubscription) {
+			reservationInfo.hasSubscription = false;
+		} else {
+			reservationInfo.numberOfOrdersForNext24Hours--;
+		}
+		if (reservationInfo.hasSubscription == false && reservationInfo.numberOfOrdersForNext24Hours < 1) {
+			reservations.remove(carId);
+		}
+		if (pendingReservedPlaces > 0) {
+			pendingReservedPlaces--;
+		} else if (!reservedPlacesMap.isEmpty()) {
+			int lastReservedIndex = reservedPlacesMap.lastKey();
+			info.parkingMap.get(lastReservedIndex).parkingStatus = ParkingStatus.FREE;
+			reservedPlacesMap.remove(lastReservedIndex);
+			freePlacesMap.put(lastReservedIndex, lastReservedIndex);
+		}
+		//TODO: check if this function is complete
 	}
 	
 	synchronized public String toJson() {
@@ -179,12 +219,21 @@ public class ParkingLot {
 	/************************************** Private Methods **************************************/
 	
 	private int findCar(String carID) {
-		//TODO: implement
+		int i = 0;
+		for (ParkingState parkingState : info.parkingMap) {
+			if (parkingState.carId.equals(carID)) {
+				return i;
+			}
+			i++;
+		}
 		return -1;
 	}
 	
 	private int findPlaceForCar(long leaveTime) {
-		//TODO: implement
+		for (Integer i : parkedPlacesMap.descendingKeySet()) {
+			//if (info.parkingMap.get(i).leaveTime )
+		}
+		
 		return -1;
 	}
 	
