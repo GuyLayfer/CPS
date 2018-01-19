@@ -85,7 +85,8 @@ public class RegularDBAPI extends DBAPI{
 	public void selectAllParkingLots(Map<Integer, String> resultMap) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		selectAllParkingLotsAsObjects(resultList);
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			System.out.println(DbSqlColumns.LOT_ID.getName());
 			System.out.println(row.get(DbSqlColumns.LOT_ID.getName()));

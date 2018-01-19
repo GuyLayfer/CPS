@@ -124,14 +124,9 @@ public class DBAPITest {
 	public void testInsertRates() throws SQLException {
 		workersDBAPIInst.insertRatesOfLotId(true, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice, subscriptionMultipleCarsPrice);
 
-<<<<<<< HEAD
-		workersDBAPIInst.selectAllLotsRates(true, resultList);
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
-=======
 		workersDBAPIInst.selectAllLotsRates(false, resultList);
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
 		while (iterator.hasNext()) {
->>>>>>> 480d9a645e033ef4bfdb31707d5346a0e2fb66ae
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
 				System.out.println(column.getKey() + "/" + column.getValue());
