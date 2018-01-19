@@ -193,9 +193,9 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			return orderRoutineMonthlySubscription(request);
 		case ORDER_FULL_MONTHLY_SUBSCRIPTION:
 			return orderFullMonthlySubscription(request);
-		case SUBSCRIPTION_RENEWAL: // TODO: implement
+		case SUBSCRIPTION_RENEWAL:
 			return subscriptionRenweal(request);
-		case OPEN_COMPLAINT: // TODO: implement
+		case OPEN_COMPLAINT:
 			return openComplaint(request);
 		case PARKING_LOT_NAMES:
 			return parkingLotNames(request);

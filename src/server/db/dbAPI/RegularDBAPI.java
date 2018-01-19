@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.List;
 
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
@@ -110,6 +111,41 @@ public class RegularDBAPI extends DBAPI{
 		//TODO: implement
 	}
 	
+	/**
+	 * selects Order details by carId & lotId 
+	 * (need this for exitParking method and the client only supplies carId)
+	 *
+	 * @param carId the car id
+	 * @param lotId the lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void selectOrderStatusByCarIdAndLotId(String carId, int lotId) throws SQLException {
+		//TODO: implement
+	}
+	
+	/**
+	 * adds a routine monthly subscription to an account
+	 *
+	 * @param accountId the account id
+	 * @param lotId the lot id
+	 * @param carIds a list of cars (may contain 1 car)
+	 * @throws SQLException the SQL exception
+	 */
+	public void addRoutineMonthlySubscriptionToAccount(int accountId, int lotId, List<String> carIds) throws SQLException {
+		//TODO: implement
+	}
+	
+	/**
+	 * adds a Full monthly subscription to an account
+	 *
+	 * @param accountId the account id
+	 * @param lotId the lot id
+	 * @param carId the car id
+	 * @throws SQLException the SQL exception
+	 */
+	public void addFullMonthlySubscriptionToAccount(int accountId, int lotId, String carId) throws SQLException {
+		//TODO: implement
+	}
 /*************************************** End Of TODO Section **************************************/
 
 
