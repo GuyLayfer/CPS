@@ -10,33 +10,57 @@ import core.ResponseStatus;
 import core.ServerPorts;
 import core.customer.CustomerRequest;
 import core.customer.responses.BadCustomerResponse;
+import core.customer.responses.IdPricePairResponse;
 import ocsf.server.ConnectionToClient;
 import server.db.DBConstants.OrderType;
 import server.db.DBConstants.TrueFalse;
+import server.db.dbAPI.RegularDBAPI;
 
 public class KioskRequestsHandler extends WebCustomerRequestsHandler {
+	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 
 	public KioskRequestsHandler(int port) {
 		super(port);
 	}
 	
-	/*protected String orderPreOrderedParking(CustomerRequest request) throws SQLException {
+	protected String orderOccasionalParking(CustomerRequest request) throws SQLException {
+		Date rightNow = new Date();
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
-				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
+				rightNow, request.estimatedDepartureTime, new Date(0), new Date(0), 
 				OrderType.ONE_TIME);
 		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
 		//calculate order price and update the account balance
-		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);
+		double price = priceCalculator.calculateOccasional(request.parkingLotID, rightNow, request.estimatedDepartureTime);
 		regularDBAPI.updateCustomerBalance(request.customerID, price);
 		//TODO: update parking lots info
-		return createOkResponse(request.requestType, gson.toJson(new IdPricePair(entranceID, price)));
+		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
-	*/
+	protected void enterParkingPreOrdered(CustomerRequest request) {
+		//carID 
+		//parkingLotID
+		Date rightNow = new Date();
+		
+	}
+	protected void enterParkingSubscriber(CustomerRequest request) {
+		//carID
+		//subscriptionID
+		//parkingLotID
+		Date rightNow = new Date();
+		
+	}
+	protected void exitParking(CustomerRequest request) {
+		//carID
+		//parkingLotID
+		Date rightNow = new Date();
+		//TODO carLeftParking get entranceId not carID+parkingLotID
+		//regularDBAPI.carLeftParking(int entranceId, rightNow);
+		
+	}
 
 	private String handleKioskRequest(CustomerRequest request) throws SQLException {
 		switch (request.requestType) {
-		case OCCASIONAL_PARKING: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+		case OCCASIONAL_PARKING:
+			return orderOccasionalParking(request);
 		case ENTER_PARKING_PRE_ORDERED: // TODO: implement
 			return createUnsupportedFeatureResponse(request.requestType);
 		case ENTER_PARKING_SUBSCRIBER: // TODO: implement
