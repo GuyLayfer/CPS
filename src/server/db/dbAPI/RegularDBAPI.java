@@ -392,20 +392,6 @@ public class RegularDBAPI extends DBAPI{
 		carLeftParkingByEntranceId(entranceId, timeLeft);
 	}
 
-	/**
-	 * Selects the complaint details.
-	 * selects all the complaingId details.
-	 * @param complainId the complain id
-	 * @param resultList the result list
-	 * @return the complain details
-	 * @throws SQLException the SQL exception
-	 */
-	public void selectComplaintDetails(int complainId, ArrayList<Map<String, Object>> resultList) throws SQLException {
-		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		params.add(complainId);
-		DBConnection.selectSql(regularQueriesInst.select_complain_details, params, resultList);
-	}
-
 
 	/**
 	 * Update customer balance.
@@ -447,54 +433,50 @@ public class RegularDBAPI extends DBAPI{
 
 		updateCustomerBalance(customerId, valueInCashToAddReduce);
 	}
-
-
-	
 	
 	/**
 	 * Insert new complaint.
 	 *
-	 * @param customerId the customer id
-	 * @param complaintDescription the complaint description
-	 * @param entranceId the entrance id
-	 * @param lotId the lot id
-	 * @param complaintTime the complaint time
-	 * @return the complaint ID
-	 * @throws SQLException the SQL exception
+	 * @param customerId
+	 *            the customer id
+	 * @param complaintDescription
+	 *            the complaint description
+	 * @param complaintTime
+	 *            the complaint time
+	 * @throws SQLException
+	 *             the SQL exception
 	 */
-	public int insertComplaint(int customerId, String complaintDescription, int lotId, Date complaintTime) throws SQLException , Exception {
-		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		
+	public int insertComplaint(int customerId, String complaintDescription, Date complaintTime) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+
 		paramsValues.add(customerId);
-		paramsValues.add(lotId);
 		paramsValues.add(complaintDescription);
 		paramsValues.add(TrueFalse.FALSE.getValue());
-		paramsValues.add(ServerUtils.getTimeStampOfDate(complaintTime));
-		
+		paramsValues.add(complaintTime);
+
 		int complaintId = DBConnection.updateSql(regularQueriesInst.insert_complaint, paramsValues);
 		return complaintId;
 	}
-	
-	
 
-	/**
-	 * Select last day complaints.
-	 *
-	 * @param resultList the result list - contains all the records of complaints of yesterday. each record is an entry in the ArrayList. 
-	 * each pair inside Map: ((Sring) columnName, (Object) value) is a column and it's value.
-	 * @throws SQLException the SQL exception
-	 */
-	public void selectLastDayComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException{
-
-		Calendar calendar = new GregorianCalendar();
-		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
-		calendar.add(Calendar.DATE, -1); //get a day back
-		java.sql.Date yesterday = new java.sql.Date(calendar.getTimeInMillis());
-
-		selectBetween2DatesQuery(regularQueriesInst.select_complaints_last_day, yesterday, today, resultList);
+	public void selectAllOpenedComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		DBConnection.selectSql(regularQueriesInst.get_all_opened_complains, paramsValues, resultList);
 	}
 
+	public void updateComplaint(Boolean complaint_Result, ArrayList<Map<String, Object>> resultList)
+			throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>();
+		paramsValues.add(complaint_Result);
+		paramTypes.add(sqlTypeKind.INT);
+		DBConnection.updateSql(regularQueriesInst.update_complaint, paramsValues);
+	}
 
+	public void selectComplaintDetails(int complainId, ArrayList<Map<String, Object>> resultList) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>();
+		params.add(complainId);
+		DBConnection.selectSql(regularQueriesInst.select_complain_details, params, resultList);
+	}
 
 	/**
 	 * Update parking reservaion.
