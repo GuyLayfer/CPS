@@ -190,7 +190,7 @@ public class ParkingLotsManager {
 		long arrivalTime = estimatedArrivalTime.getTime();
 		assertDateIsWithinTheNext24Hours(arrivalTime);
 		//TODO: check if this function is complete
-		return getLot(lotId).reservePlaceWithinTheNext24Hours(carId);
+		return getLot(lotId).reservePlaceForTheNext24Hours(carId);
 	}
 	
 	/**
@@ -209,7 +209,7 @@ public class ParkingLotsManager {
 		long arrivalTime = estimatedArrivalTime.getTime();
 		assertDateIsWithinTheNext24Hours(arrivalTime);
 		//TODO: check if this function is complete
-		getLot(lotId).cancelReservation(carId, arrivalTime);
+		getLot(lotId).cancelReservation(carId, false);
 	}
 	
 	/************************************** Private Methods **************************************/

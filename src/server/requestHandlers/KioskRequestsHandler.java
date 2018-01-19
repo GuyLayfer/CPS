@@ -2,16 +2,24 @@ package server.requestHandlers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import com.google.gson.JsonSyntaxException;
 
 import core.ResponseStatus;
 import core.ServerPorts;
 import core.customer.CustomerRequest;
+import core.customer.CustomerRequestType;
 import core.customer.responses.BadCustomerResponse;
+import core.customer.responses.CustomerBaseResponse;
+import core.customer.responses.CustomerNotificationResponse;
+import core.customer.responses.CustomerResponse;
 import core.customer.responses.IdPricePairResponse;
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
 import ocsf.server.ConnectionToClient;
+import server.db.SqlColumns;
 import server.db.DBConstants.OrderType;
 import server.db.DBConstants.TrueFalse;
 import server.db.dbAPI.RegularDBAPI;
@@ -34,27 +42,47 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		//TODO: update parking lots info
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
-	protected void enterParkingPreOrdered(CustomerRequest request) {
+	protected void enterParkingPreOrdered(CustomerRequest request) throws SQLException {
 		//carID 
 		//parkingLotID
-		Date rightNow = new Date();
 		
+		Date rightNow = new Date();
+		//TODO: selectOrderByCarIdAndLotIdAndTime  -  get the order details and check if exists + time are correct
 	}
-	protected void enterParkingSubscriber(CustomerRequest request) {
+	protected String enterParkingSubscriber(CustomerRequest request) throws SQLException {
 		//carID
 		//subscriptionID
 		//parkingLotID
-		Date rightNow = new Date();
-		//server.db.dbAPI.SubscriptionsDBAPI.selectSubscriptionDetails(int, ArrayList<Map<String, Object>>)
 		
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList);
+		// check if subscription exists.
+		if (resultList.isEmpty())
+			return createRequestDeniedResponse(request.requestType, "Wrong Subscription ID");
+		// check if the subscription fits to the current lot.
+		if ( (int)resultList.get(0).get(SqlColumns.Subscriptions.LOT_ID) != request.parkingLotID )
+			return createRequestDeniedResponse(request.requestType, "Your subscription is not for this parking lot");
+		// check if the subscription fits the current time.
+		Date expireDate = (Date)resultList.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
+		Date startDate = (Date)resultList.get(0).get(SqlColumns.Subscriptions.START_DATE);
+		Date rightNow = new Date();
+		if (rightNow.compareTo(expireDate) > 0)
+			return createRequestDeniedResponse(request.requestType, "Your subscription has expired");
+		if (rightNow.compareTo(startDate) < 0)
+			return createRequestDeniedResponse(request.requestType, "Your subscription has not started yet");
+		
+		regularDBAPI.updateArriveTime(request.carID, rightNow);
+		return createNotificationResponse(request.requestType, "Welcome to our amazing parking lot!");
 	}
-	protected void exitParking(CustomerRequest request) {
+	protected String exitParking(CustomerRequest request) throws SQLException {
 		//carID
 		//parkingLotID
-		Date rightNow = new Date();
-		//TODO carLeftParking get entranceId not carID+parkingLotID
-		//regularDBAPI.carLeftParking(int entranceId, rightNow);
 		
+		Date rightNow = new Date();
+		//TODO: selectOrderByCarIdAndLotIdAndTime -  to compare the exit time with estimated exit time
+		// and fine if need
+		regularDBAPI.carLeftParkingByCarId(request.carID, request.parkingLotID, rightNow);
+		return createNotificationResponse(request.requestType, "Thank you, goodbye!");
 	}
 
 	private String handleKioskRequest(CustomerRequest request) throws SQLException {
@@ -105,5 +133,19 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 	@Override
 	protected void serverStopped() {
 		System.out.println("Kiosk Server has stopped listening for connections.");
+	}
+	
+	protected String createRequestDeniedResponse(CustomerRequestType requestType, String refusalReason) {
+		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.REQUEST_DENIED, refusalReason);
+		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
+	}
+	
+	protected String createNotificationResponse(CustomerRequestType requestType, String message) {
+		CustomerNotificationResponse response = new CustomerNotificationResponse(requestType, message);
+		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
+	}
+
+	protected String createCustomerResponse(CustomerRequestType requestType, CustomerBaseResponse response) {
+		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}
 }

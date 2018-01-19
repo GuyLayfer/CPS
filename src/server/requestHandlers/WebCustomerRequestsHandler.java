@@ -176,24 +176,24 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		// check if subscription exists.
 		ArrayList<Map<String, Object>> resultList2 = new ArrayList<Map<String, Object>>();
 		subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList2);
-		if (resultList.isEmpty())
+		if (resultList2.isEmpty())
 			return createRequestDeniedResponse(request.requestType, "Wrong Subscription ID");
 		
 		Date rightNow = new Date();
 		Date newExpireDate = new Date();
 		Date newStartDate = new Date();
 		Calendar calendar = Calendar.getInstance();
+		
+		newStartDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.START_DATE);
+		Date currentExpireDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
 		// check if the subscription is active
 		if (subscriptionsDBAPI.isSubscriptionActive(request.subscriptionID)) {
-			ArrayList<Map<String, Object>> resultList3 = new ArrayList<Map<String, Object>>();
-			subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList3);
-			newStartDate = (Date)resultList3.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);//TODO: change to START_DATE
-			Date currentExpireDate = (Date)resultList3.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
 			// add 28 days to newExpireDate
 	        calendar.setTime(currentExpireDate);
 	        calendar.add(Calendar.DATE, 28);
 	        newExpireDate = calendar.getTime();
 		} else {
+			// subscription is not active but it is possible that there is a active subscription soon 
 			calendar.setTime(rightNow);
 	        calendar.add(Calendar.DATE, 30);
 	        newExpireDate = calendar.getTime();
@@ -206,8 +206,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
 		subscriptionsDBAPI.updateSubscriptionExpiredDate(request.subscriptionID, sqlExpireDate);
 		double price = 0.0; // TODO calculate price (don't know how to get subscription type with subscriptionID)
-		return createUnsupportedFeatureResponse(request.requestType);
-		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
+		return createCustomerResponse(request.requestType, new IdPricePairResponse(request.subscriptionID, price));
 	}
 
 	protected String openComplaint(CustomerRequest request) throws SQLException {
