@@ -17,6 +17,16 @@ DROP TABLE accounts;
 DROP TABLE lot_num_of_columns;
 DROP TABLE parking_map;
 DROP TABLE rates;
+DROP TABLE rates_pending;
+DROP TABLE server_info
+
+CREATE TABLE server_info(
+lot_id int AUTO_INCREMENT,
+info TEXT,
+UNIQUE(lot_id),
+PRIMARY KEY (lot_id)
+);
+
 
 CREATE TABLE current_cars_planed_being_in_parking(
 entrance_id  int,
@@ -139,6 +149,7 @@ subscription_regular double,
 subscription_full double,
 order_one_time double,
 order_regular double,
+subscription_multiple_cars double,
 UNIQUE(lot_id),
 PRIMARY KEY (lot_id)
 );
@@ -148,7 +159,8 @@ lot_id int,
 subscription_regular double,
 subscription_full double,
 order_one_time double,
-order_regular double
+order_regular double,
+subscription_multiple_cars double
 );
 
 

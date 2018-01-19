@@ -94,7 +94,8 @@ public class WorkersDBAPI extends DBAPI{
 	 * @param subscriptionOccasional the subscription occasional
 	 * @throws SQLException the SQL exception
 	 */
-	public void insertRatesOfLotId(boolean insertIntoPending, int lotId, double oneTimeParking, double order, double subscriptionFull, double subscriptionOccasional) throws SQLException {
+	public void insertRatesOfLotId(boolean insertIntoPending, int lotId, double oneTimeParking, double order, double subscriptionFull,
+									double subscriptionOccasional, double subscriptionMultipleCarsPrice) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
 
@@ -107,6 +108,8 @@ public class WorkersDBAPI extends DBAPI{
 		paramsValues.add(oneTimeParking);
 		paramTypes.add(sqlTypeKind.DOUBLE);
 		paramsValues.add(order);
+		paramTypes.add(sqlTypeKind.DOUBLE);
+		paramsValues.add(subscriptionMultipleCarsPrice);
 		paramTypes.add(sqlTypeKind.DOUBLE);
 
 		if (insertIntoPending)
