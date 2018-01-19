@@ -1,5 +1,7 @@
 package workerGui.util;
 
+import java.util.Date;
+
 import core.worker.Complaint;
 import core.worker.Rates;
 import core.worker.WorkerRequestType;
@@ -61,23 +63,19 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 
-	public static BaseRequest CreateOutOfOrderRequest(int lotId, int row, int column, int floor) {
+	public static BaseRequest CreateOutOfOrderRequest(int lotId, int row, int column, int floor, Boolean isOutOfOrder) {
 		OutOfOrderRequest request = new OutOfOrderRequest();
 		request.requestType = WorkerRequestType.OUT_OF_ORDER;
 		request.lotId = lotId;
 		request.row = row;
 		request.column = column;
 		request.floor = floor;
+		request.isOutOfOrder = isOutOfOrder;
 		return request;
 	}
 
-	public static BaseRequest CreateUpdateRatesRequest(
-			int lotId,
-			double occasionalRate,
-			double preOrderedRate,
-			double rutineMonthlyRate,
-			double rutineMonthlyMultipleRate,
-			double fullNonthlyField) {
+	public static BaseRequest CreateUpdateRatesRequest(int lotId, double occasionalRate, double preOrderedRate, double rutineMonthlyRate,
+			double rutineMonthlyMultipleRate, double fullNonthlyField) {
 		UpdateRatesRequest request = new UpdateRatesRequest();
 		request.requestType = WorkerRequestType.UPDATE_RATES;
 		request.lotId = lotId;
@@ -88,7 +86,7 @@ public class WorkerRequestsFactory {
 		request.fullNonthlyField = fullNonthlyField;
 		return request;
 	}
-	
+
 	public static BaseRequest CreateRatesForReviewRequest() {
 		DecideOnRateRequest request = new DecideOnRateRequest();
 		request.requestType = WorkerRequestType.REQUEST_RATES_FOR_REVIEW;
@@ -118,15 +116,17 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 
-	public static BaseRequest CreateOperationReportRequest() {
-		OperationReportRequest request = new OperationReportRequest();
-		request.requestType = WorkerRequestType.OPERATION_REPORT;
+	public static BaseRequest CreateReportRequest(WorkerRequestType reportType) {
+		ReportRequest request = new ReportRequest();
+		request.requestType = reportType;
 		return request;
 	}
-
-	public static BaseRequest CreateStatisticsReportRequest() {
-		StatisticsReportRequest request = new StatisticsReportRequest();
-		request.requestType = WorkerRequestType.STATISTICS_REPORT;
+	
+	public static BaseRequest CreatePeriodicReportRequest(WorkerRequestType reportType, Date startDate, Date endDate) {
+		PeriodicReportRequest request = new PeriodicReportRequest();
+		request.requestType = reportType;
+		request.startDate = startDate;
+		request.endDate = endDate;
 		return request;
 	}
 }

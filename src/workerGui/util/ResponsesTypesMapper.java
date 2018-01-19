@@ -57,6 +57,27 @@ private static Gson gson = CpsGson.GetGson();
 		converterMap.put(WorkerRequestType.BAD_REQUEST, (gsonString) -> {
 			return gson.fromJson((String) gsonString, BadResponse.class);
 		});
+		converterMap.put(WorkerRequestType.OUT_OF_ORDER_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportResponse.class);
+		});
+		converterMap.put(WorkerRequestType.ORDERS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportResponse.class);
+		});
+		converterMap.put(WorkerRequestType.COMPLAINTS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportResponse.class);
+		});
+		converterMap.put(WorkerRequestType.LOT_SPACES_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportResponse.class);
+		});
+		converterMap.put(WorkerRequestType.CURRENT_SUBSCRIBERS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportResponse.class);
+		});
+		converterMap.put(WorkerRequestType.OPERATIONS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportResponse.class);
+		});
+		converterMap.put(WorkerRequestType.PERFORMENCE_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportResponse.class);
+		});
 
 		return converterMap;
 	};
