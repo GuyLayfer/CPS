@@ -17,8 +17,9 @@ public class Complaint {
 	private int complaintId;
 	// No setter on propose. All time implementation is here and should stay here so it'll be consisted throughout the program.
 
-	public Complaint(String content, long customerId, Date timeIssued, int complaintId) {
+	public Complaint(String content, int customerId, Date timeIssued, int complaintId) {
 		setContent(content);
+		setCustomerId(customerId);
 		setTimeIssued(timeIssued);
 		setComplaintId(complaintId);
 	}
