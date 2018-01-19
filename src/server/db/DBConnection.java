@@ -23,52 +23,34 @@ public class DBConnection {
 	};
 
 	public static void preparePSParams(String stmt, PreparedStatement ps, 
-			Queue<Object> params, Queue<sqlTypeKind> types) throws SQLException {
+			Queue<Object> params) throws SQLException {
 
 		for (int i = 1; params != null && !params.isEmpty(); i++) {
 			Object curParam = params.remove();
-			sqlTypeKind curType = types.remove();
 
-			System.out.println(curParam);
-			System.out.println(curType);
-			switch(curType) {
-			case INT:
+			if (curParam instanceof Integer) {
 				System.out.println();
-				ps.setInt(i,  ((Integer) curParam).intValue());
-				break;
-			case DOUBLE:
-				ps.setDouble(i, ((Double)curParam));
-				break;
-			case TIMESTAMP:
-				Timestamp ts = new Timestamp(((Date)curParam).getTime());
-				String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(ts);
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-				Date parsedDate;
-				try {
-					parsedDate = dateFormat.parse(date);
-					Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
-					ps.setTimestamp(i, timestamp);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-			case VARCHAR:
-			case TEXT:
-				ps.setString(i, (String) curParam);
-				break;
-			case DATE:
-				ps.setDate(i, (java.sql.Date) curParam);
-				break;
-			default:
-				break;
+				ps.setInt(i, ((Integer) curParam).intValue());
 			}
-		}	
+			else if (curParam instanceof Double) {
+				ps.setDouble(i, ((Double) curParam));
+			}
+			else if (curParam instanceof Timestamp) {
+				ps.setTimestamp(i, (Timestamp) curParam);
+			}
+			else if (curParam instanceof String) {
+				ps.setString(i, (String) curParam);
+			}
+			else if (curParam instanceof Date) {
+				java.sql.Date sqlExpireDate = new java.sql.Date(((Date)curParam).getTime());
+				ps.setDate(i, sqlExpireDate);
+			}
+		}
 	}
 
 
 	public static void selectSql(String stmtString,
-			Queue<Object> params, Queue<sqlTypeKind> types, ArrayList<Map<String, Object>> resultList) throws SQLException 
+			Queue<Object> params, ArrayList<Map<String, Object>> resultList) throws SQLException 
 	{
 
 		try 
@@ -84,7 +66,7 @@ public class DBConnection {
 			System.out.println("SQL connection succeed");
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString);
-				preparePSParams(stmtString, ps, params, types);
+				preparePSParams(stmtString, ps, params);
 				ResultSet rs = ps.executeQuery();
 
 				Map<String, Object> row = null;
@@ -113,7 +95,7 @@ public class DBConnection {
 		}
 	}
 
-	public static int updateSql(String stmtString, Queue<Object> params, Queue<sqlTypeKind> types) throws SQLException 
+	public static int updateSql(String stmtString, Queue<Object> params) throws SQLException 
 	{
 		try 
 		{
@@ -127,7 +109,7 @@ public class DBConnection {
 			System.out.println("SQL connection succeed");
 			try {
 				PreparedStatement ps = (PreparedStatement) conn.prepareStatement(stmtString, Statement.RETURN_GENERATED_KEYS);
-				preparePSParams(stmtString, ps, params, types);
+				preparePSParams(stmtString, ps, params);
 				ps.executeUpdate();
 
 				//TODO: if decide to use auto increment, use this

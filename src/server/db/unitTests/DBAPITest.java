@@ -7,15 +7,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import server.db.DBConstants;
 import server.db.DBConstants.SubscriptionType;
-import server.db.DBConstants.TrueFalse;
 import server.db.dbAPI.DBAPI;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.ReportsDBAPI;
@@ -135,32 +132,47 @@ public class DBAPITest {
 
 
 	@Test
-	public void testInsertRates() throws SQLException {
-		workersDBAPIInst.insertRatesOfLotId(true, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice, subscriptionMultipleCarsPrice);
+	public void testInsertRates()  {
+		try {
+			workersDBAPIInst.insertRatesOfLotId(true, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice, subscriptionMultipleCarsPrice);
+
 
 		workersDBAPIInst.selectAllLotsRates(false, resultList);
 		ServerUtils.printAllInResultSet(resultList);
-
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+//	@Test
+//	public void testInsertComplaint() {
+//		int complaintId;
+//		try {
+//			complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", entranceId, lotId, laterDate/*complaintDate*/);
+//			regularDBAPIInst.selectComplaintDetails(complaintId, resultList);
+//			ServerUtils.printAllInResultSet(resultList);
+//		} catch (Exception e) { Assert.assertTrue(false);
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//
+//	}
+
+
 	@Test
-	public void testInsertComplaint() throws SQLException {
-		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", laterDate);
-
-		regularDBAPIInst.selectComplaintDetails(complaintId, resultList);
-		ServerUtils.printAllInResultSet(resultList);
-
-	}
-
-	@Test
-	public void testInsertSubscription() throws SQLException {
+	public void testInsertSubscription() {
 
 		ArrayList<String> cars = new ArrayList<String>();
 
 		cars.add("1234");
 		cars.add("5678");
 
-		int subscriptionId = subscriptionsDBAPIInst.insertNewSubscription(accountId, lotId, SubscriptionType.FULL/*full*/, expiredDate, subscriptionStartTime, departureDate, cars);
+		int subscriptionId;
+		try {
+			subscriptionId = subscriptionsDBAPIInst.insertNewSubscription(accountId, lotId, SubscriptionType.FULL/*full*/, expiredDate, subscriptionStartTime, departureDate, cars);
+	
 
 		subscriptionsDBAPIInst.selectSubscriptionDetails(subscriptionId, resultList);
 		ServerUtils.printAllInResultSet(resultList);
@@ -168,45 +180,72 @@ public class DBAPITest {
 		resultList.clear();
 		subscriptionsDBAPIInst.selectCarsOfSubscriptionId(subscriptionId, resultList);
 		ServerUtils.printAllInResultSet(resultList);
-
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
-	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() throws SQLException {
-		int numberOfSubsHavingMoreThanOneCar = subscriptionsDBAPIInst.getNumberOfSubscriptionsHasMoreThanOneCar();
+	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() {
+		int numberOfSubsHavingMoreThanOneCar;
+		try {
+			numberOfSubsHavingMoreThanOneCar = subscriptionsDBAPIInst.getNumberOfSubscriptionsHasMoreThanOneCar();
+
 		System.out.println(numberOfSubsHavingMoreThanOneCar);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
-	public void testGetNumberOfCanceledReservationsBetween2Dates() throws SQLException {
-		DBAPI.selectBetween2DatesQuery(reportsQueries.select_canceled_reservations_between_2_dates, earlierDate, laterDate, resultList);
+	public void testGetNumberOfCanceledReservationsBetween2Dates() {
+		try {
+			DBAPI.selectBetween2DatesQuery(reportsQueries.select_canceled_reservations_between_2_dates, earlierDate, laterDate, resultList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ServerUtils.printAllInResultSet(resultList);
 
 	}
 
 	@Test
-	public void testGetAllOfReservationsBetween2Dates() throws SQLException {
-		DBAPI.selectBetween2DatesQuery(reportsQueries.select_all_reservations_between_2_dates, laterDate, earlierDate, resultList);
+	public void testGetAllOfReservationsBetween2Dates()  {
+		try {
+			DBAPI.selectBetween2DatesQuery(reportsQueries.select_all_reservations_between_2_dates, laterDate, earlierDate, resultList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ServerUtils.printAllInResultSet(resultList);
-
 	}
 
 	@Test
-	public void testNumberOfReservationsOfLastWeekGroupedByOrder() throws SQLException {
-		reportsDBAPIInst.getNumberOfReservationsOfLastWeekGroupedByOrder(resultList);
+	public void testNumberOfReservationsOfLastWeekGroupedByOrder()  {
+		try {
+			reportsDBAPIInst.getNumberOfReservationsOfLastWeekGroupedByOrder(resultList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ServerUtils.printAllInResultSet(resultList);
-
 	}
 
 	@Test
-	public void testGetNumberOfReservationsOfLastDay() throws SQLException {
-		reportsDBAPIInst.getNumberOfReservationsOfLastDay(resultList);
+	public void testGetNumberOfReservationsOfLastDay()  {
+		try {
+			reportsDBAPIInst.getNumberOfReservationsOfLastDay(resultList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ServerUtils.printAllInResultSet(resultList);
-
 	}
 
 	@Test
-	public void testCancelOrder() {
+	public void testCancelOrder()  {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
@@ -214,7 +253,7 @@ public class DBAPITest {
 		try {
 			resultList.clear();
 			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
-		} catch (SQLException e) {
+		} catch (Exception e) { Assert.assertTrue(false);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("insertParkingReservation");
@@ -267,54 +306,101 @@ public class DBAPITest {
 	}
 
 	@Test
-	public void testCarLeftParking() throws SQLException {
+	public void testCarLeftParking() {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		java.sql.Date timeLeave = new java.sql.Date(System.currentTimeMillis());
-		entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
-		regularDBAPIInst.carLeftParkingByEntranceId(entranceId, timeLeave);
+		try {
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+		} catch (Exception e) { Assert.assertTrue(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			regularDBAPIInst.carLeftParkingByEntranceId(entranceId, timeLeave);
+		} catch (Exception e) { Assert.assertTrue(false);
+			// TODO Auto-generated catch block
+			Assert.assertTrue(false);
+			e.printStackTrace();
+		}
 
 		// get entranceId from current_cars_in_parking and check that it is empty
-		regularDBAPIInst.selectOrderStatus(entranceId, resultList);
+		try {
+			regularDBAPIInst.selectOrderStatus(entranceId, resultList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Assert.assertTrue(resultList.isEmpty());
 
 	}
 	
 	
 	@Test
-	public void testCarLeftParkingByCarId() throws SQLException {
+	public void testCarLeftParkingByCarId() {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(System.currentTimeMillis());
-		entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
-		regularDBAPIInst.carLeftParkingByCarId(carId, lotId, timeLeave);
+		try {
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+		} catch (Exception e) { Assert.assertTrue(false); Assert.assertTrue(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			regularDBAPIInst.carLeftParkingByCarId(carId, lotId, timeLeave);
+		} catch (Exception e) { Assert.assertTrue(false); Assert.assertTrue(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// get entranceId from current_cars_in_parking and check that it is empty
-		regularDBAPIInst.selectOrderStatus(entranceId, resultList);
+		try {
+			regularDBAPIInst.selectOrderStatus(entranceId, resultList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Assert.assertTrue(resultList.isEmpty());
 
 	}
 
 	
 	@Test
-	public void testUpdateArriveTime() throws SQLException {
+	public void testUpdateArriveTime()  {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
-		regularDBAPIInst.updateArriveTime(carId, new java.sql.Date(System.currentTimeMillis()));
+		try {
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+		} catch (Exception e) { Assert.assertTrue(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			regularDBAPIInst.updateArriveTime(carId, new java.sql.Date(System.currentTimeMillis()));
+		} catch (Exception e) { Assert.assertTrue(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		ServerUtils.printAllInResultSet(resultList);
 	}
 
 	@Test
-	public void testCreateNewAccountAndGetCustomerAccountDetails() throws SQLException {
+	public void testCreateNewAccountAndGetCustomerAccountDetails()  {
 
-		regularDBAPIInst.insertNewAccount(accountId, email, carId, hasSubscription);
-		regularDBAPIInst.selectAccountDetails(accountId, resultList);
+		try {
+			regularDBAPIInst.insertNewAccount(accountId, email, carId, hasSubscription);
+			regularDBAPIInst.selectAccountDetails(accountId, resultList);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		curMap = resultList.get(0);
 		Assert.assertTrue(curMap.get(DBConstants.DbSqlColumns.ACCOUNT_ID.getName()).equals(accountId));
@@ -328,13 +414,23 @@ public class DBAPITest {
 	}
 
 	@Test
-	public void testInsertOrderAndTrackOrder() throws SQLException {
+	public void testInsertOrderAndTrackOrder(){
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
 		Date dateLeave = calendarLeft.getTime();
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
-		entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
-		regularDBAPIInst.selectOrderStatus(entranceId, resultList);
+		try {
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+		} catch (Exception e) { Assert.assertTrue(false);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			regularDBAPIInst.selectOrderStatus(entranceId, resultList);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		curMap = resultList.get(0);
 		// System.out.println(curMap.get(DBConstants.sqlColumns.LOT_ID.getName()));
