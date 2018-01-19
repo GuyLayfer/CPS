@@ -47,7 +47,7 @@ public class DecideOnRatesRequestsHandler extends BaseRequestsHandler {
 ////		return CreateWorkerResponse(response);
 //	}
 		return createUnsupportedFeatureResponse();
-//		BaseResponse response = WorkerResponseFactory.CreateDecideOnRatesResponse();
-//		return CreateWorkerResponse(response);
+		// BaseResponse response = WorkerResponseFactory.CreateDecideOnRatesResponse();
+		// return CreateWorkerResponse(response);
 	}
 }
