@@ -37,6 +37,7 @@ public class UriDictionary {
 		public static final String ComplaintsPortalView = "../../workerGui/views/ComplaintsPortalView.fxml";
 		public static final String ParkingLotFullView = "../../workerGui/views/ParkingLotFullView.fxml";
 		public static final String ReserveParkingSpaceView = "../../workerGui/views/ReserveParkingSpaceView.fxml"; // Not implemented yet
+		public static final String ReportsView = "../../workerGui/views/ReportView.fxml";
 	}
 
 	// Regions used as placeholder for views

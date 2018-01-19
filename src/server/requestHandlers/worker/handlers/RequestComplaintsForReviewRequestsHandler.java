@@ -38,7 +38,8 @@ public class RequestComplaintsForReviewRequestsHandler extends BaseRequestsHandl
 			Map<String, Object> result = (Map<String, Object>) iterator.next();
 			Complaint complaint = new Complaint((String) result.get(SqlColumns.Complaints.COMPLAINT_DESCRIPTION),
 					(int) result.get(SqlColumns.Complaints.ACCOUNT_ID),
-					(Date) result.get(SqlColumns.Complaints.COMPLAINT_DATETIME));
+					(Date) result.get(SqlColumns.Complaints.COMPLAINT_DATETIME),
+					(int) result.get(SqlColumns.Complaints.COMPLAINT_ID));
 			complaints.add(complaint);
 			System.out.println(complaints);
 		}

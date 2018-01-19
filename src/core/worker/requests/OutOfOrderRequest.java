@@ -9,4 +9,6 @@ public class OutOfOrderRequest extends BaseRequest {
 	public int column;
 
 	public int floor;
+	
+	public Boolean isOutOfOrder;
 }

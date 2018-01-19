@@ -60,12 +60,25 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 	private Button SetOutOfOrderButton;
 
 	@FXML
-	void setOutOfOrderParkingSpace(ActionEvent event) {
+	private Button UnsetOutOfOrderButton;
+
+	@FXML
+	private void setOutOfOrderParkingSpace(ActionEvent event) {
+		sendOutOfOrderRequest(true);
+	}
+	
+	@FXML
+	private void unsetOutOfOrderParkingSpace(ActionEvent event) {
+		sendOutOfOrderRequest(false);
+	}
+	
+	private void sendOutOfOrderRequest(Boolean isOutOfOrder) {
 		BaseRequest request = WorkerRequestsFactory.CreateOutOfOrderRequest(
 				ParkingLotId.getValue(),
 				LotRowComboBox.getValue(),
 				LotColumnComboBox.getValue(),
-				LotFloorComboBox.getValue());
+				LotFloorComboBox.getValue(),
+				isOutOfOrder);
 		connectionManager.sendMessageToServer(request);
 	}
 

@@ -38,23 +38,25 @@
 					<menus>
 						<Menu mnemonicParsing="false" text="Management">
 							<items>
-								<MenuItem fx:id="RequestParkingLotRatesUpdateMenuItem" mnemonicParsing="false" onAction="#GoUpdateRates" text="Request Parking Lot Rates Update" />
-								<MenuItem fx:id="CheckNewRatesRequestsMenuItem" mnemonicParsing="false" onAction="#GoRatesRequestsPortal" text="Check New Rates Requests" />
+								<MenuItem fx:id="RequestParkingLotRatesUpdateMenuItem" onAction="#GoUpdateRates" text="Request Parking Lot Rates Update" />
+								<MenuItem fx:id="CheckNewRatesRequestsMenuItem" onAction="#GoRatesRequestsPortal" text="Check New Rates Requests" />
 								<Menu mnemonicParsing="false" text="Reports">
 									<items>
 										<Menu mnemonicParsing="false" text="Quartly Reports">
 											<items>
-												<MenuItem mnemonicParsing="false" text="Complains Report" />
-												<MenuItem mnemonicParsing="false" text="Out Of Order Parking Lots" />
+												<MenuItem text="Orders Report" fx:id="ordersReportMenuItem" onAction="#goOrdersReport" />
+												<MenuItem text="Complains Report" fx:id="complaintsReportMenuItem" onAction="#goComplaintsReport" />
+												<MenuItem text="Out Of Order Parking Spaces" fx:id="outOfOrderReportMenuItem" onAction="#goOutOfOrderReport" />
 											</items>
 										</Menu>
 										<Menu mnemonicParsing="false" text="Statistical Reports">
 											<items>
-												<MenuItem mnemonicParsing="false" text="Current Lot Space Report " />
-												<MenuItem mnemonicParsing="false" text="Performence Report " />
-												<MenuItem mnemonicParsing="false" text="Operation Report " />
+												<MenuItem text="Performence Report " fx:id="performenceReportMenuItem" onAction="#goPerformenceReport" />
+												<MenuItem text="Operations Report " fx:id="operationsReportMenuItem" onAction="#goOperationsReport" />
 											</items>
 										</Menu>
+										<MenuItem text="Current Subscribers Report" fx:id="currentSubscribersReportMenuItem" onAction="#goCurrentSubscribersReport" />
+										<MenuItem text="Current Lot Spaces Report " fx:id="lotSpacesReportMenuItem" onAction="#goLotSpacesReport" />
 									</items>
 								</Menu>
 							</items>

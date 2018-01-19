@@ -38,8 +38,6 @@ public class Permissions {
 		permissionsForOperation.put(WorkerOperations.INITIALIZE_PARKING_LOT, 
 				permissionsForRole.get(WorkerRole.LOT_WORKER) || permissionsForRole.get(WorkerRole.LOT_MANAGER)
 				|| permissionsForRole.get(WorkerRole.FIRM_MANAGER));
-		permissionsForOperation.put(WorkerOperations.OPERATION_REPORT, 
-				permissionsForRole.get(WorkerRole.LOT_MANAGER) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
 		permissionsForOperation.put(WorkerOperations.OUT_OF_ORDER, 
 				permissionsForRole.get(WorkerRole.LOT_WORKER) || permissionsForRole.get(WorkerRole.LOT_MANAGER)
 				|| permissionsForRole.get(WorkerRole.FIRM_MANAGER));
@@ -51,9 +49,18 @@ public class Permissions {
 		permissionsForOperation.put(WorkerOperations.RESERVE_PARKING_SPACE, 
 				permissionsForRole.get(WorkerRole.CUSTOMER_SERVICE) || permissionsForRole.get(WorkerRole.LOT_MANAGER)
 				|| permissionsForRole.get(WorkerRole.FIRM_MANAGER));
-		permissionsForOperation.put(WorkerOperations.STATISTICS_REPORT, 
-				permissionsForRole.get(WorkerRole.LOT_MANAGER) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
 		permissionsForOperation.put(WorkerOperations.UPDATE_RATES, 
 				permissionsForRole.get(WorkerRole.LOT_MANAGER) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
+		permissionsForOperation.put(WorkerOperations.OUT_OF_ORDER_REPORT, 
+				permissionsForRole.get(WorkerRole.LOT_MANAGER) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
+		permissionsForOperation.put(WorkerOperations.ORDERS_REPORT, 
+				permissionsForRole.get(WorkerRole.LOT_MANAGER) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
+		permissionsForOperation.put(WorkerOperations.COMPLAINTS_REPORT, 
+				permissionsForRole.get(WorkerRole.LOT_MANAGER) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
+		permissionsForOperation.put(WorkerOperations.LOT_SPACES_REPORT, permissionsForRole.get(WorkerRole.FIRM_MANAGER));
+		permissionsForOperation.put(WorkerOperations.CURRENT_SUBSCRIBERS_REPORT, 
+				permissionsForRole.get(WorkerRole.LOT_MANAGER) || permissionsForRole.get(WorkerRole.FIRM_MANAGER));
+		permissionsForOperation.put(WorkerOperations.OPERATIONS_REPORT, permissionsForRole.get(WorkerRole.FIRM_MANAGER));
+		permissionsForOperation.put(WorkerOperations.PERFORMENCE_REPORT, permissionsForRole.get(WorkerRole.FIRM_MANAGER));
 	}
 }
