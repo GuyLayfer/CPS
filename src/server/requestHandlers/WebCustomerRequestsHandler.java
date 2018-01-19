@@ -165,10 +165,8 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	}
 	
 	protected String openComplaint(CustomerRequest request) throws SQLException {
-		//String complaint -> request.complaint
-		//int customerId
-		Date rightNow = new Date();
-		int complaintID = regularDBAPI.insertComplaint(request.customerID, request.complaint, 0 /*int entranceId (???)*/, 0 /*int lotId (???)*/, rightNow);
+		int complaintID = 1234567; //TODO calculate complaintID
+		// TODO What function should I use to open complaint
 		return createUnsupportedFeatureResponse(request.requestType);
 		//return createOkResponse(request.requestType, gson.toJson(complaintID));
 	}

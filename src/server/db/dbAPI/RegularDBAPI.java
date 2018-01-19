@@ -112,14 +112,17 @@ public class RegularDBAPI extends DBAPI{
 	}
 	
 	/**
-	 * selects Order details by carId & lotId 
-	 * (need this for exitParking method and the client only supplies carId)
+	 * Car left parking.
+	 * 
+	 * updates in logs table the leaving time.
+	 * deletes from the table of current cars in parking.
 	 *
-	 * @param carId the car id
 	 * @param lotId the lot id
+	 * @param carId the car id
+	 * @param timeLeft the time left
 	 * @throws SQLException the SQL exception
 	 */
-	public void selectOrderStatusByCarIdAndLotId(String carId, int lotId) throws SQLException {
+	public void carLeftParking(int lodId, String carId, Date timeLeft) throws SQLException {
 		//TODO: implement
 	}
 	
