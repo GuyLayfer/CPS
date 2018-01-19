@@ -1,5 +1,6 @@
 package server.db.unitTests;
 
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,6 +17,7 @@ import server.db.dbAPI.DBAPI;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.ReportsDBAPI;
 import server.db.dbAPI.SubscriptionsDBAPI;
+import server.db.dbAPI.WorkersDBAPI;
 import server.db.queries.ReportsQueries;
 
 public class DBAPITest {
@@ -32,6 +34,12 @@ public class DBAPITest {
 	private ArrayList<Map<String, Object>> resultList;
 	private Map<String, Object> curMap;
 	private double cash;
+	
+	private double oneTimePrice;
+	private double orderPrice;
+	private double subscriptionFullPrice;
+	private double subscriptionOccasionalPrice;
+	
 	private Calendar firstDateCalendar;
 	private java.sql.Date laterDate;
 	private java.sql.Date earlierDate;
@@ -39,8 +47,10 @@ public class DBAPITest {
 	private RegularDBAPI regularDBAPIInst;
 	private SubscriptionsDBAPI subscriptionsDBAPIInst;
 	private ReportsDBAPI reportsDBAPIInst;
+	private WorkersDBAPI workersDBAPIInst;
 
 	private ReportsQueries reportsQueries;
+	
 
 	@Before
 	public void setUp() throws Exception {
@@ -63,11 +73,34 @@ public class DBAPITest {
 		regularDBAPIInst = RegularDBAPI.getInstance();
 		subscriptionsDBAPIInst = SubscriptionsDBAPI.getInstance();
 		reportsDBAPIInst = ReportsDBAPI.getInstance();
+		workersDBAPIInst = WorkersDBAPI.getInstance();
+
 
 		reportsQueries = ReportsQueries.getInstance();
+		
+		
+		 oneTimePrice = 1;
+		 orderPrice = 2;
+		 subscriptionFullPrice = 3;
+		 subscriptionOccasionalPrice = 4;
 	}
 
 
+	
+	@Test
+	public void testInsertRates() throws SQLException {
+		workersDBAPIInst.insertRatesOfLotId(false, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice);
+
+		workersDBAPIInst.selectAllLotsRates(false, resultList);
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			for (Map.Entry<String, Object> column : row.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
+			}
+		}
+	}
+	
 	@Test
 	public void testInsertComplaint() throws SQLException {
 		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", laterDate);

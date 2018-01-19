@@ -60,6 +60,7 @@ public class DBConstants {
 		SUBSCRIPTIONS("subscriptions"),
 		ROLES(""),
 		RATES("rates"),
+		RATES_PENDING_FOR_APPROVAL("rates_pending"),
 		PARKING_MAP("parking_map"),
 		PERMISSIONS(""),
 		DAILY_STATS("daily_stats"),
