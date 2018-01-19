@@ -49,7 +49,6 @@ public class ComplaintsPortalController extends WorkerGuiController implements I
 
 		ComplaintsTable.setPlaceholder(new Label("No pending Rates Requests. Please come back later."));
 		ComplaintsTable.getColumns().addAll(expanderColumn, timeLeftColumn, customerId, contentColumn);
-		ComplaintsTable.setItems(FXCollections.observableArrayList(getExample()));
 		model.sendRequestForPendingComplaintsRequests();
 	}
 	

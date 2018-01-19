@@ -136,8 +136,6 @@ public class RegularDBAPI extends DBAPI{
 		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
 		paramsValues.add(accountId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
-		//		paramsValues.add(entranceId);
-		//		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		paramsValues.add(lotId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		paramsValues.add(orderType.getValue());
@@ -461,18 +459,14 @@ public class RegularDBAPI extends DBAPI{
 	 * @return the complaint ID
 	 * @throws SQLException the SQL exception
 	 */
-	public int insertComplaint(int customerId, String complaintDescription, int entranceId, int lotId, Date complaintTime) throws SQLException {
+	public int insertComplaint(int customerId, String complaintDescription, Date complaintTime) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		
 		paramsValues.add(customerId);
 		paramTypes.add(sqlTypeKind.INT);		
-		paramsValues.add(lotId);
-		paramTypes.add(sqlTypeKind.INT);
 		paramsValues.add(complaintDescription);
-		paramTypes.add(sqlTypeKind.VARCHAR);
-		paramsValues.add(entranceId);
-		paramTypes.add(sqlTypeKind.INT);		
+		paramTypes.add(sqlTypeKind.VARCHAR);		
 		paramsValues.add(TrueFalse.FALSE.getValue());
 		paramTypes.add(sqlTypeKind.VARCHAR);
 		paramsValues.add(complaintTime);
@@ -491,17 +485,20 @@ public class RegularDBAPI extends DBAPI{
 	 * each pair inside Map: ((Sring) columnName, (Object) value) is a column and it's value.
 	 * @throws SQLException the SQL exception
 	 */
-	public void selectLastDayComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException{
-
-		Calendar calendar = new GregorianCalendar();
-		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
-		calendar.add(Calendar.DATE, -1); //get a day back
-		java.sql.Date yesterday = new java.sql.Date(calendar.getTimeInMillis());
-
-		selectBetween2DatesQuery(regularQueriesInst.select_complaints_last_day, yesterday, today, resultList);
+	public void selectAllOpenedComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException{
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>();
+	
+		DBConnection.selectSql(regularQueriesInst.get_all_opened_complains, paramsValues, paramTypes, resultList);
 	}
 
-
+    public void updateComplaint (Boolean complaint_Result,  ArrayList<Map<String, Object>> resultList) throws SQLException{
+    	Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
+	    paramsValues.add(complaint_Result);
+		paramTypes.add(sqlTypeKind.INT);	
+		DBConnection.updateSql(regularQueriesInst.update_complaint, paramsValues, paramTypes);
+    }
 
 	/**
 	 * Update parking reservaion.

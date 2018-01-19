@@ -70,7 +70,7 @@ public class DBAPITest {
 
 	@Test
 	public void testInsertComplaint() throws SQLException {
-		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", entranceId, lotId, laterDate/*complaintDate*/);
+		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", laterDate);
 
 		regularDBAPIInst.selectComplaintDetails(complaintId, resultList);
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
