@@ -19,7 +19,7 @@ public class ComplaintUiElement {
 		String shortContent = getContent()
 				.subSequence(0, getContent().length() < displayLength ? getContent().length() : displayLength)
 				.toString();
-		briefContent.set(getContent().subSequence(0, displayLength).toString());
+		briefContent.set(shortContent);
 		this.complaint = complaint;
 	}
 
