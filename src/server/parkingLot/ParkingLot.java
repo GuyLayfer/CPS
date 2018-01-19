@@ -89,6 +89,9 @@ public class ParkingLot {
 		}
 		
 		int locationIndex = findPlaceForCar(leaveTime);
+		if (locationIndex < 0) {
+			return "Access denied.\nUnfortunatly this parking lot is full.";
+		}
 		calculateStateAfterInsertion(locationIndex);
 		robot.insertCar(locationIndex, info.parkingMap);
 		return null;
@@ -96,7 +99,7 @@ public class ParkingLot {
 	
 	synchronized public String removeCar(String carId) throws RobotFailureException {
 		int carLocation = findCar(carId);
-		if (carLocation == -1) {
+		if (carLocation < 0) {
 			return "Your car is not inside this parking lot.";
 		}
 		calculateStateAfterRemoval(carLocation);
@@ -218,10 +221,10 @@ public class ParkingLot {
 	
 	/************************************** Private Methods **************************************/
 	
-	private int findCar(String carID) {
+	private int findCar(String carId) {
 		int i = 0;
 		for (ParkingState parkingState : info.parkingMap) {
-			if (parkingState.carId.equals(carID)) {
+			if (carId.equals(parkingState.carId)) {
 				return i;
 			}
 			i++;
@@ -231,10 +234,18 @@ public class ParkingLot {
 	
 	private int findPlaceForCar(long leaveTime) {
 		for (Integer i : parkedPlacesMap.descendingKeySet()) {
-			//if (info.parkingMap.get(i).leaveTime )
+			if (info.parkingMap.get(i).leaveTime <= leaveTime) {
+				Integer nextIndex = parkedPlacesMap.higherKey(i);
+				if (nextIndex != null) {
+					return nextIndex;
+				} 
+				if (!reservedPlacesMap.isEmpty()) {
+					return reservedPlacesMap.firstKey();
+				}
+				return -1;
+			}
 		}
-		
-		return -1;
+		return parkedPlacesMap.firstKey();
 	}
 	
 	private void calculateStateAfterInsertion(int carLocation) {
