@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import org.junit.Assert;
@@ -39,6 +40,8 @@ public class DBAPITest {
 	private double orderPrice;
 	private double subscriptionFullPrice;
 	private double subscriptionOccasionalPrice;
+	private double subscriptionMultipleCarsPrice;
+
 	
 	private Calendar firstDateCalendar;
 	private java.sql.Date laterDate;
@@ -83,17 +86,52 @@ public class DBAPITest {
 		 orderPrice = 2;
 		 subscriptionFullPrice = 3;
 		 subscriptionOccasionalPrice = 4;
+		 subscriptionMultipleCarsPrice = 5;
 	}
 
 
 	
 	@Test
+	public void testInsertIntoParkingServerInfo() {
+		try {
+			int newLotId1 = regularDBAPIInst.getNewParkingLotId();
+			int newLotId2 = regularDBAPIInst.getNewParkingLotId();
+			int newLotId3 = regularDBAPIInst.getNewParkingLotId();
+			
+			regularDBAPIInst.insertParkingLot(newLotId1, "1111111111111111111123123321231lfgdjklfdjsklj skjdfgklsjdfkjfdlksj kljsfkdjg kljkfdljgsklfdj lkjsdgfkj kjdfskgl jdlfkjflk jkldfjklgjdfk kjklj" +
+			" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");
+			regularDBAPIInst.insertParkingLot(newLotId2, "222222222222222123123321231k jkldfjklgjdfk kjklj" +
+			" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");			
+			regularDBAPIInst.insertParkingLot(newLotId3, "33333333333333333323123321231k jkldfjklgjdfk kjklj" +
+			" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");					
+			Map<Integer, String> map = new HashMap<Integer, String>();
+			regularDBAPIInst.selectAllParkingLots(map);
+			for (Map.Entry<Integer, String> column : map.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	@Test
 	public void testInsertRates() throws SQLException {
-		workersDBAPIInst.insertRatesOfLotId(false, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice);
+		workersDBAPIInst.insertRatesOfLotId(true, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice, subscriptionMultipleCarsPrice);
 
+<<<<<<< HEAD
+		workersDBAPIInst.selectAllLotsRates(true, resultList);
+		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+=======
 		workersDBAPIInst.selectAllLotsRates(false, resultList);
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
 		while (iterator.hasNext()) {
+>>>>>>> 480d9a645e033ef4bfdb31707d5346a0e2fb66ae
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			for (Map.Entry<String, Object> column : row.entrySet()) {
 				System.out.println(column.getKey() + "/" + column.getValue());

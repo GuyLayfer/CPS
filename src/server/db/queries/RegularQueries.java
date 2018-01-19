@@ -137,7 +137,23 @@ public class RegularQueries {
 			"SELECT * " +
 			" FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName();
 	
+	public final String select_server_info =
+			"SELECT * " +
+			" FROM " + SqlTables.SERVER_INFO.getName();
 
+	public final String insert_new_server_info =
+			"INSERT INTO "  + SqlTables.SERVER_INFO.getName() +
+			"(" + DbSqlColumns.INFO.getName() + ") values(?)";
+	
+	public final String update_server_info_of_lot_id =
+			" UPDATE "  + SqlTables.SERVER_INFO.getName() +
+			" SET " + DbSqlColumns.INFO.getName() + " = ? " +
+			" WHERE " + DbSqlColumns.LOT_ID.getName() + " = ? ";
+			
+	
+	public final String delete_server_info_of_lot_id =
+			" DELETE FROM " + SqlTables.SERVER_INFO.getName() +
+			" WHERE " + DbSqlColumns.LOT_ID.getName() + " = ? ";
 	
 	
 }
