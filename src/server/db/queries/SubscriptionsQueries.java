@@ -45,15 +45,30 @@ public class SubscriptionsQueries {
 	
 	
 	
+	public final String insert_subscription_OLD =
+			"INSERT INTO " + SqlTables.SUBSCRIPTIONS.getName() + 
+			"(" +
+			 DbSqlColumns.ACCOUNT_ID.getName() + ", " +
+			 DbSqlColumns.LOT_ID.getName() + ", " + 
+			 DbSqlColumns.SUBSCRIPTION_TYPE.getName() + ", " +
+			 DbSqlColumns.EXPIRED_DATE.getName() +
+			 " ) " +
+			" VALUES (?, ?, ?, ?)";/*subscription_id auto incremented, customer_id, lot_id, 
+				shigrati_or_full, expired_date*/
+
+
+
 	public final String insert_subscription =
 			"INSERT INTO " + SqlTables.SUBSCRIPTIONS.getName() + 
 			"(" +
 			 DbSqlColumns.ACCOUNT_ID.getName() + ", " +
 			 DbSqlColumns.LOT_ID.getName() + ", " + 
-			 DbSqlColumns.OCCASIONAL_OR_FULL.getName() + ", " +
-			 DbSqlColumns.EXPIRED_DATE.getName() +
+			 DbSqlColumns.SUBSCRIPTION_TYPE.getName() + ", " +
+			 DbSqlColumns.EXPIRED_DATE.getName() + ", " +
+			 DbSqlColumns.SUBSCRIPTION_START_TIME.getName() + ", " + 
+			 DbSqlColumns.LEAVE_TIME.getName() +
 			 " ) " +
-			" VALUES (?, ?, ?, ?)";/*subscription_id auto incremented, customer_id, lot_id, 
+			" VALUES (?, ?, ?, ?, ?, ?)";/*subscription_id auto incremented, customer_id, lot_id, 
 				shigrati_or_full, expired_date*/
 
 	
@@ -62,8 +77,9 @@ public class SubscriptionsQueries {
 			" values (?,?,? )" ; 
 
 	public final String update_subscription_expired_date = 
-			" UPDATE  " +SqlTables.SUBSCRIPTIONS.getName() + " SET "+ DbSqlColumns.EXPIRED_DATE.getName() + " = ? " +
-					"   WHERE  " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
+			" UPDATE  " +SqlTables.SUBSCRIPTIONS.getName() + 
+			" SET "+ DbSqlColumns.EXPIRED_DATE.getName() + " = ? " +
+			"   WHERE  " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
 
 
 	public final String select_subscription_details_by_id =

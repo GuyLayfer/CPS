@@ -21,9 +21,10 @@ public class DBConstants {
 		ROLE_ID("role_id", DBConnection.sqlTypeKind.VARCHAR), //enum
 		PASSWORD("password", DBConnection.sqlTypeKind.VARCHAR),
 		HAS_SUBSCRIPTION("has_subscription", DBConnection.sqlTypeKind.VARCHAR), //enum
+		SUBSCRIPTION_TYPE("subscription_type", DBConnection.sqlTypeKind.VARCHAR), //enum
 		SUBSCRIPTION_ID("subscription_id", DBConnection.sqlTypeKind.INT),
 		EXPIRED_DATE("expired_date", DBConnection.sqlTypeKind.TIMESTAMP),
-		OCCASIONAL_OR_FULL("occasional", DBConnection.sqlTypeKind.VARCHAR),
+		SUBSCRIPTION_START_TIME("start_date", DBConnection.sqlTypeKind.VARCHAR),
 		DAY_ID("day_id", DBConnection.sqlTypeKind.DATE),
 		BALANCE("balance", DBConnection.sqlTypeKind.DOUBLE),
 		CANCELED_ORDERS("canceled_reservations", DBConnection.sqlTypeKind.INT),
@@ -117,6 +118,20 @@ public class DBConstants {
 		      return value;
 		}
 	};
+	
+	
+	
+	public enum SubscriptionType {ROUTINE_MULTIPLE_CARS("routine_muliple_cars"), ROUTINE("routine"), FULL("full") ;
+		String value;
+		SubscriptionType(String value){
+			this.value = value;
+		}
+		
+		public String getValue() {
+		      return value;
+		}
+	}
+	
 	
 	public enum TrueFalse {TRUE("true"), FALSE("false") ;
 		String value;

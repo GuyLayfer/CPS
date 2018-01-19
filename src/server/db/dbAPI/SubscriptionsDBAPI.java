@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
+import server.db.DBConstants;
+import server.db.DBConstants.DbSqlColumns;
+import server.db.DBConstants.SubscriptionType;
 import server.db.DBConstants.TrueFalse;
 import server.db.queries.SubscriptionsQueries;
 
@@ -64,9 +68,12 @@ public class SubscriptionsDBAPI extends DBAPI{
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		selectSubscriptionDetails(subscriptionId, resultList);
 		Map<String, Object> map = (Map<String, Object>) resultList.get(0);
-		Date expiredDate = (Date)( map.get("expired_date"));
+		Date expiredDate = (Date)(map.get(DBConstants.DbSqlColumns.EXPIRED_DATE));
+		Date startOfSubscription = (Date)( map.get(DBConstants.DbSqlColumns.SUBSCRIPTION_START_TIME));
 		long  expiredDateInMillis = expiredDate.getTime();
-		if (expiredDateInMillis > System.currentTimeMillis()) {
+		long  startOfSubscriptionMillis = startOfSubscription.getTime();
+
+		if (expiredDateInMillis > System.currentTimeMillis() && startOfSubscriptionMillis < System.currentTimeMillis()  ) {
 			return true;			
 		}
 		else
@@ -146,6 +153,39 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 * @return the subscription ID.
 	 * @throws SQLException 
 	 */
+	//TODO: implement
+	
+	
+
+	
+	public int insertNewSubscription(int customerId, int lotId, SubscriptionType type, Date startDate, Date expiredDate, Date routineDepartureTime, List<String> listOfCarsForThisSubscription) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
+		
+		params.add(customerId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		params.add(lotId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		params.add(type.getValue());
+		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
+		params.add(expiredDate);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		params.add(startDate);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		params.add(routineDepartureTime);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription, params, paramTypes);
+		//insert each car in this subscription to cars 
+		Iterator<String> iterator = listOfCarsForThisSubscription.iterator();
+		while (iterator.hasNext()) {
+			String curCarId = (String) iterator.next();
+			insertCarToCarsTable(curCarId, customerId, subscriptionId);
+		}
+		
+		return subscriptionId;
+	}
+	
+	public int insertNewSubscriptionOLD(int customerId, int lotId, TrueFalse occaional, Date expiredDate, ArrayList<String> listOfCarsForThisSubscription) throws SQLException {
 	//TODO: needs to get also 'startingDate' and 'routineDepartureTime' basically the 'expiredDate' is 'startingDate' + 28 days...
 	//TODO: also for FullMonthy subscription there is no need for 'routineDepartureTime'.
 	//TODO: subscriptionType is required!
@@ -161,7 +201,7 @@ public class SubscriptionsDBAPI extends DBAPI{
 		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
 		params.add(expiredDate);
 		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
-		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription, params, paramTypes);
+		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription_OLD, params, paramTypes);
 		//insert each car in this subscription to cars 
 		Iterator<String> iterator = listOfCarsForThisSubscription.iterator();
 		while (iterator.hasNext()) {

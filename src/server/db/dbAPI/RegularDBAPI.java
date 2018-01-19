@@ -58,7 +58,12 @@ public class RegularDBAPI extends DBAPI{
 	}
 	
 	
-/****************************************** TODO Section ******************************************/
+/**
+ * **************************************** TODO Section *****************************************.
+ *
+ * @return the new parking lot id
+ * @throws SQLException the SQL exception
+ */
 
 	/**
 	 * returns a unique id for a new parking lot.
@@ -97,6 +102,12 @@ public class RegularDBAPI extends DBAPI{
 		}
 	}
 	
+	/**
+	 * Select all parking lots as objects.
+	 *
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	private void selectAllParkingLotsAsObjects(ArrayList<Map<String, Object>> resultList) throws SQLException {
 		DBConnection.selectSql(regularQueriesInst.select_server_info, null, null, resultList);
 	}
@@ -122,6 +133,7 @@ public class RegularDBAPI extends DBAPI{
 	/**
 	 * Update the new parking lot entry into the DB (the id is determined by the DB).
 	 *
+	 * @param lotId the lot id
 	 * @param parkingLotJson - a json-string representation of ParkingLot object
 	 * @throws SQLException the SQL exception
 	 */
@@ -154,12 +166,23 @@ public class RegularDBAPI extends DBAPI{
 	 * @param timeLeft the time left
 	 * @throws SQLException the SQL exception
 	 */
-	public void carLeftParking(int lodId, String carId, Date timeLeft) throws SQLException {
-		//TODO: implement
+	public void carLeftParking(int lotId, String carId, Date timeLeft) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
+		paramsValues.add(timeLeft);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		paramsValues.add(lotId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		paramsValues.add(carId);
+		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
+		DBConnection.updateSql(regularQueriesInst.update_time_car_left_parking_in_logs, paramsValues, paramTypes);
+		paramsValues.add(carId);
+		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);		
+		DBConnection.updateSql(regularQueriesInst.delete_entrance_from_car_planed_being_in_parking_by_entrance_id, paramsValues, paramTypes);
 	}
 	
 	/**
-	 * adds a routine monthly subscription to an account
+	 * adds a routine monthly subscription to an account.
 	 *
 	 * @param accountId the account id
 	 * @param lotId the lot id
@@ -171,7 +194,7 @@ public class RegularDBAPI extends DBAPI{
 	}
 	
 	/**
-	 * adds a Full monthly subscription to an account
+	 * adds a Full monthly subscription to an account.
 	 *
 	 * @param accountId the account id
 	 * @param lotId the lot id
@@ -181,7 +204,21 @@ public class RegularDBAPI extends DBAPI{
 	public void addFullMonthlySubscriptionToAccount(int accountId, int lotId, String carId) throws SQLException {
 		//TODO: implement
 	}
-	
+
+/**
+ * ************************************* End Of TODO Section *************************************.
+ *
+ * @param carId the car id
+ * @param accountId the account id
+ * @param lotId the lot id
+ * @param predictionArrive the prediction arrive
+ * @param predictionLeave the prediction leave
+ * @param timeArrive the time arrive
+ * @param timeLeave the time leave
+ * @param orderType the order type
+ * @return the int
+ * @throws SQLException the SQL exception
+ */	
 	/**
 	 * select order details 
 	 *
@@ -255,24 +292,54 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
-
-
 	/**
-	 * Insert new order.
+	 * Update arrive time.
 	 *
-	 * @param accountId the account id
 	 * @param carId the car id
-	 * @param lotId the lot id
-	 * @param predictionArrive the prediction arrive
-	 * @param predictionLeave the prediction leave
-	 * @param timeArrive the time arrive
-	 * @param timeLeave the time leave
-	 * @return the int
+	 * @param arriveTime the arrive time
 	 * @throws SQLException the SQL exception
 	 */
-	public int insertNewOrder(/*int entranceId,*/ int accountId, String carId, int lotId, Date predictionArrive, Date predictionLeave, Date timeArrive, Date timeLeave)
-			throws SQLException {
-		return insertParkingReservation(carId, accountId,/* entranceId,*/ lotId, predictionArrive, predictionLeave, timeArrive, timeLeave, DBConstants.OrderType.ORDER);
+	public void updateArriveTime(String carId, Date arriveTime) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all param types to paramTypes. in order of the SQL query
+
+		paramsValues.add(arriveTime);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		paramsValues.add(carId);
+		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
+		DBConnection.updateSql(regularQueriesInst.update_arrive_time_current_cars_in_parking_by_car_id, paramsValues, paramTypes);
+		
+		int entranceId = getEntranceIdFromCurrentCarsInParkingByCarId(carId);
+		paramsValues.add(arriveTime);
+		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
+		paramsValues.add(entranceId);
+		paramTypes.add(DBConnection.sqlTypeKind.INT);
+		DBConnection.updateSql(regularQueriesInst.update_arrive_time_logs_by_entrance_id, paramsValues, paramTypes);
+		
+}
+
+	/**
+	 * Gets the entrance id from current cars in parking by car id.
+	 *
+	 * @param carId the car id
+	 * @return the entrance id from current cars in parking by car id
+	 * @throws SQLException the SQL exception
+	 */
+	private int getEntranceIdFromCurrentCarsInParkingByCarId (String carId) throws SQLException {
+		
+		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
+		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all param types to paramTypes. in order of the SQL query
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		paramsValues.add(carId);
+		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
+		DBConnection.selectSql(regularQueriesInst.select_all_details_by_car_id_of_car_in_parking, paramsValues, paramTypes, resultList);
+		int entranceId = -1;
+		Iterator<Map<String, Object>> iteratorTwo = resultList.iterator();
+		while (iteratorTwo.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iteratorTwo.next();
+			entranceId = (int) row.get(DbSqlColumns.ENTRANCE_ID.getName());
+		}
+		return entranceId;
 	}
 
 	/**
@@ -368,7 +435,8 @@ public class RegularDBAPI extends DBAPI{
 	 * @param timeLeft the time left
 	 * @throws SQLException the SQL exception
 	 */
-	public void carLeftParking(int entranceId, Date timeLeft) throws SQLException {
+	public void carLeftParkingByEntranceId(int entranceId, Date timeLeft) throws SQLException {
+		
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(timeLeft);
@@ -378,7 +446,20 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.updateSql(regularQueriesInst.car_left_parking_update_time_left, paramsValues, paramTypes);
 		paramsValues.add(entranceId);
 		paramTypes.add(DBConnection.sqlTypeKind.INT);		
-		DBConnection.updateSql(regularQueriesInst.delete_entrance_from_car_planed_being_in_parking, paramsValues, paramTypes);
+		DBConnection.updateSql(regularQueriesInst.delete_entrance_from_car_planed_being_in_parking_by_entrance_id, paramsValues, paramTypes);
+	}
+	
+	/**
+	 * Car left parking by car id.
+	 * deletes from table of current cars. updates leave time in logs.
+	 * @param carId the car id
+	 * @param lotId the lot id
+	 * @param timeLeft the time left
+	 * @throws SQLException the SQL exception
+	 */
+	public void carLeftParkingByCarId(String carId, int lotId, Date timeLeft) throws SQLException {
+		int entranceId = getEntranceIdFromCurrentCarsInParkingByCarId(carId);
+		carLeftParkingByEntranceId(entranceId, timeLeft);
 	}
 
 	/**
@@ -436,7 +517,7 @@ public class RegularDBAPI extends DBAPI{
 		int customerId = (int) rs.get(0).get("account_id");
 		paramsValues.add(entrance_id);
 		paramTypes.add(sqlTypeKind.INT);	
-		DBConnection.updateSql(regularQueriesInst.delete_entrance_from_car_planed_being_in_parking, paramsValues, paramTypes);
+		DBConnection.updateSql(regularQueriesInst.delete_entrance_from_car_planed_being_in_parking_by_entrance_id, paramsValues, paramTypes);
 
 		Calendar todayCalendar = new GregorianCalendar();
 		java.sql.Date today = new java.sql.Date(todayCalendar.getTimeInMillis());
@@ -522,7 +603,13 @@ public class RegularDBAPI extends DBAPI{
 	}
 
 
-/******************************************************************************************************************************************************************************/
+/**
+ * ***************************************************************************************************************************************************************************.
+ *
+ * @param lotId the lot id
+ * @param parkingMapArr the parking map arr
+ * @throws SQLException the SQL exception
+ */
 /*BEGIN TODO:  verify that we don't need those 3 functions: {selectParkingMapByLotId, insertParkingMapOfLotId, deleteParkingMap}.
  * it seemes that the table PARKING_MAP is not needed any more*/
 //	TODO: still need to check if it is possible to create the array inside the function. for now, the user should create an array with the appropriate size.

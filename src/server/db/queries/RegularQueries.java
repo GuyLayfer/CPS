@@ -80,6 +80,18 @@ public class RegularQueries {
 			" SET " + DbSqlColumns.BALANCE.getName() + " = " + DbSqlColumns.BALANCE.getName() + " + ? " +
 			" WHERE " + DbSqlColumns.ACCOUNT_ID.getName() + " = ?";
 	
+	
+	public final String update_arrive_time_current_cars_in_parking_by_car_id = 
+			"UPDATE " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName() + 
+			" SET " + DbSqlColumns.ARRIVE_TIME.getName() + " = ? " +
+			" WHERE " + DbSqlColumns.CAR_ID.getName() + " = ? ";
+	
+	
+	public final String update_arrive_time_logs_by_entrance_id = 
+			"UPDATE " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName() + 
+			" SET " + DbSqlColumns.ARRIVE_TIME.getName() + " = ? " +
+			" WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ? ";
+	
 	public final String select_customer_id_by_entrance_id = 
 			"SELECT " + DbSqlColumns.ACCOUNT_ID.getName()  +
 			" FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+ 
@@ -110,9 +122,20 @@ public class RegularQueries {
 			" SET " + DbSqlColumns.LEAVE_TIME.getName() + " = ? "
 			+ " WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
 	
-	public final String delete_entrance_from_car_planed_being_in_parking = 
+	public final String update_time_car_left_parking_in_logs = 
+			" UPDATE  " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName() + 
+			" SET " + DbSqlColumns.LEAVE_TIME.getName() + " = ? "
+			+ " WHERE " + DbSqlColumns.LOT_ID.getName() + " = ? and "
+						+ DbSqlColumns.CAR_ID.getName() + " = ?";
+	
+	
+	public final String delete_entrance_from_car_planed_being_in_parking_by_entrance_id = 
 			"DELETE FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+
 			" WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
+	
+	public final String delete_entrance_from_car_planed_being_in_parking_by_car_id = 
+			"DELETE FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+
+			" WHERE " + DbSqlColumns.CAR_ID.getName() + " = ?";
 	
 
 	public final String track_order =
@@ -121,6 +144,13 @@ public class RegularQueries {
 			 "  WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
 	
 
+	
+	public final String select_all_details_by_car_id_of_car_in_parking = 
+			" SELECT * " +
+			" FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName() + 
+			" WHERE " + DbSqlColumns.CAR_ID.getName() + " = ?";
+			
+			;
 	public final String insert_new_account = 
 			"INSERT INTO " + SqlTables.ACCOUNTS.getName() +
 			" VALUES (?, ?, ?, ?, ?) ";

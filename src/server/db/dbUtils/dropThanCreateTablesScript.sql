@@ -96,8 +96,10 @@ CREATE TABLE subscriptions(
 subscription_id int AUTO_INCREMENT,
 account_id int,
 lot_id int,
-occasional ENUM('true', 'false'),
+subscription_type ENUM('routine', 'routine_muliple_cars', 'full' ),
 expired_date timestamp,
+start_date timestamp,
+leave_time timestamp,
 UNIQUE(subscription_id),
 PRIMARY KEY (subscription_id)
 );
