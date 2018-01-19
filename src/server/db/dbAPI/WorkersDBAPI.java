@@ -60,12 +60,9 @@ public class WorkersDBAPI extends DBAPI{
 	 */
 	public void getWorkerByNameAndPassword(int workerId, String workerPassword, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
 		paramsValues.add(workerId);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		paramsValues.add(workerPassword);
-		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
-		DBConnection.selectSql(workersQueriesInst.selectWorkerBtNameAndPassword, paramsValues, paramTypes, resultList);
+		DBConnection.selectSql(workersQueriesInst.selectWorkerBtNameAndPassword, paramsValues, resultList);
 	}
 
 
@@ -78,9 +75,9 @@ public class WorkersDBAPI extends DBAPI{
 	 */
 	public void selectAllLotsRates(boolean selectPendingRates, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		if (selectPendingRates)
-			DBConnection.selectSql(workersQueriesInst.select_all_pending_lots_rates, null, null, resultList);
+			DBConnection.selectSql(workersQueriesInst.select_all_pending_lots_rates, null, resultList);
 		else
-			DBConnection.selectSql(workersQueriesInst.select_all_lots_rates, null, null, resultList);
+			DBConnection.selectSql(workersQueriesInst.select_all_lots_rates, null, resultList);
 	}
 
 	/**
@@ -97,25 +94,18 @@ public class WorkersDBAPI extends DBAPI{
 	public void insertRatesOfLotId(boolean insertIntoPending, int lotId, double oneTimeParking, double order, double subscriptionFull,
 									double subscriptionOccasional, double subscriptionMultipleCarsPrice) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to q. in order of SQL
 
 		paramsValues.add(lotId);
-		paramTypes.add(sqlTypeKind.INT);
 		paramsValues.add(subscriptionOccasional);
-		paramTypes.add(sqlTypeKind.DOUBLE);
 		paramsValues.add(subscriptionFull);
-		paramTypes.add(sqlTypeKind.DOUBLE);		
 		paramsValues.add(oneTimeParking);
-		paramTypes.add(sqlTypeKind.DOUBLE);
 		paramsValues.add(order);
-		paramTypes.add(sqlTypeKind.DOUBLE);
 		paramsValues.add(subscriptionMultipleCarsPrice);
-		paramTypes.add(sqlTypeKind.DOUBLE);
 
 		if (insertIntoPending)
-			DBConnection.updateSql(workersQueriesInst.insert_into_pending_rates_of_lot_id, paramsValues, paramTypes);
+			DBConnection.updateSql(workersQueriesInst.insert_into_pending_rates_of_lot_id, paramsValues);
 		else
-			DBConnection.updateSql(workersQueriesInst.insert_rates_of_lot_id, paramsValues, paramTypes);
+			DBConnection.updateSql(workersQueriesInst.insert_rates_of_lot_id, paramsValues);
 
 	}
 	

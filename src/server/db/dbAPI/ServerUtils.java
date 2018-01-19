@@ -1,11 +1,15 @@
 package server.db.dbAPI;
+import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 
 import server.db.DBConstants;
 
@@ -141,6 +145,26 @@ public class ServerUtils {
 				}
 			}
 		}
+		
+	}
+	
+	public static Timestamp getTimeStampOfDate(Date date) throws Exception {
+		
+		Timestamp ts = new Timestamp((date).getTime());
+		String dateString = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(ts);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Date parsedDate;
+		try {
+			parsedDate = dateFormat.parse(dateString);
+			Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+			return timestamp;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		throw new Exception();
+//		return new java.sql.Timestamp(parsedDate.getTime());
 		
 	}
 
