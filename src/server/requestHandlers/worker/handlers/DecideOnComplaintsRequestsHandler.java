@@ -7,6 +7,7 @@ import java.util.Map;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.responses.WorkerResponse;
+import server.db.SqlColumns;
 import server.requestHandlers.worker.WorkerResponseFactory;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.requests.DecideOnComplaintRequest;
@@ -23,9 +24,15 @@ public class DecideOnComplaintsRequestsHandler extends BaseRequestsHandler {
 		DecideOnComplaintRequest decideOnComplaintRequest = (DecideOnComplaintRequest) specificRequest;
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectComplaintDetails(decideOnComplaintRequest.complaintToDecide.getComplaintId(), resultList);
+		
 		if (resultList.isEmpty()) {
-			return createRequestDeniedResponse("Wrong ID or password");
+			return createRequestDeniedResponse("Wrong ID");
 		}
+		regularDBAPI.updateComplaint(decideOnComplaintRequest.isComplaintApproved, resultList);
+		
+		if(decideOnComplaintRequest.isComplaintApproved) {
+			regularDBAPI.updateCustomerBalance(decideOnComplaintRequest.complaintToDecide.getCustomerId(), decideOnComplaintRequest.amountToAcquit);
+		};
 		WorkerBaseResponse response = WorkerResponseFactory.CreateDecideOnComplaintsResponse();
 		return CreateWorkerResponse(response);
 	}

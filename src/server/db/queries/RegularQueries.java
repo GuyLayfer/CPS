@@ -39,20 +39,17 @@ public class RegularQueries {
 			"INSERT INTO " + SqlTables.COMPLAINTS.getName()+
 			"(" +
 			 DbSqlColumns.ACCOUNT_ID.getName() + ", " +
-			DbSqlColumns.LOT_ID.getName() + ", " +
 			 DbSqlColumns.COMPLAINT_DESCRIPTION.getName() + ", " + 
-			 DbSqlColumns.ENTRANCE_ID.getName() + ", " +
-			 DbSqlColumns.COMPLAINT_FILLED.getName() + ", " +
-			 DbSqlColumns.COMPLAINT_DATETIME.getName() +
+			 DbSqlColumns.COMPLAINT_DATETIME.getName() + ", " +
+			 DbSqlColumns.COMPLAINT_FILLED.getName() +
 			 " ) " +
-			  " VALUES (?, ?, ?, ?, ?, ?);";
+			  " VALUES (?, ?, ?, ?);";
 	
 	
-	public final String get_last_day_complains =
+	public final String get_all_opened_complains =
 			"SELECT * " +
-			"FROM " + SqlTables.COMPLAINTS.getName() + 
-			"  WHERE " + DbSqlColumns.COMPLAINT_DATETIME.getName()  +
-			" BETWEEN ? AND ?";
+			"FROM " + SqlTables.COMPLAINTS.getName() +
+			"WHERE "  + DbSqlColumns.COMPLAINT_FILLED.getName() + " = false ";
 	
 	public final String car_id_details = 
 			"SELECT * " +
@@ -64,6 +61,13 @@ public class RegularQueries {
 			"SELECT * " +
 			"FROM " +  SqlTables.COMPLAINTS.getName() +
 			" WHERE " + DbSqlColumns.COMPLAINT_ID.getName() + " = ?";
+	
+	public final String update_complaint =
+			" UPDATE  " + SqlTables.COMPLAINTS.getName() +
+			" SET " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = true " + 
+			          DbSqlColumns.COMPLAINT_RESULT.getName() + " = ? " +
+			" WHERE " + DbSqlColumns.COMPLAINT_ID.getName() + " = ?";
+	
 
 	public final String select_complaints_last_day = 
 			"SELECT * " +

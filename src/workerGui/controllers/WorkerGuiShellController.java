@@ -23,6 +23,7 @@ import javafx.util.Pair;
 import workerGui.util.CpsLoginDialog;
 import workerGui.util.ICareAboutLoginState;
 import workerGui.util.LogoutDialog;
+import workerGui.util.ReportsManager;
 import workerGui.util.WorkerAccountManager;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerGuiController;
@@ -31,6 +32,7 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 	private static final String IDLE_BUTTON_STYLE = "-fx-background-color: transparent;";
 	private static final String HOVERED_BUTTON_STYLE = "-fx-background-color: #0096C9";
 	private WorkerAccountManager workerAccountManager;
+	private ReportsManager reportsManager;
 	private WorkerConnectionManager connectionManager;
 	private LoginDialog loginDialog;
 
@@ -38,6 +40,7 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 	protected void initialize() {
 		workerAccountManager = WorkerAccountManager.getInstance();
 		connectionManager = WorkerConnectionManager.getInstance();
+		reportsManager = ReportsManager.getInstance();
 		workerAccountManager.registerLoginListener(this);
 		connectionManager.addServerMessageListener(this);
 		LogoutButton.setOnMouseEntered(e -> LogoutButton.setStyle(HOVERED_BUTTON_STYLE));
@@ -134,6 +137,55 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ApproveRatesRequestsPortalView);
 	}
 
+	@FXML
+	private void goOrdersReport(ActionEvent event) {
+		reportsManager.setReportContext(WorkerRequestType.ORDERS_REPORT);
+		reportsManager.setReportName(ordersReportMenuItem.getText());
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReportsView);
+	}
+
+	@FXML
+	private void goComplaintsReport(ActionEvent event) {
+		reportsManager.setReportContext(WorkerRequestType.COMPLAINTS_REPORT);
+		reportsManager.setReportName(complaintsReportMenuItem.getText());
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReportsView);
+	}
+
+	@FXML
+	private void goOutOfOrderReport(ActionEvent event) {
+		reportsManager.setReportContext(WorkerRequestType.OUT_OF_ORDER_REPORT);
+		reportsManager.setReportName(outOfOrderReportMenuItem.getText());
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReportsView);
+	}
+
+	@FXML
+	private void goPerformenceReport(ActionEvent event) {
+		reportsManager.setReportContext(WorkerRequestType.PERFORMENCE_REPORT);
+		reportsManager.setReportName(performenceReportMenuItem.getText());
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReportsView);
+	}
+
+	@FXML
+	private void goOperationsReport(ActionEvent event) {
+		reportsManager.setReportContext(WorkerRequestType.OPERATIONS_REPORT);
+		reportsManager.setReportName(operationsReportMenuItem.getText());
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReportsView);
+	}
+
+	@FXML
+	private void goCurrentSubscribersReport(ActionEvent event) {
+		reportsManager.setReportContext(WorkerRequestType.CURRENT_SUBSCRIBERS_REPORT);
+		reportsManager.setReportName(currentSubscribersReportMenuItem.getText());
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReportsView);
+	}
+
+	@FXML
+	private void goLotSpacesReport(ActionEvent event) {
+		reportsManager.setReportContext(WorkerRequestType.LOT_SPACES_REPORT);
+		reportsManager.setReportName(lotSpacesReportMenuItem.getText());
+		NavigateTo(workerMainViewRegion.getScene(), UriDictionary.WorkerGui.ReportsView);
+	}
+
 	private void LogoutFromSystem() {
 		workerAccountManager.Logout();
 	}
@@ -174,6 +226,27 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 	@FXML
 	private MenuItem AcquitOrChargeAccountMenuItem;
 
+	@FXML
+	private MenuItem outOfOrderReportMenuItem;
+
+	@FXML
+	private MenuItem performenceReportMenuItem;
+
+	@FXML
+	private MenuItem ordersReportMenuItem;
+
+	@FXML
+	private MenuItem complaintsReportMenuItem;
+
+	@FXML
+	private MenuItem lotSpacesReportMenuItem;
+
+	@FXML
+	private MenuItem operationsReportMenuItem;
+
+	@FXML
+	private MenuItem currentSubscribersReportMenuItem;
+
 	private void openLoginDialog(String workerId) {
 		Platform.runLater(() -> {
 			if (!workerAccountManager.isWorkerLoggedIn()) {
@@ -200,5 +273,12 @@ public class WorkerGuiShellController extends WorkerGuiController implements ISe
 		ReserveParkingSpaceMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.RESERVE_PARKING_SPACE));
 		SetParkingLotFullMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.PARKING_LOT_FULL));
 		AcquitOrChargeAccountMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.ACQUIT_OR_CHARGE_ACCOUNT));
+		outOfOrderReportMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.OUT_OF_ORDER_REPORT));
+		performenceReportMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.PERFORMENCE_REPORT));
+		ordersReportMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.ORDERS_REPORT));
+		complaintsReportMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.COMPLAINTS_REPORT));
+		lotSpacesReportMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.LOT_SPACES_REPORT));
+		operationsReportMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.OPERATIONS_REPORT));
+		currentSubscribersReportMenuItem.setDisable(!workerAccountManager.isOperationAllowed(WorkerOperations.CURRENT_SUBSCRIBERS_REPORT));
 	}
 }

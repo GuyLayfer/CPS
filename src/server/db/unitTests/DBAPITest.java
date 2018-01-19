@@ -140,11 +140,12 @@ public class DBAPITest {
 
 		workersDBAPIInst.selectAllLotsRates(false, resultList);
 		ServerUtils.printAllInResultSet(resultList);
+
 	}
 
 	@Test
 	public void testInsertComplaint() throws SQLException {
-		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", entranceId, lotId, laterDate/*complaintDate*/);
+		int complaintId = regularDBAPIInst.insertComplaint(accountId, "complaint description", laterDate);
 
 		regularDBAPIInst.selectComplaintDetails(complaintId, resultList);
 		ServerUtils.printAllInResultSet(resultList);
