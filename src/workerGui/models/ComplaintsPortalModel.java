@@ -7,6 +7,7 @@ import core.worker.Complaint;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
 import core.worker.responses.WorkerBaseResponse;
+import javafx.application.Platform;
 import core.worker.responses.ComplaintsForReviewResponse;
 import workerGui.controllers.IAddItemsToTable;
 import workerGui.util.ComplaintUiElement;
@@ -48,11 +49,12 @@ public class ComplaintsPortalModel implements IServerResponseHandler<WorkerBaseR
 	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.REQUEST_COMPLAINTS_FOR_REVIEW) {
 			ComplaintsForReviewResponse specificResponse = (ComplaintsForReviewResponse) response;
-			controller.AddToTable(
-					specificResponse.complaintsForReview
-					.stream()
-					.map((complaint) -> new ComplaintUiElement(complaint))
-					.collect(Collectors.toList()));
+			Platform.runLater(() -> {
+				controller.AddToTable(specificResponse.complaintsForReview
+						.stream()
+						.map((complaint) -> new ComplaintUiElement(complaint))
+						.collect(Collectors.toList()));
+			});
 		}
 	}
 }

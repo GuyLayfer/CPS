@@ -5,10 +5,10 @@ import java.util.List;
 import core.worker.Complaint;
 import core.worker.Permissions;
 import core.worker.Rates;
+import core.worker.ReportItem;
 import core.worker.WorkerRequestType;
 import core.worker.WorkerRole;
 import core.worker.responses.*;
-import javafx.util.Pair;
 
 public class WorkerResponseFactory {
 
@@ -50,8 +50,8 @@ public class WorkerResponseFactory {
 		return CreateNotificationResponse(WorkerRequestType.RESERVE_PARKING_SPACE, message);
 	}
 
-	public static WorkerBaseResponse CreateOutOfOrderResponse(int lotId, int row, int column, int floor) {
-		String message = "Disabled parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
+	public static WorkerBaseResponse CreateOutOfOrderResponse(int lotId, int row, int column, int floor, Boolean isOutOfOrder) {
+		String message = (isOutOfOrder ? "Disabled" : "Enabled") + "parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
 		return CreateNotificationResponse(WorkerRequestType.OUT_OF_ORDER, message);
 	}
 
@@ -101,11 +101,10 @@ public class WorkerResponseFactory {
 		return response;
 	}
 
-	public static WorkerBaseResponse CreateOperationReportResponse(List<Pair<String, String>> listOfDescriptionToData) {
-		return null;
-	}
-
-	public static WorkerBaseResponse CreateStatisticsReportResponse(List<Pair<String, String>> listOfDescriptionToData) {
-		return null;
+	public static WorkerBaseResponse CreateReportResponse(List<ReportItem> reportItems, WorkerRequestType reportType) {
+		ReportResponse response = new ReportResponse();
+		response.requestType = reportType;
+		response.reportItems = reportItems;
+		return response;
 	}
 }
