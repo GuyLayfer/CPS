@@ -14,13 +14,12 @@ public class Complaint {
 
 	private Date dueReplyDate;
 	
-	private int complaintId;
+	private int entranceId;
 	// No setter on propose. All time implementation is here and should stay here so it'll be consisted throughout the program.
 
-	public Complaint(String content, long customerId, Date timeIssued, int complaintId) {
+	public Complaint(String content, int customerId, Date timeIssued) {
 		setContent(content);
 		setTimeIssued(timeIssued);
-		setComplaintId(complaintId);
 	}
 
 	public long getTimeLeftToReply() {
@@ -55,7 +54,7 @@ public class Complaint {
 	}
 	
 	public int getComplaintId() {
-		return complaintId;
+		return entranceId;
 	}
 
 	public void setContent(String content) {
@@ -72,7 +71,7 @@ public class Complaint {
 		this.customerId = customerId;
 	}
 	
-	public void setComplaintId(int complaintId) {
-		this.complaintId = complaintId;
+	public void setComplaintId(int entranceId) {
+		this.entranceId = entranceId;
 	}
 }

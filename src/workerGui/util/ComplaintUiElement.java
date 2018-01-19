@@ -15,7 +15,10 @@ public class ComplaintUiElement {
 	public ComplaintUiElement(Complaint complaint) {
 		this.content.set(complaint.getContent());
 		this.timeLeftToReply.set(complaint.toString());
-		briefContent.set(getContent().subSequence(0, displayLength).toString());
+		String shortContent = getContent()
+				.subSequence(0, getContent().length() < displayLength ? getContent().length() : displayLength)
+				.toString();
+		briefContent.set(shortContent);
 		this.complaint = complaint;
 	}
 
