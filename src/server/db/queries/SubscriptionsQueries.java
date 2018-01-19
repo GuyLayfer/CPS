@@ -79,6 +79,7 @@ public class SubscriptionsQueries {
 	public final String update_subscription_expired_date = 
 			" UPDATE  " +SqlTables.SUBSCRIPTIONS.getName() + 
 			" SET "+ DbSqlColumns.EXPIRED_DATE.getName() + " = ? " +
+			DbSqlColumns.SUBSCRIPTION_START_TIME.getName() + " = ? " +
 			"   WHERE  " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
 
 
