@@ -119,13 +119,12 @@ public class ReportsDBAPI extends DBAPI {
 	 */
 	public void getNumberOfLatingReservationsOfLastDay(ArrayList<Map<String, Object>> resultList) throws SQLException{
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		Calendar calendar = new GregorianCalendar();
 		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
 		calendar.add(Calendar.DATE, -1); //get a day back
 		java.sql.Date yesterday = new java.sql.Date(calendar.getTimeInMillis());
 		selectBetween2DatesQuery(reportsQueriesInst.select_lating_reservations_between_2_dates, yesterday, today, resultList);//TODO: verify order yesterday today
-		DBConnection.selectSql(reportsQueriesInst.select_lating_reservations_between_2_dates, params, paramTypes, resultList);
+		DBConnection.selectSql(reportsQueriesInst.select_lating_reservations_between_2_dates, params, resultList);
 	}
 	
 	/**
@@ -137,15 +136,13 @@ public class ReportsDBAPI extends DBAPI {
 	 */
 	public void getDailyStatsOfToday(ArrayList<Map<String, Object>> resultList) throws SQLException{
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		
 		Calendar todayCalendar = new GregorianCalendar();
 		java.sql.Date today = new java.sql.Date(todayCalendar.getTimeInMillis());
 		
 		params.add(today);
-		paramTypes.add(DBConnection.sqlTypeKind.DATE);
 		
-		DBConnection.selectSql(ReportsQueries.get_daily_stats_by_day_id, params, paramTypes, resultList);
+		DBConnection.selectSql(ReportsQueries.get_daily_stats_by_day_id, params, resultList);
 		
 	}	
 

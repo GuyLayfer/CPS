@@ -91,12 +91,9 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 */
 	public void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		params.add(newExpiredDate);
-		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
-		DBConnection.updateSql(subscriptionsQueriesInst.update_subscription_expired_date, params, paramTypes);
+		DBConnection.updateSql(subscriptionsQueriesInst.update_subscription_expired_date, params);
 	}
 
 
@@ -110,11 +107,9 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 */
 	public void selectSubscriptionDetails (int subscriptionId, ArrayList<Map<String, Object>> rs) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
-		paramTypes.add(sqlTypeKind.INT);
 
-		DBConnection.selectSql(subscriptionsQueriesInst.select_subscription_details_by_id, params, paramTypes, rs);
+		DBConnection.selectSql(subscriptionsQueriesInst.select_subscription_details_by_id, params, rs);
 	}
 
 	//	TODO: change the name of the function
@@ -125,7 +120,7 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 * @throws SQLException the SQL exception
 	 */
 	public  void selectNumberOfCarsOfOneSubscriptionGroupedBySubscriptionId(ArrayList<Map<String, Object>> resultList) throws SQLException {
-		DBConnection.selectSql(subscriptionsQueriesInst.select_counts_of_cars_of_one_subscription_grouped_by_subs_id, null, null, resultList);
+		DBConnection.selectSql(subscriptionsQueriesInst.select_counts_of_cars_of_one_subscription_grouped_by_subs_id, null, resultList);
 	}
 
 //	/**
@@ -160,21 +155,14 @@ public class SubscriptionsDBAPI extends DBAPI{
 	
 	public int insertNewSubscription(int customerId, int lotId, SubscriptionType type, Date startDate, Date expiredDate, Date routineDepartureTime, List<String> listOfCarsForThisSubscription) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		
 		params.add(customerId);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		params.add(lotId);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		params.add(type.getValue());
-		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
 		params.add(expiredDate);
-		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
 		params.add(startDate);
-		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
 		params.add(routineDepartureTime);
-		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
-		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription, params, paramTypes);
+		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription, params);
 		//insert each car in this subscription to cars 
 		Iterator<String> iterator = listOfCarsForThisSubscription.iterator();
 		while (iterator.hasNext()) {
@@ -185,23 +173,17 @@ public class SubscriptionsDBAPI extends DBAPI{
 		return subscriptionId;
 	}
 	
-	public int insertNewSubscriptionOLD(int customerId, int lotId, TrueFalse occaional, Date expiredDate, ArrayList<String> listOfCarsForThisSubscription) throws SQLException {
 	//TODO: needs to get also 'startingDate' and 'routineDepartureTime' basically the 'expiredDate' is 'startingDate' + 28 days...
 	//TODO: also for FullMonthy subscription there is no need for 'routineDepartureTime'.
 	//TODO: subscriptionType is required!
-	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, List<String> listOfCarsForThisSubscription) throws SQLException {
+	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, List<String> listOfCarsForThisSubscription) throws SQLException, Exception {
 		
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(customerId);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		params.add(lotId);
-		paramTypes.add(DBConnection.sqlTypeKind.INT);
 		params.add(occaional.getValue());
-		paramTypes.add(DBConnection.sqlTypeKind.VARCHAR);
-		params.add(expiredDate);
-		paramTypes.add(DBConnection.sqlTypeKind.TIMESTAMP);
-		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription_OLD, params, paramTypes);
+		params.add(ServerUtils.getTimeStampOfDate(expiredDate));
+		int subscriptionId = DBConnection.updateSql(subscriptionsQueriesInst.insert_subscription_OLD, params);
 		//insert each car in this subscription to cars 
 		Iterator<String> iterator = listOfCarsForThisSubscription.iterator();
 		while (iterator.hasNext()) {
@@ -214,25 +196,19 @@ public class SubscriptionsDBAPI extends DBAPI{
 	
 	public void insertCarToCarsTable(String carId, int customerId, int subscriptionId) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> types = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 
 		params.add(subscriptionId);
-		types.add(DBConnection.sqlTypeKind.INT);
 		params.add(customerId);
-		types.add(DBConnection.sqlTypeKind.INT);
 		params.add(carId);
-		types.add(DBConnection.sqlTypeKind.VARCHAR);
 		
-		DBConnection.updateSql(subscriptionsQueriesInst.insert_car_to_cars, params, types);
+		DBConnection.updateSql(subscriptionsQueriesInst.insert_car_to_cars, params);
 	}
 	
 	public void selectCarsOfSubscriptionId(int subscriptionId,ArrayList<Map<String, Object>> rs) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Queue<DBConnection.sqlTypeKind> types = new LinkedList<DBConnection.sqlTypeKind>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
-		types.add(DBConnection.sqlTypeKind.INT);
 		
-		DBConnection.selectSql(subscriptionsQueriesInst.select_cars_of_subscription_id, params, types, rs);
+		DBConnection.selectSql(subscriptionsQueriesInst.select_cars_of_subscription_id, params, rs);
 		
 	}
 
