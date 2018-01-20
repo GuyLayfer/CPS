@@ -10,9 +10,11 @@ public class ReportsManager {
 	private WorkerRequestType requestedReportType;
 	private String reportName;
 	private Map<WorkerRequestType, Boolean> dateRangeIsNeededQueryMap;
+	private Map<WorkerRequestType, Boolean> selectParkingLotidNeededQueryMap;
 	
 	private ReportsManager() {
 		dateRangeIsNeededQueryMap = CreateDateRangeNeededQueryMap();
+		selectParkingLotidNeededQueryMap = CreateSelectParkingLotNeededQueryMap();
 	}
 	
 	public static ReportsManager getInstance() {
@@ -36,6 +38,10 @@ public class ReportsManager {
 		return dateRangeIsNeededQueryMap.get(requestedReportType);
 	}
 	
+	public Boolean isSelectParkingLotNeeded() {
+		return selectParkingLotidNeededQueryMap.get(requestedReportType);
+	}
+	
 	public String getReportName() {
 		return reportName;
 	}
@@ -54,5 +60,17 @@ public class ReportsManager {
 		dateRangeNeededQueryMap.put(WorkerRequestType.OPERATIONS_REPORT, true);
 		dateRangeNeededQueryMap.put(WorkerRequestType.PERFORMENCE_REPORT, true);
 		return dateRangeNeededQueryMap;
+	}
+	
+	private Map<WorkerRequestType, Boolean> CreateSelectParkingLotNeededQueryMap() {
+		Map<WorkerRequestType, Boolean> selectParkingLotidNeededQueryMap = new HashMap<WorkerRequestType, Boolean>();
+		selectParkingLotidNeededQueryMap.put(WorkerRequestType.OUT_OF_ORDER_REPORT, true);
+		selectParkingLotidNeededQueryMap.put(WorkerRequestType.ORDERS_REPORT, true);
+		selectParkingLotidNeededQueryMap.put(WorkerRequestType.COMPLAINTS_REPORT, false);
+		selectParkingLotidNeededQueryMap.put(WorkerRequestType.LOT_SPACES_REPORT, true);
+		selectParkingLotidNeededQueryMap.put(WorkerRequestType.CURRENT_SUBSCRIBERS_REPORT, false);
+		selectParkingLotidNeededQueryMap.put(WorkerRequestType.OPERATIONS_REPORT, false);
+		selectParkingLotidNeededQueryMap.put(WorkerRequestType.PERFORMENCE_REPORT, false);
+		return selectParkingLotidNeededQueryMap;
 	}
 }

@@ -7,6 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
 <GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="workerGui.controllers.ReportsController">
 	<columnConstraints>
@@ -14,7 +15,8 @@
 	</columnConstraints>
 	<rowConstraints>
 		<RowConstraints vgrow="SOMETIMES" />
-		<RowConstraints />
+		<RowConstraints vgrow="SOMETIMES" />
+		<RowConstraints vgrow="SOMETIMES" />
 		<RowConstraints vgrow="ALWAYS" />
 	</rowConstraints>
 	<children>
@@ -25,12 +27,30 @@
 						<Font name="System Bold" size="14.0" />
 					</font>
 				</Text>
+				<Pane prefWidth="50.0" />
+				<Button fx:id="showReportButton" mnemonicParsing="false" onAction="#showReport" text="Show Report" />
 			</children>
 			<GridPane.margin>
 				<Insets bottom="10.0" left="30.0" top="20.0" />
 			</GridPane.margin>
 		</HBox>
-		<HBox fx:id="startToEndSection" GridPane.columnIndex="0" GridPane.rowIndex="1">
+		<HBox fx:id="selectParkingLotSection" GridPane.columnIndex="0" GridPane.rowIndex="1">
+			<children>
+				<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Parking Lot ID:">
+					<HBox.margin>
+						<Insets right="10.0" top="5.0" />
+					</HBox.margin>
+				</Text>
+				<ComboBox fx:id="ParkingLotId" layoutX="140.0" layoutY="70.0" prefHeight="25.0" prefWidth="150.0" />
+			</children>
+			<GridPane.margin>
+				<Insets left="30.0" />
+			</GridPane.margin>
+			<padding>
+				<Insets bottom="5.0" top="5.0" />
+			</padding>
+		</HBox>
+		<HBox fx:id="startToEndSection" GridPane.columnIndex="0" GridPane.rowIndex="2">
 			<children>
 				<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date:">
 					<HBox.margin>
@@ -45,8 +65,6 @@
 					</HBox.margin>
 				</Text>
 				<DatePicker fx:id="endDate" />
-				<Pane prefWidth="50.0" />
-				<Button fx:id="showReportButton" mnemonicParsing="false" onAction="#showReport" text="Show Report" />
 			</children>
 			<GridPane.margin>
 				<Insets left="30.0" />
@@ -55,7 +73,7 @@
 				<Insets bottom="10.0" top="5.0" />
 			</padding>
 		</HBox>
-		<GridPane GridPane.columnIndex="0" GridPane.rowIndex="2">
+		<GridPane GridPane.columnIndex="0" GridPane.rowIndex="3">
 			<columnConstraints>
 				<ColumnConstraints />
 			</columnConstraints>
