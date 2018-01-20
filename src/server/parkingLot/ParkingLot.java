@@ -174,7 +174,6 @@ public class ParkingLot {
 			return false;
 		}
 		reservePlace(carId, false);
-		//TODO: check if this function is complete
 		return true;
 	}
 	
