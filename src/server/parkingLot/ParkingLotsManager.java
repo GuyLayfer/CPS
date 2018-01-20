@@ -1,10 +1,7 @@
 package server.parkingLot;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -151,7 +148,10 @@ public class ParkingLotsManager {
 	 */
 	public String insertCar(int lotId, String carId, Date leaveTime, boolean withSubscription) throws LotIdDoesntExistException, SQLException {
 		try {
-			return getLot(lotId).insertCar(carId, leaveTime.getTime(), withSubscription);
+			ParkingLot parkingLot = getLot(lotId);
+			String result = parkingLot.insertCar(carId, leaveTime.getTime(), withSubscription);
+			regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
+			return result;
 		} catch (RobotFailureException e) {
 			// TODO: handle exception - restore the previous ParkingLot state from the DB.
 			return "The insertion of the car didn't succeed due to a Robot failure.\n" +
@@ -172,7 +172,10 @@ public class ParkingLotsManager {
 	 */
 	public String removeCar(int lotId, String carId) throws LotIdDoesntExistException, SQLException {
 		try {
-			return getLot(lotId).removeCar(carId);
+			ParkingLot parkingLot = getLot(lotId);
+			String result = parkingLot.removeCar(carId);
+			regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
+			return result;
 		} catch (RobotFailureException e) {
 			// TODO: handle exception - restore the previous ParkingLot state from the DB.
 			return "The removal of the car didn't succeed due to a Robot failure.\n" +
@@ -191,7 +194,9 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public void setBrokenPlace(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
-		getLot(lotId).setBrokenPlace(placeIndex);
+		ParkingLot parkingLot = getLot(lotId);
+		parkingLot.setBrokenPlace(placeIndex);
+		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
 	}
 	
 	
@@ -223,10 +228,13 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 * @throws DateIsNotWithinTheNext24Hours 
 	 */
-	public boolean reservePlace(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
+	public boolean reservePlace(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours, SQLException {
 		long arrivalTime = estimatedArrivalTime.getTime();
 		assertDateIsWithinTheNext24Hours(arrivalTime);
-		return getLot(lotId).reservePlaceForTheNext24Hours(carId);
+		ParkingLot parkingLot = getLot(lotId);
+		boolean result = parkingLot.reservePlaceForTheNext24Hours(carId);
+		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
+		return result;
 	}
 	
 	
@@ -242,10 +250,12 @@ public class ParkingLotsManager {
 	 * @throws DateIsNotWithinTheNext24Hours 
 	 * @throws SQLException the SQL exception
 	 */
-	public void cancelReservation(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
+	public void cancelReservation(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours, SQLException {
 		long arrivalTime = estimatedArrivalTime.getTime();
 		assertDateIsWithinTheNext24Hours(arrivalTime);
-		getLot(lotId).cancelReservation(carId, false);
+		ParkingLot parkingLot = getLot(lotId);
+		parkingLot.cancelReservation(carId, false);
+		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
 	}
 	
 	/************************************** Private Methods **************************************/
