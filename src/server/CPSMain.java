@@ -18,9 +18,9 @@ public class CPSMain {
 	public static void main(String[] args) {
 		try {
 			
-			AutoStatsGenerator.generateStatsLastWeekPeriodly();
+			//AutoStatsGenerator.generateStatsLastWeekPeriodly();
 			ParkingLotsManager.initialize();
-//			RatesManager.initialize();
+			RatesManager.initialize();
 			PriceCalculator.initialize();
 			
 			WebCustomerRequestsHandler webCustomerRequestsHandler = 

@@ -100,7 +100,6 @@ public class WorkersDBAPI extends DBAPI{
 	public void insertRatesOfLotId(boolean insertIntoPending, int lotId, double oneTimeParking, double order, double subscriptionFull,
 									double subscriptionOccasional, double subscriptionMultipleCarsPrice) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
-		Queue<Object> paramsValuesApprovedFull = new LinkedList<Object>();
 		
 		if (insertIntoPending) {
 			paramsValues.add(lotId);
@@ -117,15 +116,16 @@ public class WorkersDBAPI extends DBAPI{
 			paramsValues.add(oneTimeParking);
 			paramsValues.add(order);
 			paramsValues.add(subscriptionMultipleCarsPrice);
-			
-			paramsValuesApprovedFull.add(subscriptionFull);
-			
+						
 			DBConnection.updateSql(workersQueriesInst.insert_rates_of_lot_id, paramsValues);
-			DBConnection.updateSql(workersQueriesInst.change_full_subscription_rate, paramsValuesApprovedFull);
 		}
 	}
 	
-	
+	public void updateFullSubscriptionRate(double subscriptionFull) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		paramsValues.add(subscriptionFull);
+		DBConnection.updateSql(workersQueriesInst.change_full_subscription_rate, paramsValues);
+	}
 	
 	
 	
