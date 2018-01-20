@@ -211,7 +211,9 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public void cancelBrokenPlaceSetting(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
-		//TODO: implement if I'll will have time for that
+		ParkingLot parkingLot = getLot(lotId);
+		parkingLot.cancelBrokenPlaceSetting(placeIndex);
+		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
 	}
 	
 	
