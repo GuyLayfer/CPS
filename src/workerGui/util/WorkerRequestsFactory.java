@@ -38,11 +38,10 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 
-	public static BaseRequest CreateInitializeParkingLotRequest(int parkingLotId, int numberOfRows) {
+	public static BaseRequest CreateInitializeParkingLotRequest(int numberOfCoulmns) {
 		InitializeParkingLotRequest request = new InitializeParkingLotRequest();
 		request.requestType = WorkerRequestType.INITIALIZE_PARKING_LOT;
-		request.parkingLotId = parkingLotId;
-		request.numberOfRows = numberOfRows;
+		request.numberOfCoulmns = numberOfCoulmns;
 		return request;
 	}
 
@@ -53,13 +52,21 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 
-	public static BaseRequest CreateReserveParkingSpaceRequest(int lotId, int row, int column, int floor) {
+	public static BaseRequest CreateReserveParkingSpaceRequest(
+			int customerID,
+			String licensePlate,
+			String email,
+			int parkingLotID,
+			Date arrivalTime,
+			Date estimatedDepartureTime) {
 		ReserveParkingSpaceRequest request = new ReserveParkingSpaceRequest();
 		request.requestType = WorkerRequestType.RESERVE_PARKING_SPACE;
-		request.lotId = lotId;
-		request.row = row;
-		request.column = column;
-		request.floor = floor;
+		request.customerID = customerID;
+		request.licensePlate = licensePlate;
+		request.email = email;
+		request.parkingLotID = parkingLotID;
+		request.arrivalTime = arrivalTime;
+		request.estimatedDepartureTime = estimatedDepartureTime;
 		return request;
 	}
 

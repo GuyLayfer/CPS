@@ -9,26 +9,29 @@
 <?import core.guiUtilities.*?>
 
 <AnchorPane prefHeight="382.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="webGui.controllers.OrderOneTimeParkingController">
+	fx:controller="webGui.controllers.PreOrderParkingController">
 	<children>
-		<Text layoutX="117.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Order One Time Parking">
+		<Text layoutX="100.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pre-order Parking">
 			<font>
 				<Font name="System Bold" size="14.0" />
 			</font>
 		</Text>
-		<Text layoutX="25.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID" />
 		<NumberTextField fx:id="customerIDTF" layoutX="170.0" layoutY="70.0" promptText="Customet ID" />
-		<Text layoutX="25.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liscence Plate" />
 		<LicencePlateTextField fx:id="liscencePlateTF" layoutX="170.0" layoutY="110.0" promptText="Liscence Plate" />
-		<Text layoutX="25.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
 		<TextField fx:id="emailTF" layoutX="170.0" layoutY="150.0" promptText="Email" />
-		<Text layoutX="25.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking Lot ID" />
 		<ComboBox fx:id="parkingLotIdComboBox" layoutX="170.0" layoutY="190.0" prefWidth="150.0" />
-		<Text layoutX="25.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival Time" />
 		<DateTimePicker fx:id="arrivalTimeTF" layoutX="170.0" layoutY="230.0" promptText="Arrival Time" />
-		<Text layoutX="25.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimated Departure Time" />
 		<DateTimePicker fx:id="estimatedDepartureTimeTF" layoutX="170.0" layoutY="270.0" promptText="Estimated Departure Time" />
-		<Button fx:id="OrderOneTimeParkingBTN" layoutX="150.0" layoutY="320.0" mnemonicParsing="false" onAction="#OrderOneTimeParking" prefHeight="33.0"
-			prefWidth="79.0" text="Order" />
+		<Text layoutX="25.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer ID" />
+		<Text layoutX="25.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liscence Plate" />
+		<Text layoutX="25.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+		<Text layoutX="25.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Parking Lot ID" />
+		<Text layoutX="25.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival Time" />
+		<Text layoutX="25.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Estimated Departure Time" />
+		<Button fx:id="OrderOneTimeParkingBTN" layoutX="150.0" layoutY="320.0" onAction="#OrderOneTimeParking" text="Order">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
 	</children>
 </AnchorPane>
