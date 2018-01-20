@@ -115,17 +115,12 @@ public class WorkerRequestsFactory {
 		request.amountToAcquit = amountToAcquit;
 		return request;
 	}
-
-	public static BaseRequest CreateReportRequest(WorkerRequestType reportType) {
+	
+	public static BaseRequest CreatePeriodicReportRequest(WorkerRequestType reportType, Date startDate, Date endDate, int parkingLotId) {
 		ReportRequest request = new ReportRequest();
 		request.requestType = reportType;
-		return request;
-	}
-	
-	public static BaseRequest CreatePeriodicReportRequest(WorkerRequestType reportType, Date startDate, Date endDate) {
-		PeriodicReportRequest request = new PeriodicReportRequest();
-		request.requestType = reportType;
 		request.startDate = startDate;
+		request.parkingLotId = parkingLotId;
 		request.endDate = endDate;
 		return request;
 	}
