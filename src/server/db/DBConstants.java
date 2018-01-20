@@ -15,6 +15,7 @@ public class DBConstants {
 		ARRIVE_PREDICTION("arrive_prediction", DBConnection.sqlTypeKind.VARCHAR),
 		ARRIVE_TIME("arrive_time", DBConnection.sqlTypeKind.VARCHAR),
 		CAR_ID("car_id", DBConnection.sqlTypeKind.INT),
+		CARS_NUM("cars_num", DBConnection.sqlTypeKind.INT),
 		FILLED_RESERVATIONS("filled_reservations", DBConnection.sqlTypeKind.INT),
 		LOT_ID("lot_id", DBConnection.sqlTypeKind.INT),
 		NUMBER_OF_COLUMNS_IN_THIS_LOT("number_of_columns", DBConnection.sqlTypeKind.INT),

@@ -89,10 +89,11 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 * @param newExpiredDate the new expired date
 	 * @throws SQLException the SQL exception
 	 */
-	public void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate) throws SQLException {
+	public void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate, Date newStartDate) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
 		params.add(newExpiredDate);
+		params.add(newStartDate);
 		DBConnection.updateSql(subscriptionsQueriesInst.update_subscription_expired_date, params);
 	}
 
@@ -176,7 +177,7 @@ public class SubscriptionsDBAPI extends DBAPI{
 	//TODO: needs to get also 'startingDate' and 'routineDepartureTime' basically the 'expiredDate' is 'startingDate' + 28 days...
 	//TODO: also for FullMonthy subscription there is no need for 'routineDepartureTime'.
 	//TODO: subscriptionType is required!
-	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, List<String> listOfCarsForThisSubscription) throws SQLException, Exception {
+	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, List<String> listOfCarsForThisSubscription) throws SQLException {
 		
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		params.add(customerId);

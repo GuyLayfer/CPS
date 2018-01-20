@@ -4,6 +4,7 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import server.db.DBConstants.OrderType;
 import server.db.DBConstants.TrueFalse;
+import server.db.DBConstants.SubscriptionType;
 import server.db.SqlColumns;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.SubscriptionsDBAPI;
@@ -182,18 +183,25 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		Date rightNow = new Date();
 		Date newExpireDate = new Date();
 		Date newStartDate = new Date();
+		Date currentStartDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.START_DATE);
+		Date currentExpireDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
 		Calendar calendar = Calendar.getInstance();
 		
-		newStartDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.START_DATE);
-		Date currentExpireDate = (Date)resultList2.get(0).get(SqlColumns.Subscriptions.EXPIRED_DATE);
 		// check if the subscription is active
 		if (subscriptionsDBAPI.isSubscriptionActive(request.subscriptionID)) {
 			// add 28 days to newExpireDate
 	        calendar.setTime(currentExpireDate);
 	        calendar.add(Calendar.DATE, 28);
 	        newExpireDate = calendar.getTime();
+	        newStartDate = currentStartDate;
 		} else {
-			// subscription is not active but it is possible that there is a active subscription soon 
+			// subscription is not active but it is possible that there is a active subscription soon
+			if (rightNow.compareTo(currentStartDate) < 0) {
+				calendar.setTime(currentExpireDate);
+		        calendar.add(Calendar.DATE, 28);
+		        newExpireDate = calendar.getTime();
+		        newStartDate = currentStartDate;
+			} else {
 			calendar.setTime(rightNow);
 	        calendar.add(Calendar.DATE, 30);
 	        newExpireDate = calendar.getTime();
@@ -201,11 +209,32 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	        calendar.setTime(rightNow);
 	        calendar.add(Calendar.DATE, 2);
 	        newStartDate = calendar.getTime();
+			}
 		}
 		java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
 		java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
-		subscriptionsDBAPI.updateSubscriptionExpiredDate(request.subscriptionID, sqlExpireDate);
-		double price = 0.0; // TODO calculate price (don't know how to get subscription type with subscriptionID)
+		subscriptionsDBAPI.updateSubscriptionExpiredDate(request.subscriptionID, sqlExpireDate, sqlStartDate);
+		
+		// check what is the rate for the specific parking type and set price
+		double price = 0.0;
+		ArrayList<Map<String, Object>> resultList3 = new ArrayList<Map<String, Object>>();
+		subscriptionsDBAPI.selectSubscriptionDetails(request.subscriptionID, resultList3);
+		SubscriptionType type = (SubscriptionType)resultList3.get(0).get(SqlColumns.Subscriptions.SUBSCRIPTION_TYPE);
+		// if it is a full subscription - no need for lotId
+		switch (type) {
+		case FULL:
+			price = priceCalculator.calculateFullMonthly();
+			break;
+		case ROUTINE:
+			int lotId = (int)resultList3.get(0).get(SqlColumns.Subscriptions.LOT_ID);
+			price = priceCalculator.calculateMonthly(lotId);
+			break;
+		case ROUTINE_MULTIPLE_CARS:
+			int lotId1 = (int)resultList3.get(0).get(SqlColumns.Subscriptions.LOT_ID);
+			int carsNum = (int)resultList3.get(0).get(SqlColumns.Subscriptions.CARS_NUM);
+			price = priceCalculator.calculateMonthlyMultipleCars(lotId1, carsNum);
+			break;
+		}
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(request.subscriptionID, price));
 	}
 
