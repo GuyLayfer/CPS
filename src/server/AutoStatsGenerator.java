@@ -23,7 +23,7 @@ public class AutoStatsGenerator {
         
         
         long l = System.currentTimeMillis() - lastWeek.getTime();
-        timer.schedule(test, today, l);
+        timer.schedule(test, l, l);
         
 	    }
 
