@@ -15,6 +15,7 @@ import ocsf.server.ConnectionToClient;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.WorkersDBAPI;
 import server.parkingLot.ParkingLotsManager;
+import server.rates.RatesManager;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 
 public abstract class BaseRequestsHandler implements IRequestsHandler {
@@ -23,6 +24,7 @@ public abstract class BaseRequestsHandler implements IRequestsHandler {
 	protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	protected WorkersDBAPI workersDBAPI = WorkersDBAPI.getInstance();
 	protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
+	protected RatesManager ratesManager = RatesManager.getInstance();
 	protected IProvideConnectionsToClient connectionsToClientProvider;
 
 	public BaseRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
