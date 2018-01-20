@@ -26,6 +26,7 @@ public class InitializeParkingLotRequestsHandler extends BaseRequestsHandler {
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		InitializeParkingLotRequest initializeRequest = (InitializeParkingLotRequest) specificRequest;
 		int newParkingLotId = parkingLotsManager.addParkingLot(3, 3, initializeRequest.numberOfCoulmns);
+		ratesManager.addRates(newParkingLotId);
 		WorkerBaseResponse response = WorkerResponseFactory.CreateInitializeParkingLotResponse(newParkingLotId);
 		return CreateWorkerResponse(response);
 	}

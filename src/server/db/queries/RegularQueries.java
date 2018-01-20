@@ -2,6 +2,7 @@ package server.db.queries;
 
 import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
+import server.db.SqlColumns;
 
 
 
@@ -50,7 +51,24 @@ public class RegularQueries {
 			"SELECT * " +
 			" FROM " + SqlTables.COMPLAINTS.getName() +
 			" WHERE " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'false'";
+
+	public final String get_all_closed_complains =
+			"SELECT * " +
+			" FROM " + SqlTables.COMPLAINTS.getName() +
+			" WHERE " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'true'";
 	
+	public final String get_open_complains_between_dates =
+			"SELECT * " +
+			" FROM " + SqlTables.COMPLAINTS.getName() +
+			" WHERE ("+ DbSqlColumns.COMPLAINT_DATETIME.getName() + " BETWEEN ? and ?) and " +
+			DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'false'";
+
+	public final String get_closed_complains_between_dates =
+			"SELECT * " +
+			" FROM " + SqlTables.COMPLAINTS.getName() +
+			" WHERE ("+ DbSqlColumns.COMPLAINT_DATETIME.getName() + " BETWEEN ? and ?) and " +
+			DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'true'";
+
 	public final String car_id_details = 
 			"SELECT * " +
 			"FROM " +  SqlTables.CARS.getName() + 
@@ -108,7 +126,18 @@ public class RegularQueries {
 	
 	public final String insert_car_planed_being_in_parking =
 			"INSERT INTO " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName() + 
-			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			"(" +
+			DbSqlColumns.ENTRANCE_ID.getName() + ", " +
+			DbSqlColumns.CAR_ID.getName() + ", " +
+			DbSqlColumns.ACCOUNT_ID.getName() + ", " +
+			DbSqlColumns.LOT_ID.getName() + ", " + 
+			DbSqlColumns.ORDER_TYPE.getName() + ", " +
+			DbSqlColumns.ARRIVE_PREDICTION.getName() + ", " +
+			DbSqlColumns.LEAVE_PREDICTION.getName() + ", " +
+			DbSqlColumns.ARRIVE_TIME.getName() + ", " +
+			DbSqlColumns.LEAVE_TIME.getName() + 
+			 " ) " +
+			  " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	
 	public final String car_left_parking_update_time_left = 

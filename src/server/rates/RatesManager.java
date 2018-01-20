@@ -78,20 +78,28 @@ public class RatesManager {
 	public Double getFullMonthlySubscription() {
 		return LotRates.getFullMonthlySubscription();
 	}
-	public void addRates(Rates toBeAddedRates) {
-		// TODO: something with DB
-		LotRates toBeAddedLotRates = new LotRates(toBeAddedRates);
-		this.ratesMap.put(toBeAddedRates.parkingLotId, toBeAddedLotRates);
+	public void addRates(int lotId) throws SQLException {
+		LotRates toBeAddedLotRates = new LotRates();
+		double occasionalRate = toBeAddedLotRates.getOccasionalParkingRate();
+		double oneTimRate = toBeAddedLotRates.getPreOrderedParkingRate();
+		double monthlylRate = toBeAddedLotRates.getRoutineMonthlySubscription();
+		double monthlyMultipleRate = toBeAddedLotRates.getRoutineMonthlySubscriptionMultipleCars();
+		double monthlyFull = LotRates.getFullMonthlySubscription();
+		workersDBAPI.insertRatesOfLotId(false, lotId, occasionalRate, oneTimRate, monthlyFull,
+				monthlylRate, monthlyMultipleRate);
+		this.ratesMap.put(lotId, toBeAddedLotRates);
 	}
 	public void deleteRates(int lotId) {
 		//TODO: something with DB
 		this.ratesMap.remove(lotId);
 	}
-	public void insertRatesRequest(Rates newRates) {
-		// TODO: something with DB
+	public void insertRatesRequest(Rates newRates) throws SQLException {
+		workersDBAPI.insertRatesOfLotId(true, newRates.parkingLotId, newRates.occasionalParkingRate, newRates.preOrderedParkingRate, newRates.fullMonthlySubscription,
+				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);
 	}
-	public void updateApprovedRates(Rates newRates) {
-		// TODO: something with DB
+	public void updateApprovedRates(Rates newRates) throws SQLException {
+		workersDBAPI.insertRatesOfLotId(false, newRates.parkingLotId, newRates.occasionalParkingRate, newRates.preOrderedParkingRate, newRates.fullMonthlySubscription,
+				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);
 		LotRates newLotRates = new LotRates(newRates);
 		this.ratesMap.put(newRates.parkingLotId,newLotRates);
 	}
