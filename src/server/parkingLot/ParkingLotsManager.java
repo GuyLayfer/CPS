@@ -39,8 +39,12 @@ public class ParkingLotsManager {
 		TreeMap<Integer, String> parkingLotJsons = new TreeMap<Integer, String>();
 		regularDBAPI.selectAllParkingLots(parkingLotJsons);
 		for (Entry<Integer, String> mapEntry : parkingLotJsons.entrySet()) {
-			parkingLots.put(mapEntry.getKey(), gson.fromJson(mapEntry.getValue(), ParkingLot.class));
-			lotIds.add(mapEntry.getKey());
+			Integer key = mapEntry.getKey();
+			String value = mapEntry.getValue();
+			if (value != null && value != "") {
+				parkingLots.put(key, gson.fromJson(value, ParkingLot.class));
+				lotIds.add(key);
+			}
 		}
 	}
 	
