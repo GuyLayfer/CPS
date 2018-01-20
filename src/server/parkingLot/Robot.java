@@ -14,4 +14,6 @@ public class Robot {
 	}
 }
 
-class RobotFailureException extends Exception {}
+class RobotFailureException extends Exception {
+	private static final long serialVersionUID = 1L;
+}

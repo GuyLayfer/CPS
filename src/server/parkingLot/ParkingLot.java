@@ -5,16 +5,11 @@ import core.parkingLot.ParkingState;
 import core.parkingLot.ParkingStatus;
 import core.CpsGson;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TreeMap;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import com.google.gson.Gson;
-
-import server.db.dbAPI.RegularDBAPI;
 
 public class ParkingLot {
 	

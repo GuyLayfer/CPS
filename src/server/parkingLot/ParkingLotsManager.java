@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.google.gson.Gson;
+
+import core.CpsGson;
 import server.db.dbAPI.RegularDBAPI;
 
 
@@ -24,7 +29,20 @@ public class ParkingLotsManager {
 	private Vector<Integer> lotIds; // Vector is synchronized
 	
 	final private RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
-	final private static long numOfMillisIn24Hours = 24*60*60*1000;
+	final private long numOfMillisIn24Hours = 24*60*60*1000;
+	final private Gson gson = CpsGson.GetGson();
+	
+	
+	private ParkingLotsManager() throws SQLException {
+		parkingLots = new ConcurrentHashMap<Integer, ParkingLot>();
+		lotIds = new Vector<Integer>();
+		TreeMap<Integer, String> parkingLotJsons = new TreeMap<Integer, String>();
+		regularDBAPI.selectAllParkingLots(parkingLotJsons);
+		for (Entry<Integer, String> mapEntry : parkingLotJsons.entrySet()) {
+			parkingLots.put(mapEntry.getKey(), gson.fromJson(mapEntry.getValue(), ParkingLot.class));
+			lotIds.add(mapEntry.getKey());
+		}
+	}
 	
 	/************************************** Public Methods **************************************/
 	
@@ -39,6 +57,7 @@ public class ParkingLotsManager {
 		}
 	}
 	
+	
 	/**
 	 * Gets the single instance of ParkingLotsManager.
 	 *
@@ -48,18 +67,16 @@ public class ParkingLotsManager {
 		return instance;
 	}
 	
+	
 	/**
 	 * Gets a Vector which contains the ids of all the parking lots in CPS.
 	 *
 	 * @return the ids of all the parking lots in CPS
 	 */
 	public Vector<Integer> getAllIds() {
-		//TODO: implement and delete mock lot IDs.
-		Vector<Integer> lotIds = new Vector<Integer>();
-		lotIds.add(1);
-		lotIds.add(5);
-		return lotIds; // change it later to a deep copy of that Vector
+		return lotIds;
 	}
+	
 	
 	/**
 	 * Adds a new parking lot to CPS.
@@ -71,9 +88,11 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public int addParkingLot(int floors, int rows, int cols) throws SQLException {
+		
 		//TODO: implement
 		return 0;
 	}
+	
 	
 	/**
 	 * Removes a parking lot from CPS.
@@ -83,8 +102,9 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public void removeParkingLot(int lotId) throws LotIdDoesntExistException, SQLException {
-		//TODO: implement
+		//TODO: implement if I'll will have time for that
 	}
+	
 	
 	/**
 	 * Gets the json representation of the parking lot info.
@@ -98,6 +118,7 @@ public class ParkingLotsManager {
 		return null;
 	}
 	
+	
 	/**
 	 * Checks if a parking lot is full.
 	 *
@@ -108,6 +129,7 @@ public class ParkingLotsManager {
 	public boolean parkingLotIsFull(int lotId) throws LotIdDoesntExistException {
 		return getLot(lotId).isFull();
 	}
+	
 	
 	/**
 	 * Inserts a car into a parking lot (only after reserving a place for that car).
@@ -131,6 +153,7 @@ public class ParkingLotsManager {
 		}
 	}
 	
+	
 	/**
 	 * Removes a car from a parking lot.
 	 *
@@ -146,6 +169,7 @@ public class ParkingLotsManager {
 		return null;
 	}
 	
+	
 	/**
 	 * Sets the status of a parking place to BROKEN.
 	 *
@@ -159,6 +183,7 @@ public class ParkingLotsManager {
 		//TODO: implement
 	}
 	
+	
 	/**
 	 * Cancel broken place setting.
 	 *
@@ -171,6 +196,7 @@ public class ParkingLotsManager {
 	public void cancelBrokenPlaceSetting(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
 		//TODO: implement
 	}
+	
 	
 	/**
 	 * Reserves a parking place inside a specific parking lot for one time order 
@@ -193,6 +219,7 @@ public class ParkingLotsManager {
 		return getLot(lotId).reservePlaceForTheNext24Hours(carId);
 	}
 	
+	
 	/**
 	 * Cancel reservation of a parking place inside a specific parking lot for one time order 
 	 * with estimatedArrivalTime within the next 24 hours.
@@ -214,12 +241,6 @@ public class ParkingLotsManager {
 	
 	/************************************** Private Methods **************************************/
 	
-	private ParkingLotsManager() throws SQLException {
-		HashMap<Integer, String> parkingLotJsons = new HashMap<Integer, String>();
-		regularDBAPI.selectAllParkingLots(parkingLotJsons);
-		//TODO: implement
-	}
-	
 	private ParkingLot getLot(int lotId) throws LotIdDoesntExistException {
 		ParkingLot parkingLot = parkingLots.get(lotId);
 		if (parkingLot == null) {
@@ -228,18 +249,21 @@ public class ParkingLotsManager {
 		return parkingLot;
 	}
 	
-	private static void assertDateIsWithinTheNext24Hours(long date) throws DateIsNotWithinTheNext24Hours {
+	
+	private void assertDateIsWithinTheNext24Hours(long date) throws DateIsNotWithinTheNext24Hours {
 		long now = new Date().getTime();
 		if (date > now + numOfMillisIn24Hours) {
 			throw new DateIsNotWithinTheNext24Hours();
 		}
 	}
+	
+	
+	//TODO: implement time events
 }
 
 
 
 class LotIdDoesntExistException extends Exception {
-
 	private static final long serialVersionUID = 1L;
 }
 
