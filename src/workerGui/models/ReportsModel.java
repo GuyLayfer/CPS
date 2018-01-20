@@ -26,7 +26,7 @@ public class ReportsModel implements IServerResponseHandler<WorkerBaseResponse>{
 	}
 
 	public void sendReportRequest(Date startdate, Date endDate, int parkingLotId) {
-		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreatePeriodicReportRequest(
+		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateReportRequest(
 						reportsManager.getReportContext(),
 						startdate,
 						endDate,

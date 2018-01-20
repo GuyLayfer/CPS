@@ -102,31 +102,31 @@ public class DBAPITest {
 
 
 
-	@Test
-	public void testInsertIntoParkingServerInfo() {
-		try {
-			int newLotId1 = regularDBAPIInst.getNewParkingLotId();
-			int newLotId2 = regularDBAPIInst.getNewParkingLotId();
-			int newLotId3 = regularDBAPIInst.getNewParkingLotId();
-
-			regularDBAPIInst.insertParkingLot(newLotId1, "1111111111111111111123123321231lfgdjklfdjsklj skjdfgklsjdfkjfdlksj kljsfkdjg kljkfdljgsklfdj lkjsdgfkj kjdfskgl jdlfkjflk jkldfjklgjdfk kjklj" +
-					" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");
-			regularDBAPIInst.insertParkingLot(newLotId2, "222222222222222123123321231k jkldfjklgjdfk kjklj" +
-					" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");			
-			regularDBAPIInst.insertParkingLot(newLotId3, "33333333333333333323123321231k jkldfjklgjdfk kjklj" +
-					" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");					
-			Map<Integer, String> map = new HashMap<Integer, String>();
-			regularDBAPIInst.selectAllParkingLots(map);
-			for (Map.Entry<Integer, String> column : map.entrySet()) {
-				System.out.println(column.getKey() + "/" + column.getValue());
-			}
-
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void testInsertIntoParkingServerInfo() {
+//		try {
+//			int newLotId1 = regularDBAPIInst.getNewParkingLotId();
+//			int newLotId2 = regularDBAPIInst.getNewParkingLotId();
+//			int newLotId3 = regularDBAPIInst.getNewParkingLotId();
+//
+//			regularDBAPIInst.insertParkingLot(newLotId1, "1111111111111111111123123321231lfgdjklfdjsklj skjdfgklsjdfkjfdlksj kljsfkdjg kljkfdljgsklfdj lkjsdgfkj kjdfskgl jdlfkjflk jkldfjklgjdfk kjklj" +
+//					" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");
+//			regularDBAPIInst.insertParkingLot(newLotId2, "222222222222222123123321231k jkldfjklgjdfk kjklj" +
+//					" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");			
+//			regularDBAPIInst.insertParkingLot(newLotId3, "33333333333333333323123321231k jkldfjklgjdfk kjklj" +
+//					" sdfklgjklfsdgjfgkdsjsgdfkjgsfdkgsjfdkgjfdkjsdklgjsfdkjfakjgakjd");					
+//			Map<Integer, String> map = new HashMap<Integer, String>();
+//			regularDBAPIInst.selectAllParkingLots(map);
+//			for (Map.Entry<Integer, String> column : map.entrySet()) {
+//				System.out.println(column.getKey() + "/" + column.getValue());
+//			}
+//
+//
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	
 	
@@ -140,15 +140,15 @@ public class DBAPITest {
 //		}
 //	}
 
-	@Test
-	public void testGenerateReportsData() {
-		try {
-			reportsDBAPIInst.generateReportsDataOfLotId("reservations", lotId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void testGenerateReportsData() {
+//		try {
+//			reportsDBAPIInst.generateReportsDataOfLotId("reservations", lotId);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 	@Test
 	public void testInsertRates()  {

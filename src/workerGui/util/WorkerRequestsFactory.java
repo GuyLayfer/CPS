@@ -116,7 +116,7 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 	
-	public static BaseRequest CreatePeriodicReportRequest(WorkerRequestType reportType, Date startDate, Date endDate, int parkingLotId) {
+	public static BaseRequest CreateReportRequest(WorkerRequestType reportType, Date startDate, Date endDate, int parkingLotId) {
 		ReportRequest request = new ReportRequest();
 		request.requestType = reportType;
 		request.startDate = startDate;
