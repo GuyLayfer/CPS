@@ -61,12 +61,8 @@ public class RegularDBAPI extends DBAPI{
 	}
 	
 	
-/**
- * **************************************** TODO Section *****************************************.
- *
- * @return the new parking lot id
- * @throws SQLException the SQL exception
- */
+
+/****************************************** TODO Section ******************************************/
 
 	/**
 	 * Inserts a new null entry to the parking lots table and returns the unique id of the new parking lot.
@@ -155,47 +151,14 @@ public class RegularDBAPI extends DBAPI{
 		paramsValues.add(carId);
 		DBConnection.updateSql(regularQueriesInst.delete_entrance_from_car_planed_being_in_parking_by_entrance_id, paramsValues);
 	}
-	
-	/**
-	 * adds a routine monthly subscription to an account.
-	 *
-	 * @param accountId the account id
-	 * @param lotId the lot id
-	 * @param carIds a list of cars (may contain 1 car)
-	 * @throws SQLException the SQL exception
-	 */
-	public void addRoutineMonthlySubscriptionToAccount(int accountId, int lotId, List<String> carIds) throws SQLException {
-		//TODO: implement
+
+/**************************************** End Of TODO Section *************************************.*/
+
+	public void selectOrderByCarIdAndLotIdAndTime(int carId, int lotId, Date time, ArrayList<Map<String, Object>> resultList) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		//paramValues.
 	}
 	
-	/**
-	 * adds a Full monthly subscription to an account.
-	 *
-	 * @param accountId the account id
-	 * @param lotId the lot id
-	 * @param carId the car id
-	 * @throws SQLException the SQL exception
-	 */
-	public void addFullMonthlySubscriptionToAccount(int accountId, int lotId, String carId) throws SQLException {
-		//TODO: implement
-	}
-
-/**
- * ************************************* End Of TODO Section *************************************.
- *
- * @param carId the car id
- * @param accountId the account id
- * @param lotId the lot id
- * @param predictionArrive the prediction arrive
- * @param predictionLeave the prediction leave
- * @param timeArrive the time arrive
- * @param timeLeave the time leave
- * @param orderType the order type
- * @return the int
- * @throws SQLException the SQL exception
- */
-
-
 	/**
 	 * Insert parking reservation.
 	 *
@@ -224,6 +187,7 @@ public class RegularDBAPI extends DBAPI{
 		paramsValues.add(ServerUtils.getTimeStampOfDate(timeArrive));
 		paramsValues.add(ServerUtils.getTimeStampOfDate(timeLeave));
 		int entranceId = DBConnection.updateSql(regularQueriesInst.insert_car_planed_being_in_parking_to_log, paramsValues);
+		paramsValues.clear();
 		paramsValues.add(entranceId);
 		paramsValues.add(carId);
 		paramsValues.add(accountId);
