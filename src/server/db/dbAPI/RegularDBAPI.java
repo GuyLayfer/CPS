@@ -455,6 +455,11 @@ public class RegularDBAPI extends DBAPI{
 		Queue<Object> paramsValues = new LinkedList<Object>();
 		DBConnection.selectSql(regularQueriesInst.get_all_opened_complains, paramsValues, resultList);
 	}
+	
+	public void selectAllClosedComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		DBConnection.selectSql(regularQueriesInst.get_all_closed_complains, paramsValues, resultList);
+	}
 
 	public void updateComplaint(Complaint complaint, Boolean isComplaintApproved, String customerServiceResponse)
 			throws SQLException {

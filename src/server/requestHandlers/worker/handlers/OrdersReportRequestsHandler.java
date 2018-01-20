@@ -102,10 +102,10 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 		totalReservations = countOneTimeOrder + countOrder + countSubsFull + countSubsOcc;
 		
 		// how many order types were in last week in percenteges.
-		double oneTimeOrderPercents =  countOneTimeOrder / totalReservations;
-		double orderPercents =  countOrder / totalReservations;
-		double subsFullPercents =  countSubsFull / totalReservations;
-		double subsOccPercents =  countSubsOcc / totalReservations;
+		double oneTimeOrderPercents =  countOneTimeOrder / totalReservations * 100;
+		double orderPercents =  countOrder / totalReservations * 100;
+		double subsFullPercents =  countSubsFull / totalReservations * 100;
+		double subsOccPercents =  countSubsOcc / totalReservations * 100;
 		
 		// weekly average of each order type
 		double dailyAvgOneTimeOrder = countOneTimeOrder / 7; 
