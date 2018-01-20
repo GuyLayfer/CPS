@@ -31,14 +31,29 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 	}
 	
 	protected String orderOccasionalParking(CustomerRequest request) throws SQLException {
+		//customerID = customerID
+		//carID = licensePlate
+		//estimatedDepartureTime = estimatedDepartureTime
+		//email = email
+		//parkingLotID = currentLotId
+		
+		//check if the customerID exists already
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
+		//if there is no customerID, create new one
+		if (resultList.isEmpty())
+			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
+		
 		Date rightNow = new Date();
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				rightNow, request.estimatedDepartureTime, rightNow, new Date(0), 
 				OrderType.ONE_TIME);
-		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
+	
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculateOccasional(request.parkingLotID, rightNow, request.estimatedDepartureTime);
-		//TODO: update parking lots info
+		
+		price = updatePriceWithBalance(request.customerID, price);
+		
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
 	protected void enterParkingPreOrdered(CustomerRequest request) throws SQLException {
