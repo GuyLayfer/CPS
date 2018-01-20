@@ -25,19 +25,20 @@ public class ReportsModel implements IServerResponseHandler<WorkerBaseResponse>{
 		this.controller = controller;
 	}
 
-	public void sendReportRequest() {
-		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateReportRequest(reportsManager.getReportContext()));
-	}
-
-	public void sendReportRequest(Date startdate, Date endDate) {
-		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreatePeriodicReportRequest(
+	public void sendReportRequest(Date startdate, Date endDate, int parkingLotId) {
+		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateReportRequest(
 						reportsManager.getReportContext(),
 						startdate,
-						endDate));
+						endDate,
+						parkingLotId));
 	}
 
 	public Boolean isDateRangeRequired() {
 		return reportsManager.isDateRangeRequired();
+	}
+	
+	public Boolean isSelectParkingLotIdRequired() {
+		return reportsManager.isSelectParkingLotNeeded();
 	}
 	
 	public String getReportName() {

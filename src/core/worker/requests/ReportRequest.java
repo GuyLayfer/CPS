@@ -1,5 +1,12 @@
 package core.worker.requests;
 
-public class ReportRequest extends BaseRequest {
+import java.util.Date;
 
+public class ReportRequest extends BaseRequest {
+	
+	public Date startDate;
+
+	public Date endDate;
+	
+	public int parkingLotId;
 }

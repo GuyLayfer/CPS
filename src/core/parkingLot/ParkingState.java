@@ -16,4 +16,11 @@ public class ParkingState {
 	public ParkingState(ParkingStatus parkingStatus) {
 		this.parkingStatus = parkingStatus;
 	}
+	
+	// copy constructor
+	public ParkingState(ParkingState parkingState) {
+		this.parkingStatus = parkingState.parkingStatus;
+		this.carId = parkingState.carId;
+		this.leaveTime = parkingState.leaveTime;
+	}
 }

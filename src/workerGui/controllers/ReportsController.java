@@ -8,11 +8,18 @@ import java.util.List;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
+import core.guiUtilities.IServerResponseHandler;
 import core.worker.ReportItem;
+import core.worker.WorkerOperations;
+import core.worker.WorkerRequestType;
+import core.worker.responses.ParkingLotsNamesResponse;
+import core.worker.responses.WorkerBaseResponse;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -22,15 +29,23 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import workerGui.models.ReportsModel;
 import workerGui.util.ReportItemUiElement;
+import workerGui.util.WorkerAccountManager;
+import workerGui.util.WorkerConnectionManager;
+import workerGui.util.WorkerRequestsFactory;
 
-public class ReportsController implements IAddItemsToTable<ReportItemUiElement> {
+public class ReportsController implements IAddItemsToTable<ReportItemUiElement>, IServerResponseHandler<WorkerBaseResponse> {
 	private ValidationSupport validation = new ValidationSupport();
+	private WorkerConnectionManager connectionManager;
+	private WorkerAccountManager workerAccountManager;
 	private ReportsModel model;
 
 	public ReportsController() {
 		model = new ReportsModel(this);
+		workerAccountManager = WorkerAccountManager.getInstance();
+		connectionManager = WorkerConnectionManager.getInstance();
+		connectionManager.addServerMessageListener(this);
 	}
-	
+
 	@FXML
 	@SuppressWarnings("unchecked")
 	private void initialize() {
@@ -38,21 +53,38 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement> 
 		reportDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
 		TableColumn<ReportItemUiElement, String> reportDetail = new TableColumn<>("Detail");
 		reportDetail.setCellValueFactory(new PropertyValueFactory<>("detail"));
-		
+
 		reportsTable.setPlaceholder(new Label("Choose parameters for the report."));
 		reportsTable.getColumns().addAll(reportDescription, reportDetail);
 		reportsTable.setItems(FXCollections.observableArrayList(getExample()));
-		
+
 		showReportButton.disableProperty().bind(validation.invalidProperty());
-		validation.registerValidator(startDate, Validator.createEmptyValidator("Start date is required"));
-		validation.registerValidator(endDate, Validator.createEmptyValidator("End date is required"));
+		startToEndSection.managedProperty().bind(startToEndSection.visibleProperty());
+		selectParkingLotSection.managedProperty().bind(selectParkingLotSection.visibleProperty());
+
+		if (workerAccountManager.isOperationAllowed(WorkerOperations.CHANGE_PARKING_LOT)) {
+			connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateParkingLotNamesRequest());
+			ParkingLotId.setDisable(false);
+		} else {
+			ParkingLotId.getItems().add(workerAccountManager.getWorkerlotId());
+			ParkingLotId.setValue(workerAccountManager.getWorkerlotId());
+			ParkingLotId.setDisable(true);
+		}
 
 		reportHeader.setText(model.getReportName());
-		if(!model.isDateRangeRequired()) {
-			model.sendReportRequest();
+		if (!model.isDateRangeRequired()) {
 			startToEndSection.setVisible(false);
 		} else {
 			startToEndSection.setVisible(true);
+			validation.registerValidator(startDate, Validator.createEmptyValidator("Start date is required"));
+			validation.registerValidator(endDate, Validator.createEmptyValidator("End date is required"));
+		}
+
+		if (!model.isSelectParkingLotIdRequired()) {
+			selectParkingLotSection.setVisible(false);
+		} else {
+			selectParkingLotSection.setVisible(true);
+			validation.registerValidator(ParkingLotId, Validator.createEmptyValidator("Parking Lot id is required"));
 		}
 	}
 
@@ -63,6 +95,9 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement> 
 	private HBox startToEndSection;
 
 	@FXML
+	private HBox selectParkingLotSection;
+
+	@FXML
 	private TableView<ReportItemUiElement> reportsTable;
 
 	@FXML
@@ -70,15 +105,19 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement> 
 
 	@FXML
 	private Button showReportButton;
-	
+
 	@FXML
 	private Text reportHeader;
+
+	@FXML
+	private ComboBox<Integer> ParkingLotId;
 
 	@FXML
 	void showReport(ActionEvent event) {
 		model.sendReportRequest(
 				Date.from(startDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
-				Date.from(endDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()));
+				Date.from(endDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
+				ParkingLotId.getValue());
 	}
 
 	private ArrayList<ReportItemUiElement> getExample() {
@@ -111,5 +150,19 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement> 
 	@Override
 	public void AddToTable(List<ReportItemUiElement> pendingItems) {
 		reportsTable.setItems(FXCollections.observableArrayList(pendingItems));
+	}
+
+	@Override
+	public void handleServerResponse(WorkerBaseResponse response) {
+		if (response.requestType == WorkerRequestType.PARKING_LOT_NAMES) {
+			Platform.runLater(() -> {
+				ParkingLotsNamesResponse parkingLotNames = (ParkingLotsNamesResponse) response;
+				ParkingLotId.getItems().clear();
+				ParkingLotId.getItems().addAll(parkingLotNames.lotNames);
+				if (!parkingLotNames.lotNames.isEmpty()) {
+					ParkingLotId.setValue(parkingLotNames.lotNames.get(0));
+				}
+			});
+		}
 	}
 }
