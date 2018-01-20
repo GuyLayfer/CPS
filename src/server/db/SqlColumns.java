@@ -33,11 +33,9 @@ public class SqlColumns {
 		public static final String ACCOUNT_ID = "account_id"; //int(11)
 		public static final String COMPLAINT_DESCRIPTION = "complaint_description"; //text
 		public static final String COMPLAINT_CUSTOMER_SERVICE_RESPOND = "customer_service_response"; //text
-		public static final String ENTRANCE_ID = "entrance_id"; //int(11)
-		public static final String LOT_ID = "lot_id"; //int(11)
 		public static final String COMPLAINT_FILLED = "filled"; //enum - true/false
-		public static final String COMPLAINT_RESULT = "complaint_result"; //text
 		public static final String COMPLAINT_DATETIME = "date_complaint"; //timestamp
+		public static final String IS_ACCEPTED = "is_accepted"; //enum - true/false
 	}
 	
 	public class DailyStats{
