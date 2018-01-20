@@ -4,10 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import server.db.DBConnection;
+import server.db.DBConstants;
+import server.db.DBConstants.DbSqlColumns;
 import server.db.queries.ReportsQueries;
 
 // TODO: Auto-generated Javadoc
@@ -16,14 +19,25 @@ import server.db.queries.ReportsQueries;
  */
 public class ReportsDBAPI extends DBAPI {
 	
+/** The instance. */
 //	private static Object mutex = new Object();
 	private static volatile ReportsDBAPI instance;
+	
+	/** The reports queries inst. */
 	private ReportsQueries reportsQueriesInst;
 
+	/**
+	 * Instantiates a new reports DBAPI.
+	 */
 	private ReportsDBAPI() {
 		reportsQueriesInst = ReportsQueries.getInstance();
 	}
 
+	/**
+	 * Gets the single instance of ReportsDBAPI.
+	 *
+	 * @return single instance of ReportsDBAPI
+	 */
 	public static ReportsDBAPI getInstance() {
 		ReportsDBAPI result = instance;
 		if (result == null) {
@@ -47,8 +61,10 @@ public class ReportsDBAPI extends DBAPI {
 	 * @throws SQLException the SQL exception
 	 */
 	//TODO: test this query
-	public void getNumberOfReservationsBetween2Dates(java.sql.Date earlyDate, java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList) throws SQLException{
-		selectBetween2DatesQuery(reportsQueriesInst.select_count_reservations_between_2_dates_grouped_by_kind, earlyDate, latterDate, resultList);
+	public void getNumberOfReservationsBetween2Dates(java.sql.Date earlyDate,
+			java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList) throws SQLException{
+		selectBetween2DatesQuery(reportsQueriesInst.select_count_reservations_between_2_dates_grouped_by_kind,
+									earlyDate, latterDate, resultList);
 	}
 	
 	/**
@@ -60,18 +76,26 @@ public class ReportsDBAPI extends DBAPI {
 	 * @return the number of lating reservations between 2 dates.
 	 * @throws SQLException the SQL exception
 	 */
-	public void getNumberOfLatingReservationsBetween2Dates(java.sql.Date earlyDate, java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList)
+	public void getNumberOfLatingReservationsBetween2Dates(java.sql.Date earlyDate, java.sql.Date latterDate, 
+			ArrayList<Map<String, Object>> resultList)
 			throws SQLException{
 		selectBetween2DatesQuery(reportsQueriesInst.select_lating_reservations_between_2_dates, earlyDate, latterDate, resultList);
 	}
 	
-	public void getNumberOfCanceledReservationsBetween2Dates(java.sql.Date earlyDate, java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList)
+	/**
+	 * Gets the number of canceled reservations between 2 dates.
+	 *
+	 * @param earlyDate the early date
+	 * @param latterDate the latter date
+	 * @param resultList the result list
+	 * @return the number of canceled reservations between 2 dates
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfCanceledReservationsBetween2Dates(java.sql.Date earlyDate,
+			java.sql.Date latterDate, ArrayList<Map<String, Object>> resultList)
 			throws SQLException{
 		selectBetween2DatesQuery(reportsQueriesInst.select_canceled_reservations_between_2_dates, earlyDate, latterDate, resultList);
 	}
-	
-
-	
 	
 	/**
 	 * Gets the number of reservations of last week grouped by order.
@@ -81,13 +105,148 @@ public class ReportsDBAPI extends DBAPI {
 	 * @throws SQLException the SQL exception
 	 */
 	public void getNumberOfReservationsOfLastWeekGroupedByOrder(ArrayList<Map<String, Object>> resultList) throws SQLException{
+		java.sql.Date today = ServerUtils.getToday();
+		java.sql.Date lastWeekDate = ServerUtils.getLastWeek(); 
+		selectBetween2DatesQuery(reportsQueriesInst.select_counts_all_reservations_between_2_dates_grouped_by_orderType,
+								lastWeekDate, today, resultList);
+	}
+
+	
+	/**
+	 * Gets the number of reservations of last week grouped by order.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of reservations of last week grouped by order
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfReservationsOfLastWeekGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+																		int lotId) throws SQLException{
 		
-		Calendar calendar = new GregorianCalendar();
-		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
-		calendar.add(Calendar.DATE, -7); //get a week back
-		java.sql.Date lastWeekDate = new java.sql.Date(calendar.getTimeInMillis());
+		java.sql.Date today = ServerUtils.getToday();
+		java.sql.Date lastWeekDate = ServerUtils.getLastWeek(); 
 		
-		selectBetween2DatesQuery(reportsQueriesInst.select_counts_all_reservations_between_2_dates_grouped_by_orderType, lastWeekDate, today, resultList);
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_counts_all_reservations_between_2_dates_grouped_by_orderType_of_lot_id,
+				lastWeekDate, today, resultList, lotId);
+	}
+	
+	/**
+	 * Gets the number of filled of last week grouped by order of lot id.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of filled of last week grouped by order of lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfFilledOfLastWeekGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+			int lotId) throws SQLException{
+		
+		java.sql.Date today = ServerUtils.getToday();
+		java.sql.Date lastWeekDate = ServerUtils.getLastWeek(); 
+		
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_filled_reservations_between_2_dates_grouped_by_kind_of_lot_id,
+				lastWeekDate, today, resultList, lotId);
+	}
+	
+	/**
+	 * Gets the number of canceled of last week grouped by order of lot id.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of canceled of last week grouped by order of lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfCanceledOfLastWeekGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+			int lotId) throws SQLException{
+		
+		java.sql.Date today = ServerUtils.getToday();
+		java.sql.Date lastWeekDate = ServerUtils.getLastWeek(); 
+		
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_canceled_reservations_between_2_dates_grouped_by_kind_of_lot_id,
+				lastWeekDate, today, resultList, lotId);
+	}	
+	
+	/**
+	 * Gets the number of lating of last week grouped by order of lot id.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of lating of last week grouped by order of lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfLatingOfLastWeekGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+			int lotId) throws SQLException{
+		
+		java.sql.Date today = ServerUtils.getToday();
+		java.sql.Date lastWeekDate = ServerUtils.getLastWeek(); 
+		
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_lating_reservations_between_2_dates_grouped_by_kind_of_lot_id,
+				lastWeekDate, today, resultList, lotId);
+	}		
+
+	
+	
+	//TODO: floating point double = long / long - gives no floating point. need to make if for at least 2 digits after point.
+	/**
+	 * Generate reports data of lot id.
+	 * this function should be broken that could return the values calculated in the end of it.
+	 * 
+	 * @param reservationsFilledCanceledLatings the reservations filled canceled latings
+	 * @param lotId the lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void generateReportsDataOfLotId(String reservationsFilledCanceledLatings, int lotId) throws SQLException {
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		
+		// here select what data you would like to fetch
+		if (reservationsFilledCanceledLatings.equals("reservations")){
+		getNumberOfReservationsOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+		} else if (reservationsFilledCanceledLatings.equals("filled")){
+			getNumberOfFilledOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+		} else if (reservationsFilledCanceledLatings.equals("canceled")){
+			getNumberOfCanceledOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+		} else if (reservationsFilledCanceledLatings.equals("lating")){
+			getNumberOfLatingOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+		}
+		// number of reservations of the 'reservationsFilledCanceledLatings' category
+		long countOneTimeOrder = 0;
+		long countOrder = 0;
+		long countSubsFull = 0;
+		long countSubsOcc = 0;
+		long totalReservations = 0;
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		// iterate over the 'count' entries (have only one for each order type) and get data.
+		while (iterator.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			if(row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ONE_TIME.getValue())){
+				countOneTimeOrder = (long) row.get("count(entrance_id)");
+			}
+			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ORDER.getValue())){ 
+				System.out.println(row.get("count(entrance_id)"));
+				countOrder =  (long) (row.get("count(entrance_id)"));
+			}
+			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION.getValue())){
+				countSubsOcc  = (long) row.get("count(entrance_id)");
+			}
+			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION_FULL.getValue())){
+				countSubsFull  = (long) row.get("count(entrance_id)");
+			}
+		}
+		//total number of reservations is the sum of all possebilities
+		totalReservations = countOneTimeOrder + countOrder + countSubsFull + countSubsOcc;
+		
+		// how many order types were in last week in percenteges.
+		double oneTimeOrderPercents =  countOneTimeOrder / totalReservations;
+		double orderPercents =  countOrder / totalReservations;
+		double subsFullPercents =  countSubsFull / totalReservations;
+		double subsOccPercents =  countSubsOcc / totalReservations;
+		
+		// weekly average of each order type
+		double dailyAvgOneTimeOrder = countOneTimeOrder / 7; 
+		double dailyAvgOrder = countOrder / 7; 
+		double dailyAvgSubsOccOrder = countSubsOcc / 7; 
+		double dailyAvgSubsFullOrder = countSubsFull / 7; 
+		
 	}
 	
 	
@@ -101,12 +260,8 @@ public class ReportsDBAPI extends DBAPI {
 	 */
 	//TODO: test this query
 	public void getNumberOfReservationsOfLastDay(ArrayList<Map<String, Object>> resultList) throws SQLException{
-		
-		Calendar todayCalendar = new GregorianCalendar();
-		java.sql.Date today = new java.sql.Date(todayCalendar.getTimeInMillis());
-		todayCalendar.add(Calendar.DATE, -1);
-		java.sql.Date yesterday = new java.sql.Date(todayCalendar.getTimeInMillis());
-		
+		java.sql.Date today = ServerUtils.getToday();
+		java.sql.Date yesterday = ServerUtils.getLastDay();
 		selectBetween2DatesQuery(reportsQueriesInst.select_count_reservations_between_2_dates_grouped_by_kind, yesterday, today, resultList);
 	}
 	
@@ -119,11 +274,9 @@ public class ReportsDBAPI extends DBAPI {
 	 */
 	public void getNumberOfLatingReservationsOfLastDay(ArrayList<Map<String, Object>> resultList) throws SQLException{
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		Calendar calendar = new GregorianCalendar();
-		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
-		calendar.add(Calendar.DATE, -1); //get a day back
-		java.sql.Date yesterday = new java.sql.Date(calendar.getTimeInMillis());
-		selectBetween2DatesQuery(reportsQueriesInst.select_lating_reservations_between_2_dates, yesterday, today, resultList);//TODO: verify order yesterday today
+		java.sql.Date today = ServerUtils.getToday();
+		java.sql.Date yesterday = ServerUtils.getLastDay();
+		selectBetween2DatesQuery(reportsQueriesInst.select_lating_reservations_between_2_dates, yesterday, today, resultList);
 		DBConnection.selectSql(reportsQueriesInst.select_lating_reservations_between_2_dates, params, resultList);
 	}
 	
@@ -136,15 +289,14 @@ public class ReportsDBAPI extends DBAPI {
 	 */
 	public void getDailyStatsOfToday(ArrayList<Map<String, Object>> resultList) throws SQLException{
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		
 		Calendar todayCalendar = new GregorianCalendar();
 		java.sql.Date today = new java.sql.Date(todayCalendar.getTimeInMillis());
-		
 		params.add(today);
-		
 		DBConnection.selectSql(ReportsQueries.get_daily_stats_by_day_id, params, resultList);
-		
-	}	
+	}
+	
+	
+	
 
 	
 	
