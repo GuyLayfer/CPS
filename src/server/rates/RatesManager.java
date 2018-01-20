@@ -76,7 +76,7 @@ public class RatesManager {
 		return this.ratesMap.get(lotId).getRoutineMonthlySubscriptionMultipleCars();
 	}
 	public Double getFullMonthlySubscription() {
-		return this.getFullMonthlySubscription();
+		return LotRates.getFullMonthlySubscription();
 	}
 	public void addRates(Rates toBeAddedRates) {
 		// TODO: something with DB
