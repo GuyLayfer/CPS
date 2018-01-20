@@ -2,6 +2,7 @@ package server.db.queries;
 
 import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.SqlTables;
+import server.db.SqlColumns;
 
 
 
@@ -56,6 +57,18 @@ public class RegularQueries {
 			" FROM " + SqlTables.COMPLAINTS.getName() +
 			" WHERE " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'true'";
 	
+	public final String get_open_complains_between_dates =
+			"SELECT * " +
+			" FROM " + SqlTables.COMPLAINTS.getName() +
+			" WHERE ("+ DbSqlColumns.COMPLAINT_DATETIME.getName() + " BETWEEN ? and ?) and " +
+			DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'false'";
+
+	public final String get_closed_complains_between_dates =
+			"SELECT * " +
+			" FROM " + SqlTables.COMPLAINTS.getName() +
+			" WHERE ("+ DbSqlColumns.COMPLAINT_DATETIME.getName() + " BETWEEN ? and ?) and " +
+			DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'true'";
+
 	public final String car_id_details = 
 			"SELECT * " +
 			"FROM " +  SqlTables.CARS.getName() + 
