@@ -12,6 +12,8 @@ public class SqlColumns {
 		public static final String LEAVE_PREDICTION = "leave_prediction"; //timestamp
 		public static final String ARRIVE_TIME = "arrive_time"; //timestamp
 		public static final String LEAVE_TIME = "leave_time"; //timestamp
+		public static final String EMAIL = "email"; //varchar(45)
+
 	}
 	
 	public class Account{ //currently doesn't has a PK

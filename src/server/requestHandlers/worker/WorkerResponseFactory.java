@@ -45,8 +45,8 @@ public class WorkerResponseFactory {
 		return CreateNotificationResponse(WorkerRequestType.PARKING_LOT_FULL, message);
 	}
 
-	public static WorkerBaseResponse CreateReserveParkingSpaceResponse(int lotId, int row, int column, int floor) {
-		String message = "Resereved a parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
+	public static WorkerBaseResponse CreateReserveParkingSpaceResponse(int orderId) {
+		String message = "Resereved a parking space. your reservation Id is: " + orderId;
 		return CreateNotificationResponse(WorkerRequestType.RESERVE_PARKING_SPACE, message);
 	}
 
