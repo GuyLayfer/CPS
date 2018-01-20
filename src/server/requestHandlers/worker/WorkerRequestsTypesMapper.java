@@ -57,6 +57,27 @@ public class WorkerRequestsTypesMapper {
 		converterMap.put(WorkerRequestType.PARKING_LOT_NAMES, (gsonString) -> {
 			return gson.fromJson((String) gsonString, ParkingLotsNamesRequest.class);
 		});
+		converterMap.put(WorkerRequestType.COMPLAINTS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.CURRENT_SUBSCRIBERS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.LOT_SPACES_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.OPERATIONS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.ORDERS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.OUT_OF_ORDER_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.PERFORMENCE_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
 
 		return converterMap;
 	};
