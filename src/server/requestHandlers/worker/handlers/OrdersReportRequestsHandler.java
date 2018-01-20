@@ -9,7 +9,7 @@ import java.util.Map;
 import core.worker.ReportItem;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
-import core.worker.requests.PeriodicReportRequest;
+import core.worker.requests.ReportRequest;
 import core.worker.requests.PermissionsRequest;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
@@ -35,7 +35,7 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 //		return createUnsupportedFeatureResponse();
 		
-		PeriodicReportRequest periodicReportRequest = (PeriodicReportRequest) specificRequest;
+		ReportRequest reportRequest = (ReportRequest) specificRequest;
 		ArrayList<ReportItem> reportItems = new ArrayList<ReportItem>(); 
 		
 		 System.out.println("123");
@@ -43,8 +43,8 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 //		int curLotId = periodicReportRequest.lotId;
 		
 		
-		java.sql.Date first = new java.sql.Date(periodicReportRequest.startDate.getTime());
-		java.sql.Date second = new java.sql.Date(periodicReportRequest.endDate.getTime());
+		java.sql.Date first = new java.sql.Date(reportRequest.startDate.getTime());
+		java.sql.Date second = new java.sql.Date(reportRequest.endDate.getTime());
 
 		 generateReportsDataBetween2DatesOfLotId("reservations", 4, reportItems, first, second);
 		 WorkerBaseResponse response = WorkerResponseFactory.CreateReportResponse(reportItems, getHandlerRequestsType());
