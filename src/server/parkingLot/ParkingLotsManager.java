@@ -92,9 +92,12 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public int addParkingLot(int floors, int rows, int cols) throws SQLException {
-		
-		//TODO: implement
-		return 0;
+		int lotId = regularDBAPI.insertParkingLot();
+		ParkingLot newParkingLot = new ParkingLot(lotId, floors, rows, cols);
+		regularDBAPI.updateParkingLot(lotId, newParkingLot.toJson());
+		parkingLots.put(lotId, newParkingLot);
+		lotIds.addElement(lotId);
+		return lotId;
 	}
 	
 	
@@ -118,8 +121,7 @@ public class ParkingLotsManager {
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 */
 	public String parkingLotInfoToJson(int lotId) throws LotIdDoesntExistException {
-		//TODO: implement
-		return null;
+		return getLot(lotId).infoToJson();
 	}
 	
 	
