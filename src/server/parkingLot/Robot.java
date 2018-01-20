@@ -3,6 +3,7 @@ package server.parkingLot;
 import java.util.ArrayList;
 
 import core.parkingLot.ParkingState;
+import server.parkingLot.exceptions.RobotFailureException;
 
 public class Robot {
 	public void insertCar(int locationIndex, ArrayList<ParkingState> newParkingMap) throws RobotFailureException {
@@ -14,6 +15,3 @@ public class Robot {
 	}
 }
 
-class RobotFailureException extends Exception {
-	private static final long serialVersionUID = 1L;
-}
