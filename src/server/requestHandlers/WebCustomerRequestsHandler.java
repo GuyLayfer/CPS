@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.List;
 
 import core.CpsGson;
 import core.ResponseStatus;
@@ -158,11 +159,22 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
 		
-		//TODO insertNewSubscription needs to have a starting date for fullMonthly subscription.
-		// insertNewSubscription(int customerId, int lotId, subscriptionType type, Date startDate, Date expiredDate, Date routineDepartureTime, List<String> listOfCarsForThisSubscription)
-		//subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TYPETYPETYPE, newStartDate, newExpireDate, DATE_ZERO, request.liscencePlates);
-		return createUnsupportedFeatureResponse(request.requestType);
-		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
+		//set start and expire dates
+		Date startDate = request.startingDate;
+		Date expireDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(startDate);
+        calendar.add(Calendar.DATE, 28);
+        expireDate = calendar.getTime();
+		java.sql.Date sqlStartDate = new java.sql.Date(startDate.getTime());
+		java.sql.Date sqlExpireDate = new java.sql.Date(expireDate.getTime());
+        
+        //create a list that contains the only car
+        List<String> carsList = new ArrayList<String>();
+        carsList.add(request.carID);
+        
+		int subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, 0, SubscriptionType.FULL, sqlStartDate, sqlExpireDate, sqlExpireDate, carsList);
+		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
 	protected String subscriptionRenweal(CustomerRequest request) throws SQLException {
