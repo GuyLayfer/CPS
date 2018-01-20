@@ -3,6 +3,7 @@ package server.parkingLot;
 import core.parkingLot.ParkingLotInfo;
 import core.parkingLot.ParkingState;
 import core.parkingLot.ParkingStatus;
+import server.parkingLot.exceptions.RobotFailureException;
 import core.CpsGson;
 
 import java.util.Calendar;
@@ -165,7 +166,24 @@ public class ParkingLot {
 	
 	
 	synchronized public void cancelBrokenPlaceSetting(int placeIndex) throws IndexOutOfBoundsException {
-		//TODO: implement after implementing all the other functions
+		ParkingState parkingState = info.parkingMap.get(placeIndex);
+		if (parkingState.parkingStatus != ParkingStatus.BROKEN) {
+			return;
+		}
+		if (pendingReservedPlaces > 0) {
+			parkingState.parkingStatus = ParkingStatus.RESERVED;
+			pendingReservedPlaces--;
+		} else {
+			parkingState.parkingStatus = ParkingStatus.FREE;
+		}
+		if (placeIndex < parkedPlacesMap.lastKey()) {
+			//jty
+		} else if (placeIndex < reservedPlacesMap.lastKey()) {
+			
+		} else {
+			
+		}
+		//TODO: implement
 	}
 	
 	

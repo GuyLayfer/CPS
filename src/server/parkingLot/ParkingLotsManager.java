@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 
 import core.CpsGson;
 import server.db.dbAPI.RegularDBAPI;
+import server.parkingLot.exceptions.*;
 
 
 /**
@@ -280,12 +281,3 @@ public class ParkingLotsManager {
 	//TODO: implement time events
 }
 
-
-
-class LotIdDoesntExistException extends Exception {
-	private static final long serialVersionUID = 1L;
-}
-
-class DateIsNotWithinTheNext24Hours extends Exception {
-	private static final long serialVersionUID = 1L;
-}

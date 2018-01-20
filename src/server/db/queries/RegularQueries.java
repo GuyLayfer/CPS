@@ -50,6 +50,11 @@ public class RegularQueries {
 			"SELECT * " +
 			" FROM " + SqlTables.COMPLAINTS.getName() +
 			" WHERE " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'false'";
+
+	public final String get_all_closed_complains =
+			"SELECT * " +
+			" FROM " + SqlTables.COMPLAINTS.getName() +
+			" WHERE " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'true'";
 	
 	public final String car_id_details = 
 			"SELECT * " +
