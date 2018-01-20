@@ -126,7 +126,18 @@ public class RegularQueries {
 	
 	public final String insert_car_planed_being_in_parking =
 			"INSERT INTO " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName() + 
-			" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			"(" +
+			DbSqlColumns.ENTRANCE_ID.getName() + ", " +
+			DbSqlColumns.CAR_ID.getName() + ", " +
+			DbSqlColumns.ACCOUNT_ID.getName() + ", " +
+			DbSqlColumns.LOT_ID.getName() + ", " + 
+			DbSqlColumns.ORDER_TYPE.getName() + ", " +
+			DbSqlColumns.ARRIVE_PREDICTION.getName() + ", " +
+			DbSqlColumns.LEAVE_PREDICTION.getName() + ", " +
+			DbSqlColumns.ARRIVE_TIME.getName() + ", " +
+			DbSqlColumns.LEAVE_TIME.getName() + 
+			 " ) " +
+			  " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
 	
 	public final String car_left_parking_update_time_left = 
