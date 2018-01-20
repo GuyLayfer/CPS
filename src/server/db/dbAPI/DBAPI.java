@@ -38,6 +38,16 @@ public abstract class DBAPI {
 		params.add(rightDate);
 		DBConnection.selectSql(query, params, resultList);
 	}
+	
+	
+	public static void selectBetween2DatesQueryOfLotId(String query, java.sql.Date leftDate, java.sql.Date rightDate, 
+			ArrayList<Map<String, Object>> resultList, int lotId) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		params.add(leftDate);
+		params.add(rightDate);
+		params.add(lotId);
+		DBConnection.selectSql(query, params, resultList);
+	}
 
 }
 

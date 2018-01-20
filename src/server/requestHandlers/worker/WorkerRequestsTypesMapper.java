@@ -57,6 +57,27 @@ public class WorkerRequestsTypesMapper {
 		converterMap.put(WorkerRequestType.PARKING_LOT_NAMES, (gsonString) -> {
 			return gson.fromJson((String) gsonString, ParkingLotsNamesRequest.class);
 		});
+		converterMap.put(WorkerRequestType.COMPLAINTS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.CURRENT_SUBSCRIBERS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.LOT_SPACES_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.OPERATIONS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.ORDERS_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.OUT_OF_ORDER_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
+		converterMap.put(WorkerRequestType.PERFORMENCE_REPORT, (gsonString) -> {
+			return gson.fromJson((String) gsonString, PeriodicReportRequest.class);
+		});
 
 		return converterMap;
 	};
@@ -75,8 +96,13 @@ public class WorkerRequestsTypesMapper {
 		requestsHandlers.add(new RequestComplaintsForReviewRequestsHandler(server));
 		requestsHandlers.add(new RequestRatesForReviewRequestsHandler(server));
 		requestsHandlers.add(new ReserveParkingSpaceRequestsHandler(server));
-		requestsHandlers.add(new UpdateRatesRequestsHandler(server));
-		// TODO: Add reports handlers
+		requestsHandlers.add(new ComplaintsReportRequestsHandler(server));
+		requestsHandlers.add(new CurrentSubscribersReportRequestsHandler(server));
+		requestsHandlers.add(new LotSpacesReportRequestsHandler(server));
+		requestsHandlers.add(new OperationsReportRequestsHandler(server));
+		requestsHandlers.add(new OrdersReportRequestsHandler(server));
+		requestsHandlers.add(new OutOfOrderReportRequestHandler(server));
+		requestsHandlers.add(new PerformanceReportRequestsHandler(server));
 		return requestsHandlers;
 	}
 }

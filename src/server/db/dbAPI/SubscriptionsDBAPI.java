@@ -212,6 +212,26 @@ public class SubscriptionsDBAPI extends DBAPI{
 		DBConnection.selectSql(subscriptionsQueriesInst.select_cars_of_subscription_id, params, rs);
 		
 	}
+	
+	public int selectNumberOfSubscriptionsInLotId(int lotId) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		params.add(lotId);
+		ArrayList<Map<String, Object>> rs = new ArrayList<Map<String, Object>>(); 
+		DBConnection.selectSql(subscriptionsQueriesInst.select_number_of_subscriptions_in_lot_id, params, rs);
+		int numberOfSubscriptionsInLotId = (int) rs.get(0).get("count(subscription_id");
+		
+		return numberOfSubscriptionsInLotId;
+	}
+	
+	public int selectNumberOfSubscriptionsOfAllLots(int lotId) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		params.add(lotId);
+		ArrayList<Map<String, Object>> rs = new ArrayList<Map<String, Object>>(); 
+		DBConnection.selectSql(subscriptionsQueriesInst.select_number_of_subscriptions_of_all_lots, params, rs);
+		int numberOfSubscriptionsInLotId = (int) rs.get(0).get("count(subscription_id");
+		
+		return numberOfSubscriptionsInLotId;
+	}
 
 
 
