@@ -38,7 +38,7 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 		PeriodicReportRequest periodicReportRequest = (PeriodicReportRequest) specificRequest;
 		ArrayList<ReportItem> reportItems = new ArrayList<ReportItem>(); 
 		
-//		 System.out.println("123");
+		 System.out.println("123");
 		
 //		int curLotId = periodicReportRequest.lotId;
 		
