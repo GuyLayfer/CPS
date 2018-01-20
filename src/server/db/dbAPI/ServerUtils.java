@@ -130,25 +130,21 @@ public class ServerUtils {
 	 * @return the yesterday date string
 	 */
 	public static String getYesterdayDateString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        return dateFormat.format(yesterday());
-}
-	
-	
-	
-	public  static void printAllInResultSet(ArrayList<Map<String, Object>> resultList) {
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
-			while (iterator.hasNext()) {
-				Map<String, Object> row = (Map<String, Object>) iterator.next();
-				for (Map.Entry<String, Object> column : row.entrySet()) {
-					System.out.println(column.getKey() + "/" + column.getValue());
-				}
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return dateFormat.format(yesterday());
+	}
+
+	public static void printAllInResultSet(ArrayList<Map<String, Object>> resultList) {
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			for (Map.Entry<String, Object> column : row.entrySet()) {
+				System.out.println(column.getKey() + "/" + column.getValue());
 			}
 		}
-		
 	}
-	
-	public static Timestamp getTimeStampOfDate(Date date) throws Exception {
+
+	public static Timestamp getTimeStampOfDate(Date date) {
 		
 		Timestamp ts = new Timestamp((date).getTime());
 		String dateString = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(ts);
@@ -159,11 +155,11 @@ public class ServerUtils {
 			Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 			return timestamp;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("You tried to convert some object to TimeStamp. Check your query types.");
 		}
-		
-		throw new Exception();
+
+		return null;
 //		return new java.sql.Timestamp(parsedDate.getTime());
 		
 	}

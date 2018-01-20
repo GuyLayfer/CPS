@@ -88,7 +88,8 @@ public class RegularDBAPI extends DBAPI{
 	public void selectAllParkingLots(Map<Integer, String> resultMap) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		selectAllParkingLotsAsObjects(resultList);
-		for (Iterator iterator = resultList.iterator(); iterator.hasNext();) {
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			resultMap.put((Integer) row.get(DbSqlColumns.LOT_ID.getName()), (String)row.get(DbSqlColumns.INFO.getName()));
 		}
@@ -219,7 +220,7 @@ public class RegularDBAPI extends DBAPI{
 	 */
 	public int insertParkingReservation(String carId, int accountId,/* int entranceId,*/ int lotId, Date predictionArrive,
 			Date predictionLeave, Date timeArrive, Date timeLeave,
-			/*DBConnection.orderType*/DBConstants.OrderType orderType/*order, occasional entrance, etc*/) throws SQLException , Exception{
+			/*DBConnection.orderType*/DBConstants.OrderType orderType/*order, occasional entrance, etc*/) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
 		paramsValues.add(carId);
 		paramsValues.add(accountId);
@@ -252,7 +253,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @param arriveTime the arrive time
 	 * @throws SQLException the SQL exception
 	 */
-	public void updateArriveTime(String carId, Date arriveTime) throws SQLException , Exception {
+	public void updateArriveTime(String carId, Date arriveTime) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
 
 		paramsValues.add(ServerUtils.getTimeStampOfDate(arriveTime));
@@ -369,7 +370,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @param timeLeft the time left
 	 * @throws SQLException the SQL exception
 	 */
-	public void carLeftParkingByEntranceId(int entranceId, Date timeLeft) throws SQLException , Exception{
+	public void carLeftParkingByEntranceId(int entranceId, Date timeLeft) throws SQLException {
 		
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		paramsValues.add(ServerUtils.getTimeStampOfDate(timeLeft));
@@ -387,7 +388,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @param timeLeft the time left
 	 * @throws SQLException the SQL exception
 	 */
-	public void carLeftParkingByCarId(String carId, int lotId, Date timeLeft) throws SQLException , Exception {
+	public void carLeftParkingByCarId(String carId, int lotId, Date timeLeft) throws SQLException {
 		int entranceId = getEntranceIdFromCurrentCarsInParkingByCarId(carId);
 		carLeftParkingByEntranceId(entranceId, timeLeft);
 	}
