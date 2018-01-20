@@ -187,67 +187,67 @@ public class ReportsDBAPI extends DBAPI {
 	
 	
 	//TODO: floating point double = long / long - gives no floating point. need to make if for at least 2 digits after point.
-	/**
-	 * Generate reports data of lot id.
-	 * this function should be broken that could return the values calculated in the end of it.
-	 * 
-	 * @param reservationsFilledCanceledLatings the reservations filled canceled latings
-	 * @param lotId the lot id
-	 * @throws SQLException the SQL exception
-	 */
-	public void generateReportsDataOfLotId(String reservationsFilledCanceledLatings, int lotId) throws SQLException {
-		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		
-		// here select what data you would like to fetch
-		if (reservationsFilledCanceledLatings.equals("reservations")){
-		getNumberOfReservationsOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
-		} else if (reservationsFilledCanceledLatings.equals("filled")){
-			getNumberOfFilledOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
-		} else if (reservationsFilledCanceledLatings.equals("canceled")){
-			getNumberOfCanceledOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
-		} else if (reservationsFilledCanceledLatings.equals("lating")){
-			getNumberOfLatingOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
-		}
-		// number of reservations of the 'reservationsFilledCanceledLatings' category
-		long countOneTimeOrder = 0;
-		long countOrder = 0;
-		long countSubsFull = 0;
-		long countSubsOcc = 0;
-		long totalReservations = 0;
-		Iterator<Map<String, Object>> iterator = resultList.iterator();
-		// iterate over the 'count' entries (have only one for each order type) and get data.
-		while (iterator.hasNext()) {
-			Map<String, Object> row = (Map<String, Object>) iterator.next();
-			if(row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ONE_TIME.getValue())){
-				countOneTimeOrder = (long) row.get("count(entrance_id)");
-			}
-			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ORDER.getValue())){ 
-				System.out.println(row.get("count(entrance_id)"));
-				countOrder =  (long) (row.get("count(entrance_id)"));
-			}
-			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION.getValue())){
-				countSubsOcc  = (long) row.get("count(entrance_id)");
-			}
-			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION_FULL.getValue())){
-				countSubsFull  = (long) row.get("count(entrance_id)");
-			}
-		}
-		//total number of reservations is the sum of all possebilities
-		totalReservations = countOneTimeOrder + countOrder + countSubsFull + countSubsOcc;
-		
-		// how many order types were in last week in percenteges.
-		double oneTimeOrderPercents =  countOneTimeOrder / totalReservations;
-		double orderPercents =  countOrder / totalReservations;
-		double subsFullPercents =  countSubsFull / totalReservations;
-		double subsOccPercents =  countSubsOcc / totalReservations;
-		
-		// weekly average of each order type
-		double dailyAvgOneTimeOrder = countOneTimeOrder / 7; 
-		double dailyAvgOrder = countOrder / 7; 
-		double dailyAvgSubsOccOrder = countSubsOcc / 7; 
-		double dailyAvgSubsFullOrder = countSubsFull / 7; 
-		
-	}
+//	/**
+//	 * Generate reports data of lot id.
+//	 * this function should be broken that could return the values calculated in the end of it.
+//	 * 
+//	 * @param reservationsFilledCanceledLatings the reservations filled canceled latings
+//	 * @param lotId the lot id
+//	 * @throws SQLException the SQL exception
+//	 */
+//	public void generateReportsDataOfLotId(String reservationsFilledCanceledLatings, int lotId) throws SQLException {
+//		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+//		
+//		// here select what data you would like to fetch
+//		if (reservationsFilledCanceledLatings.equals("reservations")){
+//		getNumberOfReservationsOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+//		} else if (reservationsFilledCanceledLatings.equals("filled")){
+//			getNumberOfFilledOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+//		} else if (reservationsFilledCanceledLatings.equals("canceled")){
+//			getNumberOfCanceledOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+//		} else if (reservationsFilledCanceledLatings.equals("lating")){
+//			getNumberOfLatingOfLastWeekGroupedByOrderOfLotId(resultList, lotId);
+//		}
+//		// number of reservations of the 'reservationsFilledCanceledLatings' category
+//		long countOneTimeOrder = 0;
+//		long countOrder = 0;
+//		long countSubsFull = 0;
+//		long countSubsOcc = 0;
+//		long totalReservations = 0;
+//		Iterator<Map<String, Object>> iterator = resultList.iterator();
+//		// iterate over the 'count' entries (have only one for each order type) and get data.
+//		while (iterator.hasNext()) {
+//			Map<String, Object> row = (Map<String, Object>) iterator.next();
+//			if(row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ONE_TIME.getValue())){
+//				countOneTimeOrder = (long) row.get("count(entrance_id)");
+//			}
+//			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ORDER.getValue())){ 
+//				System.out.println(row.get("count(entrance_id)"));
+//				countOrder =  (long) (row.get("count(entrance_id)"));
+//			}
+//			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION.getValue())){
+//				countSubsOcc  = (long) row.get("count(entrance_id)");
+//			}
+//			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION_FULL.getValue())){
+//				countSubsFull  = (long) row.get("count(entrance_id)");
+//			}
+//		}
+//		//total number of reservations is the sum of all possebilities
+//		totalReservations = countOneTimeOrder + countOrder + countSubsFull + countSubsOcc;
+//		
+//		// how many order types were in last week in percenteges.
+//		double oneTimeOrderPercents =  countOneTimeOrder / totalReservations;
+//		double orderPercents =  countOrder / totalReservations;
+//		double subsFullPercents =  countSubsFull / totalReservations;
+//		double subsOccPercents =  countSubsOcc / totalReservations;
+//		
+//		// weekly average of each order type
+//		double dailyAvgOneTimeOrder = countOneTimeOrder / 7; 
+//		double dailyAvgOrder = countOrder / 7; 
+//		double dailyAvgSubsOccOrder = countSubsOcc / 7; 
+//		double dailyAvgSubsFullOrder = countSubsFull / 7; 
+//		
+//	}
 	
 	
 	
@@ -295,6 +295,76 @@ public class ReportsDBAPI extends DBAPI {
 		DBConnection.selectSql(ReportsQueries.get_daily_stats_by_day_id, params, resultList);
 	}
 	
+	
+
+	
+
+	/**
+	 * Gets the number of reservations between 2 dates grouped by order.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of reservations between 2 dates grouped by order
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfReservationsBetween2DatesGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+			int lotId, java.sql.Date first, java.sql.Date second) throws SQLException{
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_counts_all_reservations_between_2_dates_grouped_by_orderType_of_lot_id,
+				first, second, resultList, lotId);
+	}
+	
+	/**
+	 * Gets the number of filled between 2 dates grouped by order of lot id.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of filled between 2 dates grouped by order of lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfFilledBetween2DatesGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+			int lotId, java.sql.Date first, java.sql.Date second) throws SQLException{
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_filled_reservations_between_2_dates_grouped_by_kind_of_lot_id,
+				first, second, resultList, lotId);
+	}
+	
+	/**
+	 * Gets the number of canceled between 2 dates grouped by order of lot id.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of canceled between 2 dates grouped by order of lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfCanceledBetween2DatesGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+			int lotId, java.sql.Date first, java.sql.Date second) throws SQLException{
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_canceled_reservations_between_2_dates_grouped_by_kind_of_lot_id,
+				first, second, resultList, lotId);
+	}	
+	
+	/**
+	 * Gets the number of lating between 2 dates grouped by order of lot id.
+	 *
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @return the number of lating between 2 dates grouped by order of lot id
+	 * @throws SQLException the SQL exception
+	 */
+	public void getNumberOfLatingBetween2DatesGroupedByOrderOfLotId(ArrayList<Map<String, Object>> resultList,
+			int lotId, java.sql.Date first, java.sql.Date second) throws SQLException{
+		selectBetween2DatesQueryOfLotId(reportsQueriesInst.select_lating_reservations_between_2_dates_grouped_by_kind_of_lot_id,
+				first, second, resultList, lotId);
+	}
+	
+	public void insertIntoDailyStats(int lotId, long filled, long canceled, long lating) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		params.add(ServerUtils.getToday());
+		params.add(lotId);
+		params.add(filled);
+		params.add(canceled);
+		params.add(lating);
+		DBConnection.updateSql(reportsQueriesInst.insert_into_daily_stats_new_day, params);
+	}
+
 	
 	
 

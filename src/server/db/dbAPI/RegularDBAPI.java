@@ -478,6 +478,20 @@ public class RegularDBAPI extends DBAPI{
 		params.add(complainId);
 		DBConnection.selectSql(regularQueriesInst.select_complain_details, params, resultList);
 	}
+	
+	public void selectAllParkingLotsId(ArrayList<Integer> list) throws SQLException {
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>(); 
+		DBConnection.selectSql(regularQueriesInst.select_all_lot_id_from_rates, null, resultList);
+		
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			list.add((int)row.get(DbSqlColumns.LOT_ID.getName()));
+		}
+		
+		
+	}
+	
 
 	/**
 	 * Update parking reservaion.
