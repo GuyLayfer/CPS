@@ -38,11 +38,10 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 
-	public static BaseRequest CreateInitializeParkingLotRequest(int parkingLotId, int numberOfRows) {
+	public static BaseRequest CreateInitializeParkingLotRequest(int numberOfCoulmns) {
 		InitializeParkingLotRequest request = new InitializeParkingLotRequest();
 		request.requestType = WorkerRequestType.INITIALIZE_PARKING_LOT;
-		request.parkingLotId = parkingLotId;
-		request.numberOfRows = numberOfRows;
+		request.numberOfCoulmns = numberOfCoulmns;
 		return request;
 	}
 

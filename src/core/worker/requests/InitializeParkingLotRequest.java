@@ -4,5 +4,5 @@ public class InitializeParkingLotRequest extends BaseRequest {
 	
 	public int parkingLotId;
 	
-	public int numberOfRows;
+	public int numberOfCoulmns;
 }

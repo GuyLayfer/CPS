@@ -190,7 +190,7 @@ public class DBAPITest {
 
 		int subscriptionId;
 		try {
-			subscriptionId = subscriptionsDBAPIInst.insertNewSubscription(accountId, lotId, SubscriptionType.FULL, expiredDate, subscriptionStartTime, departureDate, cars,1);
+			subscriptionId = subscriptionsDBAPIInst.insertNewSubscription(accountId, lotId, SubscriptionType.FULL, expiredDate, subscriptionStartTime, departureDate, cars);
 	
 
 		subscriptionsDBAPIInst.selectSubscriptionDetails(subscriptionId, resultList);
