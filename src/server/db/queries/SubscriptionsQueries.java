@@ -76,11 +76,14 @@ public class SubscriptionsQueries {
 			 DbSqlColumns.EXPIRED_DATE.getName() + ", " +
 			 DbSqlColumns.SUBSCRIPTION_START_TIME.getName() + ", " + 
 			 DbSqlColumns.LEAVE_TIME.getName() +
-			 DbSqlColumns.CARS_NUM.getName() +
 			 " ) " +
-			" VALUES (?, ?, ?, ?, ?, ?, ?)";/*subscription_id auto incremented, customer_id, lot_id, 
+			" VALUES (?, ?, ?, ?, ?, ?)";/*subscription_id auto incremented, customer_id, lot_id, 
 				shigrati_or_full, expired_date*/
 
+	public final String update_cars_num =
+			" UPDATE " + SqlTables.SUBSCRIPTIONS.getName() +
+			" SET " + DbSqlColumns.CARS_NUM.getName() + " = ? " +
+			"   WHERE  " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ?";
 	
 	public final String insert_car_to_cars = 
 			"INSERT INTO " + SqlTables.CARS.getName() +

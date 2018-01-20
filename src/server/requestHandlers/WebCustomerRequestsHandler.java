@@ -171,10 +171,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
         java.sql.Date sqlRoutineDepartureTime = new java.sql.Date(request.estimatedDepartureTime.getTime());
         
         int subscriptionID;
+        
+        List<String> carsList = new ArrayList<String>(request.liscencePlates);
+        
         if (request.liscencePlates.size() == 1)
-        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, request.liscencePlates, request.liscencePlates.size());
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, carsList);
         else
-        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE_MULTIPLE_CARS, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, request.liscencePlates, request.liscencePlates.size());
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE_MULTIPLE_CARS, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, carsList);
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
@@ -211,7 +214,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
         List<String> carsList = new ArrayList<String>();
         carsList.add(request.carID);
         
-		int subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, 0, SubscriptionType.FULL, sqlStartDate, sqlExpireDate, sqlExpireDate, carsList, 1);
+		int subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, 0, SubscriptionType.FULL, sqlStartDate, sqlExpireDate, sqlExpireDate, carsList);
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
