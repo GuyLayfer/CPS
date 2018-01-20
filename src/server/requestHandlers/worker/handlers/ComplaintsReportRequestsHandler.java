@@ -8,6 +8,7 @@ import java.util.Map;
 import core.worker.ReportItem;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
+import core.worker.requests.ReportRequest;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
 import ocsf.server.ConnectionToClient;
@@ -30,11 +31,16 @@ public class ComplaintsReportRequestsHandler extends BaseRequestsHandler {
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 
-		
-		ArrayList<ReportItem> reportItems = new ArrayList<ReportItem>(); 
+		ReportRequest reportRequest = (ReportRequest) specificRequest;
+		java.sql.Date first = new java.sql.Date(reportRequest.startDate.getTime());
+		java.sql.Date second = new java.sql.Date(reportRequest.endDate.getTime());
+
+		ArrayList<ReportItem> reportItems = new ArrayList<ReportItem>();
+
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
-		RegularDBAPI.getInstance().selectAllOpenedComplaints(resultList);
-		RegularDBAPI.getInstance().selectAllClosedComplaints(resultList);
+		RegularDBAPI.getInstance().selectAllOpenComplaintsBetweenDates(resultList, first, second);
+		RegularDBAPI.getInstance().selectAllOpenComplaintsBetweenDates(resultList, first, second);
+		reportItems.add(new ReportItem("" , "number of complaints between " + first + " - " + second + " :" + resultList.size()));
 		
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
 		while (iterator.hasNext()) {

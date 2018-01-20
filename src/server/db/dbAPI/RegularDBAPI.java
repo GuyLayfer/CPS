@@ -456,6 +456,21 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.selectSql(regularQueriesInst.get_all_opened_complains, paramsValues, resultList);
 	}
 	
+	public void selectAllOpenComplaintsBetweenDates(ArrayList<Map<String, Object>> resultList,
+			java.sql.Date first, java.sql.Date second) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		paramsValues.add(first);
+		paramsValues.add(second);
+		DBConnection.selectSql(regularQueriesInst.get_open_complains_between_dates, paramsValues, resultList);
+	}
+	public void selectAllClosedComplaintsBetweenDates(ArrayList<Map<String, Object>> resultList
+			, java.sql.Date first, java.sql.Date second) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		paramsValues.add(first);
+		paramsValues.add(second);
+		DBConnection.selectSql(regularQueriesInst.get_closed_complains_between_dates, paramsValues, resultList);
+	}
+	
 	public void selectAllClosedComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
 		DBConnection.selectSql(regularQueriesInst.get_all_closed_complains, paramsValues, resultList);
