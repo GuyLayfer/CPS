@@ -100,6 +100,7 @@ public class RatesManager {
 	public void updateApprovedRates(Rates newRates) throws SQLException {
 		workersDBAPI.insertRatesOfLotId(false, newRates.parkingLotId, newRates.occasionalParkingRate, newRates.preOrderedParkingRate, newRates.fullMonthlySubscription,
 				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);
+		workersDBAPI.updateFullSubscriptionRate(newRates.fullMonthlySubscription);
 		LotRates newLotRates = new LotRates(newRates);
 		this.ratesMap.put(newRates.parkingLotId,newLotRates);
 	}
