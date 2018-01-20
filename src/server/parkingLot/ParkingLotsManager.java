@@ -106,7 +106,7 @@ public class ParkingLotsManager {
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 */
 	public boolean parkingLotIsFull(int lotId) throws LotIdDoesntExistException {
-		return getLot(lotId).parkingLotIsFull();
+		return getLot(lotId).isFull();
 	}
 	
 	/**

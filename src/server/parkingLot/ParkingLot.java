@@ -53,9 +53,11 @@ public class ParkingLot {
 		}	
 	}
 	
-	synchronized public boolean parkingLotIsFull() {
-		return (freePlacesMap.size() == 0) ? true : false;
+	
+	synchronized public boolean isFull() {
+		return freePlacesMap.isEmpty();
 	}
+	
 	
 	synchronized public String insertCar(String carId, long leaveTime, boolean withSubscription) throws RobotFailureException {
 		ReservationInfo reservationInfo = reservations.get(carId);
@@ -97,6 +99,7 @@ public class ParkingLot {
 		return null;
 	}
 	
+	
 	synchronized public String removeCar(String carId) throws RobotFailureException {
 		int carLocation = findCar(carId);
 		if (carLocation < 0) {
@@ -118,6 +121,7 @@ public class ParkingLot {
 		robot.removeCar(carLocation, info.parkingMap);
 		return null;
 	}
+	
 	
 	synchronized public void setBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
 		ParkingState parkingState = info.parkingMap.get(placeIndex);
@@ -164,9 +168,11 @@ public class ParkingLot {
 		}
 	}
 	
+	
 	synchronized public void cancelBrokenPlaceSetting(int placeIndex) throws IndexOutOfBoundsException {
 		//TODO: implement after implementing all the other functions
 	}
+	
 	
 	synchronized public boolean reservePlaceForTheNext24Hours(String carId) {
 		if (freePlacesMap.isEmpty()) {
@@ -176,6 +182,7 @@ public class ParkingLot {
 		//TODO: check if this function is complete
 		return true;
 	}
+	
 	
 	synchronized public void reservePlace(String carId, boolean forSubscription) {
 		ReservationInfo reservationInfo = reservations.get(carId);
@@ -198,6 +205,7 @@ public class ParkingLot {
 			reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
 		}
 	}
+	
 	
 	synchronized public void cancelReservation(String carId, boolean forSubscription) {
 		ReservationInfo reservationInfo = reservations.get(carId);
@@ -224,9 +232,11 @@ public class ParkingLot {
 		//TODO: check if this function is complete
 	}
 	
+	
 	synchronized public String toJson() {
 		return gson.toJson(this);
 	}
+	
 	
 	synchronized public String infoToJson() {
 		return gson.toJson(info);
@@ -245,7 +255,15 @@ public class ParkingLot {
 		return -1;
 	}
 	
+	
 	private int findPlaceForCar(long leaveTime) {
+		if (parkedPlacesMap.isEmpty()) {
+			if (!reservedPlacesMap.isEmpty()) {
+				return reservedPlacesMap.firstKey();
+			} else {
+				return freePlacesMap.firstKey();
+			}
+		}
 		for (Integer i : parkedPlacesMap.descendingKeySet()) {
 			if (info.parkingMap.get(i).leaveTime <= leaveTime) {
 				Integer nextIndex = parkedPlacesMap.higherKey(i);
@@ -261,14 +279,18 @@ public class ParkingLot {
 		return parkedPlacesMap.firstKey();
 	}
 	
+	
 	private void calculateStateAfterInsertion(int carLocation, String carId, long leaveTime) {
-		shiftCarsLeft(carLocation);
 		ParkingState parkingState = info.parkingMap.get(carLocation);
+		if (parkingState.parkingStatus == ParkingStatus.PARKED) {
+			shiftCarsLeft(carLocation);
+		}
 		parkingState.parkingStatus = ParkingStatus.PARKED;
 		parkingState.carId = carId;
 		parkingState.leaveTime = leaveTime;
 		parkedPlacesMap.put(carLocation, carLocation);
 	}
+	
 	
 	private void calculateStateAfterRemoval(int carLocation, String carId) {
 		ParkingState parkingState = info.parkingMap.get(carLocation);
@@ -283,9 +305,38 @@ public class ParkingLot {
 		//TODO: check if this function is complete
 	}
 	
+	
 	private void shiftCarsLeft(int index) {
+		int firstKey = 0;
+		ParkingState prev = null;
+		if (!reservedPlacesMap.isEmpty()) {
+			firstKey = reservedPlacesMap.firstKey();
+			reservedPlacesMap.remove(firstKey);
+		} else {
+			firstKey = freePlacesMap.firstKey();
+			freePlacesMap.remove(firstKey);
+		}
+		prev = info.parkingMap.get(firstKey);
+		ParkingStatus tempParkingStatus = prev.parkingStatus;
+		prev.parkingStatus = ParkingStatus.PARKED;
+		ParkingState curr = null;
+		for (Integer i : parkedPlacesMap.descendingKeySet()) {
+			curr = info.parkingMap.get(i);
+			prev.carId = curr.carId;
+			prev.leaveTime = curr.leaveTime;
+			prev = curr;
+			if (i == index) {
+				break;
+			}
+		}
+		prev.parkingStatus = tempParkingStatus;
+		prev.carId = null;
+		prev.leaveTime = 0;
+		parkedPlacesMap.remove(index);
+		parkedPlacesMap.put(firstKey, firstKey);
 		//TODO: check if this function is complete
 	}
+	
 	
 	private void shiftCarsRight(int index) {
 		int lastParkedIndex = parkedPlacesMap.lastKey();
@@ -333,6 +384,7 @@ public class ParkingLot {
 	}
 	
 }
+
 
 class ReservationInfo {
 	public boolean hasSubscription;
