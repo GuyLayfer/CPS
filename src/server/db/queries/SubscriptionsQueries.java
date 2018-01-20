@@ -42,6 +42,15 @@ public class SubscriptionsQueries {
 			"SELECT " + DbSqlColumns.CAR_ID.getName() + 
 			" FROM " + SqlTables.CARS.getName() + 
 			"  WHERE " + DbSqlColumns.SUBSCRIPTION_ID.getName() + " = ? ";
+
+	public final String select_number_of_subscriptions_in_lot_id = 
+			"SELECT (count " + DbSqlColumns.SUBSCRIPTION_ID.getName() + 
+			" FROM " + SqlTables.SUBSCRIPTIONS.getName() + 
+			"  WHERE " + DbSqlColumns.LOT_ID.getName() + " = ? ";	
+	
+	public final String select_number_of_subscriptions_of_all_lots = 
+			"SELECT (count " + DbSqlColumns.SUBSCRIPTION_ID.getName() + 
+			" FROM " + SqlTables.SUBSCRIPTIONS.getName();
 	
 	
 	

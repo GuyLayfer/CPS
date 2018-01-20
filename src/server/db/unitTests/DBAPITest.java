@@ -128,8 +128,27 @@ public class DBAPITest {
 		}
 	}
 
+	
+	
+//	@Test
+//	public void testGet() {
+//		try {
+//			reportsDBAPIInst.generateReportsDataOfLotId("reservations");
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
-
+	@Test
+	public void testGenerateReportsData() {
+		try {
+			reportsDBAPIInst.generateReportsDataOfLotId("reservations", lotId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void testInsertRates()  {

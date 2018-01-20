@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -163,6 +164,28 @@ public class ServerUtils {
 //		return new java.sql.Timestamp(parsedDate.getTime());
 		
 	}
+	
+	public static java.sql.Date getToday () {
+		Calendar calendar = new GregorianCalendar();
+		return new java.sql.Date(calendar.getTimeInMillis());
+	}
+	public static java.sql.Date getLastWeek () {
+		Calendar calendar = new GregorianCalendar();
+		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
+		calendar.add(Calendar.DATE, -7); //get a week back
+		java.sql.Date lastWeekDate = new java.sql.Date(calendar.getTimeInMillis());
+		return lastWeekDate;
+	}
+	public static java.sql.Date getLastDay () {
+		Calendar calendar = new GregorianCalendar();
+		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
+		calendar.add(Calendar.DATE, -1); //get a week back
+		java.sql.Date lastWeekDate = new java.sql.Date(calendar.getTimeInMillis());
+		return lastWeekDate;
+	}	
+
+	
+	
 
 	
 }
