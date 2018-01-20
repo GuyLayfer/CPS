@@ -51,6 +51,5 @@ public class RequestComplaintsForReviewRequestsHandler extends BaseRequestsHandl
 		}
 
 		return complaints;
-
 	}
 }

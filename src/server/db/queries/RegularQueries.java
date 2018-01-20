@@ -48,8 +48,8 @@ public class RegularQueries {
 	
 	public final String get_all_opened_complains =
 			"SELECT * " +
-			"FROM " + SqlTables.COMPLAINTS.getName() +
-			" WHERE "  + DbSqlColumns.COMPLAINT_FILLED.getName() + " = false ";
+			" FROM " + SqlTables.COMPLAINTS.getName() +
+			" WHERE " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'false'";
 	
 	public final String car_id_details = 
 			"SELECT * " +
@@ -63,17 +63,11 @@ public class RegularQueries {
 			" WHERE " + DbSqlColumns.COMPLAINT_ID.getName() + " = ?";
 	
 	public final String update_complaint =
-			" UPDATE  " + SqlTables.COMPLAINTS.getName() +
-			" SET " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = true " + 
-			          DbSqlColumns.COMPLAINT_RESULT.getName() + " = ? " +
-			" WHERE " + DbSqlColumns.COMPLAINT_ID.getName() + " = ?";
-	
-
-	public final String select_complaints_last_day = 
-			"SELECT * " +
-			" FROM " +  SqlTables.COMPLAINTS.getName() +
-			" WHERE " + DbSqlColumns.COMPLAINT_DATETIME.getName() +
-			" BETWEEN ? and ?";
+			"UPDATE " + SqlTables.COMPLAINTS.getName() +
+			" SET " + DbSqlColumns.COMPLAINT_FILLED.getName() + " = 'true', " + 
+			          DbSqlColumns.IS_ACCEPTED.getName() + " = ?, " +
+			          DbSqlColumns.COMPLAINT_CUSTOMER_SERVICE_RESPOND.getName() + " = ? " +
+			"WHERE " + DbSqlColumns.COMPLAINT_ID.getName() + " = ?";
 	
 	public final String update_customer_balance =
 			" UPDATE  " + SqlTables.ACCOUNTS.getName() +
@@ -189,5 +183,8 @@ public class RegularQueries {
 			" DELETE FROM " + SqlTables.SERVER_INFO.getName() +
 			" WHERE " + DbSqlColumns.LOT_ID.getName() + " = ? ";
 	
+	
+	public final String select_all_lot_id_from_rates = 
+			"SELECT * FROM " + SqlTables.RATES.getName();
 	
 }
