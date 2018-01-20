@@ -4,9 +4,12 @@ import java.sql.SQLException;
 
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
+import core.worker.requests.InitializeParkingLotRequest;
+import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
 import ocsf.server.ConnectionToClient;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
+import server.requestHandlers.worker.WorkerResponseFactory;
 
 public class InitializeParkingLotRequestsHandler extends BaseRequestsHandler {
 
@@ -21,8 +24,9 @@ public class InitializeParkingLotRequestsHandler extends BaseRequestsHandler {
 
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
-		return createUnsupportedFeatureResponse();
-		// BaseResponse response = WorkerResponseFactory.CreateInitializeParkingLotResponse(lotId);
-		// return CreateWorkerResponse(response);
+		InitializeParkingLotRequest initializeRequest = (InitializeParkingLotRequest) specificRequest;
+		int newParkingLotId = parkingLotsManager.addParkingLot(3, 3, initializeRequest.numberOfCoulmns);
+		WorkerBaseResponse response = WorkerResponseFactory.CreateInitializeParkingLotResponse(newParkingLotId);
+		return CreateWorkerResponse(response);
 	}
 }
