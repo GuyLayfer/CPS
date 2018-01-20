@@ -27,6 +27,12 @@ UNIQUE(lot_id),
 PRIMARY KEY (lot_id)
 );
 
+CREATE TABLE out_of_orders_parkings(
+lot_id int ,
+arrive_time timestamp,
+leave_time timestamp
+);
+
 
 CREATE TABLE current_cars_planed_being_in_parking(
 entrance_id  int,
