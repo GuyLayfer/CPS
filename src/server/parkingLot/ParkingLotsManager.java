@@ -171,8 +171,13 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public String removeCar(int lotId, String carId) throws LotIdDoesntExistException, SQLException {
-		//TODO: implement
-		return null;
+		try {
+			return getLot(lotId).removeCar(carId);
+		} catch (RobotFailureException e) {
+			// TODO: handle exception - restore the previous ParkingLot state from the DB.
+			return "The removal of the car didn't succeed due to a Robot failure.\n" +
+					"Please open a complaint.";
+		}
 	}
 	
 	
@@ -186,7 +191,7 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public void setBrokenPlace(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
-		//TODO: implement
+		getLot(lotId).setBrokenPlace(placeIndex);
 	}
 	
 	
@@ -200,7 +205,7 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public void cancelBrokenPlaceSetting(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
-		//TODO: implement
+		//TODO: implement if I'll will have time for that
 	}
 	
 	
@@ -221,7 +226,6 @@ public class ParkingLotsManager {
 	public boolean reservePlace(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		long arrivalTime = estimatedArrivalTime.getTime();
 		assertDateIsWithinTheNext24Hours(arrivalTime);
-		//TODO: check if this function is complete
 		return getLot(lotId).reservePlaceForTheNext24Hours(carId);
 	}
 	
@@ -241,7 +245,6 @@ public class ParkingLotsManager {
 	public void cancelReservation(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		long arrivalTime = estimatedArrivalTime.getTime();
 		assertDateIsWithinTheNext24Hours(arrivalTime);
-		//TODO: check if this function is complete
 		getLot(lotId).cancelReservation(carId, false);
 	}
 	
