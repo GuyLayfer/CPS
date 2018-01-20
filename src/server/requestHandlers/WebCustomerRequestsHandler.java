@@ -49,15 +49,51 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		// TODO: implement
 	}
 	
+	protected double updatePriceWithBalance(int customerID, double currentRequestPrice) throws SQLException {
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectCustomerAccountDetails(customerID, resultList);
+		double customersBalance = (double)resultList.get(0).get(SqlColumns.Account.BALANCE);
+		if (customersBalance == 0)
+			return currentRequestPrice;
+		if (customersBalance >= currentRequestPrice) {
+			customersBalance -= currentRequestPrice;
+			//update balance with customersBalance:
+			regularDBAPI.updateCustomerBalance(customerID, customersBalance);
+			currentRequestPrice = 0.0;
+		}
+		if (customersBalance < currentRequestPrice) {
+			currentRequestPrice -= customersBalance;
+			customersBalance = 0.0;
+			//update balance with customersBalance:
+			regularDBAPI.updateCustomerBalance(customerID, customersBalance);
+		}
+		return currentRequestPrice;
+	}
+	
 	protected String orderPreOrderedParking(CustomerRequest request) throws SQLException {
+		//customerID = customerID
+		//carID = licensePlate
+		//email = email
+		//parkingLotID = parkingLotID
+		//arrivalTime = arrivalTime
+		//estimatedDepartureTime = estimatedDepartureTime
+		
+		//check if the customerID exists already
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
+		//if there is no customerID, create new one
+		if (resultList.isEmpty())
+			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
+		
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
 				OrderType.ORDER);
-		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
+
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);
-		//TODO check if there is 'balance' in the customers account then update price.
-		//TODO: update parking lots info
+		
+		price = updatePriceWithBalance(request.customerID, price);
+		
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
 
@@ -105,14 +141,6 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//startingDate
 		//routineDepartureTime
 		
-		//calculate price (check if there are multiple cars or just one)
-		double price;
-		int subscriptionID;
-		if (request.liscencePlates.size() == 1)
-			price = priceCalculator.calculateMonthly(request.parkingLotID);
-		else
-			price = priceCalculator.calculateMonthlyMultipleCars(request.parkingLotID, request.liscencePlates.size());
-		
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
@@ -120,26 +148,37 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.liscencePlates.get(0), TrueFalse.TRUE);
 		
-		Date rightNow = new Date();
+		//calculate price (check if there are multiple cars or just one)
+		double price;
+		if (request.liscencePlates.size() == 1)
+			price = priceCalculator.calculateMonthly(request.parkingLotID);
+		else
+			price = priceCalculator.calculateMonthlyMultipleCars(request.parkingLotID, request.liscencePlates.size());
+		
+		price = updatePriceWithBalance(request.customerID, price);
+		
+		
 		Date newExpireDate = new Date();
-		Date newStartDate = new Date();
+		Date newStartDate = request.startingDate;
 		Calendar calendar = Calendar.getInstance();
 		
-		calendar.setTime(rightNow);
-        calendar.add(Calendar.DATE, 30);
+		calendar.setTime(newStartDate);
+        calendar.add(Calendar.DATE, 28);
         newExpireDate = calendar.getTime();
         
-        calendar.setTime(rightNow);
-        calendar.add(Calendar.DATE, 2);
-        newStartDate = calendar.getTime();
-        
         java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
-        java.sql.Date sqlstarteDate = new java.sql.Date(newStartDate.getTime());
+        java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
+        java.sql.Date sqlRoutineDepartureTime = new java.sql.Date(request.estimatedDepartureTime.getTime());
         
-		//TODO insertNewSubscription needs to have a startingDate and routineDepartureTime for routineMontly subscription.
-		subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TrueFalse.FALSE, sqlExpireDate, request.liscencePlates);
-		return createUnsupportedFeatureResponse(request.requestType);
-		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
+        int subscriptionID;
+        
+        List<String> carsList = new ArrayList<String>(request.liscencePlates);
+        
+        if (request.liscencePlates.size() == 1)
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, carsList);
+        else
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE_MULTIPLE_CARS, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, carsList);
+		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
 	protected String orderFullMonthlySubscription(CustomerRequest request) throws SQLException {
@@ -149,15 +188,17 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		//email
 		//startingDate
 		
-		//calculate price
-		double price = priceCalculator.calculateFullMonthly();
-		
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
 		//if there is no customerID, create new one
 		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.TRUE);
+		
+		//calculate price
+		double price = priceCalculator.calculateFullMonthly();
+		
+		price = updatePriceWithBalance(request.customerID, price);
 		
 		//set start and expire dates
 		Date startDate = request.startingDate;
@@ -247,6 +288,9 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			price = priceCalculator.calculateMonthlyMultipleCars(lotId1, carsNum);
 			break;
 		}
+		
+		price = updatePriceWithBalance(request.customerID, price);
+		
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(request.subscriptionID, price));
 	}
 

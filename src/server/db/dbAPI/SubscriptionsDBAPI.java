@@ -91,9 +91,9 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 */
 	public void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate, Date newStartDate) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
-		params.add(subscriptionId);
 		params.add(newExpiredDate);
 		params.add(newStartDate);
+		params.add(subscriptionId);
 		DBConnection.updateSql(subscriptionsQueriesInst.update_subscription_expired_date, params);
 	}
 
@@ -171,8 +171,16 @@ public class SubscriptionsDBAPI extends DBAPI{
 			insertCarToCarsTable(curCarId, customerId, subscriptionId);
 		}
 		
+		if (listOfCarsForThisSubscription.size() > 1) {
+			params.clear();
+			params.add(listOfCarsForThisSubscription.size());
+			params.add(subscriptionId);
+			DBConnection.updateSql(subscriptionsQueriesInst.update_cars_num, params);
+		}
+		
 		return subscriptionId;
 	}
+	
 	
 	//TODO: needs to get also 'startingDate' and 'routineDepartureTime' basically the 'expiredDate' is 'startingDate' + 28 days...
 	//TODO: also for FullMonthy subscription there is no need for 'routineDepartureTime'.
