@@ -119,18 +119,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.liscencePlates.get(0), TrueFalse.TRUE);
 		
-		Date rightNow = new Date();
 		Date newExpireDate = new Date();
-		Date newStartDate = new Date();
+		Date newStartDate = request.startingDate;
 		Calendar calendar = Calendar.getInstance();
 		
-		calendar.setTime(rightNow);
-        calendar.add(Calendar.DATE, 30);
+		calendar.setTime(newStartDate);
+        calendar.add(Calendar.DATE, 28);
         newExpireDate = calendar.getTime();
-        
-        calendar.setTime(rightNow);
-        calendar.add(Calendar.DATE, 2);
-        newStartDate = calendar.getTime();
         
         java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
         java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
