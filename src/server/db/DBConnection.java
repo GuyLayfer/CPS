@@ -116,7 +116,6 @@ public class DBConnection {
 					return rs.getInt(1);
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			conn.close();

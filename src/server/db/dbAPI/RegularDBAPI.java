@@ -9,6 +9,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+
+import core.worker.Complaint;
+
 import java.util.List;
 
 import server.db.DBConnection;
@@ -464,12 +467,12 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.selectSql(regularQueriesInst.get_all_opened_complains, paramsValues, resultList);
 	}
 
-	public void updateComplaint(Boolean complaint_Result, ArrayList<Map<String, Object>> resultList)
+	public void updateComplaint(Complaint complaint, Boolean isComplaintApproved, String customerServiceResponse)
 			throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
-		Queue<DBConnection.sqlTypeKind> paramTypes = new LinkedList<DBConnection.sqlTypeKind>();
-		paramsValues.add(complaint_Result);
-		paramTypes.add(sqlTypeKind.INT);
+		paramsValues.add(isComplaintApproved ? TrueFalse.TRUE.getValue() : TrueFalse.FALSE.getValue());
+		paramsValues.add(customerServiceResponse);
+		paramsValues.add(complaint.getComplaintId());
 		DBConnection.updateSql(regularQueriesInst.update_complaint, paramsValues);
 	}
 

@@ -79,8 +79,8 @@ public class WorkerResponseFactory {
 		return CreateNotificationResponse(WorkerRequestType.DECIDE_ON_RATES, message);
 	}
 
-	public static WorkerBaseResponse CreateDecideOnComplaintsResponse() {
-		String message = "Your decision was submitted. Thank you.";
+	public static WorkerBaseResponse CreateDecideOnComplaintsResponse(String customerServiceResponse) {
+		String message = customerServiceResponse + "\nYour decision was submitted. Thank you.";
 		return CreateNotificationResponse(WorkerRequestType.DECIDE_ON_COMPLAINTS, message);
 	}
 

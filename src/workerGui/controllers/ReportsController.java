@@ -78,7 +78,7 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement> 
 	void showReport(ActionEvent event) {
 		model.sendReportRequest(
 				Date.from(startDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
-				Date.from(startDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()));
+				Date.from(endDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()));
 	}
 
 	private ArrayList<ReportItemUiElement> getExample() {
