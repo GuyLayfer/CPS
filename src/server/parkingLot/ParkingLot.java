@@ -92,7 +92,7 @@ public class ParkingLot {
 		if (locationIndex < 0) {
 			return "Access denied.\nUnfortunatly this parking lot is full.";
 		}
-		calculateStateAfterInsertion(locationIndex);
+		calculateStateAfterInsertion(locationIndex, carId, leaveTime);
 		robot.insertCar(locationIndex, info.parkingMap);
 		return null;
 	}
@@ -102,7 +102,19 @@ public class ParkingLot {
 		if (carLocation < 0) {
 			return "Your car is not inside this parking lot.";
 		}
-		calculateStateAfterRemoval(carLocation);
+		calculateStateAfterRemoval(carLocation, carId);
+		if (!freePlacesMap.isEmpty()) {
+			if (!pendingBrokenPlaces.isEmpty()) {
+				setBrokenPlace(pendingBrokenPlaces.pop());
+			} else if (pendingReservedPlaces > 0) {
+				// TODO: handle code duplicates
+				int firstFreeIndex = freePlacesMap.firstKey();
+				info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+				freePlacesMap.remove(firstFreeIndex);
+				reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
+				pendingReservedPlaces--;
+			}
+		}
 		robot.removeCar(carLocation, info.parkingMap);
 		return null;
 	}
@@ -203,6 +215,7 @@ public class ParkingLot {
 		if (pendingReservedPlaces > 0) {
 			pendingReservedPlaces--;
 		} else if (!reservedPlacesMap.isEmpty()) {
+			// TODO: handle code duplicates
 			int lastReservedIndex = reservedPlacesMap.lastKey();
 			info.parkingMap.get(lastReservedIndex).parkingStatus = ParkingStatus.FREE;
 			reservedPlacesMap.remove(lastReservedIndex);
@@ -248,20 +261,75 @@ public class ParkingLot {
 		return parkedPlacesMap.firstKey();
 	}
 	
-	private void calculateStateAfterInsertion(int carLocation) {
-		//TODO: implement
+	private void calculateStateAfterInsertion(int carLocation, String carId, long leaveTime) {
+		shiftCarsLeft(carLocation);
+		ParkingState parkingState = info.parkingMap.get(carLocation);
+		parkingState.parkingStatus = ParkingStatus.PARKED;
+		parkingState.carId = carId;
+		parkingState.leaveTime = leaveTime;
+		parkedPlacesMap.put(carLocation, carLocation);
 	}
 	
-	private void calculateStateAfterRemoval(int carLocation) {
-		//TODO: implement
+	private void calculateStateAfterRemoval(int carLocation, String carId) {
+		ParkingState parkingState = info.parkingMap.get(carLocation);
+		if (reservations.containsKey(carId)) {
+			parkingState.parkingStatus = ParkingStatus.RESERVED;
+		} else {
+			parkingState.parkingStatus = ParkingStatus.FREE;
+		}
+		parkingState.carId = null;
+		parkingState.leaveTime = 0;
+		shiftCarsRight(carLocation);
+		//TODO: check if this function is complete
 	}
 	
 	private void shiftCarsLeft(int index) {
-		//TODO: implement
+		//TODO: check if this function is complete
 	}
 	
 	private void shiftCarsRight(int index) {
-		//TODO: implement
+		int lastParkedIndex = parkedPlacesMap.lastKey();
+		ParkingState lastParkedState = info.parkingMap.get(lastParkedIndex);
+		ParkingState prev = new ParkingState(lastParkedState);
+		ParkingState curr = null;
+		ParkingState temp = new ParkingState(ParkingStatus.PARKED);
+		for (Integer i : parkedPlacesMap.descendingKeySet()) {
+			curr = info.parkingMap.get(i);
+			if (i == index) {
+				break;
+			}
+			temp.carId = curr.carId;
+			temp.leaveTime = curr.leaveTime;
+			curr.carId = prev.carId;
+			curr.leaveTime = prev.leaveTime;
+			prev.carId = temp.carId;
+			prev.leaveTime = temp.leaveTime;
+		}
+		temp.parkingStatus = curr.parkingStatus;
+		curr.parkingStatus = prev.parkingStatus;
+		curr.carId = prev.carId;
+		curr.leaveTime = prev.leaveTime;
+		lastParkedState.carId = null;
+		lastParkedState.leaveTime = 0;
+		parkedPlacesMap.remove(lastParkedIndex);
+		if (temp.parkingStatus == ParkingStatus.RESERVED) {
+			lastParkedState.parkingStatus = ParkingStatus.RESERVED;
+			reservedPlacesMap.put(lastParkedIndex, lastParkedIndex);
+		} else { // temp.parkingStatus == ParkingStatus.FREE
+			if (reservedPlacesMap.isEmpty()) {
+				lastParkedState.parkingStatus = ParkingStatus.FREE;
+				freePlacesMap.put(lastParkedIndex, lastParkedIndex);
+			} else { // reservedPlacesMap.isEmpty() == false
+				lastParkedState.parkingStatus = ParkingStatus.RESERVED;
+				reservedPlacesMap.put(lastParkedIndex, lastParkedIndex);
+				// TODO: handle code duplicates
+				int lastReservedIndex = reservedPlacesMap.lastKey();
+				info.parkingMap.get(lastReservedIndex).parkingStatus = ParkingStatus.FREE;
+				reservedPlacesMap.remove(lastReservedIndex);
+				freePlacesMap.put(lastReservedIndex, lastReservedIndex);
+			}
+		}
+		//TODO: check if this function is complete
 	}
 	
 }
