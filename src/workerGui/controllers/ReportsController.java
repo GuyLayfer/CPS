@@ -114,10 +114,14 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement>,
 
 	@FXML
 	void showReport(ActionEvent event) {
-		model.sendReportRequest(
-				Date.from(startDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
-				Date.from(endDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
-				ParkingLotId.getValue());
+		if (startDate.getValue() == null || endDate.getValue() == null) {
+			model.sendReportRequest(new Date(), new Date(), ParkingLotId.getValue());
+		} else {
+			model.sendReportRequest(
+					Date.from(startDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
+					Date.from(endDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
+					ParkingLotId.getValue());
+		}
 	}
 
 	private ArrayList<ReportItemUiElement> getExample() {
