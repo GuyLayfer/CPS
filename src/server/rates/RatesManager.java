@@ -27,10 +27,14 @@ public class RatesManager {
 			double occasional = (double)resultList.get(i).get(SqlColumns.Rates.OCCASIONAL);
 			double preOrdered = (double)resultList.get(i).get(SqlColumns.Rates.PRE_ORDERED);
 			double monthly = (double)resultList.get(i).get(SqlColumns.Rates.SUBSCRIPTION);
-			// TODO: double monthlyMultipleCars = resultList.get(i).get(SqlColumns.Rates.SOMTHING);
-			LotRates newLotRates = new LotRates(occasional, preOrdered, monthly/*, monthlyMultipleCars*/);
+			double monthlyMultipleCars = (double)resultList.get(i).get(SqlColumns.Rates.SUBSCRIPTION_MULTIPLE_CARS);
+			LotRates newLotRates = new LotRates(occasional, preOrdered, monthly, monthlyMultipleCars);
 			this.ratesMap.put(lotId, newLotRates);
 		}
+		resultList.clear();
+		workersDBAPI.selectFullSubscriptionRate(resultList);
+		double fullSubscriptionRate = (double)resultList.get(0).get(SqlColumns.FullSubscriptionRate.RATE);
+		LotRates.setFullMonthlySubscription(fullSubscriptionRate);
 	}
 	/**
 	 * Initializer - used only once in CPSMain.
@@ -72,7 +76,7 @@ public class RatesManager {
 		return this.ratesMap.get(lotId).getRoutineMonthlySubscriptionMultipleCars();
 	}
 	public Double getFullMonthlySubscription() {
-		return this.getFullMonthlySubscription();
+		return LotRates.getFullMonthlySubscription();
 	}
 	public void addRates(Rates toBeAddedRates) {
 		// TODO: something with DB
