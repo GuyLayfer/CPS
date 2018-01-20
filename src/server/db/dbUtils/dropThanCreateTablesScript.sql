@@ -63,11 +63,10 @@ complaint_id int AUTO_INCREMENT,
 account_id  int,
 complaint_description text,
 customer_service_response text,
-entrance_id  int,
 lot_id int,
 filled ENUM('true', 'false'),
 date_complaint timestamp,
-UNIQUE(entrance_id),
+is_accepted ENUM('true', 'false'),
 UNIQUE(complaint_id),
 PRIMARY KEY (complaint_id)
 );

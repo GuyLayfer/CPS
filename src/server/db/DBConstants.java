@@ -32,10 +32,10 @@ public class DBConstants {
 		LATING_PER_PARK("latings_per_park", DBConnection.sqlTypeKind.INT),
 		COMPLAINT_ID("complaint_id", DBConnection.sqlTypeKind.INT),
 		COMPLAINT_DATETIME("date_complaint", DBConnection.sqlTypeKind.TIMESTAMP),
-		COMPLAINT_RESULT("complaint_result", DBConnection.sqlTypeKind.VARCHAR), //text
 		COMPLAINT_CUSTOMER_SERVICE_RESPOND("customer_service_response", DBConnection.sqlTypeKind.VARCHAR), //text
 		COMPLAINT_DESCRIPTION("complaint_description", DBConnection.sqlTypeKind.VARCHAR),
 		COMPLAINT_FILLED("filled", DBConnection.sqlTypeKind.VARCHAR), //enum
+		IS_ACCEPTED("is_accepted", DBConnection.sqlTypeKind.VARCHAR), //enum
 		WORKER_ID("worker_id", DBConnection.sqlTypeKind.INT),
 		INFO("info", DBConnection.sqlTypeKind.TEXT)
 		;

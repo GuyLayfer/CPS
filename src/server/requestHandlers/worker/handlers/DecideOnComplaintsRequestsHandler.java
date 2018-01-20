@@ -18,7 +18,7 @@ public class DecideOnComplaintsRequestsHandler extends BaseRequestsHandler {
 	public DecideOnComplaintsRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
-	
+
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.DECIDE_ON_COMPLAINTS;
@@ -29,16 +29,31 @@ public class DecideOnComplaintsRequestsHandler extends BaseRequestsHandler {
 		DecideOnComplaintRequest decideOnComplaintRequest = (DecideOnComplaintRequest) specificRequest;
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectComplaintDetails(decideOnComplaintRequest.complaintToDecide.getComplaintId(), resultList);
-		
+
 		if (resultList.isEmpty()) {
-			return createRequestDeniedResponse("Wrong ID");
+			return createRequestDeniedResponse("The complaint is no longer relevant.");
 		}
-		regularDBAPI.updateComplaint(decideOnComplaintRequest.isComplaintApproved, resultList);
-		
-		if(decideOnComplaintRequest.isComplaintApproved) {
-			regularDBAPI.updateCustomerBalance(decideOnComplaintRequest.complaintToDecide.getCustomerId(), decideOnComplaintRequest.amountToAcquit);
-		};
-		WorkerBaseResponse response = WorkerResponseFactory.CreateDecideOnComplaintsResponse();
+
+		String customerServiceResponse = "";
+		if (decideOnComplaintRequest.isComplaintApproved) {
+			customerServiceResponse = "Complaint was approved";
+		} else {
+			customerServiceResponse = "Complaint was declined";
+		}
+
+		if (decideOnComplaintRequest.isComplaintApproved && decideOnComplaintRequest.amountToAcquit > 0) {
+			customerServiceResponse = customerServiceResponse.concat(" and acquited with the amount: " + decideOnComplaintRequest.amountToAcquit);
+			
+			ArrayList<Map<String, Object>> resultList2 = new ArrayList<Map<String, Object>>();
+			regularDBAPI.selectCustomerAccountDetails(decideOnComplaintRequest.complaintToDecide.getCustomerId(), resultList2);
+			if (!resultList2.isEmpty()) {
+				regularDBAPI.updateCustomerBalance(decideOnComplaintRequest.complaintToDecide.getCustomerId(), decideOnComplaintRequest.amountToAcquit);
+			}
+		}
+
+		regularDBAPI.updateComplaint(decideOnComplaintRequest.complaintToDecide, decideOnComplaintRequest.isComplaintApproved, customerServiceResponse);
+
+		WorkerBaseResponse response = WorkerResponseFactory.CreateDecideOnComplaintsResponse(customerServiceResponse);
 		return CreateWorkerResponse(response);
 	}
 }
