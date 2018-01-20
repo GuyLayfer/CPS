@@ -50,14 +50,28 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	}
 	
 	protected String orderPreOrderedParking(CustomerRequest request) throws SQLException {
+		//customerID = customerID;
+		//carID = licensePlate;
+		//email = email;
+		//parkingLotID = parkingLotID;
+		//arrivalTime = arrivalTime;
+		//estimatedDepartureTime = estimatedDepartureTime;
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
 				OrderType.ORDER);
-		regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
+		
+		//check if the customerID exists already
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
+		//if there is no customerID, create new one
+		if (resultList.isEmpty())
+			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
+
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);
+		
 		//TODO check if there is 'balance' in the customers account then update price.
-		//TODO: update parking lots info
+		
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
 
@@ -112,6 +126,8 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		else
 			price = priceCalculator.calculateMonthlyMultipleCars(request.parkingLotID, request.liscencePlates.size());
 		
+		//TODO check if there is 'balance' in the customers account then update price.
+		
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(request.customerID, resultList);
@@ -148,6 +164,8 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		
 		//calculate price
 		double price = priceCalculator.calculateFullMonthly();
+		
+		//TODO check if there is 'balance' in the customers account then update price.
 		
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -244,6 +262,9 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			price = priceCalculator.calculateMonthlyMultipleCars(lotId1, carsNum);
 			break;
 		}
+		
+		//TODO check if there is 'balance' in the customers account then update price.
+		
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(request.subscriptionID, price));
 	}
 
