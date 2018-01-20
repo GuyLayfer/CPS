@@ -20,7 +20,7 @@ public class CPSMain {
 			
 			//AutoStatsGenerator.generateStatsLastWeekPeriodly();
 			ParkingLotsManager.initialize();
-//			RatesManager.initialize();
+			RatesManager.initialize();
 			PriceCalculator.initialize();
 			
 			WebCustomerRequestsHandler webCustomerRequestsHandler = 
