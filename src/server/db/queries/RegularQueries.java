@@ -190,4 +190,7 @@ public class RegularQueries {
 			" WHERE " + DbSqlColumns.LOT_ID.getName() + " = ? ";
 	
 	
+	public final String select_all_lot_id_from_rates = 
+			"SELECT * FROM " + SqlTables.RATES.getName();
+	
 }

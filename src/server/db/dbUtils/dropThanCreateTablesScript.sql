@@ -93,19 +93,11 @@ CONSTRAINT PK_lot_id_date PRIMARY KEY (lot_id,day_id)
 
 
 CREATE TABLE daily_stats(
-week_id date,
+day_id date,
 lot_id int,
-dailyAvgOneTimeOrderResrvations double,
-dailyAvgOrderResrvations double,
-dailyAvgSubsOccOrderResrvations double,
-dailyAvgSubsFullOrderResrvations double,
-
-dailyAvgOneTimeOrderFilled double,
-dailyAvgOrderFilled double,
-dailyAvgSubsOccOrderFilled double,
-dailyAvgSubsFullOrderFilled double,
-
-
+filled_reservations int,
+canceled_reservations int,
+latings_per_park int,
 UNIQUE(day_id),
 CONSTRAINT PK_lot_id_date PRIMARY KEY (lot_id,week_id)
 );

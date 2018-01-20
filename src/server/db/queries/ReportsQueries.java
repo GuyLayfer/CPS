@@ -136,7 +136,12 @@ public class ReportsQueries {
 	/*  day, filled_reservations, canceled_reservations, lating_per_park. might be done on initialization, with values of (0, 0, 0, 0)*/
 	public final String insert_into_daily_stats_new_day =
 			"INSERT into " + SqlTables.DAILY_STATS.getName() +
-			" Values(?,?,?,?) "; 
+			"( " + DbSqlColumns.DAY_ID.getName() + "," +
+					DbSqlColumns.LOT_ID.getName() + "," +
+					DbSqlColumns.FILLED_RESERVATIONS.getName() + "," +
+					DbSqlColumns.CANCELED_ORDERS.getName() + "," +
+					DbSqlColumns.LATING_PER_PARK.getName() + ")" +
+					" Values(?,?,?,?,?) "; 
 
 	
 	
