@@ -1,6 +1,7 @@
 
 package webGui.controllers;
 
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
 
@@ -26,13 +27,14 @@ import javafx.scene.control.TextField;
 import tornadofx.control.DateTimePicker;
 import webGui.util.CustomerRequestFactory;
 import webGui.util.MockWebClientConnectionManager;
+import webGui.util.WebGuiController;
 
-public class OrderOneTimeParkingController implements IServerResponseHandler<CustomerBaseResponse> {
+public class PreOrderParkingController extends WebGuiController implements IServerResponseHandler<CustomerBaseResponse> {
 	private ValidationSupport validation = new ValidationSupport();
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 	private MockWebClientConnectionManager connectionManager;
 
-	public OrderOneTimeParkingController() {
+	public PreOrderParkingController() {
 		connectionManager = MockWebClientConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(this);
 	}
@@ -47,8 +49,6 @@ public class OrderOneTimeParkingController implements IServerResponseHandler<Cus
 		validation.registerValidator(estimatedDepartureTimeTF, Validator.createEmptyValidator("Departure time is Required"));
 		validation.registerValidator(arrivalTimeTF, Validator.createEmptyValidator("Arrival time is Required"));
 		connectionManager.sendMessageToServer(CustomerRequestFactory.createParkingLotNamesRequest());
-		// validation.registerValidator(arrivalTimeTF, Validator.createPredicateValidator((nothing) -> CheckDate(), "Departure time should be later than
-		// Arrival"));
 	}
 
 	@FXML // fx:id="estimatedDepartureTimeTF"
@@ -74,14 +74,14 @@ public class OrderOneTimeParkingController implements IServerResponseHandler<Cus
 
 	@FXML
 	public void OrderOneTimeParking(ActionEvent event) {
-		CustomerRequest request = CustomerRequestFactory.createOrderOneTimeParkingRequest
-				(customerIDTF.getNumber(),
-						liscencePlateTF.getText(),
-						emailTF.getText(),
-						parkingLotIdComboBox.getValue(),
-						Date.from(arrivalTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()),
-						Date.from(estimatedDepartureTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()));
-		connectionManager.sendMessageToServer(request);
+		if (validateDates()) {
+			CustomerRequest request = CustomerRequestFactory.createOrderOneTimeParkingRequest(customerIDTF.getNumber(), liscencePlateTF.getText(), emailTF.getText(),
+					parkingLotIdComboBox.getValue(), Date.from(arrivalTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()),
+					Date.from(estimatedDepartureTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()));
+			connectionManager.sendMessageToServer(request);
+		} else {
+			showError("Please check your dates are valid for the reservation.");
+		}
 	}
 
 	@Override
@@ -95,12 +95,19 @@ public class OrderOneTimeParkingController implements IServerResponseHandler<Cus
 		}
 	}
 
-	// Doesn't work well. Need to validate both fields at same time
-	// private Boolean CheckDate(){
-	// if(arrivalTimeTF.getDateTimeValue() == null || estimatedDepartureTimeTF.getDateTimeValue() == null){
-	// return false;
-	// }
-	//
-	// return arrivalTimeTF.getDateTimeValue().isBefore(estimatedDepartureTimeTF.getDateTimeValue());
-	// }
+	private Boolean validateDates() {
+		if (arrivalTimeTF.getDateTimeValue() == null || estimatedDepartureTimeTF.getDateTimeValue() == null) {
+			return false;
+		}
+
+		if (arrivalTimeTF.getDateTimeValue().isAfter(estimatedDepartureTimeTF.getDateTimeValue())) {
+			return false;
+		}
+
+		if (arrivalTimeTF.getDateTimeValue().isBefore(LocalDateTime.now())) {
+			return false;
+		}
+
+		return true;
+	}
 }

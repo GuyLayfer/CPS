@@ -58,10 +58,10 @@ public class MockWebClientController extends WebGuiController implements IServer
 	private TrackOrderStatusController trackOrderStatusController;
 
 	@FXML
-	private Tab orderOneTimeParking;
+	private Tab PreOrderParking;
 
 	@FXML
-	private OrderOneTimeParkingController orderOneTimeParkingController;
+	private PreOrderParkingController preOrderParkingController;
 	
 	@Override
 	public void handleServerResponse(CustomerBaseResponse response) {

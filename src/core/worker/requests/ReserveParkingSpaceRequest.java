@@ -1,12 +1,18 @@
 package core.worker.requests;
 
-public class ReserveParkingSpaceRequest extends BaseRequest{
-	
-	public int lotId;
-	
-	public int row;
-	
-	public int column;
-	
-	public int floor;
+import java.util.Date;
+
+public class ReserveParkingSpaceRequest extends BaseRequest {
+
+	public int customerID;
+
+	public String licensePlate;
+
+	public String email;
+
+	public int parkingLotID;
+
+	public Date arrivalTime;
+
+	public Date estimatedDepartureTime;
 }
