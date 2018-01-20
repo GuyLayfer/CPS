@@ -141,7 +141,7 @@ public class ParkingLotsManager {
 	 * @param lotId the lot id
 	 * @param carId the car id
 	 * @param leaveTime the leave time
-	 * @param withSubscription should be true, if this car is entering with a subscription
+	 * @param withSubscription should be true, if this car is entering with a routine subscription (not full subscription)
 	 * @return if the insertion succeeded, returns null.
 	 * 		   otherwise, returns a message which explains what went wrong 
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
@@ -211,7 +211,9 @@ public class ParkingLotsManager {
 	 * @throws SQLException the SQL exception
 	 */
 	public void cancelBrokenPlaceSetting(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
-		//TODO: implement if I'll will have time for that
+		ParkingLot parkingLot = getLot(lotId);
+		parkingLot.cancelBrokenPlaceSetting(placeIndex);
+		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
 	}
 	
 	

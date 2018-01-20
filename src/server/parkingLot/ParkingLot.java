@@ -170,20 +170,31 @@ public class ParkingLot {
 		if (parkingState.parkingStatus != ParkingStatus.BROKEN) {
 			return;
 		}
-		if (pendingReservedPlaces > 0) {
+		
+		parkingState.parkingStatus = ParkingStatus.FREE;
+		if (!parkedPlacesMap.isEmpty() && placeIndex < parkedPlacesMap.lastKey()) {
+			shiftCarsRight(placeIndex);
+		} else if (!reservedPlacesMap.isEmpty() && placeIndex < reservedPlacesMap.lastKey()) {
 			parkingState.parkingStatus = ParkingStatus.RESERVED;
+			reservedPlacesMap.put(placeIndex, placeIndex);
+			int lastReservedIndex = reservedPlacesMap.lastKey();
+			info.parkingMap.get(lastReservedIndex).parkingStatus = ParkingStatus.FREE;
+			reservedPlacesMap.remove(lastReservedIndex);
+			freePlacesMap.put(lastReservedIndex, lastReservedIndex);
+		} else { // placeIndex > reservedPlacesMap.lastKey()
+			freePlacesMap.put(placeIndex, placeIndex);
+		}
+		
+		if (!pendingBrokenPlaces.isEmpty()) {
+			setBrokenPlace(pendingBrokenPlaces.pop());
+		} else if (pendingReservedPlaces > 0 && !freePlacesMap.isEmpty()) {
+			// TODO: handle code duplicates
+			int firstFreeIndex = freePlacesMap.firstKey();
+			info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+			freePlacesMap.remove(firstFreeIndex);
+			reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
 			pendingReservedPlaces--;
-		} else {
-			parkingState.parkingStatus = ParkingStatus.FREE;
 		}
-		if (placeIndex < parkedPlacesMap.lastKey()) {
-			//jty
-		} else if (placeIndex < reservedPlacesMap.lastKey()) {
-			
-		} else {
-			
-		}
-		//TODO: implement
 	}
 	
 	
@@ -272,8 +283,10 @@ public class ParkingLot {
 		if (parkedPlacesMap.isEmpty()) {
 			if (!reservedPlacesMap.isEmpty()) {
 				return reservedPlacesMap.firstKey();
-			} else {
+			} else if (!freePlacesMap.isEmpty()) {
 				return freePlacesMap.firstKey();
+			} else { // means that the whole parking lot is broken
+				return -1;
 			}
 		}
 		for (Integer i : parkedPlacesMap.descendingKeySet()) {
@@ -319,6 +332,9 @@ public class ParkingLot {
 	
 	
 	private void shiftCarsLeft(int index) {
+		if (parkedPlacesMap.isEmpty() || (reservedPlacesMap.isEmpty() && freePlacesMap.isEmpty())) {
+			return;
+		}
 		int firstKey = 0;
 		ParkingState prev = null;
 		if (!reservedPlacesMap.isEmpty()) {
@@ -351,6 +367,9 @@ public class ParkingLot {
 	
 	
 	private void shiftCarsRight(int index) {
+		if (parkedPlacesMap.isEmpty()) {
+			return;
+		}
 		int lastParkedIndex = parkedPlacesMap.lastKey();
 		ParkingState lastParkedState = info.parkingMap.get(lastParkedIndex);
 		ParkingState prev = new ParkingState(lastParkedState);

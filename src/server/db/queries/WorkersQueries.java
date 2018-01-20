@@ -51,8 +51,9 @@ public class WorkersQueries extends DBAPI {
 			" VALUES (?,?,?,?,?)";
 
 	public final String change_full_subscription_rate = 
+			// UPDATE full_subscription_rate SET rate = 288
 			" UPDATE " + SqlTables.FULL_SUBSCRIPTION_RATE.getName() + 
-			" SET 'rate' = ? WHERE 'key' = 1";
+			" SET rate = ?";
 
 	public final String insert_into_pending_rates_of_lot_id =
 			" INSERT INTO " + SqlTables.RATES_PENDING_FOR_APPROVAL.getName() + 
