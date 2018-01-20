@@ -75,8 +75,13 @@ public class WorkerRequestsTypesMapper {
 		requestsHandlers.add(new RequestComplaintsForReviewRequestsHandler(server));
 		requestsHandlers.add(new RequestRatesForReviewRequestsHandler(server));
 		requestsHandlers.add(new ReserveParkingSpaceRequestsHandler(server));
-		requestsHandlers.add(new UpdateRatesRequestsHandler(server));
-		// TODO: Add reports handlers
+		requestsHandlers.add(new ComplaintsReportRequestsHandler(server));
+		requestsHandlers.add(new CurrentSubscribersReportRequestsHandler(server));
+		requestsHandlers.add(new LotSpacesReportRequestsHandler(server));
+		requestsHandlers.add(new OperationsReportRequestsHandler(server));
+		requestsHandlers.add(new OrdersReportRequestsHandler(server));
+		requestsHandlers.add(new OutOfOrderReportRequestHandler(server));
+		requestsHandlers.add(new PerformanceReportRequestsHandler(server));
 		return requestsHandlers;
 	}
 }

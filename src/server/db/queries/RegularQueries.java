@@ -40,8 +40,8 @@ public class RegularQueries {
 			"(" +
 			 DbSqlColumns.ACCOUNT_ID.getName() + ", " +
 			 DbSqlColumns.COMPLAINT_DESCRIPTION.getName() + ", " + 
-			 DbSqlColumns.COMPLAINT_DATETIME.getName() + ", " +
-			 DbSqlColumns.COMPLAINT_FILLED.getName() +
+			 DbSqlColumns.COMPLAINT_FILLED.getName() + ", " +
+			 DbSqlColumns.COMPLAINT_DATETIME.getName() +
 			 " ) " +
 			  " VALUES (?, ?, ?, ?);";
 	
@@ -49,7 +49,7 @@ public class RegularQueries {
 	public final String get_all_opened_complains =
 			"SELECT * " +
 			"FROM " + SqlTables.COMPLAINTS.getName() +
-			"WHERE "  + DbSqlColumns.COMPLAINT_FILLED.getName() + " = false ";
+			" WHERE "  + DbSqlColumns.COMPLAINT_FILLED.getName() + " = false ";
 	
 	public final String car_id_details = 
 			"SELECT * " +
