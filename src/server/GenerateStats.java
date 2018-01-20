@@ -15,6 +15,7 @@ public class GenerateStats extends TimerTask{
 	
 	GenerateStats(){
 		super();
+		reservationsFilledCanceledLatingsList = new ArrayList<String>(); 
 		reservationsFilledCanceledLatingsList.add("reservation");
 		reservationsFilledCanceledLatingsList.add("filled");
 		reservationsFilledCanceledLatingsList.add("cancelled");
