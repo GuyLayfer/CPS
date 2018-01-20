@@ -34,7 +34,9 @@ public class WorkersQueries extends DBAPI {
 			" SELECT *"
 					+ " FROM " + SqlTables.RATES_PENDING_FOR_APPROVAL.getName();
 
-
+	public final String select_full_subscription_rate = 
+			" SELECT * FROM " + SqlTables.FULL_SUBSCRIPTION_RATE.getName();
+	
 	public final String selectWorkerBtNameAndPassword =
 			"SELECT *"
 					+ " FROM " + SqlTables.WORKERS.getName()

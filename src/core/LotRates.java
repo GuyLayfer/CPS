@@ -19,7 +19,7 @@ public class LotRates {
 		this.preOrderedParkingRate = DEFAULT_ONE_TIME_RATE;
 		this.routineMonthlySubscription = DEFAULT_ROUTINE_MONTHLY_RATE;
 		this.routineMonthlySubscriptionMultipleCars = DEFAULT_ROUTINE_MONTHLY_MULTIPLE_CARS_RATE;
-		this.fullMonthlySubscription = (Double)DEFAULT_FULL_MONTHLY_RATE;
+		//this.fullMonthlySubscription = (Double)DEFAULT_FULL_MONTHLY_RATE;
 	}
 	public LotRates(Rates rates) {
 		this.occasionalParkingRate = rates.occasionalParkingRate;
@@ -27,11 +27,11 @@ public class LotRates {
 		this.routineMonthlySubscription = rates.routineMonthlySubscription;
 		this.routineMonthlySubscriptionMultipleCars = rates.routineMonthlySubscriptionMultipleCars;
 	}
-	public LotRates(double occasional, double preOrdered, double monthly/*, double monthlyMultipleCars*/) {
+	public LotRates(double occasional, double preOrdered, double monthly, double monthlyMultipleCars) {
 		this.occasionalParkingRate = occasional;
 		this.preOrderedParkingRate = preOrdered;
 		this.routineMonthlySubscription = monthly;
-		//this.routineMonthlySubscriptionMultipleCars = monthlyMultipleCars;
+		this.routineMonthlySubscriptionMultipleCars = monthlyMultipleCars;
 	}
 	
 	synchronized public double getOccasionalParkingRate() {

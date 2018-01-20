@@ -80,6 +80,12 @@ public class WorkersDBAPI extends DBAPI{
 			DBConnection.selectSql(workersQueriesInst.select_all_lots_rates, null, resultList);
 	}
 
+	
+	
+	public void selectFullSubscriptionRate(ArrayList<Map<String, Object>> resultList) throws SQLException {
+		DBConnection.selectSql(workersQueriesInst.select_full_subscription_rate, null, resultList);
+	}
+	
 	/**
 	 * Insert rates of lot id.
 	 *

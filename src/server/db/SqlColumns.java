@@ -62,6 +62,11 @@ public class SqlColumns {
 		public static final String SUBSCRIPTION_MULTIPLE_CARS= "Subscription_multiple_cars";
 	}
 	
+	public class FullSubscriptionRate{
+		public static final String KEY = "key"; //int(11) PK
+		public static final String RATE = "rate"; //double
+	}
+	
 	public class Subscriptions{
 		public static final String SUBSCRIPTION_ID = "subscription_id"; //int(11) PK
 		public static final String ACCOUNT_ID = "account_id"; //int(11)
