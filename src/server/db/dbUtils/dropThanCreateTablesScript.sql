@@ -165,6 +165,12 @@ order_regular double,
 subscription_multiple_cars double
 );
 
+CREATE TABLE full_subscription_rate (
+rate double,
+key int,
+PRIMARY KEY (key)
+);
+
 
 
 CREATE TABLE parking_map(

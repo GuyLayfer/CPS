@@ -46,7 +46,11 @@ public class WorkersQueries extends DBAPI {
 
 	public final String insert_rates_of_lot_id =
 			" INSERT INTO " + SqlTables.RATES.getName() + 
-			" VALUES (?,?,?,?,?,?)";
+			" VALUES (?,?,?,?,?)";
+
+	public final String change_full_subscription_rate = 
+			" UPDATE " + SqlTables.FULL_SUBSCRIPTION_RATE.getName() + 
+			" SET 'rate' = ? WHERE 'key' = 1";
 
 	public final String insert_into_pending_rates_of_lot_id =
 			" INSERT INTO " + SqlTables.RATES_PENDING_FOR_APPROVAL.getName() + 
