@@ -212,7 +212,7 @@ public class RegularDBAPI extends DBAPI{
 	 */
 	public int insertParkingReservation(String carId, int accountId,/* int entranceId,*/ int lotId, Date predictionArrive,
 			Date predictionLeave, Date timeArrive, Date timeLeave,
-			/*DBConnection.orderType*/DBConstants.OrderType orderType/*order, occasional entrance, etc*/) throws SQLException {
+			/*DBConnection.orderType*/DBConstants.OrderType orderType/*order, occasional entrance, etc*/, String email) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of the SQL query
 		paramsValues.add(carId);
 		paramsValues.add(accountId);
@@ -223,11 +223,13 @@ public class RegularDBAPI extends DBAPI{
 		paramsValues.add(ServerUtils.getTimeStampOfDate(predictionLeave));
 		paramsValues.add(ServerUtils.getTimeStampOfDate(timeArrive));
 		paramsValues.add(ServerUtils.getTimeStampOfDate(timeLeave));
+		paramsValues.add(email);
 		int entranceId = DBConnection.updateSql(regularQueriesInst.insert_car_planed_being_in_parking_to_log, paramsValues);
 		paramsValues.add(entranceId);
 		paramsValues.add(carId);
 		paramsValues.add(accountId);
 		paramsValues.add(lotId);
+		paramsValues.add(email);
 		paramsValues.add(orderType.getValue());
 		paramsValues.add(ServerUtils.getTimeStampOfDate(predictionArrive));
 		paramsValues.add(ServerUtils.getTimeStampOfDate(predictionLeave));
