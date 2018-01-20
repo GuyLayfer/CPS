@@ -107,7 +107,6 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		
 		//calculate price (check if there are multiple cars or just one)
 		double price;
-		int subscriptionID;
 		if (request.liscencePlates.size() == 1)
 			price = priceCalculator.calculateMonthly(request.parkingLotID);
 		else
@@ -134,12 +133,15 @@ public class WebCustomerRequestsHandler extends AbstractServer {
         newStartDate = calendar.getTime();
         
         java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
-        java.sql.Date sqlstarteDate = new java.sql.Date(newStartDate.getTime());
+        java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
+        java.sql.Date sqlRoutineDepartureTime = new java.sql.Date(request.estimatedDepartureTime.getTime());
         
-		//TODO insertNewSubscription needs to have a startingDate and routineDepartureTime for routineMontly subscription.
-		subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, TrueFalse.FALSE, sqlExpireDate, request.liscencePlates);
-		return createUnsupportedFeatureResponse(request.requestType);
-		//return createOkResponse(request.requestType, gson.toJson(new IdPricePair(subscriptionID, price)));
+        int subscriptionID;
+        if (request.liscencePlates.size() == 1)
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, request.liscencePlates, request.liscencePlates.size());
+        else
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE_MULTIPLE_CARS, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, request.liscencePlates, request.liscencePlates.size());
+		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
 	protected String orderFullMonthlySubscription(CustomerRequest request) throws SQLException {
@@ -173,7 +175,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
         List<String> carsList = new ArrayList<String>();
         carsList.add(request.carID);
         
-		int subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, 0, SubscriptionType.FULL, sqlStartDate, sqlExpireDate, sqlExpireDate, carsList);
+		int subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, 0, SubscriptionType.FULL, sqlStartDate, sqlExpireDate, sqlExpireDate, carsList, 1);
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
