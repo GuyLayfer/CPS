@@ -44,6 +44,9 @@ public class DBConnection {
 			else if (curParam instanceof Date) {
 				java.sql.Date sqlExpireDate = new java.sql.Date(((Date)curParam).getTime());
 				ps.setDate(i, sqlExpireDate);
+			} 	
+			else if (curParam instanceof Long) {
+				ps.setInt(i, ((Long)curParam).intValue());
 			}
 		}
 	}
