@@ -33,7 +33,7 @@ public class WorkerRequestsHandler extends AbstractServer implements IProvideCon
 		responseConverterMap = WorkerRequestsTypesMapper.CreateRequestsConverterMap();
 		requestsHandlers = WorkerRequestsTypesMapper.CreateRequestsHandlers(this);
 	}
-
+ 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
