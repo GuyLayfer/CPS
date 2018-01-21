@@ -66,12 +66,21 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
-	protected void enterParkingPreOrdered(CustomerRequest request) throws SQLException {
+	protected String enterParkingPreOrdered(CustomerRequest request) throws SQLException, LotIdDoesntExistException {
 		//carID 
 		//parkingLotID
 		
 		Date rightNow = new Date();
 		//TODO: selectOrderByCarIdAndLotIdAndTime  -  get the order details and check if exists + time are correct
+		
+		//TODO: change it later to the values from the DB
+		String entranceResponse = parkingLotsManager.insertCar(request.parkingLotID, request.carID, 
+																new Date(), false);
+		if (entranceResponse != null) {
+			return createRequestDeniedResponse(request.requestType, entranceResponse);
+		}
+		
+		return createNotificationResponse(request.requestType, "Your car has been entered successfuly.");
 	}
 	protected String enterParkingSubscriber(CustomerRequest request) throws SQLException {
 		//carID
@@ -119,11 +128,11 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		case OCCASIONAL_PARKING:
 			return orderOccasionalParking(request);
 		case ENTER_PARKING_PRE_ORDERED: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return enterParkingPreOrdered(request);
 		case ENTER_PARKING_SUBSCRIBER: // TODO: implement
 			return createUnsupportedFeatureResponse(request.requestType);
 		case EXIT_PARKING: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return exitParking(request);
 		case PARKING_LOT_NAMES:
 			return parkingLotNames(request);
 		default:

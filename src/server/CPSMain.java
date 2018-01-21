@@ -33,10 +33,12 @@ public class CPSMain {
 			webCustomerRequestsHandler.listen();
 			kioskRequestsHandler.listen();
 			workerRequestsHandler.listen();
-		} catch (SQLException ex) {
+		} catch (SQLException e) {
 			System.out.println("ERROR - Could not retrieve data structures info from DB!");
-		} catch (Exception ex) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			System.out.println("ERROR - Could not listen for clients!");
+			e.printStackTrace();
 		}
 	}
 }
