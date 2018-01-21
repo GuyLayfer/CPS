@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
@@ -33,6 +34,7 @@ public class WorkerClientApplicationStarter extends Application {
 		primaryStage.setTitle("CPS Work Manager");
 		primaryStage.show();
 		scene.getWindow().sizeToScene();
+		primaryStage.getIcons().add(new Image(UriDictionary.class.getResourceAsStream(UriDictionary.Images.icon)));
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
