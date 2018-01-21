@@ -69,7 +69,7 @@ public class DBConstants {
 		PERMISSIONS(""),
 		DAILY_STATS("daily_stats"),
 		LOT_DIMENSIONS("lot_num_of_columns"),
-		WEEKLY_STATS(""),
+		WEEKLY_STATS("weekly_stats"),
 		SERVER_INFO("server_info");
 		
 		private String tableName;

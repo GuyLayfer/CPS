@@ -118,19 +118,23 @@ public class ReportsQueries {
 					 DbSqlColumns.ARRIVE_TIME.getName() + " IS NOT NULL ) and lot_id = ?)" +
 					 "	GROUP BY " + DbSqlColumns.ORDER_TYPE.getName();
 	
+	public final String select_filled_reservations_between_2_dates_of_lot_id = 
+			"SELECT " + DbSqlColumns.FILLED_RESERVATIONS.getName() + " " +
+			"  FROM " + SqlTables.DAILY_STATS.getName() +
+			"  WHERE (( " + DbSqlColumns.DAY_ID.getName() + " BETWEEN ? and ?) && (" +
+					 DbSqlColumns.DAY_ID.getName() + " IS NOT NULL ) and lot_id = ?)";
 	
+	public final String select_canceled_reservations_between_2_dates_of_lot_id = 
+			"SELECT " + DbSqlColumns.CANCELED_ORDERS.getName() + " " +
+			"  FROM " + SqlTables.DAILY_STATS.getName() +
+			"  WHERE (( " + DbSqlColumns.DAY_ID.getName() + " BETWEEN ? and ?) && (" +
+					 DbSqlColumns.DAY_ID.getName() + " IS NOT NULL ) and lot_id = ?)";
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public final String select_lating_reservations_between_2_dates_of_lot_id = 
+			"SELECT " + DbSqlColumns.LATING_PER_PARK.getName() + " " +
+			"  FROM " + SqlTables.DAILY_STATS.getName() +
+			"  WHERE (( " + DbSqlColumns.DAY_ID.getName() + " BETWEEN ? and ?) && (" +
+					 DbSqlColumns.DAY_ID.getName() + " IS NOT NULL ) and lot_id = ?)";
 	
 	
 	/*  day, filled_reservations, canceled_reservations, lating_per_park. might be done on initialization, with values of (0, 0, 0, 0)*/
@@ -142,12 +146,12 @@ public class ReportsQueries {
 					DbSqlColumns.CANCELED_ORDERS.getName() + "," +
 					DbSqlColumns.LATING_PER_PARK.getName() + ")" +
 					" Values(?,?,?,?,?) "; 
+	
+	
+	public final String insert_into_weekly_stats_new_day =
+			"INSERT into " + SqlTables.WEEKLY_STATS.getName() +
+			"  Values(?,?,?,?,?,?,?,?,?,?,?) "; 
 
-	
-	
-	
-	
-	
 	
 	
 	
@@ -159,35 +163,6 @@ public class ReportsQueries {
 			" and " + DbSqlColumns.ARRIVE_TIME.getName() + " between ? and ?";
 
 
-			
-			
-	
-	
-	
-	
-	
-	
-	
-	
-	/*gives the count of lating reservations of the last day */
-//	SELECT count(entranceID)
-//	 FROM parking status log
-//	 WHERE (prediction_arrive < time_entered || prediction_leave > time_leave)
-	
-//	SELECT (mean(count(entranceID))
-//	 FROM parking_status
-//	 WHERE time_entered < time_leave /*this guarantees the order filled and ended (car left)*/
-//	and time_entered between this day and last week
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
