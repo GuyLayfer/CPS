@@ -78,6 +78,9 @@ private static Gson gson = CpsGson.GetGson();
 		converterMap.put(WorkerRequestType.PERFORMENCE_REPORT, (gsonString) -> {
 			return gson.fromJson((String) gsonString, ReportResponse.class);
 		});
+		converterMap.put(WorkerRequestType.PARKING_LOT_INFO, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ParkingLotInfoResponse.class);
+		});
 
 		return converterMap;
 	};

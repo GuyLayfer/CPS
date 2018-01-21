@@ -49,19 +49,19 @@ public class WorkerAccountManager implements IServerResponseHandler<WorkerBaseRe
 
 	public void Login(int workerId, String password) {
 		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreatePermissionsRequest(workerId, password));
-		 debugMode(); // Enable when someone is connected to DB via MySql and you need to work on the GUI.
+//		 debugMode();
 	}
 
-	private void debugMode() {
-		this.workerId = 1;
-		this.workerlotId = 1;
-		this.workerRole = WorkerRole.FIRM_MANAGER;
-		this.permissions = new Permissions(WorkerRole.FIRM_MANAGER);
-		workerLoggedIn = true;
-		for (ICareAboutLoginState listener : listeners) {
-			listener.handleLogin();
-		}
-	}
+//	private void debugMode() {
+//		this.workerId = 1;
+//		this.workerlotId = 1;
+//		this.workerRole = WorkerRole.FIRM_MANAGER;
+//		this.permissions = new Permissions(WorkerRole.FIRM_MANAGER);
+//		workerLoggedIn = true;
+//		for (ICareAboutLoginState listener : listeners) {
+//			listener.handleLogin();
+//		}
+//	}
 
 	public void Logout() {
 		this.workerId = 0;

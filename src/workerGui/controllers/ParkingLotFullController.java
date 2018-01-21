@@ -64,7 +64,7 @@ public class ParkingLotFullController implements IServerResponseHandler<WorkerBa
 	}
 
 	private void SendRequest(Boolean setFull) {
-		BaseRequest request = WorkerRequestsFactory.CreateParkingLotFullRequest(setFull);
+		BaseRequest request = WorkerRequestsFactory.CreateParkingLotFullRequest(setFull, ParkingLotId.getValue());
 		connectionManager.sendMessageToServer(request);
 	}
 

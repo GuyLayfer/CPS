@@ -45,10 +45,11 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 
-	public static BaseRequest CreateParkingLotFullRequest(Boolean setParkingLotIsFull) {
+	public static BaseRequest CreateParkingLotFullRequest(Boolean setParkingLotIsFull, int parkingLotId) {
 		ParkingLotFullRequest request = new ParkingLotFullRequest();
 		request.requestType = WorkerRequestType.PARKING_LOT_FULL;
 		request.setParkingLotIsFull = setParkingLotIsFull;
+		request.parkingLotId = parkingLotId;
 		return request;
 	}
 
@@ -129,6 +130,13 @@ public class WorkerRequestsFactory {
 		request.startDate = startDate;
 		request.parkingLotId = parkingLotId;
 		request.endDate = endDate;
+		return request;
+	}
+	
+	public static BaseRequest createParkingLotInfoRequest(int parkingLotId) {
+		ParkingLotInfoRequest request = new ParkingLotInfoRequest();
+		request.requestType = WorkerRequestType.PARKING_LOT_INFO;
+		request.parkingLotId = parkingLotId;
 		return request;
 	}
 }
