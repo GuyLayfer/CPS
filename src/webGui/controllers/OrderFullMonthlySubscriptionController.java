@@ -1,6 +1,7 @@
 
 package webGui.controllers;
 
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 
@@ -74,6 +75,6 @@ public class OrderFullMonthlySubscriptionController {
 				customerIDTF.getNumber(),
 				liscencePlateTF.getText(),
 				emailTF.getText(),
-				Date.from(startingDateTF.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()));
+				Date.from(startingDateTF.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 	}
 }

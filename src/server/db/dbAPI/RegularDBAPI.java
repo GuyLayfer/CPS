@@ -17,6 +17,7 @@ import java.util.List;
 import server.db.DBConnection;
 import server.db.DBConnection.sqlTypeKind;
 import server.db.DBConstants;
+import server.db.SqlColumns;
 import server.db.DBConstants.DbSqlColumns;
 import server.db.DBConstants.TrueFalse;
 import server.db.queries.ParkingMapQueries;
@@ -154,9 +155,17 @@ public class RegularDBAPI extends DBAPI{
 
 /**************************************** End Of TODO Section *************************************.*/
 
-	public void selectOrderByCarIdAndLotIdAndTime(int carId, int lotId, Date time, ArrayList<Map<String, Object>> resultList) throws SQLException {
+	public boolean selectOrderByCarIdAndLotIdAndTime(String carId, int lotId, Date time, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
-		//paramValues.
+		paramsValues.add(carId);
+		paramsValues.add(lotId);
+		DBConnection.selectSql(regularQueriesInst.order_by_car_and_lot, paramsValues, resultList);
+		Date estimatedArrive = (Date)resultList.get(0).get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
+		Date estimatedDepart = (Date)resultList.get(0).get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
+		if ((estimatedArrive.compareTo(time) >= 0) && (estimatedDepart.compareTo(time) <= 0) )
+			return true;
+		else
+			return false;
 	}
 	
 	/**

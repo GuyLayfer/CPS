@@ -89,7 +89,7 @@ public class ReportsQueries {
 	public final String select_lating_reservations_between_2_dates_grouped_by_kind_of_lot_id = 
 			"SELECT count( " + DbSqlColumns.ENTRANCE_ID.getName() + ")" +
 			"  FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING_LOG.getName() +
-			"  WHERE (( " + DbSqlColumns.DAY_ID.getName() + " BETWEEN ? and ?) && " +
+			"  WHERE (( " +  DbSqlColumns.ARRIVE_TIME.getName() + " BETWEEN ? and ?) && " +
 					 " ( " + DbSqlColumns.ARRIVE_PREDICTION.getName() + " < " + DbSqlColumns.ARRIVE_TIME.getName() +
 					 " || " + DbSqlColumns.LEAVE_PREDICTION.getName() + " > " + DbSqlColumns.LEAVE_TIME.getName() + ")"
 					 		+ " and lot_id = ?) " +

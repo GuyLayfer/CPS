@@ -1,5 +1,6 @@
 package workerGui.controllers;
 
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,8 +119,8 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement>,
 			model.sendReportRequest(new Date(), new Date(), ParkingLotId.getValue());
 		} else {
 			model.sendReportRequest(
-					Date.from(startDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
-					Date.from(endDate.getValue().atStartOfDay(ZoneOffset.UTC).toInstant()),
+					Date.from(startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+					Date.from(endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
 					ParkingLotId.getValue());
 		}
 	}

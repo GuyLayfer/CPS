@@ -1,5 +1,6 @@
 package kioskGui.controllers;
 
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 
@@ -58,7 +59,7 @@ public class OrderOccasionalParkingController {
 		CustomerRequest occasionalParkingRequest = KioskRequestsFactory.CreateOccasionalParkingRequest(
 				CustomerIdField.getNumber(),
 				CarIdField.getText(),
-				Date.from(DepartureDateField.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()),
+				Date.from(DepartureDateField.getDateTimeValue().atZone(ZoneId.systemDefault()).toInstant()),
 				EmailField.getText());
 		
 		connectionManager.sendMessageToServer(occasionalParkingRequest);

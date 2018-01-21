@@ -34,6 +34,20 @@ leave_time timestamp
 );
 
 
+CREATE TABLE daily_stats_adv(
+lot_id int ,
+reservations_mean int,
+filled_mean int,
+canceled_mean int,
+lating_mean int,
+reservations_std double,
+filled_std double,
+canceled_std double,
+lating_std double,
+
+);
+
+
 CREATE TABLE current_cars_planed_being_in_parking(
 entrance_id  int,
 car_id varchar(10),

@@ -40,13 +40,14 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 		
 		 System.out.println("123");
 		
-//		int curLotId = periodicReportRequest.lotId;
+		int curLotId = reportRequest.parkingLotId;
+		System.out.println("curLotId  " + curLotId);
 		
 		
 		java.sql.Date first = new java.sql.Date(reportRequest.startDate.getTime());
 		java.sql.Date second = new java.sql.Date(reportRequest.endDate.getTime());
-
-		 generateReportsDataBetween2DatesOfLotId("reservations", 4, reportItems, first, second);
+		
+		 generateReportsDataBetween2DatesOfLotId("reservations", curLotId, reportItems, first, second);
 		 WorkerBaseResponse response = WorkerResponseFactory.CreateReportResponse(reportItems, getHandlerRequestsType());
 		 return CreateWorkerResponse(response);
 	}
@@ -75,37 +76,37 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 			ReportsDBAPI.getInstance().getNumberOfLatingBetween2DatesGroupedByOrderOfLotId(resultList, lotId, first, second);
 		}
 		// number of reservations of the 'reservationsFilledCanceledLatings' category
-		long countOneTimeOrder = 0;
-		long countOrder = 0;
-		long countSubsFull = 0;
-		long countSubsOcc = 0;
-		long totalReservations = 0;
+		int countOneTimeOrder = 0;
+		int countOrder = 0;
+		int countSubsFull = 0;
+		int countSubsOcc = 0;
+		int totalReservations = 0;
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
 		// iterate over the 'count' entries (have only one for each order type) and get data.
 		while (iterator.hasNext()) {
 			Map<String, Object> row = (Map<String, Object>) iterator.next();
 			if(row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ONE_TIME.getValue())){
-				countOneTimeOrder = (long) row.get("count(entrance_id)");
+				countOneTimeOrder = ((Long) row.get("count(entrance_id)")).intValue();
 			}
 			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.ORDER.getValue())){ 
 				System.out.println(row.get("count(entrance_id)"));
-				countOrder =  (long) (row.get("count(entrance_id)"));
+				countOrder =  ((Long) row.get("count(entrance_id)")).intValue();
 			}
 			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION.getValue())){
-				countSubsOcc  = (long) row.get("count(entrance_id)");
+				countSubsOcc  = ((Long) row.get("count(entrance_id)")).intValue();
 			}
 			else if (row.get(DbSqlColumns.ORDER_TYPE.getName()).equals(DBConstants.OrderType.SUBSCRIPTION_FULL.getValue())){
-				countSubsFull  = (long) row.get("count(entrance_id)");
+				countSubsFull  = ((Long) row.get("count(entrance_id)")).intValue();
 			}
 		}
 		//total number of reservations is the sum of all possebilities
 		totalReservations = countOneTimeOrder + countOrder + countSubsFull + countSubsOcc;
 		
 		// how many order types were in last week in percenteges.
-		double oneTimeOrderPercents =  countOneTimeOrder / totalReservations * 100;
-		double orderPercents =  countOrder / totalReservations * 100;
-		double subsFullPercents =  countSubsFull / totalReservations * 100;
-		double subsOccPercents =  countSubsOcc / totalReservations * 100;
+		double oneTimeOrderPercents =  countOneTimeOrder / totalReservations;
+		double orderPercents =  countOrder / totalReservations;
+		double subsFullPercents =  countSubsFull / totalReservations;
+		double subsOccPercents =  countSubsOcc / totalReservations ;
 		
 		// weekly average of each order type
 		double dailyAvgOneTimeOrder = countOneTimeOrder / 7; 
@@ -113,11 +114,14 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 		double dailyAvgSubsOccOrder = countSubsOcc / 7; 
 		double dailyAvgSubsFullOrder = countSubsFull / 7; 
 
+		float dailyAvgOrderF = countOrder / 7; 
+		System.out.println("float " + dailyAvgOrderF);
+		System.out.println("dble " + dailyAvgOrder);
 		
-		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_countOneTimeOrder", Double.toString((long)countOneTimeOrder)));
-		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_orderPercents", Double.toString((long)countOrder)));
-		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_subsFullPercents", Double.toString((long)countSubsOcc)));
-		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_subsOccPercents", Double.toString((long)countSubsFull)));
+		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_countOneTimeOrder", Integer.toString(countOneTimeOrder)));
+		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_countorder", Integer.toString(countOrder)));
+		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_countsubsFull", Integer.toString(countSubsOcc)));
+		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_countsubsOccPercents", Integer.toString(countSubsFull)));
 		
 		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_oneTimeOrderPercents", Double.toString(oneTimeOrderPercents)));
 		reportItems.add(new ReportItem(reservationsFilledCanceledLatings + "_orderPercents", Double.toString(orderPercents)));
