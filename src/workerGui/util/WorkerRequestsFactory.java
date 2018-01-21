@@ -45,10 +45,11 @@ public class WorkerRequestsFactory {
 		return request;
 	}
 
-	public static BaseRequest CreateParkingLotFullRequest(Boolean setParkingLotIsFull) {
+	public static BaseRequest CreateParkingLotFullRequest(Boolean setParkingLotIsFull, int parkingLotId) {
 		ParkingLotFullRequest request = new ParkingLotFullRequest();
 		request.requestType = WorkerRequestType.PARKING_LOT_FULL;
 		request.setParkingLotIsFull = setParkingLotIsFull;
+		request.parkingLotId = parkingLotId;
 		return request;
 	}
 
