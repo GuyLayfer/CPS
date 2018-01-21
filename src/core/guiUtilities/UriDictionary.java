@@ -77,4 +77,8 @@ public class UriDictionary {
 		public static final String workerOuterShellRegion = "#workerOuterShellRegion";
 		public static final String kisokBreadCrumb = "#breadCrumbBar";
 	}
+	
+	public class Images {
+		public static final String icon = "/CpsLogo.png";
+	}
 }
