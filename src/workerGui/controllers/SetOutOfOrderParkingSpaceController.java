@@ -35,7 +35,7 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 	protected void initialize() {
 		SetOutOfOrderButton.disableProperty().bind(validation.invalidProperty());
 		validation.registerValidator(ParkingLotId, Validator.createEmptyValidator("Parking lot ID is Required"));
-//		validation.registerValidator(LotColumnComboBox, Validator.createEmptyValidator("Lot space column is Required"));
+		validation.registerValidator(LotColumnComboBox, Validator.createEmptyValidator("Lot space column is Required"));
 		validation.registerValidator(LotFloorComboBox, Validator.createEmptyValidator("Lot space floor is Required"));
 		validation.registerValidator(LotRowComboBox, Validator.createEmptyValidator("Lot space row is Required"));
 		SetParkingLotIdItems();
@@ -76,8 +76,7 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 		BaseRequest request = WorkerRequestsFactory.CreateOutOfOrderRequest(
 				ParkingLotId.getValue(),
 				LotRowComboBox.getValue(),
-				//LotColumnComboBox.getValue(),
-				3,
+				LotColumnComboBox.getValue(),
 				LotFloorComboBox.getValue(),
 				isOutOfOrder);
 		connectionManager.sendMessageToServer(request);
