@@ -19,6 +19,7 @@ import core.customer.responses.CustomerResponse;
 import core.customer.responses.IdPricePairResponse;
 import ocsf.server.ConnectionToClient;
 import server.db.SqlColumns;
+import server.db.DBConstants;
 import server.db.DBConstants.OrderType;
 import server.db.DBConstants.TrueFalse;
 import server.parkingLot.exceptions.DateIsNotWithinTheNext24Hours;
@@ -109,6 +110,11 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 			return createRequestDeniedResponse(request.requestType, "Your subscription has expired");
 		if (rightNow.compareTo(startDate) < 0)
 			return createRequestDeniedResponse(request.requestType, "Your subscription has not started yet");
+		//check if its a weekend and customer tries to sneak in - but he has no subscripion,
+		
+		if (resultList.get(0).get(SqlColumns.Subscriptions.SUBSCRIPTION_TYPE) == DBConstants.SubscriptionType.ROUTINE || resultList.get(0).get(SqlColumns.Subscriptions.SUBSCRIPTION_TYPE) == DBConstants.SubscriptionType.ROUTINE_MULTIPLE_CARS)
+			if ((rightNow.getDay() == 5) || (rightNow.getDay() == 5))
+				return createRequestDeniedResponse(request.requestType, "You can't enter on weekends with your subscripton.");
 		
 		regularDBAPI.updateArriveTime(request.carID, rightNow);
 		return createNotificationResponse(request.requestType, "Welcome to our amazing parking lot!");
@@ -144,11 +150,11 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		switch (request.requestType) {
 		case OCCASIONAL_PARKING:
 			return orderOccasionalParking(request);
-		case ENTER_PARKING_PRE_ORDERED: // TODO: implement
+		case ENTER_PARKING_PRE_ORDERED:
 			return enterParkingPreOrdered(request);
-		case ENTER_PARKING_SUBSCRIBER: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
-		case EXIT_PARKING: // TODO: implement
+		case ENTER_PARKING_SUBSCRIBER:
+			return enterParkingSubscriber(request);
+		case EXIT_PARKING:
 			return exitParking(request);
 		case PARKING_LOT_NAMES:
 			return parkingLotNames(request);
