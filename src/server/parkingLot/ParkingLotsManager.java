@@ -33,7 +33,7 @@ public class ParkingLotsManager {
 	private Vector<Integer> lotIds; // Vector is synchronized
 	
 	final private RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
-	final private long numOfMillisIn24Hours = 24*60*60*1000;
+	final public long numOfMillisIn24Hours = 24*60*60*1000;
 	final private Gson gson = CpsGson.GetGson();
 	
 	

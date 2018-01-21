@@ -9,6 +9,8 @@ import server.db.SqlColumns;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.SubscriptionsDBAPI;
 import server.parkingLot.ParkingLotsManager;
+import server.parkingLot.exceptions.DateIsNotWithinTheNext24Hours;
+import server.parkingLot.exceptions.LotIdDoesntExistException;
 import server.rates.PriceCalculator;
 
 import com.google.gson.Gson;
@@ -70,13 +72,20 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return currentRequestPrice;
 	}
 	
-	protected String orderPreOrderedParking(CustomerRequest request) throws SQLException {
+	protected String orderPreOrderedParking(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		//customerID = customerID
 		//carID = licensePlate
 		//email = email
 		//parkingLotID = parkingLotID
 		//arrivalTime = arrivalTime
 		//estimatedDepartureTime = estimatedDepartureTime
+		
+		if (request.arrivalTime.getTime() < new Date().getTime() + parkingLotsManager.numOfMillisIn24Hours) {
+			if(!parkingLotsManager.reservePlace(request.parkingLotID, request.carID, request.arrivalTime)) {
+				return createRequestDeniedResponse(request.requestType, "Unfortunatly, this parking lot " + 
+											"is full today.\nPlease try to order in another parking lot.");
+			}
+		}
 		
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -106,13 +115,22 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
 
-	protected String cancelOrder(CustomerRequest request) throws SQLException {
+	protected String cancelOrder(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectOrderStatus(request.orderID, resultList);
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse(request.requestType, "Wrong Order ID");
 		} else {
 			Map<String, Object> result = resultList.iterator().next();
+			
+			if (((Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)).getTime() < 
+							new Date().getTime() + parkingLotsManager.numOfMillisIn24Hours) {
+				parkingLotsManager.cancelReservation((Integer) result.get(SqlColumns.ParkingTonnage.LOT_ID), 
+						(String) result.get(SqlColumns.ParkingTonnage.CAR_ID), 
+						(Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION));
+					
+			}
+			
 			double refund = priceCalculator.calculateCancelRefund(((int) result.get(SqlColumns.ParkingTonnage.LOT_ID)),
 					((Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)), ((Date) result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION)));
 			regularDBAPI.cancelOrder(request.orderID, refund);
@@ -316,7 +334,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 	}
 	
 	// returns the response json string
-	protected String handleWebCustomerRequest(CustomerRequest request) throws SQLException {
+	protected String handleWebCustomerRequest(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		switch (request.requestType) {
 		case PRE_ORDERED_PARKING:
 			return orderPreOrderedParking(request);
@@ -354,7 +372,10 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 			} catch (JsonSyntaxException e) {
 				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, "JsonSyntaxException")));
 				e.printStackTrace();
-			} catch (SQLException e) {
+			} catch (LotIdDoesntExistException e) {
+				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, "LotIdDoesntExistException")));
+				e.printStackTrace();
+			} catch (SQLException | DateIsNotWithinTheNext24Hours e) {
 				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.SERVER_FAILLURE, "Server Failure")));
 				e.printStackTrace();
 			}
