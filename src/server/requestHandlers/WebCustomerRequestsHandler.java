@@ -323,7 +323,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 
 	protected String openComplaint(CustomerRequest request) throws SQLException {
 		int complaintID = regularDBAPI.insertComplaint(request.customerID, request.complaint, new Date() ); 
-		return createNotificationResponse(request.requestType, gson.toJson(complaintID));
+		return createNotificationResponse(request.requestType, "Your complaint ID is: " + complaintID);
 	}
 	
 	protected String parkingLotNames(CustomerRequest request) throws SQLException {

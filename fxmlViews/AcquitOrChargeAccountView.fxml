@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import core.guiUtilities.*?>
+<?import tornadofx.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ComboBox?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="workerGui.controllers.AcquitOrChargeAccountController">
+	<children>
+		<Text layoutX="100.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acquit Or Charge Account">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Text>
+		<NumberTextField fx:id="AccountIdField" layoutX="220.0" layoutY="70.0" />
+		<ComboBox fx:id="AcquitOrChargeComboBox" layoutX="220.0" layoutY="110.0" prefWidth="150.0"/>
+		<FloatNumberTextField fx:id="amountField" layoutX="220.0" layoutY="150.0" />
+		<Text layoutX="25.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Account ID:" />
+		<Text layoutX="25.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Acquit or charge:" />
+		<Text layoutX="25.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount:" />
+		<Button fx:id="submitButton" layoutX="160.0" layoutY="190.0" onAction="#SendTransaction" text="Submit transaction">
+			<font>
+				<Font size="14.0" />
+			</font>
+		</Button>
+	</children>
+</AnchorPane>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import core.guiUtilities.NumberTextField?>
+
+<AnchorPane prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="webGui.controllers.RenewSubscriptionController">
+	<children>
+		<Button fx:id="renewSubscriptionBTN" layoutX="120.0" layoutY="100.0" mnemonicParsing="false" onAction="#RenewSubscription" prefHeight="33.0"
+			prefWidth="123.0" text="Renew subscription" />
+		<NumberTextField fx:id="customerIDTF" layoutX="105.0" layoutY="25.0" promptText="Customer ID" />
+		<NumberTextField fx:id="subscriptionIDTF" layoutX="105.0" layoutY="60.0" promptText="Subscription ID" />
+	</children>
+</AnchorPane>
