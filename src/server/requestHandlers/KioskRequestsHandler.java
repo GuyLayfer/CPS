@@ -123,7 +123,7 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		case ENTER_PARKING_SUBSCRIBER: // TODO: implement
 			return createUnsupportedFeatureResponse(request.requestType);
 		case EXIT_PARKING: // TODO: implement
-			return createUnsupportedFeatureResponse(request.requestType);
+			return exitParking(request);
 		case PARKING_LOT_NAMES:
 			return parkingLotNames(request);
 		default:
