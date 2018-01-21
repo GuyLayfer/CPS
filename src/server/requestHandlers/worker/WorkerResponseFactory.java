@@ -74,8 +74,14 @@ public class WorkerResponseFactory {
 		return response;
 	}
 
-	public static WorkerBaseResponse CreateDecideOnRatesResponse() {
-		String message = "Your decision was submitted. Thank you.";
+	public static WorkerBaseResponse CreateDecideOnRatesResponse(int parkingLotId, Boolean isApproved) {
+		String message = null;
+		if (isApproved) {
+			message = "Your decision to approve the rate for parking lot " + parkingLotId + " was listed.\nThank you.";
+		} else {
+			message = "Your decision to decline the rate for parking lot " + parkingLotId + " was discarded.\nThank you.";
+		}
+		
 		return CreateNotificationResponse(WorkerRequestType.DECIDE_ON_RATES, message);
 	}
 

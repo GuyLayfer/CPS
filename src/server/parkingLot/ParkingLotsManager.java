@@ -6,10 +6,16 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 
 import core.CpsGson;
+import server.db.DBConstants.DbSqlColumns;
+import server.db.DBConstants.OrderType;
+import server.db.DBConstants.SqlTables;
 import server.db.dbAPI.RegularDBAPI;
 import server.parkingLot.exceptions.*;
 
@@ -45,16 +51,15 @@ public class ParkingLotsManager {
 			}
 		}
 		/*
-		int delay = 5000;   // delay for 5 sec.
-		  int interval = 1000;  // iterate every sec.
-		  Timer timer = new Timer();
-		   
-		  timer.scheduleAtFixedRate(new TimerTask() {
-		          public void run() {
-		              // Task here ...
-		          }
-		      }, delay, interval);
-		      */
+		Runnable runnable1 = new Runnable() {
+			public void run() {
+		        // TODO: task to run goes here
+		        
+			}
+	    };
+	    ScheduledExecutorService service1 = Executors.newSingleThreadScheduledExecutor();
+	    service1.scheduleAtFixedRate(runnable1, 1, 1, TimeUnit.HOURS);
+	    */
 	}
 	
 	/************************************** Public Methods **************************************/
@@ -292,5 +297,19 @@ public class ParkingLotsManager {
 	
 	
 	//TODO: implement time events
+	/*
+	private void fetchNewOrdersFromDB() {
+		String query = 
+				"SELECT * " +
+				" FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName() +
+				" WHERE (" + DbSqlColumns.ARRIVE_PREDICTION.getName() + " BETWEEN ? AND ? ) AND lot_id = ? " +
+				" AND " + DbSqlColumns.ORDER_TYPE.getName() + " = " + OrderType.ONE_TIME.getValue();
+	}
+	
+	
+	private void fetchNewSubscriptionsFromDB() {
+		
+	}
+	*/
 }
 
