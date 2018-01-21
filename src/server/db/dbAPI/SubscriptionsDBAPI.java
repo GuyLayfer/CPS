@@ -151,7 +151,7 @@ public class SubscriptionsDBAPI extends DBAPI{
 	
 
 	
-	public int insertNewSubscription(int customerId, int lotId, SubscriptionType type, Date startDate, Date expiredDate, Date routineDepartureTime, List<String> listOfCarsForThisSubscription) throws SQLException {
+	public int insertNewSubscription(int customerId, int lotId, SubscriptionType type, Date startDate, Date expiredDate, String routineDepartureTime, List<String> listOfCarsForThisSubscription) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		
 		params.add(customerId);

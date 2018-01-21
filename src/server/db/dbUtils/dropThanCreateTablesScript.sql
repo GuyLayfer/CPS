@@ -135,7 +135,7 @@ cars_num int,
 subscription_type ENUM('routine', 'routine_muliple_cars', 'full' ),
 expired_date timestamp,
 start_date timestamp,
-leave_time timestamp,
+leave_time varchar(10),
 UNIQUE(subscription_id),
 PRIMARY KEY (subscription_id)
 );

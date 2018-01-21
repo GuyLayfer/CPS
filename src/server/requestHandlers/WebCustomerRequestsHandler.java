@@ -12,11 +12,16 @@ import server.parkingLot.ParkingLotsManager;
 import server.parkingLot.exceptions.DateIsNotWithinTheNext24Hours;
 import server.parkingLot.exceptions.LotIdDoesntExistException;
 import server.rates.PriceCalculator;
+import tornadofx.control.DateTimePicker;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +40,7 @@ import core.customer.responses.CustomerResponse;
 import core.customer.responses.IdPricePairResponse;
 import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.customer.responses.TrackOrderResponse;
+import javafx.util.converter.LocalDateStringConverter;
 
 public class WebCustomerRequestsHandler extends AbstractServer {
 	final protected Gson gson = CpsGson.GetGson();
@@ -195,16 +201,15 @@ public class WebCustomerRequestsHandler extends AbstractServer {
         
         java.sql.Date sqlExpireDate = new java.sql.Date(newExpireDate.getTime());
         java.sql.Date sqlStartDate = new java.sql.Date(newStartDate.getTime());
-        java.sql.Date sqlRoutineDepartureTime = new java.sql.Date(request.estimatedDepartureTime.getTime());
-        
+               
         int subscriptionID;
         
         List<String> carsList = new ArrayList<String>(request.liscencePlates);
         
         if (request.liscencePlates.size() == 1)
-        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, carsList);
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE, sqlStartDate, sqlExpireDate, request.routineDepartureTime, carsList);
         else
-        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE_MULTIPLE_CARS, sqlStartDate, sqlExpireDate, sqlRoutineDepartureTime, carsList);
+        	subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, request.parkingLotID, SubscriptionType.ROUTINE_MULTIPLE_CARS, sqlStartDate, sqlExpireDate, request.routineDepartureTime, carsList);
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
@@ -241,7 +246,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
         List<String> carsList = new ArrayList<String>();
         carsList.add(request.carID);
         
-		int subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, 0, SubscriptionType.FULL, sqlStartDate, sqlExpireDate, sqlExpireDate, carsList);
+		int subscriptionID = subscriptionsDBAPI.insertNewSubscription(request.customerID, 0, SubscriptionType.FULL, sqlStartDate, sqlExpireDate, "", carsList);
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	

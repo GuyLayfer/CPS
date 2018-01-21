@@ -121,9 +121,9 @@ public class RegularQueries {
 			 DbSqlColumns.LEAVE_PREDICTION.getName() + ", " +
 			 DbSqlColumns.ARRIVE_TIME.getName() + ", " +
 			  DbSqlColumns.LEAVE_TIME.getName() + 
-			  DbSqlColumns.EMAIL.getName() +
+			  //DbSqlColumns.EMAIL.getName() +
 			 " ) " +
-			  " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			  " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 	
 	public final String insert_car_planed_being_in_parking =
 			"INSERT INTO " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName() + 
