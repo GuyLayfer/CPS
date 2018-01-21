@@ -37,7 +37,10 @@ public class DBConstants {
 		COMPLAINT_FILLED("filled", DBConnection.sqlTypeKind.VARCHAR), //enum
 		IS_ACCEPTED("is_accepted", DBConnection.sqlTypeKind.VARCHAR), //enum
 		WORKER_ID("worker_id", DBConnection.sqlTypeKind.INT),
-		INFO("info", DBConnection.sqlTypeKind.TEXT)
+		INFO("info", DBConnection.sqlTypeKind.TEXT), 
+		ROW("row", DBConnection.sqlTypeKind.INT),
+		COLUMN("coloumn", DBConnection.sqlTypeKind.INT),
+		FLOOR("floor", DBConnection.sqlTypeKind.INT)
 		;
 		String columnName;
 		sqlTypeKind type;
@@ -70,7 +73,8 @@ public class DBConstants {
 		DAILY_STATS("daily_stats"),
 		LOT_DIMENSIONS("lot_num_of_columns"),
 		WEEKLY_STATS("weekly_stats"),
-		SERVER_INFO("server_info");
+		SERVER_INFO("server_info"),
+		OUT_OF_ORDERS_PARKINGS("out_of_orders_parkings");
 		
 		private String tableName;
 		SqlTables(String tableName){

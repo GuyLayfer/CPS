@@ -96,7 +96,7 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				OrderType.ONE_TIME);
+				OrderType.ONE_TIME, request.email);
 
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);

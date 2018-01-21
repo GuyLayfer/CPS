@@ -12,6 +12,8 @@ public class SqlColumns {
 		public static final String LEAVE_PREDICTION = "leave_prediction"; //timestamp
 		public static final String ARRIVE_TIME = "arrive_time"; //timestamp
 		public static final String LEAVE_TIME = "leave_time"; //timestamp
+		public static final String EMAIL = "email"; //varchar(45)
+
 	}
 	
 	public class Account{ //currently doesn't has a PK
@@ -85,5 +87,14 @@ public class SqlColumns {
 		public static final String ROLE_TYPE = "role_type"; //enum
 		public static final String CUSTOMER_SERVICE_RESPONSE = "customer_service_response"; //text
 		public static final String LOT_ID = "lot_id"; // int(11)
+	}
+	
+	public class outOfOrderParkings{
+		public static final String LOT_ID = "lot_id";
+		public static final String ARRIVE_TIME = "arrive_time";
+		public static final String LEAVE_TIME = "leave_time";
+		public static final String ROW = "row";
+		public static final String COLOUMN = "coloumn";
+		public static final String FLOOR = "floor";
 	}
 }

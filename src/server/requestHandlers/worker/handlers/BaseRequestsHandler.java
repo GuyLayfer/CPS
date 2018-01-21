@@ -13,6 +13,7 @@ import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
 import ocsf.server.ConnectionToClient;
 import server.db.dbAPI.RegularDBAPI;
+import server.db.dbAPI.ReportsDBAPI;
 import server.db.dbAPI.WorkersDBAPI;
 import server.parkingLot.ParkingLotsManager;
 import server.rates.RatesManager;
@@ -23,6 +24,7 @@ public abstract class BaseRequestsHandler implements IRequestsHandler {
 	protected Gson gson = CpsGson.GetGson();
 	protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 	protected WorkersDBAPI workersDBAPI = WorkersDBAPI.getInstance();
+	protected ReportsDBAPI reportsDBAPI = ReportsDBAPI.getInstance();
 	protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
 	protected RatesManager ratesManager = RatesManager.getInstance();
 	protected IProvideConnectionsToClient connectionsToClientProvider;

@@ -47,7 +47,6 @@ public class RequestComplaintsForReviewRequestsHandler extends BaseRequestsHandl
 					(Date) result.get(SqlColumns.Complaints.COMPLAINT_DATETIME),
 					(int) result.get(SqlColumns.Complaints.COMPLAINT_ID));
 			complaints.add(complaint);
-			System.out.println(complaints);
 		}
 
 		return complaints;
