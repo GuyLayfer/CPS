@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Queue;
@@ -29,7 +27,6 @@ public class DBConnection {
 			Object curParam = params.remove();
 
 			if (curParam instanceof Integer) {
-				System.out.println();
 				ps.setInt(i, ((Integer) curParam).intValue());
 			}
 			else if (curParam instanceof Double) {

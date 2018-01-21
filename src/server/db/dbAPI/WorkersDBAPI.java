@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import server.db.DBConnection;
-import server.db.DBConnection.sqlTypeKind;
+import server.db.DBConstants.DbSqlColumns;
+import server.db.DBConstants.SqlTables;
 import server.db.queries.WorkersQueries;
 
 // TODO: Auto-generated Javadoc
@@ -65,6 +66,31 @@ public class WorkersDBAPI extends DBAPI{
 		DBConnection.selectSql(workersQueriesInst.selectWorkerBtNameAndPassword, paramsValues, resultList);
 	}
 
+	/**
+	 * Select pending rates details.
+	 *
+	 * @param parkingLotId  the lot ID for the pending rate
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
+	public void selectPendingRatesDetails(int parkingLotId, ArrayList<Map<String, Object>> resultList) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>();
+		params.add(parkingLotId);
+		DBConnection.selectSql(workersQueriesInst.select_pending_rates_details, params, resultList);
+	}
+	
+	/**
+	 * Select rates details.
+	 *
+	 * @param parkingLotId  the lot ID for the pending rate
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
+	public void selectRatesDetails(int parkingLotId, ArrayList<Map<String, Object>> resultList) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>();
+		params.add(parkingLotId);
+		DBConnection.selectSql(workersQueriesInst.select_rates_details, params, resultList);
+	}
 
 	/**
 	 * Select all lots rates.
@@ -91,30 +117,30 @@ public class WorkersDBAPI extends DBAPI{
 	 *
 	 * @param insertIntoPending TRUE is this lot rates have not been approved yet.
 	 * @param lotId the lot id
-	 * @param oneTimeParking the one time parking
-	 * @param order the order
+	 * @param preOrdered the one time parking
+	 * @param occasional the order
 	 * @param subscriptionFull the subscription full
-	 * @param subscriptionOccasional the subscription occasional
+	 * @param rutineSubscription the subscription occasional
 	 * @throws SQLException the SQL exception
 	 */
-	public void insertRatesOfLotId(boolean insertIntoPending, int lotId, double oneTimeParking, double order, double subscriptionFull,
-									double subscriptionOccasional, double subscriptionMultipleCarsPrice) throws SQLException {
-		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to q. in order of SQL
+	public void insertRatesOfLotId(boolean insertIntoPending, int lotId, double preOrdered, double occasional, double subscriptionFull,
+									double rutineSubscription, double subscriptionMultipleCarsPrice) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
 		
 		if (insertIntoPending) {
 			paramsValues.add(lotId);
-			paramsValues.add(subscriptionOccasional);
+			paramsValues.add(rutineSubscription);
 			paramsValues.add(subscriptionFull);
-			paramsValues.add(oneTimeParking);
-			paramsValues.add(order);
+			paramsValues.add(preOrdered);
+			paramsValues.add(occasional);
 			paramsValues.add(subscriptionMultipleCarsPrice);
 			
 			DBConnection.updateSql(workersQueriesInst.insert_into_pending_rates_of_lot_id, paramsValues);
 		} else {
 			paramsValues.add(lotId);
-			paramsValues.add(subscriptionOccasional);
-			paramsValues.add(oneTimeParking);
-			paramsValues.add(order);
+			paramsValues.add(rutineSubscription);
+			paramsValues.add(preOrdered);
+			paramsValues.add(occasional);
 			paramsValues.add(subscriptionMultipleCarsPrice);
 						
 			DBConnection.updateSql(workersQueriesInst.insert_rates_of_lot_id, paramsValues);
@@ -127,10 +153,21 @@ public class WorkersDBAPI extends DBAPI{
 		DBConnection.updateSql(workersQueriesInst.change_full_subscription_rate, paramsValues);
 	}
 	
+	public void updateExistingRates(int lotId, double preOrdered, double occasional,
+			double rutineSubscription, double subscriptionMultipleCarsPrice) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		paramsValues.add(preOrdered);
+		paramsValues.add(occasional);
+		paramsValues.add(rutineSubscription);
+		paramsValues.add(subscriptionMultipleCarsPrice);
+		paramsValues.add(lotId);
+		DBConnection.updateSql(workersQueriesInst.update_existing_rate, paramsValues);
+	}
 	
-	
-	
-
-
+	public void deletePendingRate(int lotId) throws SQLException {
+		Queue<Object> paramsValues = new LinkedList<Object>();
+		paramsValues.add(lotId);
+		DBConnection.updateSql(workersQueriesInst.delete_rate_from_pending_rate, paramsValues);
+	}
 }
 
