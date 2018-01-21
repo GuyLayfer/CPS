@@ -21,47 +21,106 @@ import server.db.dbAPI.SubscriptionsDBAPI;
 import server.db.dbAPI.WorkersDBAPI;
 import server.db.queries.ReportsQueries;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DBAPITest.
+ */
 public class DBAPITest {
 
+	/** The entrance id. */
 	private int entranceId;
+	
+	/** The lot id. */
 	private int lotId;
+	
+	/** The account id. */
 	private int accountId;
+	
+	/** The car id. */
 	private String carId;
+	
+	/** The email. */
 	private String email;
+	
+	/** The has subscription. */
 	private DBConstants.TrueFalse hasSubscription;
+	
+	/** The order type. */
 	private DBConstants.OrderType orderType;
+	
+	/** The date arrive. */
 	private Date dateArrive;
+	
+	/** The calendar left. */
 	private Calendar calendarLeft;
+	
+	/** The result list. */
 	private ArrayList<Map<String, Object>> resultList;
+	
+	/** The cur map. */
 	private Map<String, Object> curMap;
+	
+	/** The cash. */
 	private double cash;
 
+	/** The one time price. */
 	private double oneTimePrice;
+	
+	/** The order price. */
 	private double orderPrice;
+	
+	/** The subscription full price. */
 	private double subscriptionFullPrice;
+	
+	/** The subscription occasional price. */
 	private double subscriptionOccasionalPrice;
+	
+	/** The subscription multiple cars price. */
 	private double subscriptionMultipleCarsPrice;
 
 
+	/** The first date calendar. */
 	private Calendar firstDateCalendar;
+	
+	/** The later date. */
 	private java.sql.Date laterDate;
+	
+	/** The earlier date. */
 	private java.sql.Date earlierDate;
 
+	/** The departure date. */
 	private java.sql.Date departureDate;
+	
+	/** The expired date. */
 	private java.sql.Date expiredDate;
+	
+	/** The subscription start time. */
 	private java.sql.Date subscriptionStartTime;
 
 
 
 
+	/** The regular DBAPI inst. */
 	private RegularDBAPI regularDBAPIInst;
+	
+	/** The subscriptions DBAPI inst. */
 	private SubscriptionsDBAPI subscriptionsDBAPIInst;
+	
+	/** The reports DBAPI inst. */
 	private ReportsDBAPI reportsDBAPIInst;
+	
+	/** The workers DBAPI inst. */
 	private WorkersDBAPI workersDBAPIInst;
 
+	/** The reports queries. */
 	private ReportsQueries reportsQueries;
 
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		dateArrive = new Date(System.currentTimeMillis());
@@ -150,7 +209,10 @@ public class DBAPITest {
 //		}
 //	}
 
-	@Test
+	/**
+ * Test insert rates.
+ */
+@Test
 	public void testInsertRates()  {
 		try {
 			workersDBAPIInst.insertRatesOfLotId(true, lotId, oneTimePrice, orderPrice, subscriptionFullPrice, subscriptionOccasionalPrice, subscriptionMultipleCarsPrice);
@@ -180,7 +242,10 @@ public class DBAPITest {
 //	}
 
 
-	@Test
+	/**
+ * Test insert subscription.
+ */
+@Test
 	public void testInsertSubscription() {
 
 		ArrayList<String> cars = new ArrayList<String>();
@@ -205,6 +270,9 @@ public class DBAPITest {
 		}
 	}
 
+	/**
+	 * Test get number of subscriptions has more than one car.
+	 */
 	@Test
 	public void testGetNumberOfSubscriptionsHasMoreThanOneCar() {
 		int numberOfSubsHavingMoreThanOneCar;
@@ -218,6 +286,9 @@ public class DBAPITest {
 		}
 	}
 
+	/**
+	 * Test get number of canceled reservations between 2 dates.
+	 */
 	@Test
 	public void testGetNumberOfCanceledReservationsBetween2Dates() {
 		try {
@@ -230,6 +301,9 @@ public class DBAPITest {
 
 	}
 
+	/**
+	 * Test get all of reservations between 2 dates.
+	 */
 	@Test
 	public void testGetAllOfReservationsBetween2Dates()  {
 		try {
@@ -241,6 +315,9 @@ public class DBAPITest {
 		ServerUtils.printAllInResultSet(resultList);
 	}
 
+	/**
+	 * Test number of reservations of last week grouped by order.
+	 */
 	@Test
 	public void testNumberOfReservationsOfLastWeekGroupedByOrder()  {
 		try {
@@ -252,6 +329,9 @@ public class DBAPITest {
 		ServerUtils.printAllInResultSet(resultList);
 	}
 
+	/**
+	 * Test get number of reservations of last day.
+	 */
 	@Test
 	public void testGetNumberOfReservationsOfLastDay()  {
 		try {
@@ -263,6 +343,9 @@ public class DBAPITest {
 		ServerUtils.printAllInResultSet(resultList);
 	}
 
+	/**
+	 * Test cancel order.
+	 */
 	@Test
 	public void testCancelOrder()  {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
@@ -324,6 +407,9 @@ public class DBAPITest {
 
 	}
 
+	/**
+	 * Test car left parking.
+	 */
 	@Test
 	public void testCarLeftParking() {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
@@ -356,6 +442,9 @@ public class DBAPITest {
 	}
 	
 	
+	/**
+	 * Test car left parking by car id.
+	 */
 	@Test
 	public void testCarLeftParkingByCarId() {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
@@ -387,6 +476,9 @@ public class DBAPITest {
 	}
 
 	
+	/**
+	 * Test update arrive time.
+	 */
 	@Test
 	public void testUpdateArriveTime()  {
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);
@@ -409,6 +501,9 @@ public class DBAPITest {
 		ServerUtils.printAllInResultSet(resultList);
 	}
 
+	/**
+	 * Test create new account and get customer account details.
+	 */
 	@Test
 	public void testCreateNewAccountAndGetCustomerAccountDetails()  {
 
@@ -432,6 +527,9 @@ public class DBAPITest {
 
 	}
 
+	/**
+	 * Test insert order and track order.
+	 */
 	@Test
 	public void testInsertOrderAndTrackOrder(){
 		calendarLeft.set(2017, 11, 31, 23, 59, 01);

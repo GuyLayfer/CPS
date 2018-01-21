@@ -12,23 +12,38 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import webGui.util.MockWebClientConnectionManager;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class KioskStartPageController.
+ */
 public class KioskStartPageController {
 
+	/** The change host button. */
 	@FXML // fx:id="changeHostButton"
 	private Button changeHostButton; // Value injected by FXMLLoader
 
+	/** The localhost button. */
 	@FXML // fx:id="localhostButton"
 	private Button localhostButton; // Value injected by FXMLLoader
 
+	/** The host TF. */
 	@FXML // fx:id="hostTF"
 	private TextField hostTF; // Value injected by FXMLLoader
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		changeHostButton.setOnAction(e -> changeHost(hostTF.getText()));
 		localhostButton.setOnAction(e -> changeHost("localhost"));
 	}
 
+	/**
+	 * Change host.
+	 *
+	 * @param host the host
+	 */
 	private void changeHost(String host) {
 		MockWebClientConnectionManager.alternativeHostAddress = host;
 		Scene scene = changeHostButton.getScene();

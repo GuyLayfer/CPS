@@ -25,22 +25,50 @@ import javafx.geometry.Pos;
 import javafx.util.Duration;
 import ocsf.client.AbstractClient;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WorkerConnectionManager.
+ */
 public class WorkerConnectionManager extends AbstractClient {
 
+	/** The instance. */
 	private static WorkerConnectionManager instance;
+	
+	/** The Constant DEFAULT_PORT. */
 	final private static int DEFAULT_PORT = ServerPorts.WORKER_PORT;
+	
+	/** The Constant DEFAULT_HOST. */
 	final private static String DEFAULT_HOST = "localhost";
+	
+	/** The gson. */
 	final private Gson gson = CpsGson.GetGson();
+	
+	/** The listeners. */
 	private List<IServerResponseHandler<WorkerBaseResponse>> listeners = new ArrayList<IServerResponseHandler<WorkerBaseResponse>>();
+	
+	/** The response converter map. */
 	private Map<WorkerRequestType, Function<String, WorkerBaseResponse>> responseConverterMap;
+	
+	/** The alternative host address. */
 	public static String alternativeHostAddress = null;
 
+	/**
+	 * Instantiates a new worker connection manager.
+	 *
+	 * @param hostAddress the host address
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private WorkerConnectionManager(String hostAddress) throws IOException {
 		super(hostAddress == null ? DEFAULT_HOST : hostAddress, DEFAULT_PORT);
 		openConnection();
 		responseConverterMap = ResponsesTypesMapper.CreateResponsesConverterMap();
 	}
 
+	/**
+	 * Gets the single instance of WorkerConnectionManager.
+	 *
+	 * @return single instance of WorkerConnectionManager
+	 */
 	public static WorkerConnectionManager getInstance() {
 		if (instance == null) {
 			try {
@@ -55,10 +83,20 @@ public class WorkerConnectionManager extends AbstractClient {
 		return instance;
 	}
 
+	/**
+	 * Adds the server message listener.
+	 *
+	 * @param listner the listner
+	 */
 	public void addServerMessageListener(IServerResponseHandler<WorkerBaseResponse> listner) {
 		listeners.add(listner);
 	}
 
+	/**
+	 * Send message to server.
+	 *
+	 * @param specificRequest the specific request
+	 */
 	public void sendMessageToServer(BaseRequest specificRequest) {
 		try {
 			WorkerRequest workerRequest = new WorkerRequest();
@@ -71,6 +109,9 @@ public class WorkerConnectionManager extends AbstractClient {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ocsf.client.AbstractClient#handleMessageFromServer(java.lang.Object)
+	 */
 	@Override
 	protected void handleMessageFromServer(Object arg0) {
 		WorkerResponse response = gson.fromJson((String) arg0, WorkerResponse.class);
@@ -79,6 +120,9 @@ public class WorkerConnectionManager extends AbstractClient {
 		notifyListeners(specificResponse);
 	}
 
+	/**
+	 * Close server connection.
+	 */
 	public void closeServerConnection() {
 		try {
 			closeConnection();
@@ -87,12 +131,22 @@ public class WorkerConnectionManager extends AbstractClient {
 		}
 	}
 
+	/**
+	 * Notify listeners.
+	 *
+	 * @param message the message
+	 */
 	private void notifyListeners(WorkerBaseResponse message) {
 		for (IServerResponseHandler<WorkerBaseResponse> listener : listeners) {
 			listener.handleServerResponse(message);
 		}
 	}
 	
+	/**
+	 * Show notification.
+	 *
+	 * @param msg the msg
+	 */
 	private static void showNotification(String msg) {
 		Platform.runLater(() -> {
 			Notifications notificationBuilder = Notifications.create()

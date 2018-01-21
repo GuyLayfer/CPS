@@ -20,15 +20,26 @@ import server.db.queries.SubscriptionsQueries;
  */
 public class SubscriptionsDBAPI extends DBAPI{
 
+	/** The instance. */
 	//	private static Object mutex = new Object();
 	private static volatile SubscriptionsDBAPI instance;
+	
+	/** The subscriptions queries inst. */
 	private SubscriptionsQueries subscriptionsQueriesInst;
 
 
+	/**
+	 * Instantiates a new subscriptions DBAPI.
+	 */
 	private SubscriptionsDBAPI() {
 		subscriptionsQueriesInst = SubscriptionsQueries.getInstance();
 	}
 
+	/**
+	 * Gets the single instance of SubscriptionsDBAPI.
+	 *
+	 * @return single instance of SubscriptionsDBAPI
+	 */
 	public static SubscriptionsDBAPI getInstance() {
 		SubscriptionsDBAPI result = instance;
 		if (result == null) {
@@ -84,6 +95,7 @@ public class SubscriptionsDBAPI extends DBAPI{
 	 *
 	 * @param subscriptionId the subscription id
 	 * @param newExpiredDate the new expired date
+	 * @param newStartDate the new start date
 	 * @throws SQLException the SQL exception
 	 */
 	public void updateSubscriptionExpiredDate(int subscriptionId, Date newExpiredDate, Date newStartDate) throws SQLException {
@@ -139,13 +151,18 @@ public class SubscriptionsDBAPI extends DBAPI{
 //	}
 
 	/**
-	 * Insert new subscription.
-	 *
-	 * @param customerId the customer id
-	 * @param listOfCarsForThisSubscriptioin the list of cars for this subscription
-	 * @return the subscription ID.
-	 * @throws SQLException 
-	 */
+ * Insert new subscription.
+ *
+ * @param customerId the customer id
+ * @param lotId the lot id
+ * @param type the type
+ * @param startDate the start date
+ * @param expiredDate the expired date
+ * @param routineDepartureTime the routine departure time
+ * @param listOfCarsForThisSubscription the list of cars for this subscription
+ * @return the subscription ID.
+ * @throws SQLException the SQL exception
+ */
 	//TODO: implement
 	
 	
@@ -181,6 +198,17 @@ public class SubscriptionsDBAPI extends DBAPI{
 	
 	//TODO: needs to get also 'startingDate' and 'routineDepartureTime' basically the 'expiredDate' is 'startingDate' + 28 days...
 	//TODO: also for FullMonthy subscription there is no need for 'routineDepartureTime'.
+	/**
+	 * Insert new subscription.
+	 *
+	 * @param customerId the customer id
+	 * @param lotId the lot id
+	 * @param occaional the occaional
+	 * @param expiredDate the expired date
+	 * @param listOfCarsForThisSubscription the list of cars for this subscription
+	 * @return the int
+	 * @throws SQLException the SQL exception
+	 */
 	//TODO: subscriptionType is required!
 	public int insertNewSubscription(int customerId, int lotId, TrueFalse occaional, Date expiredDate, List<String> listOfCarsForThisSubscription) throws SQLException {
 		
@@ -200,6 +228,14 @@ public class SubscriptionsDBAPI extends DBAPI{
 		return subscriptionId;
 	}
 	
+	/**
+	 * Insert car to cars table.
+	 *
+	 * @param carId the car id
+	 * @param customerId the customer id
+	 * @param subscriptionId the subscription id
+	 * @throws SQLException the SQL exception
+	 */
 	public void insertCarToCarsTable(String carId, int customerId, int subscriptionId) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 
@@ -210,6 +246,13 @@ public class SubscriptionsDBAPI extends DBAPI{
 		DBConnection.updateSql(subscriptionsQueriesInst.insert_car_to_cars, params);
 	}
 	
+	/**
+	 * Select cars of subscription id.
+	 *
+	 * @param subscriptionId the subscription id
+	 * @param rs the rs
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectCarsOfSubscriptionId(int subscriptionId,ArrayList<Map<String, Object>> rs) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		params.add(subscriptionId);
@@ -218,6 +261,13 @@ public class SubscriptionsDBAPI extends DBAPI{
 		
 	}
 	
+	/**
+	 * Select number of subscriptions in lot id.
+	 *
+	 * @param lotId the lot id
+	 * @return the int
+	 * @throws SQLException the SQL exception
+	 */
 	public int selectNumberOfSubscriptionsInLotId(int lotId) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 //		params.add(lotId);
@@ -228,6 +278,13 @@ public class SubscriptionsDBAPI extends DBAPI{
 		return numberOfSubscriptionsInLotId;
 	}
 	
+	/**
+	 * Select number of subscriptions of all lots.
+	 *
+	 * @param lotId the lot id
+	 * @return the int
+	 * @throws SQLException the SQL exception
+	 */
 	public int selectNumberOfSubscriptionsOfAllLots(int lotId) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 //		params.add(lotId);

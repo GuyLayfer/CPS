@@ -17,17 +17,32 @@ import server.db.dbAPI.RegularDBAPI;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ComplaintsReportRequestsHandler.
+ */
 public class ComplaintsReportRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new complaints report requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public ComplaintsReportRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.COMPLAINTS_REPORT;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 

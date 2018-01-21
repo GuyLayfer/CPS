@@ -12,12 +12,29 @@ import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.control.Button;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MultipleCarsDialog.
+ */
 public class MultipleCarsDialog extends Dialog<List<String>> {
+	
+	/** The cars. */
 	private ListView<String> cars;
+	
+	/** The current cars. */
 	private List<String> currentCars;
+	
+	/** The default plate. */
 	private String defaultPlate = "0000000";
+	
+	/** The Licence plate max length. */
 	private final int LicencePlateMaxLength = 7;
 
+	/**
+	 * Instantiates a new multiple cars dialog.
+	 *
+	 * @param currentCars the current cars
+	 */
 	public MultipleCarsDialog(List<String> currentCars) {
 		this.setResultConverter((ButtonType button) -> resultsConverter(button));
 		this.setTitle("Cars Liscence plates");
@@ -52,6 +69,12 @@ public class MultipleCarsDialog extends Dialog<List<String>> {
 		this.getDialogPane().setContent(new FlowPane(cars, addLine));
 	}
 
+	/**
+	 * Results converter.
+	 *
+	 * @param button the button
+	 * @return the list
+	 */
 	private List<String> resultsConverter(ButtonType button) {
 		if (button == ButtonType.OK) {
 			return cars.getItems().filtered((lp) -> !lp.equals(defaultPlate) && !lp.isEmpty());

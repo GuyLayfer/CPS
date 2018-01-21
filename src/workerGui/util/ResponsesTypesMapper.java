@@ -10,9 +10,20 @@ import core.CpsGson;
 import core.worker.WorkerRequestType;
 import core.worker.responses.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ResponsesTypesMapper.
+ */
 public class ResponsesTypesMapper {
+
+/** The gson. */
 private static Gson gson = CpsGson.GetGson();
 	
+	/**
+	 * Creates the responses converter map.
+	 *
+	 * @return the map
+	 */
 	public static Map<WorkerRequestType, Function<String, WorkerBaseResponse>> CreateResponsesConverterMap() {
 		Map<WorkerRequestType, Function<String, WorkerBaseResponse>> converterMap = new HashMap<WorkerRequestType, Function<String, WorkerBaseResponse>>();
 		converterMap.put(WorkerRequestType.ACQUIT_OR_CHARGE_ACCOUNT, (gsonString) -> {

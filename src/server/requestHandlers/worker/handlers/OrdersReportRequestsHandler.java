@@ -20,17 +20,32 @@ import server.db.dbAPI.ReportsDBAPI;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OrdersReportRequestsHandler.
+ */
 public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new orders report requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public OrdersReportRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.ORDERS_REPORT;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 //		return createUnsupportedFeatureResponse();
@@ -57,9 +72,12 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 	/**
 	 * Generate reports data of lot id.
 	 * this function should be broken that could return the values calculated in the end of it.
-	 * 
+	 *
 	 * @param reservationsFilledCanceledLatings the reservations filled canceled latings
 	 * @param lotId the lot id
+	 * @param reportItems the report items
+	 * @param first the first
+	 * @param second the second
 	 * @throws SQLException the SQL exception
 	 */
 	public static void generateReportsDataBetween2DatesOfLotId(String reservationsFilledCanceledLatings, 

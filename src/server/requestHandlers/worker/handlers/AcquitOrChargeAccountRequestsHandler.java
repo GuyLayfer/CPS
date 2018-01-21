@@ -15,17 +15,37 @@ import ocsf.server.ConnectionToClient;
 import server.db.SqlColumns;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AcquitOrChargeAccountRequestsHandler.
+ */
 public class AcquitOrChargeAccountRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new acquit or charge account requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public AcquitOrChargeAccountRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.ACQUIT_OR_CHARGE_ACCOUNT;
 	}
 
+	/**
+	 * Update amount with balance.
+	 *
+	 * @param customerID the customer ID
+	 * @param currentRequestAmount the current request amount
+	 * @return the double
+	 * @throws SQLException the SQL exception
+	 */
 	private double updateAmountWithBalance(int customerID, double currentRequestAmount) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(customerID, resultList);
@@ -47,6 +67,9 @@ public class AcquitOrChargeAccountRequestsHandler extends BaseRequestsHandler {
 		return currentRequestAmount;
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		AcquitOrChargeAccountRequest request = (AcquitOrChargeAccountRequest)specificRequest;

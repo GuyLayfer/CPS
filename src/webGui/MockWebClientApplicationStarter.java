@@ -19,12 +19,24 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import webGui.util.MockWebClientConnectionManager;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MockWebClientApplicationStarter.
+ */
 public class MockWebClientApplicationStarter extends Application {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		URL shellUri = UriDictionary.class.getResource(UriDictionary.WebGui.Shell);

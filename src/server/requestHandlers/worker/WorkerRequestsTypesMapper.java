@@ -13,9 +13,20 @@ import core.worker.WorkerRequestType;
 import core.worker.requests.*;
 import server.requestHandlers.worker.handlers.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WorkerRequestsTypesMapper.
+ */
 public class WorkerRequestsTypesMapper {
+	
+	/** The gson. */
 	private static Gson gson = CpsGson.GetGson();
 
+	/**
+	 * Creates the requests converter map.
+	 *
+	 * @return the map
+	 */
 	public static Map<WorkerRequestType, Function<String, BaseRequest>> CreateRequestsConverterMap() {
 		Map<WorkerRequestType, Function<String, BaseRequest>> converterMap = new HashMap<WorkerRequestType, Function<String, BaseRequest>>();
 		converterMap.put(WorkerRequestType.ACQUIT_OR_CHARGE_ACCOUNT, (gsonString) -> {
@@ -85,6 +96,12 @@ public class WorkerRequestsTypesMapper {
 		return converterMap;
 	};
 
+	/**
+	 * Creates the requests handlers.
+	 *
+	 * @param server the server
+	 * @return the sets the
+	 */
 	public static Set<IRequestsHandler> CreateRequestsHandlers(IProvideConnectionsToClient server) {
 		Set<IRequestsHandler> requestsHandlers = new HashSet<IRequestsHandler>();
 		requestsHandlers.add(new AcquitOrChargeAccountRequestsHandler(server));

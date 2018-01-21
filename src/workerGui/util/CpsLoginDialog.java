@@ -9,8 +9,18 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.util.Callback;
 import javafx.util.Pair;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CpsLoginDialog.
+ */
 public class CpsLoginDialog extends LoginDialog {
 
+	/**
+	 * Instantiates a new cps login dialog.
+	 *
+	 * @param initialUserInfo the initial user info
+	 * @param authenticator the authenticator
+	 */
 	public CpsLoginDialog(Pair<String, String> initialUserInfo, Callback<Pair<String, String>, Void> authenticator) {
 		super(initialUserInfo, authenticator);
 		this.getDialogPane().setHeaderText("Login to CPS\nPlease submit your ID and password");

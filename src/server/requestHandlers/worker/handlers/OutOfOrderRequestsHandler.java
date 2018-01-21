@@ -14,17 +14,32 @@ import server.parkingLot.exceptions.LotIdDoesntExistException;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OutOfOrderRequestsHandler.
+ */
 public class OutOfOrderRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new out of order requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public OutOfOrderRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.OUT_OF_ORDER;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		OutOfOrderRequest outOfOrder = (OutOfOrderRequest) specificRequest;

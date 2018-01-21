@@ -10,11 +10,20 @@ import server.requestHandlers.worker.WorkerRequestsHandler;
 
 import java.sql.SQLException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CPSMain.
+ */
 // CPS Server main class
 public class CPSMain {
 	// TODO: add required properties
 	
 	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		try {
 			

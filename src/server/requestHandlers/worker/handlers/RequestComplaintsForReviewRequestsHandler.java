@@ -17,17 +17,32 @@ import server.requestHandlers.worker.WorkerResponseFactory;
 import core.worker.responses.WorkerBaseResponse;
 import server.db.SqlColumns;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RequestComplaintsForReviewRequestsHandler.
+ */
 public class RequestComplaintsForReviewRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new request complaints for review requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public RequestComplaintsForReviewRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.REQUEST_COMPLAINTS_FOR_REVIEW;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -37,6 +52,12 @@ public class RequestComplaintsForReviewRequestsHandler extends BaseRequestsHandl
 		return CreateWorkerResponse(response);
 	}
 
+	/**
+	 * Extract complaints.
+	 *
+	 * @param resultList the result list
+	 * @return the list
+	 */
 	private List<Complaint> extractComplaints(ArrayList<Map<String, Object>> resultList) {
 		ArrayList<Complaint> complaints = new ArrayList<Complaint>();
 		Iterator<Map<String, Object>> iterator = resultList.iterator();

@@ -18,19 +18,33 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.geometry.Insets;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ApproveRatesRequestsPortalController.
+ */
 public class ApproveRatesRequestsPortalController extends WorkerGuiController implements IAddItemsToTable<RatesUiElement> {
+	
+	/** The model. */
 	private ApproveRatesRequestsPortalModel model;
 
+	/**
+	 * Instantiates a new approve rates requests portal controller.
+	 */
 	public ApproveRatesRequestsPortalController() {
 		model = new ApproveRatesRequestsPortalModel(this);
 	}
 	
+	/** The Rates requests. */
 	@FXML
 	private GridPane RatesRequests;
 
+	/** The Rates table. */
 	@FXML
 	private TableView<RatesUiElement> RatesTable;
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	@SuppressWarnings("unchecked")
 	protected void initialize() {
@@ -53,6 +67,9 @@ public class ApproveRatesRequestsPortalController extends WorkerGuiController im
 		model.sendRequestForPendingRatesRequests();
 	}
 
+	/* (non-Javadoc)
+	 * @see workerGui.controllers.IAddItemsToTable#AddToTable(java.util.List)
+	 */
 	@Override
 	public void AddToTable(List<RatesUiElement> pendingItems) {
 		RatesTable.setItems(FXCollections.observableArrayList(pendingItems));
@@ -60,6 +77,12 @@ public class ApproveRatesRequestsPortalController extends WorkerGuiController im
 		
 	}
 
+	/**
+	 * Creates the editor.
+	 *
+	 * @param param the param
+	 * @return the grid pane
+	 */
 	private GridPane createEditor(TableRowExpanderColumn.TableRowDataFeatures<RatesUiElement> param) {
 		GridPane editor = new GridPane();
 		editor.setPadding(new Insets(10));

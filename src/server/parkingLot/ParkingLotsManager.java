@@ -20,23 +20,37 @@ import server.db.dbAPI.RegularDBAPI;
 import server.parkingLot.exceptions.*;
 
 
+// TODO: Auto-generated Javadoc
 /**
  *  A Singleton which provides all the required functions for managing and operating the parking lots.
  */
 public class ParkingLotsManager {
 	
-	/**************************************** Properties ****************************************/
+	/** ************************************** Properties ***************************************. */
 	
 	private static volatile ParkingLotsManager instance = null;
 	
+	/** The parking lots. */
 	private ConcurrentHashMap<Integer, ParkingLot> parkingLots; // synchronized map
+	
+	/** The lot ids. */
 	private Vector<Integer> lotIds; // Vector is synchronized
 	
+	/** The regular DBAPI. */
 	final private RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
+	
+	/** The num of millis in 24 hours. */
 	final public long numOfMillisIn24Hours = 24*60*60*1000;
+	
+	/** The gson. */
 	final private Gson gson = CpsGson.GetGson();
 	
 	
+	/**
+	 * Instantiates a new parking lots manager.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	private ParkingLotsManager() throws SQLException {
 		parkingLots = new ConcurrentHashMap<Integer, ParkingLot>();
 		lotIds = new Vector<Integer>();
@@ -62,7 +76,11 @@ public class ParkingLotsManager {
 	    */
 	}
 	
-	/************************************** Public Methods **************************************/
+	/**
+	 * ************************************ Public Methods *************************************.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	
 	/**
 	 * Initializer - used only once in CPSMain.
@@ -205,7 +223,9 @@ public class ParkingLotsManager {
 	 * Sets the status of a parking place to BROKEN.
 	 *
 	 * @param lotId the lot id
-	 * @param placeIndex the broken place index in the parkingMap ArrayList
+	 * @param floors the floors
+	 * @param rows the rows
+	 * @param cols the cols
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 * @throws IndexOutOfBoundsException the index out of bounds exception
 	 * @throws SQLException the SQL exception
@@ -221,7 +241,9 @@ public class ParkingLotsManager {
 	 * Cancel broken place setting.
 	 *
 	 * @param lotId the lot id
-	 * @param placeIndex the broken place index in the parkingMap ArrayList
+	 * @param floors the floors
+	 * @param rows the rows
+	 * @param cols the cols
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
 	 * @throws IndexOutOfBoundsException the index out of bounds exception
 	 * @throws SQLException the SQL exception
@@ -244,8 +266,8 @@ public class ParkingLotsManager {
 	 * @return true,  if successful.
 	 * 		   false, if the parking lot is full 
 	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
 	 * @throws SQLException the SQL exception
-	 * @throws DateIsNotWithinTheNext24Hours 
 	 */
 	public boolean reservePlace(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours, SQLException {
 		long arrivalTime = estimatedArrivalTime.getTime();
@@ -266,7 +288,7 @@ public class ParkingLotsManager {
 	 * @param carId the car id
 	 * @param estimatedArrivalTime the estimated arrival time (should be within the next 24 hours)
 	 * @throws LotIdDoesntExistException the lot id doesn't exist exception
-	 * @throws DateIsNotWithinTheNext24Hours 
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
 	 * @throws SQLException the SQL exception
 	 */
 	public void cancelReservation(int lotId, String carId, Date estimatedArrivalTime) throws LotIdDoesntExistException, DateIsNotWithinTheNext24Hours, SQLException {
@@ -277,7 +299,13 @@ public class ParkingLotsManager {
 		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
 	}
 	
-	/************************************** Private Methods **************************************/
+	/**
+	 * ************************************ Private Methods *************************************.
+	 *
+	 * @param lotId the lot id
+	 * @return the lot
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 */
 	
 	private ParkingLot getLot(int lotId) throws LotIdDoesntExistException {
 		ParkingLot parkingLot = parkingLots.get(lotId);
@@ -288,6 +316,12 @@ public class ParkingLotsManager {
 	}
 	
 	
+	/**
+	 * Assert date is within the next 24 hours.
+	 *
+	 * @param date the date
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
+	 */
 	private void assertDateIsWithinTheNext24Hours(long date) throws DateIsNotWithinTheNext24Hours {
 		long now = new Date().getTime();
 		if (date > now + numOfMillisIn24Hours) {

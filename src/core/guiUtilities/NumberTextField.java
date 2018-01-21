@@ -2,8 +2,15 @@ package core.guiUtilities;
 
 import javafx.scene.control.TextField;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NumberTextField.
+ */
 public class NumberTextField extends TextField {
 
+	/* (non-Javadoc)
+	 * @see javafx.scene.control.TextInputControl#replaceText(int, int, java.lang.String)
+	 */
 	@Override
 	public void replaceText(int start, int end, String text) {
 		if (validate(text)) {
@@ -11,6 +18,9 @@ public class NumberTextField extends TextField {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.scene.control.TextInputControl#replaceSelection(java.lang.String)
+	 */
 	@Override
 	public void replaceSelection(String text) {
 		if (validate(text)) {
@@ -18,10 +28,21 @@ public class NumberTextField extends TextField {
 		}
 	}
 
+	/**
+	 * Validate.
+	 *
+	 * @param text the text
+	 * @return true, if successful
+	 */
 	private boolean validate(String text) {
 		return text.matches(CpsRegEx.OnlyIntegers);
 	}
 
+	/**
+	 * Gets the number.
+	 *
+	 * @return the number
+	 */
 	public Integer getNumber() {
 		if (this.getText().isEmpty()) {
 			return 0;

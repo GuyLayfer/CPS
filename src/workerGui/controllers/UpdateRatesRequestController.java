@@ -21,17 +21,33 @@ import workerGui.util.WorkerAccountManager;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerRequestsFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UpdateRatesRequestController.
+ */
 public class UpdateRatesRequestController implements IServerResponseHandler<WorkerBaseResponse>{
+	
+	/** The validation. */
 	private ValidationSupport validation = new ValidationSupport();
+	
+	/** The connection manager. */
 	private WorkerConnectionManager connectionManager;
+	
+	/** The worker account manager. */
 	private WorkerAccountManager workerAccountManager;
 
+	/**
+	 * Instantiates a new update rates request controller.
+	 */
 	public UpdateRatesRequestController() {
 		connectionManager = WorkerConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(this);
 		workerAccountManager = WorkerAccountManager.getInstance();
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		orderButton.disableProperty().bind(validation.invalidProperty());
@@ -44,27 +60,39 @@ public class UpdateRatesRequestController implements IServerResponseHandler<Work
 		setParkingLotComboBox();
 	}
 	
+	/** The Rutine monthly field. */
 	@FXML
 	private FloatNumberTextField RutineMonthlyField;
 
+	/** The Occasional rate field. */
 	@FXML
 	private FloatNumberTextField OccasionalRateField;
 
+	/** The Rutine monthly multiple field. */
 	@FXML
 	private FloatNumberTextField RutineMonthlyMultipleField;
 
+	/** The Parking lot id field. */
 	@FXML
 	private ComboBox<Integer> ParkingLotIdField;
 
+	/** The Full nonthly field. */
 	@FXML
 	private FloatNumberTextField FullNonthlyField;
 
+	/** The Pre ordered field. */
 	@FXML
 	private FloatNumberTextField PreOrderedField;
 
+	/** The order button. */
 	@FXML
 	private Button orderButton;
 
+	/**
+	 * Send rates update request.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void SendRatesUpdateRequest(ActionEvent event) {
 		BaseRequest request = WorkerRequestsFactory.CreateUpdateRatesRequest(
@@ -77,6 +105,9 @@ public class UpdateRatesRequestController implements IServerResponseHandler<Work
 		connectionManager.sendMessageToServer(request);
 	}
 
+	/**
+	 * Sets the parking lot combo box.
+	 */
 	private void setParkingLotComboBox() {
 		if (workerAccountManager.getWorkerRole() == WorkerRole.FIRM_MANAGER) {
 			connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateParkingLotNamesRequest());
@@ -88,6 +119,9 @@ public class UpdateRatesRequestController implements IServerResponseHandler<Work
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see core.guiUtilities.IServerResponseHandler#handleServerResponse(java.lang.Object)
+	 */
 	@Override
 	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.PARKING_LOT_NAMES) {

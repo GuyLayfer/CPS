@@ -4,8 +4,17 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LogoutDialog.
+ */
 public class LogoutDialog {
 	
+	/**
+	 * Gets the logout confirmation.
+	 *
+	 * @return the logout confirmation
+	 */
 	public static Alert getLogoutConfirmation() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Logout Confirmation");

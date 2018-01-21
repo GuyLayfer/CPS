@@ -2,6 +2,10 @@ package core.customer.responses;
 
 import core.customer.CustomerRequestType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CustomerResponse.
+ */
 /* responseType to jsonData-type map:
  * 		ORDER_ONE_TIME_PARKING 				- IdPricePair (orderID, price)
  *		CANCEL_ORDER						- double (refund price)
@@ -18,10 +22,19 @@ import core.customer.CustomerRequestType;
  *		FULL_PARKING_LOT					- TODO
  */
 public class CustomerResponse {
+	
+	/** The request type. */
 	public CustomerRequestType requestType;
 	
+	/** The json data. */
 	public String jsonData;
 	
+	/**
+	 * Instantiates a new customer response.
+	 *
+	 * @param requestType the request type
+	 * @param jsonData the json data
+	 */
 	public CustomerResponse(CustomerRequestType requestType, String jsonData) {
 		this.requestType = requestType;
 		this.jsonData = jsonData;

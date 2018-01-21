@@ -24,21 +24,50 @@ import javafx.geometry.Pos;
 import javafx.util.Duration;
 import ocsf.client.AbstractClient;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MockWebClientConnectionManager.
+ */
 public class MockWebClientConnectionManager extends AbstractClient {
+	
+	/** The instance. */
 	private static MockWebClientConnectionManager instance;
+	
+	/** The Constant DEFAULT_PORT. */
 	final private static int DEFAULT_PORT = ServerPorts.WEB_CUSTOMER_PORT;
+	
+	/** The Constant DEFAULT_HOST. */
 	final private static String DEFAULT_HOST = "localhost";
+	
+	/** The gson. */
 	final private Gson gson = CpsGson.GetGson();
+	
+	/** The listeners. */
 	private List<IServerResponseHandler<CustomerBaseResponse>> listeners = new CopyOnWriteArrayList<IServerResponseHandler<CustomerBaseResponse>>();
+	
+	/** The response converter map. */
 	private Map<CustomerRequestType, Function<String, CustomerBaseResponse>> responseConverterMap;
+	
+	/** The alternative host address. */
 	public static String alternativeHostAddress = null;
 
+	/**
+	 * Instantiates a new mock web client connection manager.
+	 *
+	 * @param hostAddress the host address
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private MockWebClientConnectionManager(String hostAddress) throws IOException {
 		super(hostAddress == null ? DEFAULT_HOST : hostAddress, DEFAULT_PORT);
 		openConnection();
 		responseConverterMap = CustomerResponsesTypesMapper.CreateResponseConverterMap();
 	}
 
+	/**
+	 * Gets the single instance of MockWebClientConnectionManager.
+	 *
+	 * @return single instance of MockWebClientConnectionManager
+	 */
 	public static MockWebClientConnectionManager getInstance() {
 		if (instance == null) {
 			try {
@@ -53,10 +82,20 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		return instance;
 	}
 
+	/**
+	 * Adds the server message listener.
+	 *
+	 * @param listner the listner
+	 */
 	public void addServerMessageListener(IServerResponseHandler<CustomerBaseResponse> listner) {
 		listeners.add(listner);
 	}
 
+	/**
+	 * Send message to server.
+	 *
+	 * @param order the order
+	 */
 	public void sendMessageToServer(CustomerRequest order) {
 		try {
 			sendToServer(gson.toJson(order));
@@ -66,6 +105,9 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ocsf.client.AbstractClient#handleMessageFromServer(java.lang.Object)
+	 */
 	@Override
 	protected void handleMessageFromServer(Object arg0) {
 		CustomerResponse response = gson.fromJson((String) arg0, CustomerResponse.class);
@@ -73,6 +115,9 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		notifyListeners(specificResponse);
 	}
 
+	/**
+	 * Close server connection.
+	 */
 	public void closeServerConnection() {
 		try {
 			closeConnection();
@@ -81,12 +126,22 @@ public class MockWebClientConnectionManager extends AbstractClient {
 		}
 	}
 
+	/**
+	 * Notify listeners.
+	 *
+	 * @param message the message
+	 */
 	private void notifyListeners(CustomerBaseResponse message) {
 		for (IServerResponseHandler<CustomerBaseResponse> listener : listeners) {
 			listener.handleServerResponse(message);
 		}
 	}
 	
+	/**
+	 * Show notification.
+	 *
+	 * @param msg the msg
+	 */
 	private static void showNotification(String msg) {
 		Platform.runLater(() -> {
 			Notifications notificationBuilder = Notifications.create()

@@ -17,11 +17,24 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import workerGui.util.WorkerConnectionManager;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WorkerClientApplicationStarter.
+ */
 public class WorkerClientApplicationStarter extends Application {
+	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		Region shell = FXMLLoader.load(UriDictionary.class.getResource(UriDictionary.WorkerGui.OuterShell));

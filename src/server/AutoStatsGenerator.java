@@ -5,8 +5,15 @@ import server.db.dbAPI.ServerUtils;
 import java.util.Timer;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AutoStatsGenerator.
+ */
 public class AutoStatsGenerator {
 
+	/**
+	 * Generate stats last week periodly.
+	 */
 	public static void generateStatsLastWeekPeriodly() {
 		
         final TimerTask test = new GenerateStats();

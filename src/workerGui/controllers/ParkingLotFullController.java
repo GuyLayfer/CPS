@@ -18,17 +18,33 @@ import workerGui.util.WorkerAccountManager;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerRequestsFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ParkingLotFullController.
+ */
 public class ParkingLotFullController implements IServerResponseHandler<WorkerBaseResponse> {
+	
+	/** The validation. */
 	private ValidationSupport validation = new ValidationSupport();
+	
+	/** The connection manager. */
 	private WorkerConnectionManager connectionManager;
+	
+	/** The worker account manager. */
 	private WorkerAccountManager workerAccountManager;
 
+	/**
+	 * Instantiates a new parking lot full controller.
+	 */
 	public ParkingLotFullController() {
 		connectionManager = WorkerConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(this);
 		workerAccountManager = WorkerAccountManager.getInstance();
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		SetParkingLotIsFullButton.disableProperty().bind(validation.invalidProperty());
@@ -44,30 +60,51 @@ public class ParkingLotFullController implements IServerResponseHandler<WorkerBa
 		}
 	}
 
+	/** The Set parking lot is full button. */
 	@FXML
 	private Button SetParkingLotIsFullButton;
 
+	/** The Unset parking lot is full button. */
 	@FXML
 	private Button UnsetParkingLotIsFullButton;
 
+	/** The Parking lot id. */
 	@FXML
 	private ComboBox<Integer> ParkingLotId;
 
+	/**
+	 * Sets the parking lot is full.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void SetParkingLotIsFull(ActionEvent event) {
 		SendRequest(true);
 	}
 
+	/**
+	 * Unset parking lot is full.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void UnsetParkingLotIsFull(ActionEvent event) {
 		SendRequest(false);
 	}
 
+	/**
+	 * Send request.
+	 *
+	 * @param setFull the set full
+	 */
 	private void SendRequest(Boolean setFull) {
 		BaseRequest request = WorkerRequestsFactory.CreateParkingLotFullRequest(setFull, ParkingLotId.getValue());
 		connectionManager.sendMessageToServer(request);
 	}
 
+	/* (non-Javadoc)
+	 * @see core.guiUtilities.IServerResponseHandler#handleServerResponse(java.lang.Object)
+	 */
 	@Override
 	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.PARKING_LOT_NAMES) {

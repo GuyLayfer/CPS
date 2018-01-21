@@ -42,21 +42,51 @@ import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.customer.responses.TrackOrderResponse;
 import javafx.util.converter.LocalDateStringConverter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WebCustomerRequestsHandler.
+ */
 public class WebCustomerRequestsHandler extends AbstractServer {
+	
+	/** The gson. */
 	final protected Gson gson = CpsGson.GetGson();
+	
+	/** The regular DBAPI. */
 	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
+	
+	/** The subscriptions DBAPI. */
 	final protected SubscriptionsDBAPI subscriptionsDBAPI = SubscriptionsDBAPI.getInstance();
+	
+	/** The parking lots manager. */
 	final protected ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
+	
+	/** The price calculator. */
 	final protected PriceCalculator priceCalculator = PriceCalculator.getInstance();
 	
+	/**
+	 * Instantiates a new web customer requests handler.
+	 *
+	 * @param port the port
+	 */
 	public WebCustomerRequestsHandler(int port) {
 		super(port);
 	}
 	
+	/**
+	 * Charge account.
+	 */
 	protected void ChargeAccount() {
 		// TODO: implement
 	}
 	
+	/**
+	 * Update price with balance.
+	 *
+	 * @param customerID the customer ID
+	 * @param currentRequestPrice the current request price
+	 * @return the double
+	 * @throws SQLException the SQL exception
+	 */
 	protected double updatePriceWithBalance(int customerID, double currentRequestPrice) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectCustomerAccountDetails(customerID, resultList);
@@ -78,6 +108,15 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return currentRequestPrice;
 	}
 	
+	/**
+	 * Order pre ordered parking.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
+	 */
 	protected String orderPreOrderedParking(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		//customerID = customerID
 		//carID = licensePlate
@@ -121,6 +160,15 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
 
+	/**
+	 * Cancel order.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
+	 */
 	protected String cancelOrder(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectOrderStatus(request.orderID, resultList);
@@ -144,6 +192,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		}
 	}
 	
+	/**
+	 * Track order status.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 */
 	protected String trackOrderStatus(CustomerRequest request) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		regularDBAPI.selectOrderStatus(request.orderID, resultList);
@@ -165,6 +220,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		}
 	}
 	
+	/**
+	 * Order routine monthly subscription.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 */
 	protected String orderRoutineMonthlySubscription(CustomerRequest request) throws SQLException {
 		// the request contains:
 		//customerID
@@ -213,6 +275,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
+	/**
+	 * Order full monthly subscription.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 */
 	protected String orderFullMonthlySubscription(CustomerRequest request) throws SQLException {
 		//the request contains:
 		//customerID
@@ -250,6 +319,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(subscriptionID, price));
 	}
 	
+	/**
+	 * Subscription renweal.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 */
 	protected String subscriptionRenweal(CustomerRequest request) throws SQLException {
 		//int customerID
 		//int subscriptionId -> request.subscriptionID;
@@ -326,11 +402,25 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(request.subscriptionID, price));
 	}
 
+	/**
+	 * Open complaint.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 */
 	protected String openComplaint(CustomerRequest request) throws SQLException {
 		int complaintID = regularDBAPI.insertComplaint(request.customerID, request.complaint, new Date() ); 
 		return createNotificationResponse(request.requestType, "Your complaint ID is: " + complaintID);
 	}
 	
+	/**
+	 * Parking lot names.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 */
 	protected String parkingLotNames(CustomerRequest request) throws SQLException {
 		ParkingLotsNamesForCustomerResponse response = new ParkingLotsNamesForCustomerResponse();
 		response.requestType = CustomerRequestType.PARKING_LOT_NAMES;
@@ -338,6 +428,15 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		return createCustomerResponse(CustomerRequestType.PARKING_LOT_NAMES, response);
 	}
 	
+	/**
+	 * Handle web customer request.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
+	 */
 	// returns the response json string
 	protected String handleWebCustomerRequest(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		switch (request.requestType) {
@@ -368,6 +467,9 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see ocsf.server.AbstractServer#handleMessageFromClient(java.lang.Object, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
@@ -390,31 +492,64 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ocsf.server.AbstractServer#serverStarted()
+	 */
 	@Override
 	protected void serverStarted() {
 		System.out.println("WebCustomer Server is listening for connections on port " + getPort());
 	}
 
+	/* (non-Javadoc)
+	 * @see ocsf.server.AbstractServer#serverStopped()
+	 */
 	@Override
 	protected void serverStopped() {
 		System.out.println("WebCustomer Server has stopped listening for connections.");
 	}
 
+	/**
+	 * Creates the unsupported feature response.
+	 *
+	 * @param requestType the request type
+	 * @return the string
+	 */
 	protected String createUnsupportedFeatureResponse(CustomerRequestType requestType) {
 		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.UNSUPPORTED_FEATURE, requestType + " request type isn't supported yet");
 		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
 	}
 
+	/**
+	 * Creates the request denied response.
+	 *
+	 * @param requestType the request type
+	 * @param refusalReason the refusal reason
+	 * @return the string
+	 */
 	protected String createRequestDeniedResponse(CustomerRequestType requestType, String refusalReason) {
 		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.REQUEST_DENIED, refusalReason);
 		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
 	}
 
+	/**
+	 * Creates the notification response.
+	 *
+	 * @param requestType the request type
+	 * @param message the message
+	 * @return the string
+	 */
 	protected String createNotificationResponse(CustomerRequestType requestType, String message) {
 		CustomerNotificationResponse response = new CustomerNotificationResponse(requestType, message);
 		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}
 
+	/**
+	 * Creates the customer response.
+	 *
+	 * @param requestType the request type
+	 * @param response the response
+	 * @return the string
+	 */
 	protected String createCustomerResponse(CustomerRequestType requestType, CustomerBaseResponse response) {
 		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}

@@ -33,12 +33,27 @@ import workerGui.util.WorkerAccountManager;
 import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerRequestsFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ReportsController.
+ */
 public class ReportsController implements IAddItemsToTable<ReportItemUiElement>, IServerResponseHandler<WorkerBaseResponse> {
+	
+	/** The validation. */
 	private ValidationSupport validation = new ValidationSupport();
+	
+	/** The connection manager. */
 	private WorkerConnectionManager connectionManager;
+	
+	/** The worker account manager. */
 	private WorkerAccountManager workerAccountManager;
+	
+	/** The model. */
 	private ReportsModel model;
 
+	/**
+	 * Instantiates a new reports controller.
+	 */
 	public ReportsController() {
 		model = new ReportsModel(this);
 		workerAccountManager = WorkerAccountManager.getInstance();
@@ -46,6 +61,9 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement>,
 		connectionManager.addServerMessageListener(this);
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	@SuppressWarnings("unchecked")
 	private void initialize() {
@@ -88,30 +106,43 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement>,
 		}
 	}
 
+	/** The end date. */
 	@FXML
 	private DatePicker endDate;
 
+	/** The start to end section. */
 	@FXML
 	private HBox startToEndSection;
 
+	/** The select parking lot section. */
 	@FXML
 	private HBox selectParkingLotSection;
 
+	/** The reports table. */
 	@FXML
 	private TableView<ReportItemUiElement> reportsTable;
 
+	/** The start date. */
 	@FXML
 	private DatePicker startDate;
 
+	/** The show report button. */
 	@FXML
 	private Button showReportButton;
 
+	/** The report header. */
 	@FXML
 	private Text reportHeader;
 
+	/** The Parking lot id. */
 	@FXML
 	private ComboBox<Integer> ParkingLotId;
 
+	/**
+	 * Show report.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void showReport(ActionEvent event) {
 		if (startDate.getValue() == null || endDate.getValue() == null) {
@@ -124,6 +155,11 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement>,
 		}
 	}
 
+	/**
+	 * Gets the example.
+	 *
+	 * @return the example
+	 */
 	private ArrayList<ReportItemUiElement> getExample() {
 		ArrayList<ReportItemUiElement> list = new ArrayList<ReportItemUiElement>();
 		list.add(new ReportItemUiElement(new ReportItem("gla:", GetLoremIpsum2())));
@@ -131,6 +167,11 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement>,
 		return list;
 	}
 
+	/**
+	 * Gets the lorem ipsum 2.
+	 *
+	 * @return the string
+	 */
 	private String GetLoremIpsum2() {
 		return "Ut condimentum placerat quam vel eleifend. Suspendisse pretium pulvinar nulla et sodales. Vivamus id magna varius erat sollicitudin dapibus non vel neque. Etiam sapien nisi, imperdiet sed luctus nec, porttitor non tellus. Duis ipsum mi, commodo id magna non,"
 				+ "\r\n"
@@ -146,16 +187,27 @@ public class ReportsController implements IAddItemsToTable<ReportItemUiElement>,
 				+ "Aliquam ut vehicula erat. Morbi scelerisque metus id imperdiet eleifend. " + "\r\n" + "Donec ut est consectetur, porta justo quis, fringilla erat.";
 	}
 
+	/**
+	 * Gets the lorem ipsum 3.
+	 *
+	 * @return the string
+	 */
 	private String GetLoremIpsum3() {
 		return "So there I was, in the middle of the parking lot, looking for my car, when this DAMN ROBOT TRIED TO INCINERATE ME!!"
 				+ "\nThis is unacceptable. I want my car back and I want that robot fired.";
 	}
 
+	/* (non-Javadoc)
+	 * @see workerGui.controllers.IAddItemsToTable#AddToTable(java.util.List)
+	 */
 	@Override
 	public void AddToTable(List<ReportItemUiElement> pendingItems) {
 		reportsTable.setItems(FXCollections.observableArrayList(pendingItems));
 	}
 
+	/* (non-Javadoc)
+	 * @see core.guiUtilities.IServerResponseHandler#handleServerResponse(java.lang.Object)
+	 */
 	@Override
 	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.PARKING_LOT_NAMES) {

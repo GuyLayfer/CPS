@@ -25,12 +25,30 @@ import server.db.DBConstants.TrueFalse;
 import server.parkingLot.exceptions.DateIsNotWithinTheNext24Hours;
 import server.parkingLot.exceptions.LotIdDoesntExistException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class KioskRequestsHandler.
+ */
 public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 
+	/**
+	 * Instantiates a new kiosk requests handler.
+	 *
+	 * @param port the port
+	 */
 	public KioskRequestsHandler(int port) {
 		super(port);
 	}
 	
+	/**
+	 * Order occasional parking.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
+	 */
 	protected String orderOccasionalParking(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		//customerID = customerID
 		//carID = licensePlate
@@ -67,6 +85,15 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		
 		return createCustomerResponse(request.requestType, new IdPricePairResponse(entranceID, price));
 	}
+	
+	/**
+	 * Enter parking pre ordered.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 */
 	protected String enterParkingPreOrdered(CustomerRequest request) throws SQLException, LotIdDoesntExistException {
 		//carID 
 		//parkingLotID
@@ -89,6 +116,16 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		
 		return createNotificationResponse(request.requestType, "Your car has been entered successfuly.");
 	}
+	
+	/**
+	 * Enter parking subscriber.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
+	 */
 	@SuppressWarnings("deprecation")
 	protected String enterParkingSubscriber(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		//carID
@@ -131,6 +168,15 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		
 		return createNotificationResponse(request.requestType, "Welcome to our amazing parking lot!");
 	}
+	
+	/**
+	 * Exit parking.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 */
 	protected String exitParking(CustomerRequest request) throws SQLException, LotIdDoesntExistException {
 		//carID
 		//parkingLotID
@@ -158,6 +204,15 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 
 	}
 
+	/**
+	 * Handle kiosk request.
+	 *
+	 * @param request the request
+	 * @return the string
+	 * @throws SQLException the SQL exception
+	 * @throws LotIdDoesntExistException the lot id doesnt exist exception
+	 * @throws DateIsNotWithinTheNext24Hours the date is not within the next 24 hours
+	 */
 	private String handleKioskRequest(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		switch (request.requestType) {
 		case OCCASIONAL_PARKING:
@@ -179,6 +234,9 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.WebCustomerRequestsHandler#handleMessageFromClient(java.lang.Object, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
@@ -201,26 +259,41 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.WebCustomerRequestsHandler#serverStarted()
+	 */
 	@Override
 	protected void serverStarted() {
 		System.out.println("Kiosk Server is listening for connections on port " + getPort());
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.WebCustomerRequestsHandler#serverStopped()
+	 */
 	@Override
 	protected void serverStopped() {
 		System.out.println("Kiosk Server has stopped listening for connections.");
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.WebCustomerRequestsHandler#createRequestDeniedResponse(core.customer.CustomerRequestType, java.lang.String)
+	 */
 	protected String createRequestDeniedResponse(CustomerRequestType requestType, String refusalReason) {
 		BadCustomerResponse badRequest = new BadCustomerResponse(ResponseStatus.REQUEST_DENIED, refusalReason);
 		return gson.toJson(new CustomerResponse(CustomerRequestType.BAD_REQUEST, gson.toJson(badRequest)));
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.WebCustomerRequestsHandler#createNotificationResponse(core.customer.CustomerRequestType, java.lang.String)
+	 */
 	protected String createNotificationResponse(CustomerRequestType requestType, String message) {
 		CustomerNotificationResponse response = new CustomerNotificationResponse(requestType, message);
 		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.WebCustomerRequestsHandler#createCustomerResponse(core.customer.CustomerRequestType, core.customer.responses.CustomerBaseResponse)
+	 */
 	protected String createCustomerResponse(CustomerRequestType requestType, CustomerBaseResponse response) {
 		return gson.toJson(new CustomerResponse(requestType, gson.toJson(response)));
 	}

@@ -22,17 +22,32 @@ import server.requestHandlers.worker.WorkerResponseFactory;
 import server.rates.PriceCalculator;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ReserveParkingSpaceRequestsHandler.
+ */
 public class ReserveParkingSpaceRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new reserve parking space requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public ReserveParkingSpaceRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.RESERVE_PARKING_SPACE;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		ReserveParkingSpaceRequest reserveParkingSpace = (ReserveParkingSpaceRequest) specificRequest;

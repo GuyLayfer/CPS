@@ -20,15 +20,31 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import webGui.models.OrderFullMonthlySubscriptionModel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OrderFullMonthlySubscriptionController.
+ */
 public class OrderFullMonthlySubscriptionController {
+	
+	/** The model. */
 	private OrderFullMonthlySubscriptionModel model;
+	
+	/** The validation. */
 	private ValidationSupport validation = new ValidationSupport();
+	
+	/** The email validator. */
 	private EmailValidator emailValidator = EmailValidator.getInstance();
 
+	/**
+	 * Instantiates a new order full monthly subscription controller.
+	 */
 	public OrderFullMonthlySubscriptionController() {
 		model = new OrderFullMonthlySubscriptionModel();
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		OrderFullMonthlySubscriptionBTN.disableProperty().bind(validation.invalidProperty());
@@ -38,36 +54,51 @@ public class OrderFullMonthlySubscriptionController {
 		validation.registerValidator(startingDateTF, Validator.createEmptyValidator("Starting date is Required"));
 	}
 
+	/** The Email LBL. */
 	@FXML // fx:id="EmailLBL"
 	private Label EmailLBL; // Value injected by FXMLLoader
 
+	/** The Order full monthly subscription BTN. */
 	@FXML // fx:id="OrderOneTimeParkingBTN"
 	private Button OrderFullMonthlySubscriptionBTN; // Value injected by FXMLLoader
 
+	/** The Liscence plate LBL. */
 	@FXML // fx:id="LiscencePlateLBL"
 	private Label LiscencePlateLBL; // Value injected by FXMLLoader
 
+	/** The liscence plate TF. */
 	@FXML // fx:id="liscencePlateTF"
 	private LicencePlateTextField liscencePlateTF; // Value injected by FXMLLoader
 
+	/** The customer IDTF. */
 	@FXML // fx:id="customerIDTF"
 	private NumberTextField customerIDTF; // Value injected by FXMLLoader
 
+	/** The starting date LBL. */
 	@FXML // fx:id="startingDateLBL"
 	private Label startingDateLBL; // Value injected by FXMLLoader
 
+	/** The customer IDLBL. */
 	@FXML // fx:id="customerIDLBL"
 	private Label customerIDLBL; // Value injected by FXMLLoader
 
+	/** The email TF. */
 	@FXML // fx:id="emailTF"
 	private TextField emailTF; // Value injected by FXMLLoader
 
+	/** The starting date TF. */
 	@FXML // fx:id="startingDateTF"
 	private DatePicker startingDateTF; // Value injected by FXMLLoader
 
+	/** The order full monthly LBL. */
 	@FXML // fx:id="orderFullMonthlyLBL"
 	private Label orderFullMonthlyLBL; // Value injected by FXMLLoader
 
+	/**
+	 * Order full monthly subscription.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void OrderFullMonthlySubscription(ActionEvent event) {
 		model.SendFullMonthlySubcriptionRequestToServer(

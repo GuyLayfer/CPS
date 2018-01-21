@@ -11,18 +11,35 @@ import server.parkingLot.ParkingLotsManager;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ParkingLotNamesRequestsHandler.
+ */
 public class ParkingLotNamesRequestsHandler extends BaseRequestsHandler {
+	
+	/** The parking lots manager. */
 	private ParkingLotsManager parkingLotsManager = ParkingLotsManager.getInstance();
 
+	/**
+	 * Instantiates a new parking lot names requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public ParkingLotNamesRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.PARKING_LOT_NAMES;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		WorkerBaseResponse response = WorkerResponseFactory.CreateParkingLotNamesResponse(parkingLotsManager.getAllIds());

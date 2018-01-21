@@ -17,17 +17,32 @@ import server.db.SqlColumns;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PermissionsRequestsHandler.
+ */
 public class PermissionsRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new permissions requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public PermissionsRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.REQUEST_PERMISSIONS;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		PermissionsRequest permissionsRequest = (PermissionsRequest) specificRequest;
@@ -44,6 +59,12 @@ public class PermissionsRequestsHandler extends BaseRequestsHandler {
 		return createPermissions(resultList.iterator().next(), permissionsRequest.workerId, client);
 	}
 	
+	/**
+	 * Checks if is worker already connected.
+	 *
+	 * @param workerId the worker id
+	 * @return the boolean
+	 */
 	private Boolean isWorkerAlreadyConnected(int workerId) {
 		List<ConnectionToClient> connections = connectionsToClientProvider.getConnections();
 		for (ConnectionToClient client : connections) {
@@ -56,6 +77,14 @@ public class PermissionsRequestsHandler extends BaseRequestsHandler {
 		return false;
 	}
 	
+	/**
+	 * Creates the permissions.
+	 *
+	 * @param result the result
+	 * @param workerId the worker id
+	 * @param client the client
+	 * @return the worker response
+	 */
 	private WorkerResponse createPermissions(Map<String, Object> result, int workerId, ConnectionToClient client) {
 		WorkerRole workerRole = WorkerRole.valueOf((String) result.get(SqlColumns.Workers.ROLE_TYPE));
 		int lotId = result.get(SqlColumns.Workers.LOT_ID) == null ? 0 : (Integer)result.get(SqlColumns.Workers.LOT_ID);

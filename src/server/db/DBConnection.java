@@ -15,11 +15,33 @@ import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetMetaData;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DBConnection.
+ */
 public class DBConnection {
 
-	public enum sqlTypeKind {INT, VARCHAR,  TIMESTAMP, DATE, DOUBLE, ENUM, TEXT;
+	/**
+	 * The Enum sqlTypeKind.
+	 */
+	public enum sqlTypeKind {/** The int. */
+INT, /** The varchar. */
+ VARCHAR,  /** The timestamp. */
+  TIMESTAMP, /** The date. */
+ DATE, /** The double. */
+ DOUBLE, /** The enum. */
+ ENUM, /** The text. */
+ TEXT;
 	};
 
+	/**
+	 * Prepare PS params.
+	 *
+	 * @param stmt the stmt
+	 * @param ps the ps
+	 * @param params the params
+	 * @throws SQLException the SQL exception
+	 */
 	public static void preparePSParams(String stmt, PreparedStatement ps, 
 			Queue<Object> params) throws SQLException {
 
@@ -49,6 +71,14 @@ public class DBConnection {
 	}
 
 
+	/**
+	 * Select sql.
+	 *
+	 * @param stmtString the stmt string
+	 * @param params the params
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public static void selectSql(String stmtString,
 			Queue<Object> params, ArrayList<Map<String, Object>> resultList) throws SQLException 
 	{
@@ -94,6 +124,14 @@ public class DBConnection {
 		}
 	}
 
+	/**
+	 * Update sql.
+	 *
+	 * @param stmtString the stmt string
+	 * @param params the params
+	 * @return the int
+	 * @throws SQLException the SQL exception
+	 */
 	public static int updateSql(String stmtString, Queue<Object> params) throws SQLException 
 	{
 		try 

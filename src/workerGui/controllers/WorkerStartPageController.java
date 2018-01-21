@@ -12,23 +12,38 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import workerGui.util.WorkerConnectionManager;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WorkerStartPageController.
+ */
 public class WorkerStartPageController {
 
+	/** The change host button. */
 	@FXML
 	private Button changeHostButton;
 
+	/** The localhost button. */
 	@FXML
 	private Button localhostButton;
 
+	/** The host TF. */
 	@FXML
 	private TextField hostTF;
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		changeHostButton.setOnAction(e -> changeHost(hostTF.getText()));
 		localhostButton.setOnAction(e -> changeHost("localhost"));
 	}
 
+	/**
+	 * Change host.
+	 *
+	 * @param host the host
+	 */
 	private void changeHost(String host) {
 		WorkerConnectionManager.alternativeHostAddress = host;
 		Scene scene = changeHostButton.getScene();

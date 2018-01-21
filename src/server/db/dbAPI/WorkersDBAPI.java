@@ -108,6 +108,12 @@ public class WorkersDBAPI extends DBAPI{
 
 	
 	
+	/**
+	 * Select full subscription rate.
+	 *
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectFullSubscriptionRate(ArrayList<Map<String, Object>> resultList) throws SQLException {
 		DBConnection.selectSql(workersQueriesInst.select_full_subscription_rate, null, resultList);
 	}
@@ -121,6 +127,7 @@ public class WorkersDBAPI extends DBAPI{
 	 * @param occasional the order
 	 * @param subscriptionFull the subscription full
 	 * @param rutineSubscription the subscription occasional
+	 * @param subscriptionMultipleCarsPrice the subscription multiple cars price
 	 * @throws SQLException the SQL exception
 	 */
 	public void insertRatesOfLotId(boolean insertIntoPending, int lotId, double preOrdered, double occasional, double subscriptionFull,
@@ -147,12 +154,28 @@ public class WorkersDBAPI extends DBAPI{
 		}
 	}
 	
+	/**
+	 * Update full subscription rate.
+	 *
+	 * @param subscriptionFull the subscription full
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateFullSubscriptionRate(double subscriptionFull) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
 		paramsValues.add(subscriptionFull);
 		DBConnection.updateSql(workersQueriesInst.change_full_subscription_rate, paramsValues);
 	}
 	
+	/**
+	 * Update existing rates.
+	 *
+	 * @param lotId the lot id
+	 * @param preOrdered the pre ordered
+	 * @param occasional the occasional
+	 * @param rutineSubscription the rutine subscription
+	 * @param subscriptionMultipleCarsPrice the subscription multiple cars price
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateExistingRates(int lotId, double preOrdered, double occasional,
 			double rutineSubscription, double subscriptionMultipleCarsPrice) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
@@ -164,6 +187,12 @@ public class WorkersDBAPI extends DBAPI{
 		DBConnection.updateSql(workersQueriesInst.update_existing_rate, paramsValues);
 	}
 	
+	/**
+	 * Delete pending rate.
+	 *
+	 * @param lotId the lot id
+	 * @throws SQLException the SQL exception
+	 */
 	public void deletePendingRate(int lotId) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
 		paramsValues.add(lotId);

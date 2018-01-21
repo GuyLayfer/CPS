@@ -1,13 +1,42 @@
 package core.parkingLot;
 
-public enum ParkingStatus {FREE("free"), PARKED("parked"), RESERVED("reserved"), BROKEN("broken");
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum ParkingStatus.
+ */
+public enum ParkingStatus {/** The free. */
+FREE("free"), /** The parked. */
+ PARKED("parked"), /** The reserved. */
+ RESERVED("reserved"), /** The broken. */
+ BROKEN("broken");
+	
+	/** The value. */
 	private String value;
+	
+	/**
+	 * Instantiates a new parking status.
+	 *
+	 * @param value the value
+	 */
 	private ParkingStatus(String value) {
 	      this.value = value;
 	}
+    
+    /**
+     * Gets the value.
+     *
+     * @return the value
+     */
     public String getValue() {
 	      return value;
     }
+    
+    /**
+     * Convert string to parking map enum.
+     *
+     * @param s the s
+     * @return the parking status
+     */
     public static ParkingStatus convertStringToParkingMapEnum(String s) {
         switch (s) {
          case "free":

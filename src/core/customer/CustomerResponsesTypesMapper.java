@@ -14,9 +14,20 @@ import core.customer.responses.IdPricePairResponse;
 import core.customer.responses.ParkingLotsNamesForCustomerResponse;
 import core.customer.responses.TrackOrderResponse;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CustomerResponsesTypesMapper.
+ */
 public class CustomerResponsesTypesMapper {
+	
+	/** The Constant gson. */
 	private static final Gson gson = CpsGson.GetGson();
 	
+	/**
+	 * Creates the response converter map.
+	 *
+	 * @return the map
+	 */
 	public static Map<CustomerRequestType, Function<String, CustomerBaseResponse>> CreateResponseConverterMap() {
 		Map<CustomerRequestType, Function<String, CustomerBaseResponse>> converterMap = new HashMap<CustomerRequestType, Function<String, CustomerBaseResponse>>();
 		converterMap.put(CustomerRequestType.PRE_ORDERED_PARKING, (gsonString) -> {

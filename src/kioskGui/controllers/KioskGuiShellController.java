@@ -23,24 +23,39 @@ import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.KioskRequestsFactory;
 import kioskGui.util.UriToString;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class KioskGuiShellController.
+ */
 public class KioskGuiShellController extends KioskClientController implements IServerResponseHandler<CustomerBaseResponse> {
+	
+	/** The connection manager. */
 	private KioskConnectionManager connectionManager;
 
+	/**
+	 * Instantiates a new kiosk gui shell controller.
+	 */
 	public KioskGuiShellController() {
 		connectionManager = KioskConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(this);
 		connectionManager.sendMessageToServer(KioskRequestsFactory.CreateParkingLotNamesRequest());
 	}
 
+	/** The bread crumb bar. */
 	@FXML
 	private BreadCrumbBar<UriToString> breadCrumbBar;
 
+	/** The parking lot id combo box. */
 	@FXML
 	private ComboBox<Integer> parkingLotIdComboBox;
 
+	/** The kisok main view region. */
 	@FXML
 	private AnchorPane kisokMainViewRegion;
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		TreeItem<UriToString> initialPath = BreadCrumbBar.buildTreeModel(new UriToString(UriDictionary.Kiosk.ClientView, "Home"));
@@ -63,6 +78,9 @@ public class KioskGuiShellController extends KioskClientController implements IS
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see core.guiUtilities.IServerResponseHandler#handleServerResponse(java.lang.Object)
+	 */
 	@Override
 	public void handleServerResponse(CustomerBaseResponse response) {
 		if (response instanceof CustomerNotificationResponse) {

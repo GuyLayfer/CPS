@@ -3,10 +3,23 @@ package core.worker;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Permissions.
+ */
 public class Permissions {
+	
+	/** The permissions for operation. */
 	private Map<WorkerOperations, Boolean> permissionsForOperation;
+	
+	/** The worker role. */
 	private WorkerRole workerRole;
 
+	/**
+	 * Instantiates a new permissions.
+	 *
+	 * @param workerRole the worker role
+	 */
 	public Permissions(WorkerRole workerRole) {
 		this.workerRole = workerRole;
 		Map<WorkerRole, Boolean> permissionsForRole = new HashMap<WorkerRole, Boolean>();
@@ -18,14 +31,30 @@ public class Permissions {
 		setPermissionsForOperations(permissionsForRole);
 	}
 
+	/**
+	 * Checks if is operation allowed.
+	 *
+	 * @param operation the operation
+	 * @return the boolean
+	 */
 	public Boolean isOperationAllowed(WorkerOperations operation) {
 		return permissionsForOperation.get(operation);
 	}
 
+	/**
+	 * Gets the worker role.
+	 *
+	 * @return the worker role
+	 */
 	public WorkerRole getWorkerRole() {
 		return workerRole;
 	}
 
+	/**
+	 * Sets the permissions for operations.
+	 *
+	 * @param permissionsForRole the permissions for role
+	 */
 	private void setPermissionsForOperations(Map<WorkerRole, Boolean> permissionsForRole) {
 		permissionsForOperation.put(WorkerOperations.ACQUIT_OR_CHARGE_ACCOUNT, 
 				permissionsForRole.get(WorkerRole.CUSTOMER_SERVICE) || permissionsForRole.get(WorkerRole.LOT_MANAGER)

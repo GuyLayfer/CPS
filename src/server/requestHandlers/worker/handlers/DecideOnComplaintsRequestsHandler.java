@@ -13,17 +13,32 @@ import server.requestHandlers.worker.WorkerResponseFactory;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.requests.DecideOnComplaintRequest;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DecideOnComplaintsRequestsHandler.
+ */
 public class DecideOnComplaintsRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new decide on complaints requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public DecideOnComplaintsRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.DECIDE_ON_COMPLAINTS;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		DecideOnComplaintRequest decideOnComplaintRequest = (DecideOnComplaintRequest) specificRequest;

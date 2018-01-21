@@ -10,15 +10,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+// TODO: Auto-generated Javadoc
 /**
  *  A Singleton which provides all the required functions for managing and changing the rates.
  */
 public class RatesManager {
+	
+	/** The instance. */
 	private static volatile RatesManager instance = null;
 	
+	/** The rates map. */
 	private ConcurrentHashMap<Integer, LotRates> ratesMap;
+	
+	/** The workers DBAPI. */
 	final private WorkersDBAPI workersDBAPI = WorkersDBAPI.getInstance();
 	
+	/**
+	 * Instantiates a new rates manager.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	private RatesManager() throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		workersDBAPI.selectAllLotsRates(false, resultList);
@@ -56,29 +67,72 @@ public class RatesManager {
 	public static RatesManager getInstance() {
 		return instance;
 	}
+	
 	/**
 	 * Gets a specific Rate object according to the LotId. 
 	 *
+	 * @param lotId the lot id
 	 * @return the Rate object of the specific lot
 	 */
 	public LotRates getLotRates(int lotId) {
 		return this.ratesMap.get(lotId);
 	}
+	
+	/**
+	 * Gets the occasional parking rate.
+	 *
+	 * @param lotId the lot id
+	 * @return the occasional parking rate
+	 */
 	public double getOccasionalParkingRate(int lotId) {
 		return this.ratesMap.get(lotId).getOccasionalParkingRate();
 	}
+	
+	/**
+	 * Gets the pre ordered parking rate.
+	 *
+	 * @param lotId the lot id
+	 * @return the pre ordered parking rate
+	 */
 	public double getPreOrderedParkingRate(int lotId) {
 		return this.ratesMap.get(lotId).getPreOrderedParkingRate();
 	}
+	
+	/**
+	 * Gets the routine monthly subscription.
+	 *
+	 * @param lotId the lot id
+	 * @return the routine monthly subscription
+	 */
 	public double getRoutineMonthlySubscription(int lotId) {
 		return this.ratesMap.get(lotId).getRoutineMonthlySubscription();
 	}
+	
+	/**
+	 * Gets the routine monthly subscription multiple cars.
+	 *
+	 * @param lotId the lot id
+	 * @return the routine monthly subscription multiple cars
+	 */
 	public double getRoutineMonthlySubscriptionMultipleCars(int lotId) {
 		return this.ratesMap.get(lotId).getRoutineMonthlySubscriptionMultipleCars();
 	}
+	
+	/**
+	 * Gets the full monthly subscription.
+	 *
+	 * @return the full monthly subscription
+	 */
 	public Double getFullMonthlySubscription() {
 		return LotRates.getFullMonthlySubscription();
 	}
+	
+	/**
+	 * Adds the rates.
+	 *
+	 * @param lotId the lot id
+	 * @throws SQLException the SQL exception
+	 */
 	public void addRates(int lotId) throws SQLException {
 		LotRates toBeAddedLotRates = new LotRates();
 		double occasionalRate = toBeAddedLotRates.getOccasionalParkingRate();
@@ -90,14 +144,34 @@ public class RatesManager {
 				monthlylRate, monthlyMultipleRate);
 		this.ratesMap.put(lotId, toBeAddedLotRates);
 	}
+	
+	/**
+	 * Delete rates.
+	 *
+	 * @param lotId the lot id
+	 */
 	public void deleteRates(int lotId) {
 		//TODO: something with DB
 		this.ratesMap.remove(lotId);
 	}
+	
+	/**
+	 * Insert rates request.
+	 *
+	 * @param newRates the new rates
+	 * @throws SQLException the SQL exception
+	 */
 	public void insertRatesRequest(Rates newRates) throws SQLException {
 		workersDBAPI.insertRatesOfLotId(true, newRates.parkingLotId, newRates.preOrderedParkingRate, newRates.occasionalParkingRate, newRates.fullMonthlySubscription,
 				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);
 	}
+	
+	/**
+	 * Update approved rates.
+	 *
+	 * @param newRates the new rates
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateApprovedRates(Rates newRates) throws SQLException {
 		workersDBAPI.insertRatesOfLotId(false, newRates.parkingLotId, newRates.preOrderedParkingRate, newRates.occasionalParkingRate, newRates.fullMonthlySubscription,
 				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);

@@ -1,10 +1,21 @@
 package core;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Account.
+ */
 public class Account {
+	
+	/** The balance. */
 	private double balance;
 //	private String email;
 	
-	public double getBalance(){
+	/**
+ * Gets the balance.
+ *
+ * @return the balance
+ */
+public double getBalance(){
 		return balance;
 	}
 	

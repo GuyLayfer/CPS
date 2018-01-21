@@ -11,9 +11,18 @@ import core.parkingLot.ParkingState;
 import core.parkingLot.ParkingStatus;
 import server.db.DBConstants;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainDBAPI.
+ */
 public class MainDBAPI {
 
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		// TODO: Who uses this code? Why there's main here?
 

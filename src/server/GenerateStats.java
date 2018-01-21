@@ -14,9 +14,18 @@ import server.db.dbAPI.ReportsDBAPI;
 import server.db.dbAPI.ServerUtils;
 import server.db.queries.ReportsQueries;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GenerateStats.
+ */
 public class GenerateStats extends TimerTask{
+	
+	/** The reservations filled canceled latings list. */
 	private ArrayList<String> reservationsFilledCanceledLatingsList;
 	
+	/**
+	 * Instantiates a new generate stats.
+	 */
 	GenerateStats(){
 		super();
 		reservationsFilledCanceledLatingsList = new ArrayList<String>(); 
@@ -26,6 +35,9 @@ public class GenerateStats extends TimerTask{
 		reservationsFilledCanceledLatingsList.add("lating");
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.util.TimerTask#run()
+	 */
 	@Override
 	public void run() {
 

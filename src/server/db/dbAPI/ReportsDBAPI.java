@@ -302,6 +302,8 @@ public class ReportsDBAPI extends DBAPI {
 	 *
 	 * @param resultList the result list
 	 * @param lotId the lot id
+	 * @param first the first
+	 * @param second the second
 	 * @return the number of reservations between 2 dates grouped by order
 	 * @throws SQLException the SQL exception
 	 */
@@ -316,6 +318,8 @@ public class ReportsDBAPI extends DBAPI {
 	 *
 	 * @param resultList the result list
 	 * @param lotId the lot id
+	 * @param first the first
+	 * @param second the second
 	 * @return the number of filled between 2 dates grouped by order of lot id
 	 * @throws SQLException the SQL exception
 	 */
@@ -330,6 +334,8 @@ public class ReportsDBAPI extends DBAPI {
 	 *
 	 * @param resultList the result list
 	 * @param lotId the lot id
+	 * @param first the first
+	 * @param second the second
 	 * @return the number of canceled between 2 dates grouped by order of lot id
 	 * @throws SQLException the SQL exception
 	 */
@@ -344,6 +350,8 @@ public class ReportsDBAPI extends DBAPI {
 	 *
 	 * @param resultList the result list
 	 * @param lotId the lot id
+	 * @param first the first
+	 * @param second the second
 	 * @return the number of lating between 2 dates grouped by order of lot id
 	 * @throws SQLException the SQL exception
 	 */
@@ -353,6 +361,15 @@ public class ReportsDBAPI extends DBAPI {
 				first, second, resultList, lotId);
 	}
 	
+	/**
+	 * Insert into daily stats today.
+	 *
+	 * @param lotId the lot id
+	 * @param filled the filled
+	 * @param canceled the canceled
+	 * @param lating the lating
+	 * @throws SQLException the SQL exception
+	 */
 	public void insertIntoDailyStatsToday(int lotId, long filled, long canceled, long lating) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		params.add(ServerUtils.getToday());
@@ -363,6 +380,16 @@ public class ReportsDBAPI extends DBAPI {
 		DBConnection.updateSql(reportsQueriesInst.insert_into_daily_stats_new_day, params);
 	}
 
+	/**
+	 * Sets the broken parking status.
+	 *
+	 * @param isParkingBroken the is parking broken
+	 * @param lotId the lot id
+	 * @param row the row
+	 * @param coloumn the coloumn
+	 * @param floor the floor
+	 * @throws SQLException the SQL exception
+	 */
 	public void setBrokenParkingStatus(Boolean isParkingBroken, int lotId, int row, int coloumn, int floor) throws SQLException {
 		Queue<Object> params1 = new LinkedList<Object>();
 		Queue<Object> params2 = new LinkedList<Object>();
@@ -386,6 +413,16 @@ public class ReportsDBAPI extends DBAPI {
 		}
 	}
 	
+	/**
+	 * Insert into daily stats.
+	 *
+	 * @param lotId the lot id
+	 * @param filled the filled
+	 * @param canceled the canceled
+	 * @param lating the lating
+	 * @param date the date
+	 * @throws SQLException the SQL exception
+	 */
 	public void insertIntoDailyStats(int lotId, long filled, long canceled, long lating, java.sql.Date date) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		params.add(date);
@@ -395,6 +432,16 @@ public class ReportsDBAPI extends DBAPI {
 		params.add(lating);
 		DBConnection.updateSql(reportsQueriesInst.insert_into_daily_stats_new_day, params);
 	}
+	
+	/**
+	 * Update broken parking status.
+	 *
+	 * @param lotId the lot id
+	 * @param row the row
+	 * @param coloumn the coloumn
+	 * @param floor the floor
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateBrokenParkingStatus(int lotId, int row, int coloumn, int floor) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>();
 		params.add(new Date());
@@ -406,6 +453,22 @@ public class ReportsDBAPI extends DBAPI {
 	}
 	
 	
+	/**
+	 * Insert into weekly stats.
+	 *
+	 * @param lotId the lot id
+	 * @param filledMean the filled mean
+	 * @param canceledMean the canceled mean
+	 * @param latingMean the lating mean
+	 * @param filledStd the filled std
+	 * @param canceledStd the canceled std
+	 * @param latingStd the lating std
+	 * @param filledAvg the filled avg
+	 * @param canceledAvg the canceled avg
+	 * @param latingAvg the lating avg
+	 * @param first the first
+	 * @throws SQLException the SQL exception
+	 */
 	public void insertIntoWeeklyStats(int lotId, int filledMean, int canceledMean, int latingMean,
 			double filledStd, double canceledStd, double latingStd,
 			double filledAvg, double canceledAvg, double latingAvg, java.sql.Date first) throws SQLException {
@@ -424,6 +487,16 @@ public class ReportsDBAPI extends DBAPI {
 		DBConnection.updateSql(reportsQueriesInst.insert_into_weekly_stats_new_day, params);
 	}
 	
+	/**
+	 * Select broken parking status.
+	 *
+	 * @param lotId the lot id
+	 * @param row the row
+	 * @param coloumn the coloumn
+	 * @param floor the floor
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectBrokenParkingStatus(int lotId, int row, int coloumn, int floor, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>();
 		params.add(lotId);

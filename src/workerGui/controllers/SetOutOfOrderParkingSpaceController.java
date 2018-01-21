@@ -23,17 +23,33 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SetOutOfOrderParkingSpaceController.
+ */
 public class SetOutOfOrderParkingSpaceController extends WorkerGuiController implements IServerResponseHandler<WorkerBaseResponse>{
+	
+	/** The validation. */
 	private ValidationSupport validation = new ValidationSupport();
+	
+	/** The connection manager. */
 	private WorkerConnectionManager connectionManager;
+	
+	/** The worker account manager. */
 	private WorkerAccountManager workerAccountManager;
 
+	/**
+	 * Instantiates a new sets the out of order parking space controller.
+	 */
 	public SetOutOfOrderParkingSpaceController() {
 		connectionManager = WorkerConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(this);
 		workerAccountManager = WorkerAccountManager.getInstance();
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		SetOutOfOrderButton.disableProperty().bind(validation.invalidProperty());
@@ -52,34 +68,55 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 		SetLotRowComboBoxItems();
 	}
 
+	/** The Parking lot id. */
 	@FXML
 	private ComboBox<Integer> ParkingLotId;
 
+	/** The Lot column combo box. */
 	@FXML
 	private ComboBox<Integer> LotColumnComboBox;
 
+	/** The Lot floor combo box. */
 	@FXML
 	private ComboBox<Integer> LotFloorComboBox;
 
+	/** The Lot row combo box. */
 	@FXML
 	private ComboBox<Integer> LotRowComboBox;
 
+	/** The Set out of order button. */
 	@FXML
 	private Button SetOutOfOrderButton;
 
+	/** The Unset out of order button. */
 	@FXML
 	private Button UnsetOutOfOrderButton;
 
+	/**
+	 * Sets the out of order parking space.
+	 *
+	 * @param event the new out of order parking space
+	 */
 	@FXML
 	private void setOutOfOrderParkingSpace(ActionEvent event) {
 		sendOutOfOrderRequest(true);
 	}
 	
+	/**
+	 * Unset out of order parking space.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	private void unsetOutOfOrderParkingSpace(ActionEvent event) {
 		sendOutOfOrderRequest(false);
 	}
 	
+	/**
+	 * Send out of order request.
+	 *
+	 * @param isOutOfOrder the is out of order
+	 */
 	private void sendOutOfOrderRequest(Boolean isOutOfOrder) {
 		BaseRequest request = WorkerRequestsFactory.CreateOutOfOrderRequest(
 				ParkingLotId.getValue(),
@@ -90,6 +127,9 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 		connectionManager.sendMessageToServer(request);
 	}
 
+	/**
+	 * Sets the parking lot id items.
+	 */
 	private void SetParkingLotIdItems() {
 		if (workerAccountManager.isOperationAllowed(WorkerOperations.CHANGE_PARKING_LOT)) {
 			connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateParkingLotNamesRequest());
@@ -101,14 +141,23 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 		}
 	}
 
+	/**
+	 * Sets the lot floor combo box items.
+	 */
 	private void SetLotFloorComboBoxItems() {
 		LotFloorComboBox.getItems().addAll(1, 2, 3);
 	}
 
+	/**
+	 * Sets the lot row combo box items.
+	 */
 	private void SetLotRowComboBoxItems() {
 		LotRowComboBox.getItems().addAll(1, 2, 3);
 	}
 
+	/* (non-Javadoc)
+	 * @see core.guiUtilities.IServerResponseHandler#handleServerResponse(java.lang.Object)
+	 */
 	@Override
 	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.PARKING_LOT_NAMES) {

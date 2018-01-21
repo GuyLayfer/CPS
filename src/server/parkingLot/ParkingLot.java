@@ -12,26 +12,51 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import com.google.gson.Gson;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ParkingLot.
+ */
 public class ParkingLot {
 	
-	/**************************************** Properties ****************************************/
+	/** ************************************** Properties ***************************************. */
 	
 	private ParkingLotInfo info;
+	
+	/** The parked places map. */
 	// the keys and the values of these maps are indexes of parkingMap
 	private TreeMap<Integer, Integer> parkedPlacesMap;
+	
+	/** The free places map. */
 	private TreeMap<Integer, Integer> freePlacesMap;
+	
+	/** The reserved places map. */
 	private TreeMap<Integer, Integer> reservedPlacesMap;
+	
+	/** The robot. */
 	private Robot robot;
+	
+	/** The pending broken places. */
 	// a queue of broken place indexes which the system hasn't updated yet
 	private LinkedList<Integer> pendingBrokenPlaces; 
+	
+	/** The pending reserved places. */
 	// number of reserved places which the system hasn't updated yet
 	private int pendingReservedPlaces;
 	
+	/** The reservations. */
 	private HashMap<String, ReservationInfo> reservations;
 	
+	/** The Constant gson. */
 	final private static Gson gson = CpsGson.GetGson();
 	
-	/************************************** Public Methods **************************************/
+	/**
+	 * ************************************ Public Methods *************************************.
+	 *
+	 * @param lotId the lot id
+	 * @param floors the floors
+	 * @param rows the rows
+	 * @param cols the cols
+	 */
 	
 	// used only when adding new parking lot to the system
 	public ParkingLot(int lotId, int floors, int rows, int cols) {
@@ -50,11 +75,25 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Checks if is full.
+	 *
+	 * @return true, if is full
+	 */
 	synchronized public boolean isFull() {
 		return freePlacesMap.isEmpty();
 	}
 	
 	
+	/**
+	 * Insert car.
+	 *
+	 * @param carId the car id
+	 * @param leaveTime the leave time
+	 * @param withSubscription the with subscription
+	 * @return the string
+	 * @throws RobotFailureException the robot failure exception
+	 */
 	synchronized public String insertCar(String carId, long leaveTime, boolean withSubscription) throws RobotFailureException {
 		ReservationInfo reservationInfo = reservations.get(carId);
 		if (reservationInfo == null) {
@@ -96,6 +135,13 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Removes the car.
+	 *
+	 * @param carId the car id
+	 * @return the string
+	 * @throws RobotFailureException the robot failure exception
+	 */
 	synchronized public String removeCar(String carId) throws RobotFailureException {
 		int carLocation = findCar(carId);
 		if (carLocation < 0) {
@@ -119,11 +165,27 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Sets the broken place.
+	 *
+	 * @param floors the floors
+	 * @param rows the rows
+	 * @param cols the cols
+	 * @throws IndexOutOfBoundsException the index out of bounds exception
+	 */
 	synchronized public void setBrokenPlace(int floors, int rows, int cols) throws IndexOutOfBoundsException {
 		 setBrokenPlaceAux(convert3DIndexesTo1DIndex(floors, rows, cols));
 	}
 	
 	
+	/**
+	 * Cancel broken place setting.
+	 *
+	 * @param floors the floors
+	 * @param rows the rows
+	 * @param cols the cols
+	 * @throws IndexOutOfBoundsException the index out of bounds exception
+	 */
 	synchronized public void cancelBrokenPlaceSetting(int floors, int rows, int cols) throws IndexOutOfBoundsException {
 		int placeIndex = convert3DIndexesTo1DIndex(floors, rows, cols);
 		ParkingState parkingState = info.parkingMap.get(placeIndex);
@@ -158,6 +220,12 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Reserve place for the next 24 hours.
+	 *
+	 * @param carId the car id
+	 * @return true, if successful
+	 */
 	synchronized public boolean reservePlaceForTheNext24Hours(String carId) {
 		if (freePlacesMap.isEmpty()) {
 			return false;
@@ -167,6 +235,12 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Reserve place.
+	 *
+	 * @param carId the car id
+	 * @param forSubscription the for subscription
+	 */
 	synchronized public void reservePlace(String carId, boolean forSubscription) {
 		ReservationInfo reservationInfo = reservations.get(carId);
 		if (reservationInfo == null) {
@@ -190,6 +264,12 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Cancel reservation.
+	 *
+	 * @param carId the car id
+	 * @param forSubscription the for subscription
+	 */
 	synchronized public void cancelReservation(String carId, boolean forSubscription) {
 		ReservationInfo reservationInfo = reservations.get(carId);
 		if (reservationInfo == null) {
@@ -216,16 +296,31 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * To json.
+	 *
+	 * @return the string
+	 */
 	synchronized public String toJson() {
 		return gson.toJson(this);
 	}
 	
 	
+	/**
+	 * Info to json.
+	 *
+	 * @return the string
+	 */
 	synchronized public String infoToJson() {
 		return gson.toJson(info);
 	}
 	
-	/************************************** Private Methods **************************************/
+	/**
+	 * ************************************ Private Methods *************************************.
+	 *
+	 * @param carId the car id
+	 * @return the int
+	 */
 	
 	private int findCar(String carId) {
 		int i = 0;
@@ -239,6 +334,12 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Find place for car.
+	 *
+	 * @param leaveTime the leave time
+	 * @return the int
+	 */
 	private int findPlaceForCar(long leaveTime) {
 		if (parkedPlacesMap.isEmpty()) {
 			if (!reservedPlacesMap.isEmpty()) {
@@ -265,6 +366,13 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Calculate state after insertion.
+	 *
+	 * @param carLocation the car location
+	 * @param carId the car id
+	 * @param leaveTime the leave time
+	 */
 	private void calculateStateAfterInsertion(int carLocation, String carId, long leaveTime) {
 		ParkingState parkingState = info.parkingMap.get(carLocation);
 		if (parkingState.parkingStatus == ParkingStatus.PARKED) {
@@ -277,6 +385,12 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Calculate state after removal.
+	 *
+	 * @param carLocation the car location
+	 * @param carId the car id
+	 */
 	private void calculateStateAfterRemoval(int carLocation, String carId) {
 		ParkingState parkingState = info.parkingMap.get(carLocation);
 		if (reservations.containsKey(carId)) {
@@ -291,6 +405,11 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Shift cars left.
+	 *
+	 * @param index the index
+	 */
 	private void shiftCarsLeft(int index) {
 		if (parkedPlacesMap.isEmpty() || (reservedPlacesMap.isEmpty() && freePlacesMap.isEmpty())) {
 			return;
@@ -326,6 +445,11 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Shift cars right.
+	 *
+	 * @param index the index
+	 */
 	private void shiftCarsRight(int index) {
 		if (parkedPlacesMap.isEmpty()) {
 			return;
@@ -375,11 +499,25 @@ public class ParkingLot {
 	}
 	
 	
+	/**
+	 * Convert 3 D indexes to 1 D index.
+	 *
+	 * @param floors the floors
+	 * @param rows the rows
+	 * @param cols the cols
+	 * @return the int
+	 */
 	private int convert3DIndexesTo1DIndex(int floors, int rows, int cols) {
 		return ((floors - 1) * info.rows * info.cols) + ((rows - 1) * info.cols) + cols - 1;
 	}
 	
 	
+	/**
+	 * Sets the broken place aux.
+	 *
+	 * @param placeIndex the new broken place aux
+	 * @throws IndexOutOfBoundsException the index out of bounds exception
+	 */
 	private void setBrokenPlaceAux(int placeIndex) throws IndexOutOfBoundsException {
 		ParkingState parkingState = info.parkingMap.get(placeIndex);
 		if (freePlacesMap.isEmpty() && reservedPlacesMap.isEmpty()) {

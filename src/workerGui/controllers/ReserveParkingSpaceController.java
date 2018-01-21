@@ -28,16 +28,32 @@ import workerGui.util.WorkerConnectionManager;
 import workerGui.util.WorkerGuiController;
 import workerGui.util.WorkerRequestsFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ReserveParkingSpaceController.
+ */
 public class ReserveParkingSpaceController extends WorkerGuiController implements IServerResponseHandler<WorkerBaseResponse>{
+	
+	/** The validation. */
 	private ValidationSupport validation = new ValidationSupport();
+	
+	/** The email validator. */
 	private EmailValidator emailValidator = EmailValidator.getInstance();
+	
+	/** The connection manager. */
 	private WorkerConnectionManager connectionManager;
 
+	/**
+	 * Instantiates a new reserve parking space controller.
+	 */
 	public ReserveParkingSpaceController() {
 		connectionManager = WorkerConnectionManager.getInstance();
 		connectionManager.addServerMessageListener(this);
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		OrderOneTimeParkingBTN.disableProperty().bind(validation.invalidProperty());
@@ -50,27 +66,39 @@ public class ReserveParkingSpaceController extends WorkerGuiController implement
 		connectionManager.sendMessageToServer(WorkerRequestsFactory.CreateParkingLotNamesRequest());
 	}
 
+	/** The estimated departure time TF. */
 	@FXML // fx:id="estimatedDepartureTimeTF"
 	private DateTimePicker estimatedDepartureTimeTF; // Value injected by FXMLLoader
 
+	/** The Order one time parking BTN. */
 	@FXML // fx:id="OrderOneTimeParkingBTN"
 	private Button OrderOneTimeParkingBTN; // Value injected by FXMLLoader
 
+	/** The liscence plate TF. */
 	@FXML // fx:id="liscencePlateTF"
 	private LicencePlateTextField liscencePlateTF; // Value injected by FXMLLoader
 
+	/** The parking lot id combo box. */
 	@FXML // fx:id="parkingLotIDTF"
 	private ComboBox<Integer> parkingLotIdComboBox; // Value injected by FXMLLoader
 
+	/** The customer IDTF. */
 	@FXML // fx:id="customerIDTF"
 	private NumberTextField customerIDTF; // Value injected by FXMLLoader
 
+	/** The email TF. */
 	@FXML // fx:id="emailTF"
 	private TextField emailTF; // Value injected by FXMLLoader
 
+	/** The arrival time TF. */
 	@FXML // fx:id="arrivalTimeTF"
 	private DateTimePicker arrivalTimeTF; // Value injected by FXMLLoader
 
+	/**
+	 * Order one time parking.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	public void OrderOneTimeParking(ActionEvent event) {
 		if (validateDates()) {
@@ -87,6 +115,11 @@ public class ReserveParkingSpaceController extends WorkerGuiController implement
 		}
 	}
 
+	/**
+	 * Validate dates.
+	 *
+	 * @return the boolean
+	 */
 	private Boolean validateDates() {
 		if (arrivalTimeTF.getDateTimeValue() == null || estimatedDepartureTimeTF.getDateTimeValue() == null) {
 			return false;
@@ -103,6 +136,9 @@ public class ReserveParkingSpaceController extends WorkerGuiController implement
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see core.guiUtilities.IServerResponseHandler#handleServerResponse(java.lang.Object)
+	 */
 	@Override
 	public void handleServerResponse(WorkerBaseResponse response) {
 		if (response.requestType == WorkerRequestType.PARKING_LOT_NAMES) {

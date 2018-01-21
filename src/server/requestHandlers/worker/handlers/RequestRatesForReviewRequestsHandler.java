@@ -16,17 +16,32 @@ import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.db.SqlColumns;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RequestRatesForReviewRequestsHandler.
+ */
 public class RequestRatesForReviewRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new request rates for review requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public RequestRatesForReviewRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 	
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.REQUEST_RATES_FOR_REVIEW;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -35,6 +50,12 @@ public class RequestRatesForReviewRequestsHandler extends BaseRequestsHandler {
 		return CreateWorkerResponse(response);
 	}
 
+	/**
+	 * Extract rates.
+	 *
+	 * @param resultList the result list
+	 * @return the list
+	 */
 	private List<Rates> extractRates(ArrayList<Map<String, Object>> resultList) {
 		ArrayList<Rates> rates = new ArrayList<Rates>();
 		Iterator<Map<String, Object>> iterator = resultList.iterator();

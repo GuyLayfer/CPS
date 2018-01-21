@@ -13,7 +13,10 @@ import server.db.queries.ParkingMapQueries;
  */
 public abstract class DBAPI {
 
+	/** The mutex. */
 	protected static Object mutex = new Object();
+	
+	/** The parking map queries inst. */
 	protected ParkingMapQueries parkingMapQueriesInst; //this query is commons to several inherited instances
 
 	//	protected RegularQueries regularQueriesInst;
@@ -40,6 +43,16 @@ public abstract class DBAPI {
 	}
 	
 	
+	/**
+	 * Select between 2 dates query of lot id.
+	 *
+	 * @param query the query
+	 * @param leftDate the left date
+	 * @param rightDate the right date
+	 * @param resultList the result list
+	 * @param lotId the lot id
+	 * @throws SQLException the SQL exception
+	 */
 	public static void selectBetween2DatesQueryOfLotId(String query, java.sql.Date leftDate, java.sql.Date rightDate, 
 			ArrayList<Map<String, Object>> resultList, int lotId) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL

@@ -13,17 +13,33 @@ import server.requestHandlers.worker.IProvideConnectionsToClient;
 
 import server.requestHandlers.worker.WorkerResponseFactory;
 import core.worker.requests.DecideOnRateRequest;
+// TODO: Auto-generated Javadoc
+
+/**
+ * The Class DecideOnRatesRequestsHandler.
+ */
 public class DecideOnRatesRequestsHandler extends BaseRequestsHandler {
 
+	/**
+	 * Instantiates a new decide on rates requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public DecideOnRatesRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.DECIDE_ON_RATES;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		DecideOnRateRequest decideOnRatesRequest = (DecideOnRateRequest) specificRequest;

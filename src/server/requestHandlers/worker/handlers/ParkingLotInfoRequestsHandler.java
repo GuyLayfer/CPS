@@ -16,18 +16,35 @@ import server.parkingLot.exceptions.LotIdDoesntExistException;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ParkingLotInfoRequestsHandler.
+ */
 public class ParkingLotInfoRequestsHandler extends BaseRequestsHandler {
+	
+	/** The gson. */
 	private Gson gson = new Gson();
 	
+	/**
+	 * Instantiates a new parking lot info requests handler.
+	 *
+	 * @param connectionsToClientProvider the connections to client provider
+	 */
 	public ParkingLotInfoRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#getHandlerRequestsType()
+	 */
 	@Override
 	protected WorkerRequestType getHandlerRequestsType() {
 		return WorkerRequestType.PARKING_LOT_INFO;
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.handlers.BaseRequestsHandler#HandleSpecificRequest(core.worker.requests.BaseRequest, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		ParkingLotInfoRequest request = (ParkingLotInfoRequest) specificRequest;

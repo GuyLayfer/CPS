@@ -23,17 +23,35 @@ import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
 import server.requestHandlers.worker.handlers.IRequestsHandler;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WorkerRequestsHandler.
+ */
 public class WorkerRequestsHandler extends AbstractServer implements IProvideConnectionsToClient {
+	
+	/** The gson. */
 	private Gson gson = CpsGson.GetGson();
+	
+	/** The response converter map. */
 	private Map<WorkerRequestType, Function<String, BaseRequest>> responseConverterMap;
+	
+	/** The requests handlers. */
 	Set<IRequestsHandler> requestsHandlers;
 
+	/**
+	 * Instantiates a new worker requests handler.
+	 *
+	 * @param port the port
+	 */
 	public WorkerRequestsHandler(int port) {
 		super(port);
 		responseConverterMap = WorkerRequestsTypesMapper.CreateRequestsConverterMap();
 		requestsHandlers = WorkerRequestsTypesMapper.CreateRequestsHandlers(this);
 	}
  
+	/* (non-Javadoc)
+	 * @see ocsf.server.AbstractServer#handleMessageFromClient(java.lang.Object, ocsf.server.ConnectionToClient)
+	 */
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		try {
@@ -62,16 +80,25 @@ public class WorkerRequestsHandler extends AbstractServer implements IProvideCon
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ocsf.server.AbstractServer#serverStarted()
+	 */
 	@Override
 	protected void serverStarted() {
 		System.out.println("Worker Server is listening for connections on port " + getPort());
 	}
 
+	/* (non-Javadoc)
+	 * @see ocsf.server.AbstractServer#serverStopped()
+	 */
 	@Override
 	protected void serverStopped() {
 		System.out.println("Worker Server has stopped listening for connections.");
 	}
 
+	/* (non-Javadoc)
+	 * @see server.requestHandlers.worker.IProvideConnectionsToClient#getConnections()
+	 */
 	@Override
 	public List<ConnectionToClient> getConnections() {
 		return Arrays.stream(this.getClientConnections()).map(x -> (ConnectionToClient)x).collect(Collectors.toList());

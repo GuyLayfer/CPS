@@ -1,4 +1,8 @@
 package server.db;
+
+/**
+ * The Class DBQueries.
+ */
 public class DBQueries {
 
 

@@ -137,6 +137,11 @@ public class ServerUtils {
 		return dateFormat.format(yesterday());
 	}
 
+	/**
+	 * Prints the all in result set.
+	 *
+	 * @param resultList the result list
+	 */
 	public static void printAllInResultSet(ArrayList<Map<String, Object>> resultList) {
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
 		while (iterator.hasNext()) {
@@ -147,6 +152,12 @@ public class ServerUtils {
 		}
 	}
 
+	/**
+	 * Gets the time stamp of date.
+	 *
+	 * @param date the date
+	 * @return the time stamp of date
+	 */
 	public static Timestamp getTimeStampOfDate(Date date) {
 		
 		Timestamp ts = new Timestamp((date).getTime());
@@ -167,10 +178,21 @@ public class ServerUtils {
 		
 	}
 	
+	/**
+	 * Gets the today.
+	 *
+	 * @return the today
+	 */
 	public static java.sql.Date getToday () {
 		Calendar calendar = new GregorianCalendar();
 		return new java.sql.Date(calendar.getTimeInMillis());
 	}
+	
+	/**
+	 * Gets the last week.
+	 *
+	 * @return the last week
+	 */
 	public static java.sql.Date getLastWeek () {
 		Calendar calendar = new GregorianCalendar();
 		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
@@ -178,6 +200,12 @@ public class ServerUtils {
 		java.sql.Date lastWeekDate = new java.sql.Date(calendar.getTimeInMillis());
 		return lastWeekDate;
 	}
+	
+	/**
+	 * Gets the last day.
+	 *
+	 * @return the last day
+	 */
 	public static java.sql.Date getLastDay () {
 		Calendar calendar = new GregorianCalendar();
 		java.sql.Date today = new java.sql.Date(calendar.getTimeInMillis());
@@ -187,6 +215,13 @@ public class ServerUtils {
 	}	
 	
 	
+	/**
+	 * Calc mean.
+	 *
+	 * @param resultList the result list
+	 * @param columnName the column name
+	 * @return the int
+	 */
 	public static int calcMean (ArrayList<Map<String, Object>> resultList, String columnName ) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		Iterator<Map<String, Object>> iterator = resultList.iterator();
@@ -198,6 +233,13 @@ public class ServerUtils {
 		return list.get(3);
 	}
 	
+	/**
+	 * Calc avg.
+	 *
+	 * @param resultList the result list
+	 * @param columnName the column name
+	 * @return the int
+	 */
 	public static int calcAvg (ArrayList<Map<String, Object>> resultList, String columnName ) {
 		int sum = 0;
 		ArrayList<Integer> list = new ArrayList<Integer>();
@@ -210,6 +252,13 @@ public class ServerUtils {
 		return sum / resultList.size();
 	}
 	
+	/**
+	 * Calc std.
+	 *
+	 * @param resultList the result list
+	 * @param columnName the column name
+	 * @return the double
+	 */
 	public static double calcStd (ArrayList<Map<String, Object>> resultList, String columnName ) {
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		Iterator<Map<String, Object>> iterator = resultList.iterator();

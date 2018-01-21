@@ -20,15 +20,31 @@ import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.KioskRequestsFactory;
 import tornadofx.control.DateTimePicker;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OrderOccasionalParkingController.
+ */
 public class OrderOccasionalParkingController {
+	
+	/** The validation. */
 	private ValidationSupport validation = new ValidationSupport();
+	
+	/** The email validator. */
 	private EmailValidator emailValidator = EmailValidator.getInstance();
+	
+	/** The connection manager. */
 	private KioskConnectionManager connectionManager;
 	
+	/**
+	 * Instantiates a new order occasional parking controller.
+	 */
 	public OrderOccasionalParkingController() {
 		connectionManager = KioskConnectionManager.getInstance();
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	protected void initialize() {
 		orderBTN.disableProperty().bind(validation.invalidProperty());
@@ -38,21 +54,31 @@ public class OrderOccasionalParkingController {
 		validation.registerValidator(DepartureDateField, Validator.createEmptyValidator("Departure time is Required"));
 	}
 
+	/** The Customer id field. */
 	@FXML
 	private NumberTextField CustomerIdField;
 
+	/** The Car id field. */
 	@FXML
 	private LicencePlateTextField CarIdField;
 
+	/** The Email field. */
 	@FXML
 	private TextField EmailField;
 
+	/** The Departure date field. */
 	@FXML
 	private DateTimePicker DepartureDateField;
 
+	/** The order BTN. */
 	@FXML
 	private Button orderBTN;
 
+	/**
+	 * Order occasional parking.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void orderOccasionalParking(ActionEvent event) {
 		CustomerRequest occasionalParkingRequest = KioskRequestsFactory.CreateOccasionalParkingRequest(

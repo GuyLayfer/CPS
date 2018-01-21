@@ -9,23 +9,40 @@ import kioskGui.util.KioskConnectionManager;
 import kioskGui.util.KioskGuiController;
 import webGui.util.MockWebClientConnectionManager;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class KioskClientController.
+ */
 public class KioskClientController extends KioskGuiController{
 
+	/** The Enter parking lot button. */
 	@FXML
 	private Button EnterParkingLotButton;
 
+	/** The Order parking button. */
 	@FXML
 	private Button OrderParkingButton;
 
+	/** The Leave parking lot button. */
 	@FXML
 	private Button LeaveParkingLotButton;
 
+	/**
+	 * Open leave parking lotdialog.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void OpenLeaveParkingLotdialog(ActionEvent event) {
 		Scene scene = OrderParkingButton.getScene();
 		NavigateTo("Leave parking lot", scene, UriDictionary.Kiosk.LeaveParkingLotView);
 	}
 
+	/**
+	 * Open web gui.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void OpenWebGui(ActionEvent event) {
 		Scene scene = OrderParkingButton.getScene();
@@ -34,6 +51,11 @@ public class KioskClientController extends KioskGuiController{
 		NavigateTo("Web Portal", scene, UriDictionary.WebGui.ClientView);
 	}
 
+	/**
+	 * Open enter parking lot menu.
+	 *
+	 * @param event the event
+	 */
 	@FXML
 	void OpenEnterParkingLotMenu(ActionEvent event) {
 		Scene scene = EnterParkingLotButton.getScene();

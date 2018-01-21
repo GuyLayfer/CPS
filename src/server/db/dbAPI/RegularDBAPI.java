@@ -63,7 +63,12 @@ public class RegularDBAPI extends DBAPI{
 	
 	
 
-/****************************************** TODO Section ******************************************/
+/**
+ * **************************************** TODO Section *****************************************.
+ *
+ * @return the int
+ * @throws SQLException the SQL exception
+ */
 
 	/**
 	 * Inserts a new null entry to the parking lots table and returns the unique id of the new parking lot.
@@ -142,6 +147,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @param carId the car id
 	 * @param timeLeft the time left
 	 * @throws SQLException the SQL exception
+	 * @throws Exception the exception
 	 */
 	public void carLeftParking(int lotId, String carId, Date timeLeft) throws SQLException , Exception{
 		Queue<Object> paramsValues = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
@@ -153,7 +159,15 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.updateSql(regularQueriesInst.delete_entrance_from_car_planed_being_in_parking_by_entrance_id, paramsValues);
 	}
 
-/**************************************** End Of TODO Section *************************************.*/
+/**
+ * ************************************** End Of TODO Section *************************************.
+ *
+ * @param carId the car id
+ * @param lotId the lot id
+ * @param time the time
+ * @param resultList the result list
+ * @throws SQLException the SQL exception
+ */
 
 	public void selectOrderByCarIdAndLotIdAndTime(String carId, int lotId, Date time, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
@@ -181,6 +195,7 @@ public class RegularDBAPI extends DBAPI{
 	 * @param timeArrive the time arrive
 	 * @param timeLeave the time leave
 	 * @param orderType the order type
+	 * @param email the email
 	 * @return the int
 	 * @throws SQLException the SQL exception
 	 */
@@ -407,14 +422,11 @@ public class RegularDBAPI extends DBAPI{
 	/**
 	 * Insert new complaint.
 	 *
-	 * @param customerId
-	 *            the customer id
-	 * @param complaintDescription
-	 *            the complaint description
-	 * @param complaintTime
-	 *            the complaint time
-	 * @throws SQLException
-	 *             the SQL exception
+	 * @param customerId            the customer id
+	 * @param complaintDescription            the complaint description
+	 * @param complaintTime            the complaint time
+	 * @return the int
+	 * @throws SQLException             the SQL exception
 	 */
 	public int insertComplaint(int customerId, String complaintDescription, Date complaintTime) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
@@ -428,11 +440,25 @@ public class RegularDBAPI extends DBAPI{
 		return complaintId;
 	}
 
+	/**
+	 * Select all opened complaints.
+	 *
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectAllOpenedComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
 		DBConnection.selectSql(regularQueriesInst.get_all_opened_complains, paramsValues, resultList);
 	}
 	
+	/**
+	 * Select all open complaints between dates.
+	 *
+	 * @param resultList the result list
+	 * @param first the first
+	 * @param second the second
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectAllOpenComplaintsBetweenDates(ArrayList<Map<String, Object>> resultList,
 			java.sql.Date first, java.sql.Date second) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
@@ -440,6 +466,15 @@ public class RegularDBAPI extends DBAPI{
 		paramsValues.add(second);
 		DBConnection.selectSql(regularQueriesInst.get_open_complains_between_dates, paramsValues, resultList);
 	}
+	
+	/**
+	 * Select all closed complaints between dates.
+	 *
+	 * @param resultList the result list
+	 * @param first the first
+	 * @param second the second
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectAllClosedComplaintsBetweenDates(ArrayList<Map<String, Object>> resultList
 			, java.sql.Date first, java.sql.Date second) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
@@ -448,11 +483,25 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.selectSql(regularQueriesInst.get_closed_complains_between_dates, paramsValues, resultList);
 	}
 	
+	/**
+	 * Select all closed complaints.
+	 *
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectAllClosedComplaints(ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
 		DBConnection.selectSql(regularQueriesInst.get_all_closed_complains, paramsValues, resultList);
 	}
 
+	/**
+	 * Update complaint.
+	 *
+	 * @param complaint the complaint
+	 * @param isComplaintApproved the is complaint approved
+	 * @param customerServiceResponse the customer service response
+	 * @throws SQLException the SQL exception
+	 */
 	public void updateComplaint(Complaint complaint, Boolean isComplaintApproved, String customerServiceResponse)
 			throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
@@ -462,12 +511,25 @@ public class RegularDBAPI extends DBAPI{
 		DBConnection.updateSql(regularQueriesInst.update_complaint, paramsValues);
 	}
 
+	/**
+	 * Select complaint details.
+	 *
+	 * @param complainId the complain id
+	 * @param resultList the result list
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectComplaintDetails(int complainId, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>();
 		params.add(complainId);
 		DBConnection.selectSql(regularQueriesInst.select_complain_details, params, resultList);
 	}
 	
+	/**
+	 * Select all parking lots id.
+	 *
+	 * @param list the list
+	 * @throws SQLException the SQL exception
+	 */
 	public void selectAllParkingLotsId(ArrayList<Integer> list) throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>(); 
 		DBConnection.selectSql(regularQueriesInst.select_all_lot_id_from_rates, null, resultList);

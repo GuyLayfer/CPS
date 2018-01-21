@@ -20,19 +20,33 @@ import workerGui.models.ComplaintsPortalModel;
 import workerGui.util.ComplaintUiElement;
 import workerGui.util.WorkerGuiController;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ComplaintsPortalController.
+ */
 public class ComplaintsPortalController extends WorkerGuiController implements IAddItemsToTable<ComplaintUiElement>{
+	
+	/** The model. */
 	private ComplaintsPortalModel model;
 
+	/**
+	 * Instantiates a new complaints portal controller.
+	 */
 	public ComplaintsPortalController() {
 		model = new ComplaintsPortalModel(this);
 	}
 
+	/** The Customers complaints. */
 	@FXML
 	private GridPane CustomersComplaints;
 
+	/** The Complaints table. */
 	@FXML
 	private TableView<ComplaintUiElement> ComplaintsTable;
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	@SuppressWarnings("unchecked")
 	protected void initialize() {
@@ -50,11 +64,20 @@ public class ComplaintsPortalController extends WorkerGuiController implements I
 		model.sendRequestForPendingComplaintsRequests();
 	}
 	
+	/* (non-Javadoc)
+	 * @see workerGui.controllers.IAddItemsToTable#AddToTable(java.util.List)
+	 */
 	@Override
 	public void AddToTable(List<ComplaintUiElement> pendingItems) {
 		ComplaintsTable.setItems(FXCollections.observableArrayList(pendingItems));
 	}
 
+	/**
+	 * Creates the editor.
+	 *
+	 * @param param the param
+	 * @return the grid pane
+	 */
 	private GridPane createEditor(TableRowExpanderColumn.TableRowDataFeatures<ComplaintUiElement> param) {
 		GridPane editor = new GridPane();
 		editor.setPadding(new Insets(10));
