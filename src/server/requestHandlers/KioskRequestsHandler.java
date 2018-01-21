@@ -21,21 +21,31 @@ import ocsf.server.ConnectionToClient;
 import server.db.SqlColumns;
 import server.db.DBConstants.OrderType;
 import server.db.DBConstants.TrueFalse;
-import server.db.dbAPI.RegularDBAPI;
+import server.parkingLot.exceptions.DateIsNotWithinTheNext24Hours;
+import server.parkingLot.exceptions.LotIdDoesntExistException;
 
 public class KioskRequestsHandler extends WebCustomerRequestsHandler {
-	final protected RegularDBAPI regularDBAPI = RegularDBAPI.getInstance();
 
 	public KioskRequestsHandler(int port) {
 		super(port);
 	}
 	
-	protected String orderOccasionalParking(CustomerRequest request) throws SQLException {
+	protected String orderOccasionalParking(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		//customerID = customerID
 		//carID = licensePlate
 		//estimatedDepartureTime = estimatedDepartureTime
 		//email = email
 		//parkingLotID = currentLotId
+		
+		if (!parkingLotsManager.reservePlace(request.parkingLotID, request.carID, new Date())) {
+			return createRequestDeniedResponse(request.requestType, "Unfortunatly, this parking lot " + 
+												"is full.\nPlease try another parking lot.");
+		}
+		String entranceResponse = parkingLotsManager.insertCar(request.parkingLotID, request.carID, 
+																request.estimatedDepartureTime, false);
+		if (entranceResponse != null) {
+			return createRequestDeniedResponse(request.requestType, entranceResponse);
+		}
 		
 		//check if the customerID exists already
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
@@ -88,9 +98,14 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		regularDBAPI.updateArriveTime(request.carID, rightNow);
 		return createNotificationResponse(request.requestType, "Welcome to our amazing parking lot!");
 	}
-	protected String exitParking(CustomerRequest request) throws SQLException {
+	protected String exitParking(CustomerRequest request) throws SQLException, LotIdDoesntExistException {
 		//carID
 		//parkingLotID
+		
+		String exitResponse = parkingLotsManager.removeCar(request.parkingLotID, request.carID);
+		if (exitResponse != null) {
+			return createRequestDeniedResponse(request.requestType, exitResponse);
+		}
 		
 		Date rightNow = new Date();
 		//TODO: selectOrderByCarIdAndLotIdAndTime -  to compare the exit time with estimated exit time
@@ -99,7 +114,7 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		return createNotificationResponse(request.requestType, "Thank you, goodbye!");
 	}
 
-	private String handleKioskRequest(CustomerRequest request) throws SQLException {
+	private String handleKioskRequest(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		switch (request.requestType) {
 		case OCCASIONAL_PARKING:
 			return orderOccasionalParking(request);
@@ -129,7 +144,10 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 			} catch (JsonSyntaxException e) {
 				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, "JsonSyntaxException")));
 				e.printStackTrace();
-			} catch (SQLException e) {
+			} catch (LotIdDoesntExistException e) {
+				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.BAD_REQUEST, "LotIdDoesntExistException")));
+				e.printStackTrace();
+			} catch (SQLException | DateIsNotWithinTheNext24Hours e) {
 				client.sendToClient(gson.toJson(new BadCustomerResponse(ResponseStatus.SERVER_FAILLURE, "Server Failure")));
 				e.printStackTrace();
 			}
