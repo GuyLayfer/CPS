@@ -374,6 +374,25 @@ public class ReportsDBAPI extends DBAPI {
 		params.add(lating);
 		DBConnection.updateSql(reportsQueriesInst.insert_into_daily_stats_new_day, params);
 	}
+	
+	
+	public void insertIntoWeeklyStats(int lotId, int filledMean, int canceledMean, int latingMean,
+			double filledStd, double canceledStd, double latingStd,
+			double filledAvg, double canceledAvg, double latingAvg, java.sql.Date first) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		params.add(first);
+		params.add(lotId);
+		params.add(filledMean);
+		params.add(canceledMean);
+		params.add(latingMean);
+		params.add(filledStd);
+		params.add(canceledStd);
+		params.add(latingStd);
+		params.add(filledAvg);
+		params.add(canceledAvg);
+		params.add(latingAvg);
+		DBConnection.updateSql(reportsQueriesInst.insert_into_weekly_stats_new_day, params);
+	}
 
 	
 	

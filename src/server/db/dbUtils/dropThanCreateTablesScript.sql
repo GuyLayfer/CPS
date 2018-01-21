@@ -34,16 +34,18 @@ leave_time timestamp
 );
 
 
-CREATE TABLE daily_stats_adv(
+CREATE TABLE weekly_stats(
+day_id date,
 lot_id int ,
-reservations_mean int,
 filled_mean int,
 canceled_mean int,
 lating_mean int,
-reservations_std double,
 filled_std double,
 canceled_std double,
 lating_std double,
+filled_avg double,
+canceled_avg double,
+lating_avg double
 
 );
 
@@ -106,7 +108,6 @@ lot_id int,
 filled_reservations  int,
 canceled_reservations int,
 latings_per_park int,
-UNIQUE(day_id),
 CONSTRAINT PK_lot_id_date PRIMARY KEY (lot_id,day_id)
 );
 
@@ -118,7 +119,7 @@ filled_reservations int,
 canceled_reservations int,
 latings_per_park int,
 UNIQUE(day_id),
-CONSTRAINT PK_lot_id_date PRIMARY KEY (lot_id,week_id)
+CONSTRAINT PK_lot_id_date PRIMARY KEY (lot_id,day_id)
 );
 
 CREATE TABLE subscriptions(

@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TimerTask;
 import core.worker.ReportItem;
+import server.db.DBConstants.DbSqlColumns;
 import server.db.dbAPI.RegularDBAPI;
 import server.db.dbAPI.ReportsDBAPI;
 import server.db.dbAPI.ServerUtils;
+import server.db.queries.ReportsQueries;
 
 public class GenerateStats extends TimerTask{
 	private ArrayList<String> reservationsFilledCanceledLatingsList;
@@ -95,7 +97,49 @@ public class GenerateStats extends TimerTask{
 			cal.add(Calendar.DATE, -1); //get a week back
 			first = new java.sql.Date(cal.getTimeInMillis());
 		}
+			
 	}
+		for (Iterator iterator = listOfLotId.iterator(); iterator.hasNext();) {
+			Integer curLotId = (Integer) iterator.next();
+			ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>(); 
+			Calendar cal = new GregorianCalendar();
+			cal.add(Calendar.DATE, -7); //get a week back
+			java.sql.Date first = new java.sql.Date(cal.getTimeInMillis());
+			java.sql.Date second = ServerUtils.getToday();
+			try {
+				ReportsDBAPI.getInstance().selectBetween2DatesQueryOfLotId(ReportsQueries.getInstance().select_filled_reservations_between_2_dates_of_lot_id, first, second, resultList, curLotId);
+				int filledMean = ServerUtils.calcMean(resultList, DbSqlColumns.FILLED_RESERVATIONS.getName());
+				double filledStd = ServerUtils.calcStd(resultList, DbSqlColumns.FILLED_RESERVATIONS.getName());
+				double filledAvg = ServerUtils.calcAvg(resultList, DbSqlColumns.FILLED_RESERVATIONS.getName());
+				resultList.clear();
+				ReportsDBAPI.getInstance().selectBetween2DatesQueryOfLotId(ReportsQueries.getInstance().select_canceled_reservations_between_2_dates_of_lot_id, first, second, resultList, curLotId);
+				int canceledMean = ServerUtils.calcMean(resultList, DbSqlColumns.CANCELED_ORDERS.getName());
+				double canceledStd = ServerUtils.calcStd(resultList, DbSqlColumns.CANCELED_ORDERS.getName());
+				double canceledAvg = ServerUtils.calcAvg(resultList, DbSqlColumns.CANCELED_ORDERS.getName());
+				resultList.clear();
+				ReportsDBAPI.getInstance().selectBetween2DatesQueryOfLotId(ReportsQueries.getInstance().select_lating_reservations_between_2_dates_of_lot_id, first, second, resultList, curLotId);
+				int latingMean = ServerUtils.calcMean(resultList, DbSqlColumns.LATING_PER_PARK.getName());
+				double latingStd = ServerUtils.calcStd(resultList, DbSqlColumns.LATING_PER_PARK.getName());
+				double latingAvg = ServerUtils.calcAvg(resultList, DbSqlColumns.LATING_PER_PARK.getName());
+				resultList.clear();
+				
+				ReportsDBAPI.getInstance().insertIntoWeeklyStats(curLotId, filledMean, canceledMean, latingMean,
+						filledStd, canceledStd, latingStd,
+						filledAvg, canceledAvg, latingAvg, first);
+			
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+			
+			
+			
+
+		}
+		
+		
 		
 	}
 
