@@ -89,7 +89,8 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		
 		return createNotificationResponse(request.requestType, "Your car has been entered successfuly.");
 	}
-	protected String enterParkingSubscriber(CustomerRequest request) throws SQLException {
+	@SuppressWarnings("deprecation")
+	protected String enterParkingSubscriber(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
 		//carID
 		//subscriptionID
 		//parkingLotID
@@ -117,6 +118,17 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 				return createRequestDeniedResponse(request.requestType, "You can't enter on weekends with your subscripton.");
 		
 		regularDBAPI.updateArriveTime(request.carID, rightNow);
+		
+		if (!parkingLotsManager.reservePlace(request.parkingLotID, request.carID, new Date())) {
+			return createRequestDeniedResponse(request.requestType, "Unfortunatly, this parking lot " + 
+												"is full.\nPlease try another parking lot.");
+		}
+		String entranceResponse = parkingLotsManager.insertCar(request.parkingLotID, request.carID, 
+																	new Date(), false);
+		if (entranceResponse != null) {
+			return createRequestDeniedResponse(request.requestType, entranceResponse);
+		}
+		
 		return createNotificationResponse(request.requestType, "Welcome to our amazing parking lot!");
 	}
 	protected String exitParking(CustomerRequest request) throws SQLException, LotIdDoesntExistException {
