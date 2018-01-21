@@ -3,6 +3,7 @@ package server.db.dbAPI;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -394,10 +395,26 @@ public class ReportsDBAPI extends DBAPI {
 		DBConnection.updateSql(reportsQueriesInst.insert_into_weekly_stats_new_day, params);
 	}
 
-	
-	
-
-	
-	
-	
+	public void updateBrokenParkingStatus(Boolean isParkingBroken, int lotId, int row, int coloumn, int floor) throws SQLException {
+		Queue<Object> params1 = new LinkedList<Object>();
+		Queue<Object> params2 = new LinkedList<Object>();
+		if(isParkingBroken) {
+			params1.add(lotId);
+			params1.add(new Date().getTime());
+			params1.add(null);
+			params1.add(row);
+			params1.add(coloumn);
+			params1.add(floor);
+			DBConnection.updateSql(reportsQueriesInst.insertBrokenParking, params1);
+		}
+		
+		else {
+			params2.add(new Date().getTime());
+			params2.add(lotId);
+			params2.add(row);
+			params2.add(coloumn);
+			params2.add(floor);
+			DBConnection.updateSql(reportsQueriesInst.cancelBrokenParking, params2);
+		}
+	}
 }

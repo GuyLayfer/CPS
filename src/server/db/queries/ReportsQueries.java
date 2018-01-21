@@ -136,6 +136,37 @@ public class ReportsQueries {
 			"  WHERE (( " + DbSqlColumns.DAY_ID.getName() + " BETWEEN ? and ?) && (" +
 					 DbSqlColumns.DAY_ID.getName() + " IS NOT NULL ) and lot_id = ?)";
 	
+	public final String insertBrokenParking =
+			"INSERT INTO" + SqlTables.OUT_OF_ORDERS_PARKINGS.getName() +
+			"(" + DbSqlColumns.LOT_ID.getName() + ", " +
+				  DbSqlColumns.ARRIVE_TIME.getName() + ", " +
+				  DbSqlColumns.LEAVE_TIME.getName() + ", " +
+				  DbSqlColumns.ROW.getName() + ", " + 
+				  DbSqlColumns.COLUMN.getName() + ", " +
+				  DbSqlColumns.FLOOR.getName() +
+				  ")" +
+				  "VALUES(?, ?, ?, ?, ?, ?);";
+	
+	
+	public final String selectBrokenParking =
+			"SELECT * " + " FROM " + SqlTables.OUT_OF_ORDERS_PARKINGS.getName() +
+			" WHERE " + DbSqlColumns.LOT_ID.getName() + "= ? and " +
+				  DbSqlColumns.ROW.getName() + "= ? and " + 
+				  DbSqlColumns.COLUMN.getName() + "= ? and " +
+				  DbSqlColumns.FLOOR.getName() + "= ? ";
+	
+	
+	public final String cancelBrokenParking = 
+			"UPDATE " + SqlTables.OUT_OF_ORDERS_PARKINGS.getName() +
+			" SET " + DbSqlColumns.LEAVE_TIME.getName() + " = ? " + 
+			"WHERE " + DbSqlColumns.LOT_ID.getName() + " = ?"+
+			DbSqlColumns.ROW.getName() + " = ?" +
+			DbSqlColumns.COLUMN.getName() + " = ?" +
+			DbSqlColumns.FLOOR.getName() + " = ?";
+	
+	
+	
+	
 	
 	/*  day, filled_reservations, canceled_reservations, lating_per_park. might be done on initialization, with values of (0, 0, 0, 0)*/
 	public final String insert_into_daily_stats_new_day =
