@@ -2,6 +2,7 @@ package server.requestHandlers.worker.handlers;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import core.worker.WorkerRequestType;
@@ -10,11 +11,15 @@ import core.worker.requests.CancelCustomerOrderRequest;
 import core.worker.responses.WorkerBaseResponse;
 import core.worker.responses.WorkerResponse;
 import ocsf.server.ConnectionToClient;
+import server.db.SqlColumns;
 import server.requestHandlers.worker.IProvideConnectionsToClient;
 import server.requestHandlers.worker.WorkerResponseFactory;
+import server.rates.PriceCalculator;
 
 public class CancelRequestsHandler extends BaseRequestsHandler {
 
+	final protected PriceCalculator priceCalculator = PriceCalculator.getInstance();
+	
 	public CancelRequestsHandler(IProvideConnectionsToClient connectionsToClientProvider) {
 		super(connectionsToClientProvider);
 	}
@@ -33,8 +38,9 @@ public class CancelRequestsHandler extends BaseRequestsHandler {
 		if (resultList.isEmpty()) {
 			return createRequestDeniedResponse("Wrong Order ID");
 		} else {
-			double refund = 0.0; // TODO calculate refund
-			// if cancelTime <
+			Map<String, Object> result = resultList.iterator().next();
+			double refund = priceCalculator.calculateCancelRefund(((int) result.get(SqlColumns.ParkingTonnage.LOT_ID)),
+					((Date) result.get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION)), ((Date) result.get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION)));
 			regularDBAPI.cancelOrder(cancelRequest.orderId, refund);
 			WorkerBaseResponse response = WorkerResponseFactory.CreateCancelResponse(refund);
 			return CreateWorkerResponse(response);
