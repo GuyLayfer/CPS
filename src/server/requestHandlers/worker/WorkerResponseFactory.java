@@ -2,6 +2,7 @@ package server.requestHandlers.worker;
 
 import java.util.List;
 
+import core.parkingLot.ParkingLotInfo;
 import core.worker.Complaint;
 import core.worker.Permissions;
 import core.worker.Rates;
@@ -111,6 +112,13 @@ public class WorkerResponseFactory {
 		ReportResponse response = new ReportResponse();
 		response.requestType = reportType;
 		response.reportItems = reportItems;
+		return response;
+	}
+	
+	public static WorkerBaseResponse CreateParkingLotInfoResponse(ParkingLotInfo parkingLotInfo) {
+		ParkingLotInfoResponse response = new ParkingLotInfoResponse();
+		response.requestType = WorkerRequestType.PARKING_LOT_INFO;
+		response.parkingLotInfo = parkingLotInfo;
 		return response;
 	}
 }

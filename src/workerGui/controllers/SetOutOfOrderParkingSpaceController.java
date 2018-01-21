@@ -12,9 +12,12 @@ import core.guiUtilities.IServerResponseHandler;
 import core.worker.WorkerOperations;
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
+import core.worker.responses.ParkingLotInfoResponse;
 import core.worker.responses.ParkingLotsNamesResponse;
 import core.worker.responses.WorkerBaseResponse;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -38,8 +41,13 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 		validation.registerValidator(LotColumnComboBox, Validator.createEmptyValidator("Lot space column is Required"));
 		validation.registerValidator(LotFloorComboBox, Validator.createEmptyValidator("Lot space floor is Required"));
 		validation.registerValidator(LotRowComboBox, Validator.createEmptyValidator("Lot space row is Required"));
+		ParkingLotId.valueProperty().addListener(new ChangeListener<Integer>() {
+			@Override
+			public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+				connectionManager.sendMessageToServer(WorkerRequestsFactory.createParkingLotInfoRequest(newValue));
+			}
+		});
 		SetParkingLotIdItems();
-		SetLotColumnComboBoxItems();
 		SetLotFloorComboBoxItems();
 		SetLotRowComboBoxItems();
 	}
@@ -93,10 +101,6 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 		}
 	}
 
-	private void SetLotColumnComboBoxItems() {
-
-	}
-
 	private void SetLotFloorComboBoxItems() {
 		LotFloorComboBox.getItems().addAll(1, 2, 3);
 	}
@@ -114,6 +118,16 @@ public class SetOutOfOrderParkingSpaceController extends WorkerGuiController imp
 				ParkingLotId.getItems().addAll(parkingLotNames.lotNames);
 				if (!parkingLotNames.lotNames.isEmpty()) {
 					ParkingLotId.setValue(parkingLotNames.lotNames.get(0));
+				}
+			});
+		}
+
+		if (response.requestType == WorkerRequestType.PARKING_LOT_INFO) {
+			Platform.runLater(() -> {
+				ParkingLotInfoResponse parkingLotNames = (ParkingLotInfoResponse) response;
+				LotColumnComboBox.getItems().clear();
+				for (int i = 1; i <= parkingLotNames.parkingLotInfo.cols; i++) {
+					LotColumnComboBox.getItems().add(i);
 				}
 			});
 		}

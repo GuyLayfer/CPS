@@ -132,4 +132,11 @@ public class WorkerRequestsFactory {
 		request.endDate = endDate;
 		return request;
 	}
+	
+	public static BaseRequest createParkingLotInfoRequest(int parkingLotId) {
+		ParkingLotInfoRequest request = new ParkingLotInfoRequest();
+		request.requestType = WorkerRequestType.PARKING_LOT_INFO;
+		request.parkingLotId = parkingLotId;
+		return request;
+	}
 }
