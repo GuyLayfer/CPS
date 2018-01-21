@@ -1,7 +1,6 @@
 package kioskGui.controllers;
 
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Date;
 
 import org.apache.commons.validator.routines.EmailValidator;

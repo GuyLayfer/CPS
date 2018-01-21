@@ -271,7 +271,7 @@ public class DBAPITest {
 		Date timeLeave = new Date(0);
 		try {
 			resultList.clear();
-			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType, email);
 		} catch (Exception e) { Assert.assertTrue(false);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -331,7 +331,7 @@ public class DBAPITest {
 		Date timeArrive = new Date(0);
 		java.sql.Date timeLeave = new java.sql.Date(System.currentTimeMillis());
 		try {
-			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType, email);
 		} catch (Exception e) { Assert.assertTrue(false);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -363,7 +363,7 @@ public class DBAPITest {
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(System.currentTimeMillis());
 		try {
-			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType, email);
 		} catch (Exception e) { Assert.assertTrue(false); Assert.assertTrue(false);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -394,7 +394,7 @@ public class DBAPITest {
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
 		try {
-			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType, email);
 		} catch (Exception e) { Assert.assertTrue(false);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -439,7 +439,7 @@ public class DBAPITest {
 		Date timeArrive = new Date(0);
 		Date timeLeave = new Date(0);
 		try {
-			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType);
+			entranceId = regularDBAPIInst.insertParkingReservation(carId, accountId, lotId, dateArrive, dateLeave, timeArrive, timeLeave, orderType, email);
 		} catch (Exception e) { Assert.assertTrue(false);
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -57,7 +57,7 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		Date rightNow = new Date();
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				rightNow, request.estimatedDepartureTime, rightNow, new Date(0), 
-				OrderType.ORDER);
+				OrderType.ORDER, request.email);
 	
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculateOccasional(request.parkingLotID, rightNow, request.estimatedDepartureTime);

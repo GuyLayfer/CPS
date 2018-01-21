@@ -23,12 +23,12 @@
 		<ComboBox fx:id="LotFloorComboBox" layoutX="140.0" layoutY="110.0" prefWidth="150.0" />
 		<ComboBox fx:id="LotRowComboBox" layoutX="140.0" layoutY="150.0" prefWidth="150.0" />
 		<ComboBox fx:id="LotColumnComboBox" layoutX="140.0" layoutY="190.0" prefWidth="150.0" />
-		<Button fx:id="SetOutOfOrderButton" layoutX="200.0" layoutY="240.0" onAction="#setOutOfOrderParkingSpace" text="Enable Parking Space">
+		<Button fx:id="SetOutOfOrderButton" layoutX="200.0" layoutY="240.0" onAction="#setOutOfOrderParkingSpace" text="Disable Parking Space">
 			<font>
 				<Font size="14.0" />
 			</font>
 		</Button>
-		<Button fx:id="UnsetOutOfOrderButton" layoutX="25.0" layoutY="240.0" onAction="#unsetOutOfOrderParkingSpace" text="Disable Parking Space">
+		<Button fx:id="UnsetOutOfOrderButton" layoutX="25.0" layoutY="240.0" onAction="#unsetOutOfOrderParkingSpace" text="Enable Parking Space">
 			<font>
 				<Font size="14.0" />
 			</font>
