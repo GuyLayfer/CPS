@@ -22,6 +22,7 @@ public class RatesManager {
 	private RatesManager() throws SQLException {
 		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
 		workersDBAPI.selectAllLotsRates(false, resultList);
+		this.ratesMap = new ConcurrentHashMap<Integer, LotRates>();
 		for (int i = 0; i < resultList.size(); i++) {
 			int lotId = (int)resultList.get(i).get(SqlColumns.Rates.LOT_ID);
 			double occasional = (double)resultList.get(i).get(SqlColumns.Rates.OCCASIONAL);
@@ -100,6 +101,7 @@ public class RatesManager {
 	public void updateApprovedRates(Rates newRates) throws SQLException {
 		workersDBAPI.insertRatesOfLotId(false, newRates.parkingLotId, newRates.occasionalParkingRate, newRates.preOrderedParkingRate, newRates.fullMonthlySubscription,
 				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);
+		workersDBAPI.updateFullSubscriptionRate(newRates.fullMonthlySubscription);
 		LotRates newLotRates = new LotRates(newRates);
 		this.ratesMap.put(newRates.parkingLotId,newLotRates);
 	}
