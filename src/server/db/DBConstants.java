@@ -73,7 +73,7 @@ public class DBConstants {
 		DAILY_STATS("daily_stats"),
 		LOT_DIMENSIONS("lot_num_of_columns"),
 		WEEKLY_STATS("weekly_stats"),
-		SERVER_INFO("server_info");
+		SERVER_INFO("server_info"),
 		OUT_OF_ORDERS_PARKINGS("out_of_orders_parkings");
 		
 		private String tableName;
