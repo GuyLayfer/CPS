@@ -51,7 +51,7 @@ public class WorkerResponseFactory {
 	}
 
 	public static WorkerBaseResponse CreateOutOfOrderResponse(int lotId, int row, int column, int floor, Boolean isOutOfOrder) {
-		String message = (isOutOfOrder ? "Disabled" : "Enabled") + "parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
+		String message = (isOutOfOrder ? "Disabled " : "Enabled ") + "parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
 		return CreateNotificationResponse(WorkerRequestType.OUT_OF_ORDER, message);
 	}
 

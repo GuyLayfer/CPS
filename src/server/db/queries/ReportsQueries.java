@@ -121,13 +121,33 @@ public class ReportsQueries {
 	
 	
 	
+	public final String insertBrokenParking =
+			"INSERT INTO" + SqlTables.OUT_OF_ORDERS_PARKINGS.getName() +
+			"(" + DbSqlColumns.LOT_ID.getName() + ", " +
+				  DbSqlColumns.ARRIVE_TIME.getName() + ", " +
+				  DbSqlColumns.LEAVE_TIME.getName() + ", " +
+				  DbSqlColumns.ROW.getName() + ", " + 
+				  DbSqlColumns.COLUMN.getName() + ", " +
+				  DbSqlColumns.FLOOR.getName() +
+				  ")" +
+				  "VALUES(?, ?, ?, ?, ?, ?);";
 	
 	
+	public final String selectBrokenParking =
+			"SELECT * " + " FROM " + SqlTables.OUT_OF_ORDERS_PARKINGS.getName() +
+			" WHERE " + DbSqlColumns.LOT_ID.getName() + "= ? and " +
+				  DbSqlColumns.ROW.getName() + "= ? and " + 
+				  DbSqlColumns.COLUMN.getName() + "= ? and " +
+				  DbSqlColumns.FLOOR.getName() + "= ? ";
 	
 	
-	
-	
-	
+	public final String cancelBrokenParking = 
+			"UPDATE " + SqlTables.OUT_OF_ORDERS_PARKINGS.getName() +
+			" SET " + DbSqlColumns.LEAVE_TIME.getName() + " = ? " + 
+			"WHERE " + DbSqlColumns.LOT_ID.getName() + " = ?"+
+			DbSqlColumns.ROW.getName() + " = ?" +
+			DbSqlColumns.COLUMN.getName() + " = ?" +
+			DbSqlColumns.FLOOR.getName() + " = ?";
 	
 	
 	
