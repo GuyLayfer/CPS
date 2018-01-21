@@ -104,7 +104,7 @@ public class ParkingLot {
 		calculateStateAfterRemoval(carLocation, carId);
 		if (!freePlacesMap.isEmpty()) {
 			if (!pendingBrokenPlaces.isEmpty()) {
-				setBrokenPlace(pendingBrokenPlaces.pop());
+				setBrokenPlaceAux(pendingBrokenPlaces.pop());
 			} else if (pendingReservedPlaces > 0) {
 				// TODO: handle code duplicates
 				int firstFreeIndex = freePlacesMap.firstKey();
@@ -119,53 +119,13 @@ public class ParkingLot {
 	}
 	
 	
-	synchronized public void setBrokenPlace(int placeIndex) throws IndexOutOfBoundsException {
-		ParkingState parkingState = info.parkingMap.get(placeIndex);
-		if (freePlacesMap.isEmpty() && reservedPlacesMap.isEmpty()) {
-			pendingBrokenPlaces.add(placeIndex);
-		} else {
-			switch (parkingState.parkingStatus) {
-			case FREE:
-				parkingState.parkingStatus = ParkingStatus.BROKEN;
-				freePlacesMap.remove(placeIndex);
-				break;
-			case PARKED:
-				shiftCarsLeft(placeIndex);
-				parkingState = info.parkingMap.get(placeIndex);
-				if (parkingState.parkingStatus == ParkingStatus.RESERVED) {
-					// TODO: handle code duplicates
-					if (freePlacesMap.isEmpty()) {
-						pendingReservedPlaces++;
-					} else {
-						int firstFreeIndex = freePlacesMap.firstKey();
-						info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
-						freePlacesMap.remove(firstFreeIndex);
-						reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
-					}
-				}
-				parkingState.parkingStatus = ParkingStatus.BROKEN;
-				break;
-			case RESERVED:
-				parkingState.parkingStatus = ParkingStatus.BROKEN;
-				reservedPlacesMap.remove(placeIndex);
-				// TODO: handle code duplicates
-				if (freePlacesMap.isEmpty()) {
-					pendingReservedPlaces++;
-				} else {
-					int firstFreeIndex = freePlacesMap.firstKey();
-					info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
-					freePlacesMap.remove(firstFreeIndex);
-					reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
-				}
-				break;
-			default: // if it's already BROKEN, do nothing. 
-				break;
-			}
-		}
+	synchronized public void setBrokenPlace(int floors, int rows, int cols) throws IndexOutOfBoundsException {
+		 setBrokenPlaceAux(convert3DIndexesTo1DIndex(floors, rows, cols));
 	}
 	
 	
-	synchronized public void cancelBrokenPlaceSetting(int placeIndex) throws IndexOutOfBoundsException {
+	synchronized public void cancelBrokenPlaceSetting(int floors, int rows, int cols) throws IndexOutOfBoundsException {
+		int placeIndex = convert3DIndexesTo1DIndex(floors, rows, cols);
 		ParkingState parkingState = info.parkingMap.get(placeIndex);
 		if (parkingState.parkingStatus != ParkingStatus.BROKEN) {
 			return;
@@ -186,7 +146,7 @@ public class ParkingLot {
 		}
 		
 		if (!pendingBrokenPlaces.isEmpty()) {
-			setBrokenPlace(pendingBrokenPlaces.pop());
+			setBrokenPlaceAux(pendingBrokenPlaces.pop());
 		} else if (pendingReservedPlaces > 0 && !freePlacesMap.isEmpty()) {
 			// TODO: handle code duplicates
 			int firstFreeIndex = freePlacesMap.firstKey();
@@ -412,6 +372,57 @@ public class ParkingLot {
 			}
 		}
 		//TODO: check if this function is complete
+	}
+	
+	
+	private int convert3DIndexesTo1DIndex(int floors, int rows, int cols) {
+		return ((floors - 1) * info.rows * info.cols) + ((rows - 1) * info.cols) + cols - 1;
+	}
+	
+	
+	private void setBrokenPlaceAux(int placeIndex) throws IndexOutOfBoundsException {
+		ParkingState parkingState = info.parkingMap.get(placeIndex);
+		if (freePlacesMap.isEmpty() && reservedPlacesMap.isEmpty()) {
+			pendingBrokenPlaces.add(placeIndex);
+		} else {
+			switch (parkingState.parkingStatus) {
+			case FREE:
+				parkingState.parkingStatus = ParkingStatus.BROKEN;
+				freePlacesMap.remove(placeIndex);
+				break;
+			case PARKED:
+				shiftCarsLeft(placeIndex);
+				parkingState = info.parkingMap.get(placeIndex);
+				if (parkingState.parkingStatus == ParkingStatus.RESERVED) {
+					// TODO: handle code duplicates
+					if (freePlacesMap.isEmpty()) {
+						pendingReservedPlaces++;
+					} else {
+						int firstFreeIndex = freePlacesMap.firstKey();
+						info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+						freePlacesMap.remove(firstFreeIndex);
+						reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
+					}
+				}
+				parkingState.parkingStatus = ParkingStatus.BROKEN;
+				break;
+			case RESERVED:
+				parkingState.parkingStatus = ParkingStatus.BROKEN;
+				reservedPlacesMap.remove(placeIndex);
+				// TODO: handle code duplicates
+				if (freePlacesMap.isEmpty()) {
+					pendingReservedPlaces++;
+				} else {
+					int firstFreeIndex = freePlacesMap.firstKey();
+					info.parkingMap.get(firstFreeIndex).parkingStatus = ParkingStatus.RESERVED;
+					freePlacesMap.remove(firstFreeIndex);
+					reservedPlacesMap.put(firstFreeIndex, firstFreeIndex);
+				}
+				break;
+			default: // if it's already BROKEN, do nothing. 
+				break;
+			}
+		}
 	}
 	
 }

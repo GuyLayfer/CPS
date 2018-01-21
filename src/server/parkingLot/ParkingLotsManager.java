@@ -44,6 +44,17 @@ public class ParkingLotsManager {
 				lotIds.add(key);
 			}
 		}
+		/*
+		int delay = 5000;   // delay for 5 sec.
+		  int interval = 1000;  // iterate every sec.
+		  Timer timer = new Timer();
+		   
+		  timer.scheduleAtFixedRate(new TimerTask() {
+		          public void run() {
+		              // Task here ...
+		          }
+		      }, delay, interval);
+		      */
 	}
 	
 	/************************************** Public Methods **************************************/
@@ -194,9 +205,9 @@ public class ParkingLotsManager {
 	 * @throws IndexOutOfBoundsException the index out of bounds exception
 	 * @throws SQLException the SQL exception
 	 */
-	public void setBrokenPlace(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
+	public void setBrokenPlace(int lotId, int floors, int rows, int cols) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
 		ParkingLot parkingLot = getLot(lotId);
-		parkingLot.setBrokenPlace(placeIndex);
+		parkingLot.setBrokenPlace(floors, rows, cols);
 		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
 	}
 	
@@ -210,9 +221,9 @@ public class ParkingLotsManager {
 	 * @throws IndexOutOfBoundsException the index out of bounds exception
 	 * @throws SQLException the SQL exception
 	 */
-	public void cancelBrokenPlaceSetting(int lotId, int placeIndex) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
+	public void cancelBrokenPlaceSetting(int lotId, int floors, int rows, int cols) throws LotIdDoesntExistException, IndexOutOfBoundsException, SQLException {
 		ParkingLot parkingLot = getLot(lotId);
-		parkingLot.cancelBrokenPlaceSetting(placeIndex);
+		parkingLot.cancelBrokenPlaceSetting(floors, rows, cols);
 		regularDBAPI.updateParkingLot(lotId, parkingLot.toJson());
 	}
 	
