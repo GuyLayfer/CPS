@@ -197,14 +197,14 @@ public class RegularDBAPI extends DBAPI{
 		paramsValues.add(ServerUtils.getTimeStampOfDate(predictionLeave));
 		paramsValues.add(ServerUtils.getTimeStampOfDate(timeArrive));
 		paramsValues.add(ServerUtils.getTimeStampOfDate(timeLeave));
-		paramsValues.add(email);
+		//paramsValues.add(email);
 		int entranceId = DBConnection.updateSql(regularQueriesInst.insert_car_planed_being_in_parking_to_log, paramsValues);
 		paramsValues.clear();
 		paramsValues.add(entranceId);
 		paramsValues.add(carId);
 		paramsValues.add(accountId);
 		paramsValues.add(lotId);
-		paramsValues.add(email);
+		//paramsValues.add(email);
 		paramsValues.add(orderType.getValue());
 		paramsValues.add(ServerUtils.getTimeStampOfDate(predictionArrive));
 		paramsValues.add(ServerUtils.getTimeStampOfDate(predictionLeave));
