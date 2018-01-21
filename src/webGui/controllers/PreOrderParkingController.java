@@ -2,6 +2,7 @@
 package webGui.controllers;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 
@@ -76,8 +77,8 @@ public class PreOrderParkingController extends WebGuiController implements IServ
 	public void OrderOneTimeParking(ActionEvent event) {
 		if (validateDates()) {
 			CustomerRequest request = CustomerRequestFactory.createOrderOneTimeParkingRequest(customerIDTF.getNumber(), liscencePlateTF.getText(), emailTF.getText(),
-					parkingLotIdComboBox.getValue(), Date.from(arrivalTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()),
-					Date.from(estimatedDepartureTimeTF.getDateTimeValue().atOffset(ZoneOffset.UTC).toInstant()));
+					parkingLotIdComboBox.getValue(), Date.from(arrivalTimeTF.getDateTimeValue().atZone(ZoneId.systemDefault()).toInstant()),
+					Date.from(estimatedDepartureTimeTF.getDateTimeValue().atZone(ZoneId.systemDefault()).toInstant()));
 			connectionManager.sendMessageToServer(request);
 		} else {
 			showError("Please check your dates are valid for the reservation.");
