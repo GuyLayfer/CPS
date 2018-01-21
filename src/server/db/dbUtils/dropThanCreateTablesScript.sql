@@ -30,7 +30,10 @@ PRIMARY KEY (lot_id)
 CREATE TABLE out_of_orders_parkings(
 lot_id int ,
 arrive_time timestamp,
-leave_time timestamp
+leave_time timestamp,
+row int,
+coloumn int,
+floor int
 );
 
 
@@ -62,7 +65,8 @@ arrive_time timestamp,
 leave_time timestamp,
 # UNIQUE (car_id), for debugging it is not unique. for final version it is.
 UNIQUE(entrance_id),
-PRIMARY KEY (entrance_id)
+PRIMARY KEY (entrance_id),
+email VARCHAR
 );
 
 CREATE TABLE current_cars_planed_being_in_parking_log(
@@ -76,7 +80,8 @@ arrive_time timestamp,
 leave_time timestamp,
 entrance_id  int AUTO_INCREMENT,
 UNIQUE(entrance_id),
-PRIMARY KEY (entrance_id)
+PRIMARY KEY (entrance_id),
+email VARCHAR
 );
 
 

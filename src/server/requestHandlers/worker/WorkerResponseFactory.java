@@ -45,13 +45,13 @@ public class WorkerResponseFactory {
 		return CreateNotificationResponse(WorkerRequestType.PARKING_LOT_FULL, message);
 	}
 
-	public static WorkerBaseResponse CreateReserveParkingSpaceResponse(int lotId, int row, int column, int floor) {
-		String message = "Resereved a parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
+	public static WorkerBaseResponse CreateReserveParkingSpaceResponse(int orderId, double price) {
+		String message = "Resereved a parking space. your reservation Id is: " + orderId + "\n The price of your reserved parking is: " + price;
 		return CreateNotificationResponse(WorkerRequestType.RESERVE_PARKING_SPACE, message);
 	}
 
 	public static WorkerBaseResponse CreateOutOfOrderResponse(int lotId, int row, int column, int floor, Boolean isOutOfOrder) {
-		String message = (isOutOfOrder ? "Disabled" : "Enabled") + "parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
+		String message = (isOutOfOrder ? "Disabled " : "Enabled ") + "parking space in parking lot + " + lotId + ",\nrow: " + row + "\ncolumn: " + column + "\nfloor: " + floor;
 		return CreateNotificationResponse(WorkerRequestType.OUT_OF_ORDER, message);
 	}
 
