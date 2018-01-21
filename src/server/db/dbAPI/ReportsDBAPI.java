@@ -362,6 +362,29 @@ public class ReportsDBAPI extends DBAPI {
 		params.add(lating);
 		DBConnection.updateSql(reportsQueriesInst.insert_into_daily_stats_new_day, params);
 	}
+
+	public void setBrokenParkingStatus(Boolean isParkingBroken, int lotId, int row, int coloumn, int floor) throws SQLException {
+		Queue<Object> params1 = new LinkedList<Object>();
+		Queue<Object> params2 = new LinkedList<Object>();
+		if(isParkingBroken) {
+			params1.add(lotId);
+			params1.add(new Date());
+			params1.add(new Date());
+			params1.add(row);
+			params1.add(coloumn);
+			params1.add(floor);
+			DBConnection.updateSql(reportsQueriesInst.insert_set_broken_parking, params1);
+		}
+		
+		else {
+			params2.add(new Date().getTime());
+			params2.add(lotId);
+			params2.add(row);
+			params2.add(coloumn);
+			params2.add(floor);
+			DBConnection.updateSql(reportsQueriesInst.cancel_broken_parking, params2);
+		}
+	}
 	
 	public void insertIntoDailyStats(int lotId, long filled, long canceled, long lating, java.sql.Date date) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
@@ -371,6 +394,15 @@ public class ReportsDBAPI extends DBAPI {
 		params.add(canceled);
 		params.add(lating);
 		DBConnection.updateSql(reportsQueriesInst.insert_into_daily_stats_new_day, params);
+	}
+	public void updateBrokenParkingStatus(int lotId, int row, int coloumn, int floor) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>();
+		params.add(new Date());
+		params.add(lotId);
+		params.add(row);
+		params.add(coloumn);
+		params.add(floor);
+		DBConnection.updateSql(reportsQueriesInst.update_broken_parking, params);
 	}
 	
 	
@@ -425,6 +457,14 @@ public class ReportsDBAPI extends DBAPI {
 		DBConnection.updateSql(reportsQueriesInst.update_broken_parking, params);
 	}
 	
+	public void selectBrokenParkingStatus(int lotId, int row, int coloumn, int floor, ArrayList<Map<String, Object>> resultList) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>();
+		params.add(lotId);
+		params.add(row);
+		params.add(coloumn);
+		params.add(floor);
+		DBConnection.selectSql(reportsQueriesInst.select_broken_parking, params, resultList);
+	}
 	public void selectBrokenParkingStatus(int lotId, int row, int coloumn, int floor, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>();
 		params.add(lotId);
