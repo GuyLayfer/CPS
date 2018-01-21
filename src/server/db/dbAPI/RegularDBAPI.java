@@ -155,17 +155,19 @@ public class RegularDBAPI extends DBAPI{
 
 /**************************************** End Of TODO Section *************************************.*/
 
-	public boolean selectOrderByCarIdAndLotIdAndTime(String carId, int lotId, Date time, ArrayList<Map<String, Object>> resultList) throws SQLException {
+	public void selectOrderByCarIdAndLotIdAndTime(String carId, int lotId, Date time, ArrayList<Map<String, Object>> resultList) throws SQLException {
 		Queue<Object> paramsValues = new LinkedList<Object>();
 		paramsValues.add(carId);
 		paramsValues.add(lotId);
 		DBConnection.selectSql(regularQueriesInst.order_by_car_and_lot, paramsValues, resultList);
-		Date estimatedArrive = (Date)resultList.get(0).get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
-		Date estimatedDepart = (Date)resultList.get(0).get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
-		if ((estimatedArrive.compareTo(time) >= 0) && (estimatedDepart.compareTo(time) <= 0) )
-			return true;
-		else
-			return false;
+		ArrayList<Map<String, Object>> resultList2 = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < resultList.size(); i++) {
+			Date estimatedArrive = (Date)resultList.get(i).get(SqlColumns.ParkingTonnage.ARRIVE_PREDICTION);
+			Date estimatedDepart = (Date)resultList.get(i).get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
+			if ((estimatedArrive.compareTo(time) >= 0) && (estimatedDepart.compareTo(time) <= 0) )
+				resultList2.add(resultList.get(i));
+		}
+		resultList = resultList2;
 	}
 	
 	/**
