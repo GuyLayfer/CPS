@@ -355,9 +355,19 @@ public class ReportsDBAPI extends DBAPI {
 				first, second, resultList, lotId);
 	}
 	
-	public void insertIntoDailyStats(int lotId, long filled, long canceled, long lating) throws SQLException {
+	public void insertIntoDailyStatsToday(int lotId, long filled, long canceled, long lating) throws SQLException {
 		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
 		params.add(ServerUtils.getToday());
+		params.add(lotId);
+		params.add(filled);
+		params.add(canceled);
+		params.add(lating);
+		DBConnection.updateSql(reportsQueriesInst.insert_into_daily_stats_new_day, params);
+	}
+	
+	public void insertIntoDailyStats(int lotId, long filled, long canceled, long lating, java.sql.Date date) throws SQLException {
+		Queue<Object> params = new LinkedList<Object>(); // push all params to paramsValues. in order of SQL
+		params.add(date);
 		params.add(lotId);
 		params.add(filled);
 		params.add(canceled);
