@@ -50,7 +50,6 @@ public class ApproveRatesRequestsPortalController extends WorkerGuiController im
 
 		RatesTable.setPlaceholder(new Label("No pending Rates Requests. Please come back later."));
 		RatesTable.getColumns().addAll(expanderColumn, idColumn, occasionalColumn, preOrderedColumn, routinelColumn, multipleroutinelColumn, fullMonthlyColumn);
-//		RatesTable.setItems(FXCollections.observableArrayList(getExample()));
 		model.sendRequestForPendingRatesRequests();
 	}
 
@@ -104,11 +103,4 @@ public class ApproveRatesRequestsPortalController extends WorkerGuiController im
 		editor.addRow(6, approveButton, declineButton);
 		return editor;
 	}
-
-//	private ArrayList<RatesUiElement> getExample() {
-//		ArrayList<RatesUiElement> list = new ArrayList<RatesUiElement>();
-//		list.add(new RatesUiElement(new Rates(1, 5, 6, 20, 18, 30)));
-//		list.add(new RatesUiElement(new Rates(2, 5, 6, 20, 18, 30)));
-//		return list;
-//	}
 }

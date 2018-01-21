@@ -103,6 +103,7 @@ public class WorkerRequestsTypesMapper {
 		requestsHandlers.add(new OrdersReportRequestsHandler(server));
 		requestsHandlers.add(new OutOfOrderReportRequestHandler(server));
 		requestsHandlers.add(new PerformanceReportRequestsHandler(server));
+		requestsHandlers.add(new UpdateRatesRequestsHandler(server));
 		return requestsHandlers;
 	}
 }

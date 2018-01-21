@@ -1,6 +1,8 @@
 package server.requestHandlers.worker.handlers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
 
 import core.worker.WorkerRequestType;
 import core.worker.requests.BaseRequest;
@@ -25,9 +27,15 @@ public class UpdateRatesRequestsHandler extends BaseRequestsHandler {
 	@Override
 	protected WorkerResponse HandleSpecificRequest(BaseRequest specificRequest, ConnectionToClient client) throws SQLException {
 		UpdateRatesRequest updateRateRequest = (UpdateRatesRequest) specificRequest;
-		workersDBAPI.insertRatesOfLotId(true, updateRateRequest.lotId, updateRateRequest.preOrderedRate
-				, updateRateRequest.occasionalRate, updateRateRequest.rutineMonthlyRate
-				, updateRateRequest.fullNonthlyField, updateRateRequest.rutineMonthlyMultipleRate);
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		workersDBAPI.selectPendingRatesDetails(updateRateRequest.lotId, resultList);
+		if (!resultList.isEmpty()) {
+			return createRequestDeniedResponse("There's Rate Request already pending. Please wait for Firm Manager approval.");
+		}
+		
+		workersDBAPI.insertRatesOfLotId(true, updateRateRequest.lotId, updateRateRequest.preOrderedRate,
+				updateRateRequest.occasionalRate, updateRateRequest.fullNonthlyField,
+				updateRateRequest.rutineMonthlyRate, updateRateRequest.rutineMonthlyMultipleRate);
 		WorkerBaseResponse response = WorkerResponseFactory.CreateUpdateRatesResponse();
 		return CreateWorkerResponse(response);
 	}
