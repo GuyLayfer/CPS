@@ -166,7 +166,12 @@ public class RegularQueries {
 			 "	FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+
 			 "  WHERE " + DbSqlColumns.ENTRANCE_ID.getName() + " = ?";
 	
-
+	public final String order_by_car_and_lot =
+			"SELECT * " +
+			 "	FROM " + SqlTables.CURRENT_CARS_PLANED_BEING_IN_PARKING.getName()+
+			 "  WHERE " + DbSqlColumns.CAR_ID.getName() + " = ? AND " + 
+			 DbSqlColumns.LOT_ID.getName() + " = ?";
+	
 	
 	public final String select_all_details_by_car_id_of_car_in_parking = 
 			" SELECT * " +

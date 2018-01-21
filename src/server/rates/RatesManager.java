@@ -95,11 +95,11 @@ public class RatesManager {
 		this.ratesMap.remove(lotId);
 	}
 	public void insertRatesRequest(Rates newRates) throws SQLException {
-		workersDBAPI.insertRatesOfLotId(true, newRates.parkingLotId, newRates.occasionalParkingRate, newRates.preOrderedParkingRate, newRates.fullMonthlySubscription,
+		workersDBAPI.insertRatesOfLotId(true, newRates.parkingLotId, newRates.preOrderedParkingRate, newRates.occasionalParkingRate, newRates.fullMonthlySubscription,
 				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);
 	}
 	public void updateApprovedRates(Rates newRates) throws SQLException {
-		workersDBAPI.insertRatesOfLotId(false, newRates.parkingLotId, newRates.occasionalParkingRate, newRates.preOrderedParkingRate, newRates.fullMonthlySubscription,
+		workersDBAPI.insertRatesOfLotId(false, newRates.parkingLotId, newRates.preOrderedParkingRate, newRates.occasionalParkingRate, newRates.fullMonthlySubscription,
 				newRates.routineMonthlySubscription, newRates.routineMonthlySubscriptionMultipleCars);
 		workersDBAPI.updateFullSubscriptionRate(newRates.fullMonthlySubscription);
 		LotRates newLotRates = new LotRates(newRates);

@@ -85,9 +85,13 @@ public class WebCustomerRequestsHandler extends AbstractServer {
 		if (resultList.isEmpty())
 			regularDBAPI.insertNewAccount(request.customerID, request.email, request.carID, TrueFalse.FALSE);
 		
+		//TODO: check for orders conflicts (if this car is already reserved in those times..)
+		ArrayList<Map<String, Object>> resultList2 = new ArrayList<Map<String, Object>>();
+		boolean hi = regularDBAPI.selectOrderByCarIdAndLotIdAndTime(request.carID, request.parkingLotID, request.arrivalTime,resultList2);
+		
 		int entranceID = regularDBAPI.insertParkingReservation(request.carID, request.customerID, request.parkingLotID,
 				request.arrivalTime, request.estimatedDepartureTime, new Date(0), new Date(0), 
-				OrderType.ORDER);
+				OrderType.ONE_TIME);
 
 		//calculate order price and update the account balance
 		double price = priceCalculator.calculatePreOrdered(request.parkingLotID, request.arrivalTime, request.estimatedDepartureTime);
