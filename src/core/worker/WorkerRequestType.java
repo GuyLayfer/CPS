@@ -14,6 +14,7 @@ public enum WorkerRequestType {
 	DECIDE_ON_COMPLAINTS,
 	PARKING_LOT_NAMES,
 	REQUEST_PERMISSIONS,
+	PARKING_LOT_INFO,
 	BAD_REQUEST, // Used only for responses. The client should not send this request
 	OUT_OF_ORDER_REPORT,
 	ORDERS_REPORT,

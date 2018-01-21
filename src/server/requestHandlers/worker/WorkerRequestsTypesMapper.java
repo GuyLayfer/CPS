@@ -78,6 +78,9 @@ public class WorkerRequestsTypesMapper {
 		converterMap.put(WorkerRequestType.PERFORMENCE_REPORT, (gsonString) -> {
 			return gson.fromJson((String) gsonString, ReportRequest.class);
 		});
+		converterMap.put(WorkerRequestType.PARKING_LOT_INFO, (gsonString) -> {
+			return gson.fromJson((String) gsonString, ParkingLotInfoRequest.class);
+		});
 
 		return converterMap;
 	};
@@ -104,6 +107,7 @@ public class WorkerRequestsTypesMapper {
 		requestsHandlers.add(new OutOfOrderReportRequestHandler(server));
 		requestsHandlers.add(new PerformanceReportRequestsHandler(server));
 		requestsHandlers.add(new UpdateRatesRequestsHandler(server));
+		requestsHandlers.add(new ParkingLotInfoRequestsHandler(server));
 		return requestsHandlers;
 	}
 }
