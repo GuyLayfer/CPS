@@ -48,6 +48,7 @@ public class OrdersReportRequestsHandler extends BaseRequestsHandler {
 		java.sql.Date second = new java.sql.Date(reportRequest.endDate.getTime());
 		
 		 generateReportsDataBetween2DatesOfLotId("reservations", curLotId, reportItems, first, second);
+
 		 WorkerBaseResponse response = WorkerResponseFactory.CreateReportResponse(reportItems, getHandlerRequestsType());
 		 return CreateWorkerResponse(response);
 	}

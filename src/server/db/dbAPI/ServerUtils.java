@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 
 import server.db.DBConstants;
+import server.db.DBConstants.DbSqlColumns;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -182,6 +184,47 @@ public class ServerUtils {
 		calendar.add(Calendar.DATE, -1); //get a week back
 		java.sql.Date lastWeekDate = new java.sql.Date(calendar.getTimeInMillis());
 		return lastWeekDate;
+	}	
+	
+	
+	public static int calcMean (ArrayList<Map<String, Object>> resultList, String columnName ) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			list.add((Integer)row.get(columnName));
+		}
+		Collections.sort(list);
+		return list.get(3);
+	}
+	
+	public static int calcAvg (ArrayList<Map<String, Object>> resultList, String columnName ) {
+		int sum = 0;
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			list.add((Integer)row.get(columnName));
+			sum += (Integer)row.get(columnName);
+		}
+		return sum / resultList.size();
+	}
+	
+	public static double calcStd (ArrayList<Map<String, Object>> resultList, String columnName ) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Iterator<Map<String, Object>> iterator = resultList.iterator();
+		while (iterator.hasNext()) {
+			Map<String, Object> row = (Map<String, Object>) iterator.next();
+			list.add((Integer)row.get(columnName));
+		}
+		Collections.sort(list);
+		int max = list.get(6);
+		int min = list.get(0);
+		int mean = list.get(3);
+		if (max - mean > mean - min)
+			return Math.sqrt(max - mean);
+		else 
+			return Math.sqrt(mean - min);
 	}	
 
 	
