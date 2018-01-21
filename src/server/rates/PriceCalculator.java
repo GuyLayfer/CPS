@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import server.db.DBConstants.OrderType;
+import server.db.SqlColumns;
 
 public class PriceCalculator {
 	
@@ -78,8 +79,17 @@ public class PriceCalculator {
 	public double calculateFullMonthly() {
 		return ratesManager.getFullMonthlySubscription();
 	}
-	public double calculateExit() {
-		// TODO
-		return 0.0;
+	public double calculateFine(OrderType orderType, int lotId, long miliLate) {
+		double rate;
+		switch (orderType) {
+		case ORDER:
+			rate = ratesManager.getOccasionalParkingRate(lotId);
+			return rate * (miliLate / 60000) / 60;
+		case ONE_TIME:
+			rate = ratesManager.getPreOrderedParkingRate(lotId);
+			return rate * (miliLate / 60000) / 60;
+		default:
+			return 0.0;	
+		}
 	}
 }
