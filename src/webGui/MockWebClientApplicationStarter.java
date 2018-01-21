@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -38,6 +39,8 @@ public class MockWebClientApplicationStarter extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Web Client Mock");
 		primaryStage.show();
+		
+		primaryStage.getIcons().add(new Image(UriDictionary.class.getResourceAsStream(UriDictionary.Images.icon)));
 
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
