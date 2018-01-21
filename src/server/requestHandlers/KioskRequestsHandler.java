@@ -71,11 +71,17 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		//parkingLotID
 		
 		Date rightNow = new Date();
-		//TODO: selectOrderByCarIdAndLotIdAndTime  -  get the order details and check if exists + time are correct
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectOrderByCarIdAndLotIdAndTime(request.carID, request.parkingLotID, rightNow, resultList);
+		if (resultList.isEmpty())
+			return createRequestDeniedResponse(request.requestType, "Sorry, there is no order for this car.");
+
+		regularDBAPI.updateArriveTime(request.carID, rightNow);
 		
-		//TODO: change it later to the values from the DB
+		Date estimatedDepartureTime = (Date)resultList.get(0).get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
+
 		String entranceResponse = parkingLotsManager.insertCar(request.parkingLotID, request.carID, 
-																new Date(), false);
+				estimatedDepartureTime, false);
 		if (entranceResponse != null) {
 			return createRequestDeniedResponse(request.requestType, entranceResponse);
 		}
@@ -117,10 +123,21 @@ public class KioskRequestsHandler extends WebCustomerRequestsHandler {
 		}
 		
 		Date rightNow = new Date();
-		//TODO: selectOrderByCarIdAndLotIdAndTime -  to compare the exit time with estimated exit time
-		// and fine if need
-		regularDBAPI.carLeftParkingByCarId(request.carID, request.parkingLotID, rightNow);
-		return createNotificationResponse(request.requestType, "Thank you, goodbye!");
+		ArrayList<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>();
+		regularDBAPI.selectOrderByCarIdAndLotIdAndTime(request.carID, request.parkingLotID, rightNow, resultList);
+		
+		//check if was late
+		Date estimatedDepartureTime = (Date)resultList.get(0).get(SqlColumns.ParkingTonnage.LEAVE_PREDICTION);
+		if (rightNow.compareTo(estimatedDepartureTime) <= 0) {
+			regularDBAPI.carLeftParkingByCarId(request.carID, request.parkingLotID, rightNow);
+			return createNotificationResponse(request.requestType, "Thank you, goodbye!");
+		} else {
+			OrderType orderType = (OrderType)resultList.get(0).get(SqlColumns.ParkingTonnage.ORDER_TYPE);
+			long miliLate = rightNow.getTime() - estimatedDepartureTime.getTime();
+			double fine = priceCalculator.calculateFine(orderType, request.parkingLotID, miliLate);
+			return createNotificationResponse(request.requestType, "You are late! you are charged with " + fine + " NIS.");
+		}
+
 	}
 
 	private String handleKioskRequest(CustomerRequest request) throws SQLException, LotIdDoesntExistException, DateIsNotWithinTheNext24Hours {
